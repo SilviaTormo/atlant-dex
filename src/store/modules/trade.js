@@ -43,6 +43,7 @@ export default {
         [lastTrade[8], lastTrade[7], lastTrade[11], lastTrade[6]],
         ...state.trades,
       ];
+      lastTrades.pop(); // delete last trade in history
       state.trades = lastTrades;
     },
     setOrdersAsks(state, data) {
