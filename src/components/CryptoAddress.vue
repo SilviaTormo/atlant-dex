@@ -76,6 +76,7 @@ export default {
   flex-direction: column;
   align-items: center;
   &__qr{
+    z-index: -1;
     margin-bottom: 20px;
   }
   &__main{

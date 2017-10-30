@@ -1,7 +1,7 @@
 <template lang='pug'>
 div
   .main
-    .main__sidebar(:class='sidebarClass')
+    .main__sidebar(:class="`main__sidebar--${(showSidebar) ? 'hidden' : 'shown'}`")
       Sidebar
     .main__toolbar
       Toolbar
@@ -63,11 +63,6 @@ export default {
     ...mapState('misc', {
       showSidebar: 'showSidebar',
     }),
-    sidebarClass() {
-      if (this.showSidebar) {
-        return 'main__sidebar--show';
-      }
-    },
   },
   methods: {
     ...mapMutations('misc', {
@@ -144,24 +139,52 @@ export default {
 .main {
   $tilePadding: 32px;
   display: flex;
-  width: 1920px;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   &__sidebar {
-    width: 0;
-    min-width: 0;
-    overflow: hidden;
-    transition: 0.5s;
-    &--show{
-      min-width: 287px;
-      width: 287px;
+    width: $sidebar_width;
+    position: relative;
+    transition: width $sidebar_speed ease-in-out;
+    &::after {
+      content: "";
+      display: none;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-image: linear-gradient(90deg,
+        transparent,
+        rgba(0,0,0,.20) 70%,
+        rgba(0,0,0,.30) 85%,
+        rgba(0,0,0,.45)
+      );
+    }
+    &--hidden {
+      width: 0;
+        &::after {
+          display: block;
+      }
+    }
+    &--shown {
+      width: $sidebar_width;
+      &::after {
+        display: block;
+        opacity: 0.0;
+        transition: opacity $sidebar_speed ease-in-out;
+      }
     }
   }
   &__toolbar {
     width: 64px;
+    background-color: $color_blue;
+    border-left: 1px solid $color_tangaroa;
+    z-index: 1;
   }
   &__content {
     width: 100%;
+    z-index: 1;
   }
   &__tiles {
     display: flex;

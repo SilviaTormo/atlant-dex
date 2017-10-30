@@ -65,43 +65,44 @@ export default {
 </script>
 
 <style lang="scss">
-  .sidebar {
-    width: 287px;
-    &__item {
-      padding: 26px;
-      border-bottom: 1px solid #032537;
-      border-right: 1px solid #032537;
-      font-size: 12px;
-      &--logo {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 14px;
-        font-weight: bold;
-        color: red;
-      }
-      &--header {
-        font-weight: 700;
-      }
-      &--copyright {
-        font-size: 8px;
-      }
-    }
-    &__demo {
-      margin-top: 5px;
-    }
-    &__logo {
-      width: 164px;
-      height: 16px;
-      fill: #fff;
-    }
-    &__buttons {
+@import "~variables";
+.sidebar {
+  width: $sidebar_width;
+  z-index: -1;
+  &__item {
+    padding: 26px;
+    border-bottom: 1px solid #032537;
+    font-size: 12px;
+    &--logo {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      width: 75%;
-      margin-left: auto;
-      margin-right: auto;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: bold;
+      color: red;
+    }
+    &--header {
+      font-weight: 700;
+    }
+    &--copyright {
+      font-size: 8px;
     }
   }
+  &__demo {
+    margin-top: 5px;
+  }
+  &__logo {
+    width: 164px;
+    height: 16px;
+    fill: #fff;
+  }
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 </style>

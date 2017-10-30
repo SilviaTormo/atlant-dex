@@ -42,43 +42,45 @@ export default {
 </script>
 
 <style lang="scss">
-  .header {
+@import "~variables";
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 28px;
+  width: 100%;
+  color: #fff;
+  background-color: $color_blue;
+  &__group {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 12px 28px;
-    width: 100%;
-    color: #fff;
-    &__group {
-      display: flex;
-      align-items: center;
-    }
-    &__block {
-      display: flex;
-      align-items: center;
-      &--pair {
-        margin-right: 18px;
-      }
-    }
-    &__balance {
-      font-weight: 700;
-      text-transform: uppercase;
-      margin-right: 22px;
-    }
-    &__separator {
-      margin: 0 11px;
-    }
-    &__transfer {
-      margin-left: 26px;
-    }
-    &__info {
-      $size: 16px;
-      height: $size;
-      width: $size;
-      fill: #fff;
-      &:hover {
-        cursor: pointer;
-      }
+  }
+  &__block {
+    display: flex;
+    align-items: center;
+    &--pair {
+      margin-right: 18px;
     }
   }
+  &__balance {
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-right: 22px;
+  }
+  &__separator {
+    margin: 0 11px;
+  }
+  &__transfer {
+    margin-left: 26px;
+  }
+  &__info {
+    $size: 16px;
+    height: $size;
+    width: $size;
+    fill: #fff;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
 </style>
