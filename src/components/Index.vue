@@ -6,8 +6,7 @@ div
     .main__toolbar
       Toolbar
     .main__content
-      .main__header
-        TheHeader
+      TheHeader
       .main__tiles
         .main__tile.main__tile--buysell
           BuySell
@@ -16,28 +15,23 @@ div
         .main__tile.main__tile--map
           PropertyMap
         .main__tile.main__tile--history
-          Padding
-            Padding(bottom)
-              TileHeader(title='History of trades' center)
-            History
-        .main__tile.main__tile--book
-          Padding
-            TileHeader(title='Order book' center)
+          TileHeader.main__tileHeader.main__tileHeader--history(title='History of trades' center)
+          History
+        .main__tile.main__tile--books
+          TileHeader.main__tileHeader.main__tileHeader--book(title='Order book' center)
           .d-flex.w-100
             .main__tile
-              Book(:limit='19')
+              BookHeader
+              Book.main__book(:limit='19')
             .main__tile
-              Book(ask, :limit='19')
+              BookHeader(ask)
+              Book.main__book(ask, :limit='19')
         .main__tile.main__tile--orders
-          Padding
-            Padding(bottom)
-              TileHeader(title='Open orders')
-            Orders
-            .main__ordersSep
-            Padding(bottom)
-              TileHeader(title='Completed orders')
-            .main__orders
-              Orders
+          TileHeader.main__tileHeader.main__tileHeader--orders(title='Open orders')
+          Orders
+          .main__ordersSep
+          TileHeader.main__tileHeader.main__tileHeader--orders(title='Completed orders')
+          Orders
   //- Modals
   InDemo
 </template>
@@ -46,7 +40,6 @@ div
 import {mapState, mapMutations, mapActions} from 'vuex';
 import TheHeader from './TheHeader';
 import TheFooter from './TheFooter';
-import Padding from './Padding';
 import TileHeader from './TileHeader';
 import Sidebar from './Sidebar';
 import Toolbar from './Toolbar';
@@ -55,6 +48,7 @@ import Chart from './Chart';
 import Orders from './Orders';
 import Book from './Book';
 import History from './History';
+import BookHeader from './BookHeader';
 import PropertyMap from './PropertyMap';
 import InDemo from './modals/InDemo';
 
@@ -110,7 +104,6 @@ export default {
   components: {
     TheHeader,
     TheFooter,
-    Padding,
     Sidebar,
     TheHeader,
     Toolbar,
@@ -121,6 +114,7 @@ export default {
     History,
     PropertyMap,
     Chart,
+    BookHeader,
     InDemo,
   },
 };
@@ -137,15 +131,14 @@ export default {
 @import '~bootstrap/scss/utilities/sizing';
 
 .main {
-  $tilePadding: 32px;
   display: flex;
-  width: 100%;
+  width: 1920px - 17px;
   margin-left: auto;
   margin-right: auto;
   &__sidebar {
     width: $sidebar_width;
     position: relative;
-    transition: width $sidebar_speed ease-in-out;
+    transition: width $sidebar_speed linear;
     &::after {
       content: "";
       display: none;
@@ -172,7 +165,7 @@ export default {
       &::after {
         display: block;
         opacity: 0.0;
-        transition: opacity $sidebar_speed ease-in-out;
+        transition: opacity $sidebar_speed linear;
       }
     }
   }
@@ -190,22 +183,12 @@ export default {
     display: flex;
     flex-wrap: wrap;
   }
-  &__orders {
-    // margin-left: -$tilePadding;
-  }
-  &__ordersSep {
-    $margin: 18px;
-    width: 100%;
-    margin-top: $margin;
-    margin-bottom: $margin + 8;
-    border: 1px solid #032537;
-  }
   &__tile {
     flex-grow: 1;
     border: 1px solid #182235;
     background-color: $color_blue;
     &--buysell {
-      flex-basis: 20%;
+      flex-basis: 15%;
     }
     &--chart {
       flex-basis: 40%;
@@ -215,13 +198,36 @@ export default {
     }
     &--history {
       flex-basis: 20%;
+      padding: $default_spacing;
     }
-    &--book {
+    &--books {
       flex-basis: 40%;
     }
     &--orders {
       flex-basis: 40%;
+      padding: $default_spacing;
     }
+  }
+  &__tileHeader {
+    &--history {
+      margin-bottom: $default_spacing;
+    }
+    &--book {
+      padding: $default_spacing;
+    }
+    &--orders {
+      margin-bottom: $default_spacing;
+    }
+  }
+  &__book {
+    padding: $default_spacing;
+  }
+  &__ordersSep {
+    $margin: 18px;
+    width: 100%;
+    margin-top: $margin;
+    margin-bottom: $margin + 8;
+    border: 1px solid #032537;
   }
 
   @media (max-width: 991px) {

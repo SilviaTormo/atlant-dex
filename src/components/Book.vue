@@ -1,19 +1,14 @@
 <template lang='pug'>
-div
-  BookHeader(:ask="ask")
-  Padding
-    table.book
-      tbody.book__body
-        tr.book__row(v-for="order in orderBook")
-          td.book__cell(:class="`book__cell--${(ask) ? 'ask' : 'bid'}`") {{order[0]}}
-          td.book__cell {{order[1].toFixed(4)}}
-          td.book__cell {{(order[0]*order[1]).toFixed(4)}}
+table.book
+  tbody.book__body
+    tr.book__row(v-for="order in orderBook")
+      td.book__cell(:class="`book__cell--${(ask) ? 'ask' : 'bid'}`") {{order[0]}}
+      td.book__cell {{order[1].toFixed(4)}}
+      td.book__cell {{(order[0]*order[1]).toFixed(4)}}
 </template>
 
 <script>
 import {mapState} from 'vuex';
-import BookHeader from './BookHeader';
-import Padding from './Padding';
 
 export default {
   data() {
@@ -29,8 +24,6 @@ export default {
       return items.slice(0, this.limit);
     },
   },
-  mounted() {
-  },
   props: {
     ask: {
       type: Boolean,
@@ -42,10 +35,6 @@ export default {
       default: 19,
       required: false,
     },
-  },
-  components: {
-    BookHeader,
-    Padding,
   },
 };
 </script>
