@@ -194,7 +194,7 @@ export default {
       flex-basis: 15%;
     }
     &--chart {
-      flex-basis: 40%;
+      flex-basis: 35%;
     }
     &--map {
       flex-basis: 40%;
