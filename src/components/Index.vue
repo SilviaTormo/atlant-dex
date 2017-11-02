@@ -38,6 +38,7 @@ div
 
 <script>
 import {mapState, mapMutations, mapActions} from 'vuex';
+import {defCandleSize} from 'config';
 import TheHeader from './TheHeader';
 import TheFooter from './TheFooter';
 import TileHeader from './TileHeader';
@@ -72,9 +73,9 @@ export default {
       setLang: 'setLang',
     }),
     hubSubscribe() {
-      // this.$hub.proxy.on('newCandle', (res) => {
-      //   this.addNewCandle(res);
-      // });
+      this.$hub.proxy.on('newCandle', (res) => {
+        this.addNewCandle(res);
+      });
       this.$hub.proxy.on('newOrderBookTop', ([currency, side, orders, volume]) => {
         if (side) {
           this.setOrdersAsks(orders);
@@ -93,7 +94,9 @@ export default {
     this.updateScreenType();
     this.hubSubscribe();
 
-    this.$hub.start();
+    this.$hub.start().then(() => {
+      this.$hub.proxy.invoke('setCandleSize', defCandleSize);
+    });
 
     window.addEventListener('resize', () => {
       setTimeout(() => {

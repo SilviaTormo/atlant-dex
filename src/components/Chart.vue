@@ -1,30 +1,25 @@
 <template lang='pug'>
-div.chart
-  div.btn__periodSwitcher
+.chart
+  .btn__periodSwitcher
     span.btn__periodBtn(v-for="period in periods", :class="{'btn__periodBtn--active' : isCurrentPeriod(period)}", @click="setChartPeriod(period)") {{period}}
-  div.btn__chartsSwitcher
+  .btn__chartsSwitcher
     Icon.btn__chartsBtn(v-for="chart in charts", :id="chart", :class="{'btn__chartsBtn--active' : isCurrentChart(chart)}", @click="setChartType(chart)")
-  div#chart
+  #chart
 </template>
 
 <script>
 import Highstock from 'highcharts/highstock';
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {ticksToMilliseconds} from 'services/misc';
-import {maxRenderedCandles} from 'config';
+import {periods} from 'config';
 import Icon from './Icon';
 
 export default {
   data() {
     return {
       chart: null,
-      periods: [
-        '1h',
-        '1d',
-        '1w',
-        '1mn',
-        '1y',
-      ],
+      maxRenderedCandles: 0,
+      periods: Object.keys(periods),
       charts: [
         'lineChart',
         'candleChart',
@@ -36,6 +31,7 @@ export default {
     ...mapState('trade', {
       startTicks: (state) => state.chart.data.startTicks,
       candleTicks: (state) => state.chart.data.candleTicks,
+      candleSize: (state) => state.chart.data.candleSize,
       allCandles: (state) => state.chart.data.candles,
     }),
     ...mapGetters('trade', {
@@ -43,7 +39,7 @@ export default {
     }),
     candles() {
       if (this.allCandles) {
-        return this.allCandles.slice(-maxRenderedCandles);
+        return this.allCandles.slice(-this.maxRenderedCandles);
       }
     },
   },
@@ -53,8 +49,9 @@ export default {
       changeChartPeriod: 'changeChartPeriod',
     }),
     setChartPeriod(pediod) {
-      this.changeChartPeriod(pediod);
-      this.$hub.proxy.invoke('setCandleSize', pediod);
+      this.changeChartPeriod(pediod).then(() => {
+        this.$hub.proxy.invoke('setCandleSize', this.candleSize);
+      });
     },
     isCurrentChart(chart) {
       return this.currentChart === chart;
@@ -242,7 +239,9 @@ export default {
     },
   },
   created() {
-    this.loadChart();
+    this.loadChart().then(() => {
+      this.maxRenderedCandles = this.allCandles.length;
+    });
   },
   components: {
     Icon,
@@ -299,7 +298,6 @@ export default {
   }
 }
 #chart {
-  position: absolute;
   width: 100%;
   height: 100%;
 }

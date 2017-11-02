@@ -1,4 +1,5 @@
 import * as Trade from 'services/api/trade';
+import {defPeriod} from 'config';
 
 export default {
   state: {
@@ -6,7 +7,7 @@ export default {
     limit: 23,
     chart: {
       data: {},
-      period: '1d',
+      period: defPeriod,
     },
     trades: [],
     book: {
@@ -93,7 +94,7 @@ export default {
   },
   actions: {
     loadChart({commit, state}) {
-      Trade.getChart({
+      return Trade.getChart({
         period: state.chart.period,
         pair: state.pair,
       }).then((res) => {
@@ -120,7 +121,7 @@ export default {
     },
     changeChartPeriod({commit, dispatch}, period) {
       commit('setPeriod', period);
-      dispatch('loadChart');
+      return dispatch('loadChart');
     },
   },
   namespaced: true,
