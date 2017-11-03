@@ -1,6 +1,6 @@
 <template lang='pug'>
 .propertyMap
-  .propertyMap__map
+  .propertyMap__map(ref="map")
   .propertyMap__container
     .propertyMap__data
       .propertyMap__address {{building.info.name}}
@@ -22,6 +22,7 @@
 <script>
 import {mapGetters} from 'vuex';
 import {getBuilding} from 'services/properties';
+import {googleMapsKey} from 'config';
 import GoogleMapsLoader from 'google-maps';
 import Icon from './Icon';
 import BButton from './BButton';
@@ -57,8 +58,7 @@ export default {
   mounted() {
     this.getBuildingData();
     GoogleMapsLoader.load((google) => {
-      const element = document.querySelector('.propertyMap__map');
-      const options = {
+      this.locationMap = new google.maps.Map(this.$refs.map, {
         zoom: 12,
         center: this.building.coordinates,
         scrollwheel: false,
@@ -74,40 +74,38 @@ export default {
             featureType: 'all',
             elementType: 'all',
             stylers: [
-            {
-              invert_lightness: true,
-            },
-            {
-              saturation: 10,
-            },
-            {
-              lightness: 30,
-            },
-            {
-              gamma: 0.5,
-            },
-            {
-              hue: '#435158',
-            },
-          ],
-        },
-      ],
-      };
-      this.locationMap = new google.maps.Map(element, options);
-      const image = {
-        url: require('assets/images/pointer.png'),
-        anchor: new google.maps.Point(15, 40),
-      };
+              {
+                invert_lightness: true,
+              },
+              {
+                saturation: 10,
+              },
+              {
+                lightness: 30,
+              },
+              {
+                gamma: 0.5,
+              },
+              {
+                hue: '#435158',
+              },
+            ],
+          },
+        ],
+      });
       this.marker = new google.maps.Marker({
         position: this.building.coordinates,
         map: this.locationMap,
-        icon: image,
+        icon: {
+          url: require('assets/images/pointer.png'),
+          anchor: new google.maps.Point(15, 40),
+        },
         animation: google.maps.Animation.DROP,
       });
     });
   },
   created() {
-    GoogleMapsLoader.KEY = 'AIzaSyBZrLwDh6l5AW1F5Em3pPlABhQ3fmp__AM';
+    GoogleMapsLoader.KEY = googleMapsKey;
   },
   components: {
     Icon,

@@ -4,6 +4,7 @@ export const hubURL = `${baseURL}/signalr/hubs`;
 export const hubName = 'notificationHub';
 export const notificationTimeout = 3000;
 export const mobileBreakpoint = 992;
+export const googleMapsKey = 'AIzaSyBZrLwDh6l5AW1F5Em3pPlABhQ3fmp__AM';
 export const periods = {
   '1h': '1m',
   '1d': '5m',
