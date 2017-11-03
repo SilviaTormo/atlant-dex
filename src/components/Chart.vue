@@ -1,10 +1,11 @@
 <template lang='pug'>
 .chart
-  .btn__periodSwitcher
-    span.btn__periodBtn(v-for="period in periods", :class="{'btn__periodBtn--active' : isCurrentPeriod(period)}", @click="setChartPeriod(period)") {{period}}
-  .btn__chartsSwitcher
-    Icon.btn__chartsBtn(v-for="chart in charts", :id="chart", :class="{'btn__chartsBtn--active' : isCurrentChart(chart)}", @click="setChartType(chart)")
-  #chart
+  .chart__header
+    .chart__buttons
+      .chart__buttonTxt(v-for="period in periods", :class="{'chart__buttonTxt--active' : isCurrentPeriod(period)}", @click="setChartPeriod(period)") {{period}}
+    .chart__buttons
+      Icon.chart__buttonIcon(:id="type" v-for="type in types", :class="{'chart__buttonIcon--active' : isCurrentChart(type)}", @click="setChartType(type)")
+  .chart__body#chart
 </template>
 
 <script>
@@ -20,7 +21,7 @@ export default {
       chart: null,
       maxRenderedCandles: 0,
       periods: Object.keys(periods),
-      charts: [
+      types: [
         'lineChart',
         'candleChart',
       ],
@@ -115,7 +116,7 @@ export default {
       this.chart = Highstock.stockChart('chart', {
         chart: {
           renderTo: 'chart',
-          spacing: [50, 40, 10, 20],
+          spacing: [10, 60, 10, 40],
           backgroundColor: '#03354f',
           reflow: false,
           style: {
@@ -255,54 +256,53 @@ export default {
 </script>
 
 <style lang='scss'>
+@import "~variables";
 .chart {
+  $buttonColor: desaturate(lighten($color_summersky, 6), 68);
   position: relative;
   width: 100%;
   height: 100%;
-}
-.btn {
-  &__chartsSwitcher {
-    position: absolute;
-    right: 10px;
-    top: 20px;
-    z-index: 4;
-    display: flex;
+  &__body {
+    width: 100%;
+    height: 100%;
   }
-
-  &__periodSwitcher {
-    position: absolute;
-    left: 10px;
-    top: 20px;
-    z-index: 4;
+  &__header {
+    $padding: 20px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: $padding;
+    padding-right: $padding;
+    padding-left: $padding;
   }
-
-  &__chartsBtn {
-    width: 15px;
-    height: 15px;
-    fill: #586C86;
-    margin: 0 10px;
+  &__buttons {
+    display: flex;
+    align-items: center;
+  }
+  &__buttonTxt {
+    color: $buttonColor;
     cursor: pointer;
-    &--active {
-      fill: #42B6F6;
-    }
-  }
-
-  &__periodBtn {
-    color: #586C86;
-    margin: 0 4px;
     font-size: 14px;
-    line-height: 15px;
     text-transform: uppercase;
-    cursor: pointer;
+    &:not(:last-of-type) {
+      margin-right: 10px;
+    }
     &--active {
-      color: #42B6F6;
-      font-weight: 500;
+      color: $color_summersky;
     }
   }
-}
-#chart {
-  width: 100%;
-  height: 100%;
+  &__buttonIcon {
+    $size: 15px;
+    width: $size;
+    height: $size;
+    cursor: pointer;
+    fill: $buttonColor;
+    &:not(:last-of-type) {
+      margin-right: 10px;
+    }
+    &--active {
+      fill: $color_summersky;
+    }
+  }
 }
 </style>
