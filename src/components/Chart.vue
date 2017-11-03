@@ -116,9 +116,9 @@ export default {
       this.chart = Highstock.stockChart('chart', {
         chart: {
           renderTo: 'chart',
-          spacing: [10, 60, 10, 40],
+          spacing: [50, 60, 10, 40],
           backgroundColor: '#03354f',
-          reflow: false,
+          reflow: true,
           style: {
             fontFamily: 'Roboto',
             fontSize: '12px',
@@ -274,6 +274,11 @@ export default {
     padding-top: $padding;
     padding-right: $padding;
     padding-left: $padding;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
   }
   &__buttons {
     display: flex;

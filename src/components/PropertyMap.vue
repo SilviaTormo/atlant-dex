@@ -131,8 +131,8 @@ export default {
     top: 0;
   }
   &__data {
-    margin-top: 105px;
-    margin-left: 50px;
+    margin-top: 5%;
+    margin-left: 5%;
     width: 220px;
   }
   &__address {
@@ -152,9 +152,6 @@ export default {
   }
   &__button {
     margin-top: 35px;
-    color: #02334d;
-    background: linear-gradient(180deg,#1e5799 0,#f3de54 0,#e3a83b);
-    border: none;
   }
 }
 </style>

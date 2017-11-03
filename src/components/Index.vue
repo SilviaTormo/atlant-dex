@@ -3,41 +3,41 @@ div
   .main
     .main__sidebar(:class="`main__sidebar--${(showSidebar) ? 'hidden' : 'shown'}`")
       Sidebar
-    .main__toolbar
+    .main__body
       Toolbar
-    .main__content
-      TheHeader
-      .main__tiles
-        .main__tile.main__tile--buysell
-          BuySell
-        .main__tile.main__tile--chart
-          Chart
-        .main__tile.main__tile--map
-          PropertyMap
-        .main__tile.main__tile--history
-          TileHeader.main__tileHeader.main__tileHeader--history(title='History of trades' center)
-          History
-        .main__tile.main__tile--books
-          TileHeader.main__tileHeader.main__tileHeader--book(title='Order book' center)
-          .d-flex.w-100
-            .main__tile
-              BookHeader
-              Book.main__book(:limit='19')
-            .main__tile
-              BookHeader(ask)
-              Book.main__book(ask, :limit='19')
-        .main__tile.main__tile--orders
-          TileHeader.main__tileHeader.main__tileHeader--orders(title='Open orders')
-          Orders
-          .main__ordersSep
-          TileHeader.main__tileHeader.main__tileHeader--orders(title='Completed orders')
-          Orders
+      .main__content
+        TheHeader(v-if="!isMobile")
+        .main__tiles
+          .main__tile.main__tile--buysell
+            BuySell
+          .main__tile.main__tile--chart
+            Chart
+          .main__tile.main__tile--map
+            PropertyMap
+          .main__tile.main__tile--history
+            TileHeader.main__tileHeader.main__tileHeader--history(title='History of trades' center)
+            History
+          .main__tile.main__tile--books
+            TileHeader.main__tileHeader.main__tileHeader--book(title='Order book' center)
+            .main__books
+              .main__tile
+                BookHeader
+                Book.main__book(:limit='19')
+              .main__tile
+                BookHeader(ask)
+                Book.main__book(ask, :limit='19')
+          .main__tile.main__tile--orders
+            TileHeader.main__tileHeader.main__tileHeader--orders(title='Open orders')
+            Orders
+            .main__ordersSep
+            TileHeader.main__tileHeader.main__tileHeader--orders(title='Completed orders')
+            Orders
   //- Modals
   InDemo
 </template>
 
 <script>
-import {mapState, mapMutations, mapActions} from 'vuex';
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import {defCandleSize} from 'config';
 import TheHeader from './TheHeader';
 import TheFooter from './TheFooter';
@@ -57,6 +57,9 @@ export default {
   computed: {
     ...mapState('misc', {
       showSidebar: 'showSidebar',
+    }),
+    ...mapGetters('misc', {
+      isMobile: 'isMobile',
     }),
   },
   methods: {
@@ -131,6 +134,7 @@ export default {
 @import '~sass/global';
 @import '~variables';
 @import '~sass/bootstrap/flex';
+@import '~sass/bootstrap/media';
 @import '~bootstrap/scss/utilities/sizing';
 
 .main {
@@ -172,11 +176,9 @@ export default {
       }
     }
   }
-  &__toolbar {
-    width: 64px;
-    background-color: $color_blue;
-    border-left: 1px solid $color_tangaroa;
-    z-index: 1;
+  &__body {
+    display: flex;
+    width: 100%;
   }
   &__content {
     width: 100%;
@@ -191,23 +193,24 @@ export default {
     border: 1px solid #182235;
     background-color: $color_blue;
     &--buysell {
-      flex-basis: 15%;
+      width: 15%;
     }
     &--chart {
-      flex-basis: 35%;
+      width: 35%;
+      height: 512px;
     }
     &--map {
-      flex-basis: 40%;
+      width: 40%;
     }
     &--history {
-      flex-basis: 20%;
+      width: 20%;
       padding: $default_spacing;
     }
     &--books {
-      flex-basis: 40%;
+      width: 40%;
     }
     &--orders {
-      flex-basis: 40%;
+      width: 40%;
       padding: $default_spacing;
     }
   }
@@ -225,6 +228,10 @@ export default {
   &__book {
     padding: $default_spacing;
   }
+  &__books {
+    width: 100%;
+    display: flex;
+  }
   &__ordersSep {
     $margin: 18px;
     width: 100%;
@@ -232,9 +239,41 @@ export default {
     margin-bottom: $margin + 8;
     border: 1px solid #032537;
   }
+}
 
-  @media (max-width: 991px) {
-    .main {
+@include media-breakpoint-down(md) {
+  .main {
+    width: 100%;
+    &__body {
+      flex-direction: column;
+    }
+    &__tiles {
+      flex-direction: column;
+    }
+    &__tile {
+      &--buysell {
+        width: 100%;
+      }
+      &--chart {
+        height: 320px;
+        width: 100%;
+      }
+      &--map {
+        height: 320px;
+        width: 100%;
+      }
+      &--history {
+        width: 100%;
+      }
+      &--books {
+        width: 100%;
+      }
+      &--orders {
+        width: 100%;
+      }
+    }
+    &__books {
+      flex-direction: column;
     }
   }
 }
