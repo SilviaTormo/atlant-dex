@@ -50,8 +50,10 @@ export default {
 
 <style lang="scss">
 @import "~variables";
+@import '~sass/bootstrap/media';
+$padding: 44px;
+
 .modal {
-  $padding: 44px;
   &__body {
     position: fixed;
     margin: 0 auto;
@@ -100,17 +102,13 @@ export default {
   }
 }
 
-// @include media-breakpoint-down(md) {
-//   .modal {
-//     &__body {
-//       width: 95%;
-//     }
-//     &__content {
-//       & > * {
-//         width: auto;
-//         min-width: auto;
-//       }
-//     }
-//   }
-// }
+@include media-breakpoint-down(md) {
+  .modal {
+    &__body {
+      height: 70vh;
+      width: 90%;
+      padding: $padding / 2;
+    }
+  }
+}
 </style>

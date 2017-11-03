@@ -1,5 +1,6 @@
 <template lang='pug'>
 .sidebar
+  TheHeader(v-if="isMobile")
   .sidebar__item.sidebar__item--logo
     Icon.sidebar__logo(id="logo")
     span.sidebar__demo DEMO
@@ -20,8 +21,10 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
 import Icon from './Icon';
 import BButton from './BButton';
+import TheHeader from './TheHeader';
 import CryptoAddress from './CryptoAddress';
 
 export default {
@@ -47,6 +50,11 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapGetters('misc', {
+      isMobile: 'isMobile',
+    }),
+  },
   methods: {
     setActive(account) {
       for (let i = 0; i < this.accounts.length; i++) {
@@ -59,6 +67,7 @@ export default {
     CryptoAddress,
     Icon,
     BButton,
+    TheHeader,
   },
 };
 
@@ -66,6 +75,8 @@ export default {
 
 <style lang="scss">
 @import "~variables";
+@import '~sass/bootstrap/media';
+
 .sidebar {
   width: $sidebar_width;
   z-index: -1;
@@ -103,6 +114,13 @@ export default {
     width: 75%;
     margin-left: auto;
     margin-right: auto;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .sidebar {
+    width: 100%;
+    z-index: 1;
   }
 }
 </style>

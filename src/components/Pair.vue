@@ -61,6 +61,7 @@ export default {
   }
   &__dropdown {
     min-width: 64px;
+    max-width: 64px
   }
   &__currency {
     font-weight: bold;

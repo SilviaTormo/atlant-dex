@@ -41,6 +41,8 @@ export default {
 
 <style lang="scss">
 @import "~variables";
+@import '~sass/bootstrap/media';
+
 .book {
   width: 100%;
   &__cell {
@@ -50,6 +52,14 @@ export default {
     }
     &--bid {
       color: $color_green;
+    }
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .book {
+    &__cell {
+      text-align: center;
     }
   }
 }
