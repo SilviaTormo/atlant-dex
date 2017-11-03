@@ -50,6 +50,7 @@ export default {
     }),
     setChartPeriod(pediod) {
       this.changeChartPeriod(pediod).then(() => {
+        this.limitCandles();
         this.$hub.proxy.invoke('setCandleSize', this.candleSize);
       });
     },
@@ -222,6 +223,9 @@ export default {
           }],
       });
     },
+    limitCandles() {
+      this.maxRenderedCandles = this.allCandles.length;
+    },
   },
   watch: {
     candles() {
@@ -240,7 +244,7 @@ export default {
   },
   created() {
     this.loadChart().then(() => {
-      this.maxRenderedCandles = this.allCandles.length;
+      this.limitCandles();
     });
   },
   components: {
