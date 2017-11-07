@@ -141,7 +141,8 @@ export default {
 
 .main {
   display: flex;
-  width: 1920px - 17px;
+  // width: 1920px - 17px;
+  min-width: 1250px;
   margin-left: auto;
   margin-right: auto;
   &__sidebar {
