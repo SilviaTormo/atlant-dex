@@ -175,6 +175,7 @@ export default {
       &::after {
         display: block;
         opacity: 0.0;
+        z-index: -1;
         transition: opacity $sidebar_speed linear;
       }
     }
