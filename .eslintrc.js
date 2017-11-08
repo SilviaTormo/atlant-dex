@@ -14,9 +14,15 @@ module.exports = {
   plugins: ['import'],
   extends: ['plugin:vue/recommended', 'google'],
   rules: {
-		'max-len': 0,
+    'max-len': 0,
     'require-jsdoc': 0,
     'linebreak-style': 0,
+    'new-cap': [
+      0,
+      {
+        newIsCap: true
+      }
+    ],
     'import/first': 2,
     'import/order': [
       2,

@@ -1,0 +1,76 @@
+{
+  "contract_name": "RedBlackTree",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "tree",
+          "type": "RedBlackTree.Tree storage"
+        },
+        {
+          "name": "id",
+          "type": "uint64"
+        }
+      ],
+      "name": "getItem",
+      "outputs": [
+        {
+          "name": "parent",
+          "type": "uint64"
+        },
+        {
+          "name": "left",
+          "type": "uint64"
+        },
+        {
+          "name": "right",
+          "type": "uint64"
+        },
+        {
+          "name": "value",
+          "type": "uint256"
+        },
+        {
+          "name": "red",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "tree",
+          "type": "RedBlackTree.Tree storage"
+        },
+        {
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "find",
+      "outputs": [
+        {
+          "name": "parentId",
+          "type": "uint64"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000f57600080fd5b5b61025d8061001f6000396000f300606060405263ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632eb1bb0f8114610048578063eb9d50e4146100a0575b600080fd5b61006060043567ffffffffffffffff602435166100cb565b60405167ffffffffffffffff958616815293851660208501529190931660408084019190915260608301939093521515608082015260a001905180910390f35b6100ae60043560243561014c565b60405167ffffffffffffffff909116815260200160405180910390f35b60008080808067ffffffffffffffff861615156100e757600080fd5b5050505067ffffffffffffffff828116600090815260018581016020526040909120805491015461010082048316935069010000000000000000008204831692710100000000000000000000000000000000008304169160ff165b9295509295909350565b815467ffffffffffffffff16805b67ffffffffffffffff8116156102295767ffffffffffffffff8116600090815260018086016020526040909120015483141561019557610229565b67ffffffffffffffff8116600090815260018086016020526040909120015490915081908310156101f05767ffffffffffffffff90811660009081526001850160205260409020546901000000000000000000900416610224565b67ffffffffffffffff9081166000908152600185016020526040902054710100000000000000000000000000000000009004165b61015a565b5b50929150505600a165627a7a72305820f9aea17e7bbdf61e53153188e8e002c069906af05275cd8ca7b0b54ec411388a0029",
+  "networks": {
+    "1507560398153": {
+      "events": {},
+      "links": {},
+      "address": "0xdbe8bbc51069c5dc08d9c273dbccca8d702e3b4f",
+      "updated_at": 1507560526455
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1507560526455
+}
