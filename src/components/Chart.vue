@@ -118,7 +118,7 @@ export default {
           renderTo: 'chart',
           spacing: [50, 5, 10, 10],
           backgroundColor: 'none',
-          reflow: false,
+          reflow: true,
           style: {
             fontFamily: 'Roboto',
             fontSize: '12px',
