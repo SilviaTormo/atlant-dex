@@ -8,10 +8,11 @@ header.header
   .header__group
     .header__block
       .header__balance Trade balance:
-      Balance(currency="ETH")
-      .header__separator |
-      Balance(currency="ATL")
-      BButton.header__transfer(color="yellow" outline rounded @click="runApi") Transfer to safe balance
+      .header__bvalues
+        Balance(currency="ETH")
+        .header__separator |
+        Balance(currency="ATL")
+    BButton.header__transfer(color="yellow" outline rounded @click="runApi") Transfer to safe balance
   .header__group
     .header__block
       Icon.header__info(id="info" @click="openInDemo")
@@ -33,7 +34,6 @@ export default {
   methods: {
     runApi() {
       launch();
-      // contractApi.launch();
     },
   },
   components: {
@@ -48,6 +48,8 @@ export default {
 
 <style lang="scss">
 @import "~variables";
+@import '~sass/bootstrap/media';
+
 .header {
   display: flex;
   align-items: center;
@@ -72,6 +74,10 @@ export default {
     text-transform: uppercase;
     margin-right: 22px;
   }
+  &__bvalues {
+    display: flex;
+    align-items: center;
+  }
   &__separator {
     margin: 0 11px;
   }
@@ -85,6 +91,28 @@ export default {
     fill: #fff;
     &:hover {
       cursor: pointer;
+    }
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .header {
+    padding: 8px 16px;
+    flex-direction: column;
+    &__group {
+      flex-direction: column;
+      &:not(:last-of-type) {
+        margin-bottom: 16px;
+      }
+    }
+    &__block {
+      flex-direction: column;
+    }
+    &__balance {
+      margin-right: 0;
+    }
+    &__transfer {
+      margin-left: 0;
     }
   }
 }

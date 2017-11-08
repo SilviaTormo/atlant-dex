@@ -33,6 +33,8 @@ export default {
 
 <style lang="scss">
 @import "~variables";
+@import '~sass/bootstrap/media';
+
 .history {
   width: 100%;
   &__cell {
@@ -42,6 +44,14 @@ export default {
     }
     &--sell {
       color: $color_red;
+    }
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .history {
+    &__cell {
+      text-align: center;
     }
   }
 }

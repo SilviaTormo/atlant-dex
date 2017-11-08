@@ -116,9 +116,9 @@ export default {
       this.chart = Highstock.stockChart('chart', {
         chart: {
           renderTo: 'chart',
-          spacing: [50, 60, 10, 40],
-          backgroundColor: '#03354f',
-          reflow: true,
+          spacing: [50, 5, 10, 10],
+          backgroundColor: 'none',
+          reflow: false,
           style: {
             fontFamily: 'Roboto',
             fontSize: '12px',
@@ -161,20 +161,23 @@ export default {
         },
         yAxis: [{
             allowDecimals: true,
-            opposite: false,
+            opposite: true,
             title: {
               text: '',
             },
             labels: {
               align: 'left',
-              x: -20,
+              x: 10,
+              y: 0,
               style: {
                 color: '#376691',
                 fontSize: '12px',
               },
             },
             lineWidth: 0,
-            gridLineWidth: 1,
+            gridLineWidth: 0,
+            top: '70%',
+            height: '30%',
           },
           {
             allowDecimals: true,
@@ -183,23 +186,23 @@ export default {
               text: '',
             },
             labels: {
-              align: 'right',
-              x: 40,
+              align: 'left',
+              x: 10,
+              y: 0,
               style: {
                 color: '#376691',
                 fontSize: '12px',
               },
             },
             offset: 0,
-            lineWidth: 0,
-            gridLineWidth: 2,
+            gridLineWidth: 1,
             gridLineColor: '#2b5072',
+            height: '75%',
           },
         ],
         legend: {
           enabled: false,
         },
-        // colors: ['#046fc4', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
         series: [{
             name: 'Price',
             data: prices,

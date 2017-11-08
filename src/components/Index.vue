@@ -1,11 +1,13 @@
 <template lang='pug'>
 div
   .main
-    .main__sidebar(:class="`main__sidebar--${(showSidebar) ? 'hidden' : 'shown'}`")
+    Toolbar(v-if="isMobile")
+    .main__sidebar(v-if="!isMobile", :class="`main__sidebar--${(showSidebar) ? 'shown' : 'hidden'}`")
       Sidebar
     .main__body
-      Toolbar
-      .main__content
+      Sidebar(v-if="isMobile && showSidebar")
+      Toolbar(v-if="!isMobile")
+      .main__content(v-show="!(isMobile && showSidebar)")
         TheHeader(v-if="!isMobile")
         .main__tiles
           .main__tile.main__tile--buysell
@@ -139,7 +141,8 @@ export default {
 
 .main {
   display: flex;
-  width: 1920px - 17px;
+  // width: 1920px - 17px;
+  min-width: 1250px;
   margin-left: auto;
   margin-right: auto;
   &__sidebar {
@@ -243,7 +246,8 @@ export default {
 
 @include media-breakpoint-down(md) {
   .main {
-    width: 100%;
+    min-width: 100%;
+    flex-direction: column;
     &__body {
       flex-direction: column;
     }
