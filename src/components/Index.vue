@@ -246,7 +246,7 @@ export default {
 
 @include media-breakpoint-down(md) {
   .main {
-    width: 100%;
+    min-width: 100%;
     flex-direction: column;
     &__body {
       flex-direction: column;
