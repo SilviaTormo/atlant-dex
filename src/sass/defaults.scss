@@ -9,6 +9,7 @@ html {
 *, *:before, *:after {
   box-sizing: inherit;
 }
+
 body {
   height: 100%;
   margin: 0 auto;
@@ -17,6 +18,8 @@ body {
   font-family: "Roboto";
   background-color: $color_blue;
 }
+
+
 h1, h2, h3, h4, h5, h6, ul, ol, li, a, p {
   padding: 0;
   margin: 0;

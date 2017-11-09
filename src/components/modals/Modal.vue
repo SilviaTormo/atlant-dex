@@ -4,6 +4,7 @@
   .modal__body(:class="[`modal__body--${screenType}`, `modal__body--${name}`]")
     .modal__header
       Icon.modal__logo(id="logo")
+      Icon.modal__cross(id="cross" @click="close()")
     .modal__content
       slot
     .modal__credits Copyright © Atlant, 2017
@@ -100,14 +101,37 @@ $padding: 44px;
     height: 28px;
     fill: #fff;
   }
+  &__cross {
+    display: none;
+  }
 }
 
 @include media-breakpoint-down(md) {
   .modal {
+    height: 100%;
     &__body {
-      height: 70vh;
-      width: 90%;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
       padding: $padding / 2;
+      box-shadow: 0;
+      position: static;
+      transform: none;
+    }
+    &__header {
+      justify-content: space-between;
+    }
+    &__cross {
+      $size: 24px;
+      width: $size;
+      height: $size;
+      fill: #fff;
+      display: block;
+      cursor: pointer;
+    }
+    &__overlay {
+      display: none;
     }
   }
 }

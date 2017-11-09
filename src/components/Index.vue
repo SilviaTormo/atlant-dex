@@ -1,6 +1,6 @@
 <template lang='pug'>
-div
-  .main
+.index
+  .main(v-show="(isModalOpened() && !isMobile) || !isModalOpened()")
     Toolbar(v-if="isMobile")
     .main__sidebar(v-if="!isMobile", :class="`main__sidebar--${(showSidebar) ? 'shown' : 'hidden'}`")
       Sidebar
@@ -62,6 +62,9 @@ export default {
     }),
     ...mapGetters('misc', {
       isMobile: 'isMobile',
+    }),
+    ...mapGetters('modal', {
+      isModalOpened: 'isOpened',
     }),
   },
   methods: {
