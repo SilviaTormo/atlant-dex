@@ -16,12 +16,12 @@
     .sidebar__buttons
       BButton(color="yellow" rounded @click="openInDemo") Create new
       b or
-      BButton(color="sulu" rounded outline @click="openInDemo") Import
+      BButton(color="sulu" rounded outline @click="openImport()") Import
   .sidebar__item.sidebar__item--copyright Copyright &#169; Atlant, 2017
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 import Icon from './Icon';
 import BButton from './BButton';
 import TheHeader from './TheHeader';
@@ -56,6 +56,12 @@ export default {
     }),
   },
   methods: {
+    ...mapMutations('modal', {
+      openModal: 'open',
+    }),
+    openImport() {
+      this.openModal('importKey');
+    },
     setActive(account) {
       for (let i = 0; i < this.accounts.length; i++) {
         this.accounts[i].isActive = false;

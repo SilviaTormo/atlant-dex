@@ -36,6 +36,7 @@
             Orders
   //- Modals
   InDemo
+  ImportKey
 </template>
 
 <script>
@@ -54,6 +55,7 @@ import History from './History';
 import BookHeader from './BookHeader';
 import PropertyMap from './PropertyMap';
 import InDemo from './modals/InDemo';
+import ImportKey from './modals/ImportKey';
 
 export default {
   computed: {
@@ -127,6 +129,7 @@ export default {
     Chart,
     BookHeader,
     InDemo,
+    ImportKey,
   },
 };
 </script>

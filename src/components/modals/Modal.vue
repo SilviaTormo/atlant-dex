@@ -65,7 +65,7 @@ $padding: 44px;
     top: 50%;
     left: 50%;
     height: 600px;
-    width: 552px;
+    width: 600px;
     z-index: 998;
     transform: translate(-50%, -50%);
     border-radius: 12px;
