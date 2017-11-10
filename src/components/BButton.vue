@@ -58,6 +58,7 @@ $ROOT: "button";
 .#{$ROOT} {
   $padding: 10px;
   height: 28px;
+  font-size: 12px;
   padding-left: $padding;
   padding-right: $padding;
   color: $color_daintree;
@@ -65,57 +66,51 @@ $ROOT: "button";
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: inherit;
     font-weight: 700;
     color: inherit;
   }
   &--yellow {
-    $color1: #f3de54;
+    $color1: $color_energy;
     $color2: darken(desaturate(adjust-hue($color1, -13), 11.89), 8.04);
+    $colorHover1: $color_malachite;
+    $colorHover2: darken(saturate(adjust-hue($colorHover1, 41), 22.45), 30.78);
     $darken_hover: 5%;
     $darken_active: 10%;
     border-color: $color1;
     background-image: linear-gradient(180deg, $color1 0, $color2 100%);
     &:hover {
-      background-image: linear-gradient(180deg, darken($color1, $darken_hover) 0, darken($color2, $darken_hover) 100%);
-    }
-    &:active {
-      background-image: linear-gradient(180deg, darken($color1, $darken_active) 0, darken($color2, $darken_active) 100%);
+      color: #fff;
+      border-color: $colorHover1;
+      background-image: linear-gradient(180deg, $colorHover1 0, $colorHover2 100%);
     }
     &.#{$ROOT}--outline {
-      color: $color_yellow;
+      color: #fff;
       &:hover {
         background-image: none;
-        color: darken($color_yellow, $darken_hover * 2);
-      }
-      &:active {
-        background-image: none;
-        color: darken($color_yellow, $darken_active * 2);
+        color: $color_malachite;
       }
     }
   }
-  &--sulu {
-    $color1: $color_sulu;
-    $color2: darken(desaturate(adjust-hue($color1, -13), 11.89), 8.04);
+  &--malachite {
+    $color1: $color_malachite;
+    $color2: darken(saturate(adjust-hue($color_malachite, 41), 22.45), 30.78);
+    $colorHover1: $color_energy;
+    $colorHover2: darken(desaturate(adjust-hue($colorHover1, -13), 11.89), 8.04);
     $darken_hover: 5%;
     $darken_active: 10%;
-    border-color: $color_sulu;
+    color: #fff;
+    border-color: $color1;
     background-image: linear-gradient(180deg, $color1 0, $color2 100%);
     &:hover {
-      background-image: linear-gradient(180deg, darken($color1, $darken_hover) 0, darken($color2, $darken_hover) 100%);
-    }
-    &:active {
-      background-image: linear-gradient(180deg, darken($color1, $darken_active) 0, darken($color2, $darken_active) 100%);
+      color: $color_daintree;
+      border-color: $colorHover1;
+      background-image: linear-gradient(180deg, $colorHover1 0, $colorHover2 100%);
     }
     &.#{$ROOT}--outline {
-      color: $color_sulu;
       &:hover {
+        color: $color_energy;
         background-image: none;
-        color: darken($color_sulu, $darken_hover * 2);
-      }
-      &:active {
-        background-image: none;
-        color: darken($color_sulu, $darken_active * 2);
       }
     }
   }
