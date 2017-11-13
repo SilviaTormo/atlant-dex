@@ -8,6 +8,7 @@ export default {
     chart: {
       data: {},
       period: defPeriod,
+      lastFlag: false,
     },
     trades: [],
     book: {
@@ -75,21 +76,28 @@ export default {
       state.ohlc.change = data.change;
     },
     addNewCandle(state, data) {
+      console.log(data);
       const open = data[0];
       const high = data[1];
       const low = data[2];
       const close = data[3];
       const volume = data[4];
-      if (data[5]) { // new / update
+      console.log(state.chart.lastFlag);
+      if (state.chart.lastFlag == true) {
         state.chart.data.candles.push([open, high, low, close, volume]);
       } else {
-        let oldArray = state.chart.data.candles;
-        oldArray.splice(oldArray.length-1, 1);
-        state.chart.data.candles = [
-          ...oldArray,
-          [open, high, low, close, volume],
-        ];
+        if (!data[5]) {
+          console.log('this flag is false, previous is false');
+          let oldArray = state.chart.data.candles;
+          oldArray.splice(oldArray.length-1, 1);
+          state.chart.data.candles = [
+            ...oldArray,
+            [open, high, low, close, volume],
+          ];
+        }
       }
+
+      state.chart.lastFlag = data[5];
     },
   },
   actions: {
