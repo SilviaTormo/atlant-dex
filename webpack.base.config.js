@@ -35,6 +35,7 @@ module.exports = {
     extensions: ['.js', '.vue', '.css', '.scss', '.svg'],
     alias: {
       vue$: 'vue/dist/vue.esm.js',
+      mixins: `${DIR_SRC}/sass/mixins.scss`,
       variables: `${DIR_SRC}/sass/variables.scss`,
     },
     modules: [

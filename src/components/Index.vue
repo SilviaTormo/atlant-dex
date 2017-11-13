@@ -36,11 +36,13 @@
             Orders
   //- Modals
   InDemo
+  ImportKey
+  Welcome
 </template>
 
 <script>
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
-import {defCandleSize} from 'config';
+import {defCandleSize, showWelcome} from 'config';
 import TheHeader from './TheHeader';
 import TheFooter from './TheFooter';
 import TileHeader from './TileHeader';
@@ -54,6 +56,8 @@ import History from './History';
 import BookHeader from './BookHeader';
 import PropertyMap from './PropertyMap';
 import InDemo from './modals/InDemo';
+import ImportKey from './modals/ImportKey';
+import Welcome from './modals/Welcome';
 
 export default {
   computed: {
@@ -70,6 +74,9 @@ export default {
   methods: {
     ...mapMutations('misc', {
       updateScreenType: 'updateScreenType',
+    }),
+    ...mapMutations('modal', {
+      openModal: 'open',
     }),
     ...mapMutations('trade', {
       addNewCandle: 'addNewCandle',
@@ -112,6 +119,11 @@ export default {
       }, 66);
     });
   },
+  mounted() {
+    if (showWelcome) {
+      this.openModal('welcome');
+    }
+  },
   components: {
     TheHeader,
     TheFooter,
@@ -127,6 +139,8 @@ export default {
     Chart,
     BookHeader,
     InDemo,
+    ImportKey,
+    Welcome,
   },
 };
 </script>
