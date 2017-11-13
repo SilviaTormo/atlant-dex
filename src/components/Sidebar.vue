@@ -14,13 +14,14 @@
     )
   .sidebar__item
     .sidebar__buttons
-      BButton(color="yellow" rounded @click="newAddress") Create new
+      BButton(color="yellow" rounded @click="importAddr") Create new
       b or
       BButton(color="malachite" rounded outline @click="openImport()") Import
   .sidebar__item.sidebar__item--copyright Copyright &#169; Atlant, 2017
 </template>
 
 <script>
+import {importAddress} from 'services/api/contract-api';
 import {mapGetters, mapMutations} from 'vuex';
 import Icon from './Icon';
 import BButton from './BButton';

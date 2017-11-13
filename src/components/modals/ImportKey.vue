@@ -35,7 +35,6 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import "~mixins";
 
 .import {
   display: flex;
