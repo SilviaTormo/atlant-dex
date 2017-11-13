@@ -6,6 +6,7 @@ import localization from './modules/localization';
 import trade from './modules/trade';
 import loader from './modules/loader';
 import modal from './modules/modal';
+import user from './modules/user';
 
 Vue.use(Vuex);
 
@@ -16,6 +17,7 @@ const store = new Vuex.Store({
     trade,
     loader,
     modal,
+    user,
   },
   plugins: [createPersistedState({
     paths: [

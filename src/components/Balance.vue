@@ -1,18 +1,23 @@
 <template lang="pug">
 .balance
   .balance__currency {{currency}}
-  .balance__amount 0
+  .balance__amount {{balance}}
   Icon.balance__icon(id='deposit' @click="deposit()")
 </template>
 
 <script>
+import {mapState} from 'vuex';
 import Icon from './Icon';
 
 export default {
   data() {
     return {
-
     };
+  },
+  computed: {
+    ...mapState('user', {
+      balance: 'balance',
+    }),
   },
   methods: {
     deposit() {

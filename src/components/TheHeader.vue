@@ -12,14 +12,14 @@ header.header
         Balance(currency="ETH")
         .header__separator |
         Balance(currency="ATL")
-    BButton.header__transfer(color="yellow" outline rounded @click="runApi") Transfer to safe balance
+    BButton.header__transfer(color="yellow" outline rounded @click="getEthBalance") Transfer to safe balance
   .header__group
     .header__block
       Icon.header__info(id="info" @click="openInDemo")
 </template>
 
 <script>
-import {launch} from 'services/api/contract-api';
+import {mapActions} from 'vuex';
 import Icon from './Icon';
 import BButton from './BButton';
 import Pair from './Pair';
@@ -32,9 +32,9 @@ export default {
     };
   },
   methods: {
-    runApi() {
-      launch();
-    },
+    ...mapActions('user', {
+      getEthBalance: 'getEthBalance',
+    }),
   },
   components: {
     Icon,

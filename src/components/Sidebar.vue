@@ -14,13 +14,14 @@
     )
   .sidebar__item
     .sidebar__buttons
-      BButton(color="yellow" rounded @click="openInDemo") Create new
+      BButton(color="yellow" rounded @click="newAddress") Create new
       b or
-      BButton(color="sulu" rounded outline @click="openInDemo") Import
+      BButton(color="sulu" rounded outline @click="importAddr") Import
   .sidebar__item.sidebar__item--copyright Copyright &#169; Atlant, 2017
 </template>
 
 <script>
+import {createAddress, importAddress} from 'services/api/contract-api';
 import {mapGetters} from 'vuex';
 import Icon from './Icon';
 import BButton from './BButton';
@@ -61,6 +62,12 @@ export default {
         this.accounts[i].isActive = false;
       }
       account.isActive = true;
+    },
+    newAddress() {
+      createAddress();
+    },
+    importAddr() {
+      importAddress('010D4423A7A24AE95DBC7F39DF1A2F8B046AAF444DEF560D6020516886D4D337');
     },
   },
   components: {
