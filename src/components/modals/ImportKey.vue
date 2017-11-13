@@ -5,7 +5,7 @@ Modal(name="importKey")
     .import__typekey Type your private key below
     .import__importWrapper
       input.import__input(:value="key" type="password")
-    .import__orInsert Or #[span.link insert from clipboard]
+    //- .import__orInsert Or #[span.link insert from clipboard]
 </template>
 
 <script>
@@ -70,7 +70,7 @@ export default {
       position: absolute;
       bottom: 0;
       left: 0;
-      z-index: -1;
+      z-index: 0;
       content: "———————————————————————————————————————————————";
     }
   }
