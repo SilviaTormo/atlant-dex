@@ -1,6 +1,5 @@
 <template lang='pug'>
 .sidebar
-  TheHeader(v-if="isMobile")
   .sidebar__item.sidebar__item--logo
     Icon.sidebar__logo(id="logo")
     span.sidebar__demo DEMO
@@ -25,7 +24,6 @@ import {importAddress} from 'services/api/contract-api';
 import {mapGetters, mapMutations} from 'vuex';
 import Icon from './Icon';
 import BButton from './BButton';
-import TheHeader from './TheHeader';
 import CryptoAddress from './CryptoAddress';
 
 export default {
@@ -77,7 +75,6 @@ export default {
     CryptoAddress,
     Icon,
     BButton,
-    TheHeader,
   },
 };
 
@@ -88,8 +85,8 @@ export default {
 @import '~sass/bootstrap/media';
 
 .sidebar {
-  width: $sidebar_width;
-  z-index: -1;
+  height: 100%;
+  background-color: $color_blue;
   &__item {
     padding: 26px;
     border-bottom: 1px solid #032537;
@@ -124,13 +121,6 @@ export default {
     width: 75%;
     margin-left: auto;
     margin-right: auto;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .sidebar {
-    width: 100%;
-    z-index: 1;
   }
 }
 </style>

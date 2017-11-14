@@ -1,13 +1,11 @@
 <template lang='pug'>
 .index
   .main(v-show="(isModalOpened() && !isMobile) || !isModalOpened()")
-    Toolbar(v-if="isMobile")
-    .main__sidebar(v-if="!isMobile", :class="`main__sidebar--${(showSidebar) ? 'shown' : 'hidden'}`")
-      Sidebar
-    .main__body
-      Sidebar(v-if="isMobile && showSidebar")
-      Toolbar(v-if="!isMobile")
-      .main__content(v-show="!(isMobile && showSidebar)")
+    .main__leftSide(:class="`main__leftSide--${(showSidebar) ? 'shown' : 'hidden'}`")
+      Sidebar.main__sidebar
+      Toolbar.main__toolbar
+    .main__body(:class="{'main__body--withSidebar': (showSidebar && !isMobile)}")
+      .main__content
         TheHeader(v-if="!isMobile")
         .main__tiles
           .main__tile.main__tile--buysell
@@ -125,7 +123,6 @@ export default {
     }
   },
   components: {
-    TheHeader,
     TheFooter,
     Sidebar,
     TheHeader,
@@ -158,52 +155,40 @@ export default {
 
 .main {
   display: flex;
-  // width: 1920px - 17px;
   min-width: 1250px;
   margin-left: auto;
   margin-right: auto;
+  &__leftSide {
+    display: flex;
+    width: $leftSide_width;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    transition: all $sidebar_speed linear;
+    &--hidden {
+      left: -280px;
+    }
+  }
   &__sidebar {
     width: $sidebar_width;
-    position: relative;
-    transition: width $sidebar_speed linear;
-    &::after {
-      content: "";
-      display: none;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      background-image: linear-gradient(90deg,
-        transparent,
-        rgba(0,0,0,.20) 70%,
-        rgba(0,0,0,.30) 85%,
-        rgba(0,0,0,.45)
-      );
-    }
-    &--hidden {
-      width: 0;
-        &::after {
-          display: block;
-      }
-    }
-    &--shown {
-      width: $sidebar_width;
-      &::after {
-        display: block;
-        opacity: 0.0;
-        z-index: -1;
-        transition: opacity $sidebar_speed linear;
-      }
-    }
+  }
+  &__toolbar {
+    width: $toolbar_width;
   }
   &__body {
     display: flex;
     width: 100%;
+    margin-left: auto;
+    transition: width $sidebar_speed linear;
+    &--withSidebar {
+      width: calc(100% - #{$sidebar_width});
+    }
   }
   &__content {
-    width: 100%;
-    z-index: 1;
+    width: calc(100% - #{$toolbar_width});
+    margin-left: auto;
   }
   &__tiles {
     display: flex;
@@ -267,7 +252,16 @@ export default {
     min-width: 100%;
     flex-direction: column;
     &__body {
-      flex-direction: column;
+      // flex-direction: column;
+    }
+    &__leftSide {
+      &--shown {
+        width: 100%;
+      }
+    }
+    &__sidebar {
+      width: 100%;
+      overflow-y: scroll;
     }
     &__tiles {
       flex-direction: column;

@@ -94,26 +94,4 @@ export default {
     }
   }
 }
-
-@include media-breakpoint-down(md) {
-  .header {
-    padding: 8px 16px;
-    flex-direction: column;
-    &__group {
-      flex-direction: column;
-      &:not(:last-of-type) {
-        margin-bottom: 16px;
-      }
-    }
-    &__block {
-      flex-direction: column;
-    }
-    &__balance {
-      margin-right: 0;
-    }
-    &__transfer {
-      margin-left: 0;
-    }
-  }
-}
 </style>

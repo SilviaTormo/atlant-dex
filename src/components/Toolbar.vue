@@ -1,9 +1,13 @@
 <template lang='pug'>
 .toolbar
-  .toolbar__main
-    Icon.toolbar__icon(v-if='showSidebar', id='cross' @click='toggleSidebar')
-    Icon.toolbar__icon(v-else, id='hamburger' @click='toggleSidebar')
+  .toolbar__group
+    Icon.toolbar__icon(:id="(showSidebar) ? 'cross' : 'hamburger'" @click='toggleSidebar')
     Icon.toolbar__icon(id='wallet' @click="openInDemo")
+    Icon.toolbar__icon(id='alert' @click="openInDemo")
+  .toolbar__group
+    Icon.toolbar__icon(id='alert' @click="openInDemo")
+    Icon.toolbar__icon(id='alert' @click="openInDemo")
+    Icon.toolbar__icon(id='alert' @click="openInDemo")
     Icon.toolbar__icon(id='alert' @click="openInDemo")
   Icon.toolbar__icon(id='settings' @click="openInDemo")
 </template>
@@ -43,8 +47,10 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: $default_spacing;
+  height: 100%;
+  padding: 24px 0;
   background-color: $color_blue;
+  background-image: linear-gradient(to bottom, #02324c 0, #011a29 100%);
   border-left: 1px solid $color_tangaroa;
   z-index: 1;
   flex-shrink: 0;
@@ -61,20 +67,8 @@ export default {
       fill: #e9bd24;
     }
   }
-}
+  &--fixed {
 
-@include media-breakpoint-down(md) {
-  .toolbar {
-    flex-direction: row;
-    &__main {
-      display: flex;
-    }
-    &__icon {
-      margin-bottom: 0 !important;
-      &:not(:last-of-type) {
-        margin-right: 32px;
-      }
-    }
   }
 }
 </style>
