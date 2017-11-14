@@ -53,6 +53,7 @@ export default {
       this.changeChartPeriod(pediod).then(() => {
         this.limitCandles();
         this.$hub.proxy.invoke('setCandleSize', this.candleSize);
+        this.updateAxisWidth();
       });
     },
     isCurrentChart(chart) {
@@ -110,9 +111,14 @@ export default {
         ];
       });
     },
+    updateAxisWidth() {
+      const minX = ticksToMilliseconds(this.startTicks + (this.candleTicks * (this.allCandles.length - 30)));
+      this.chart.xAxis[0].setExtremes(minX);
+    },
     createChart() {
       const prices = this.getCandlestickSeries();
       const volumes = this.getVolumeSeries();
+      const minX = ticksToMilliseconds(this.startTicks + (this.candleTicks * (this.allCandles.length - 30)));
       this.chart = Highstock.stockChart('chart', {
         chart: {
           renderTo: 'chart',
@@ -158,6 +164,10 @@ export default {
               fontSize: '12px',
             },
           },
+          min: minX,
+        },
+        scrollbar: {
+          enabled: true,
         },
         yAxis: [{
             allowDecimals: true,
@@ -215,6 +225,9 @@ export default {
             yAxis: 1,
             zIndex: 2,
             pointPadding: 0.05,
+            dataGrouping: {
+              enabled: false,
+            },
           },
           {
             name: 'Volume',
@@ -224,6 +237,9 @@ export default {
             yAxis: 0,
             zIndex: 1,
             pointPadding: 0.05,
+            dataGrouping: {
+              enabled: false,
+            },
           }],
       });
     },
