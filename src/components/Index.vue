@@ -1,37 +1,36 @@
 <template lang='pug'>
-.index
-  .main(v-show="(isModalOpened() && !isMobile) || !isModalOpened()")
+.main(:class="{'main--withSidebar': (showSidebar && isMobile)}")
+  .main__body(v-show="(isModalOpened() && !isMobile) || !isModalOpened()")
     .main__leftSide(:class="`main__leftSide--${(showSidebar) ? 'shown' : 'hidden'}`")
-      Sidebar.main__sidebar
+      Sidebar.main__sidebar(v-scrollbar="")
       Toolbar.main__toolbar
-    .main__body(:class="{'main__body--withSidebar': (showSidebar && !isMobile)}")
-      .main__content
-        TheHeader(v-if="!isMobile")
-        .main__tiles
-          .main__tile.main__tile--buysell
-            BuySell
-          .main__tile.main__tile--chart
-            Chart
-          .main__tile.main__tile--map
-            PropertyMap
-          .main__tile.main__tile--history
-            TileHeader.main__tileHeader.main__tileHeader--history(title='History of trades' center)
-            History
-          .main__tile.main__tile--books
-            TileHeader.main__tileHeader.main__tileHeader--book(title='Order book' center)
-            .main__books
-              .main__tile
-                BookHeader
-                Book.main__book(:limit='19')
-              .main__tile
-                BookHeader(ask)
-                Book.main__book(ask, :limit='19')
-          .main__tile.main__tile--orders
-            TileHeader.main__tileHeader.main__tileHeader--orders(title='Open orders')
-            Orders
-            .main__ordersSep
-            TileHeader.main__tileHeader.main__tileHeader--orders(title='Completed orders')
-            Orders
+    .main__content(:class="{'main__content--withSidebar': (showSidebar && !isMobile)}")
+      TheHeader(v-if="!isMobile")
+      .main__tiles
+        .main__tile.main__tile--buysell
+          BuySell
+        .main__tile.main__tile--chart
+          Chart
+        .main__tile.main__tile--map
+          PropertyMap
+        .main__tile.main__tile--history
+          TileHeader.main__tileHeader.main__tileHeader--history(title='History of trades' center)
+          History
+        .main__tile.main__tile--books
+          TileHeader.main__tileHeader.main__tileHeader--book(title='Order book' center)
+          .main__books
+            .main__tile
+              BookHeader
+              Book.main__book(:limit='19')
+            .main__tile
+              BookHeader(ask)
+              Book.main__book(ask, :limit='19')
+        .main__tile.main__tile--orders
+          TileHeader.main__tileHeader.main__tileHeader--orders(title='Open orders')
+          Orders
+          .main__ordersSep
+          TileHeader.main__tileHeader.main__tileHeader--orders(title='Completed orders')
+          Orders
   //- Modals
   InDemo
   ImportKey
@@ -41,6 +40,7 @@
 <script>
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import {defCandleSize, showWelcome} from 'config';
+import {scrollbar} from 'directives';
 import TheHeader from './TheHeader';
 import TheFooter from './TheFooter';
 import TileHeader from './TileHeader';
@@ -85,6 +85,9 @@ export default {
     ...mapActions('localization', {
       setLang: 'setLang',
     }),
+    updateOverflow() {
+      document.querySelector('#app').style.overflow = (this.showSidebar && this.isMobile) ? 'hidden' : null;
+    },
     hubSubscribe() {
       this.$hub.proxy.on('newCandle', (res) => {
         this.addNewCandle(res);
@@ -100,6 +103,14 @@ export default {
       this.$hub.proxy.on('newTrade', (data) => {
         this.addLastTrade(data);
       });
+    },
+  },
+  watch: {
+    showSidebar() {
+      this.updateOverflow();
+    },
+    isMobile() {
+      this.updateOverflow();
     },
   },
   created() {
@@ -121,6 +132,10 @@ export default {
     if (showWelcome) {
       this.openModal('welcome');
     }
+    this.updateOverflow();
+  },
+  directives: {
+    scrollbar,
   },
   components: {
     TheFooter,
@@ -151,13 +166,16 @@ export default {
 @import '~variables';
 @import '~sass/bootstrap/flex';
 @import '~sass/bootstrap/media';
+@import '~perfect-scrollbar/dist/css/perfect-scrollbar';
 @import '~bootstrap/scss/utilities/sizing';
 
 .main {
-  display: flex;
-  min-width: 1250px;
-  margin-left: auto;
-  margin-right: auto;
+  &__body {
+    display: flex;
+    min-width: 1250px;
+    margin-left: auto;
+    margin-right: auto;
+  }
   &__leftSide {
     display: flex;
     width: $leftSide_width;
@@ -173,22 +191,19 @@ export default {
   }
   &__sidebar {
     width: $sidebar_width;
+    position: relative;
+    overflow-y: hidden;
   }
   &__toolbar {
     width: $toolbar_width;
   }
-  &__body {
-    display: flex;
-    width: 100%;
-    margin-left: auto;
-    transition: width $sidebar_speed linear;
-    &--withSidebar {
-      width: calc(100% - #{$sidebar_width});
-    }
-  }
   &__content {
     width: calc(100% - #{$toolbar_width});
     margin-left: auto;
+    transition: width $sidebar_speed linear;
+    &--withSidebar {
+      width: calc(100% - #{$leftSide_width});
+    }
   }
   &__tiles {
     display: flex;
@@ -245,14 +260,16 @@ export default {
     margin-bottom: $margin + 8;
     border: 1px solid #032537;
   }
+  &--withSidebar {
+    overflow: hidden;
+  }
 }
 
 @include media-breakpoint-down(md) {
   .main {
-    min-width: 100%;
-    flex-direction: column;
     &__body {
-      // flex-direction: column;
+      min-width: 100%;
+      flex-direction: column;
     }
     &__leftSide {
       &--shown {
