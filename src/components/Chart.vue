@@ -139,9 +139,6 @@ export default {
         rangeSelector: {
           enabled: false,
         },
-        scrollbar: {
-          enabled: false,
-        },
         title: '',
         tooltip: {
           crosshairs: {
@@ -168,6 +165,16 @@ export default {
         },
         scrollbar: {
           enabled: true,
+          height: 10,
+          barBackgroundColor: '#aaa',
+          barBorderRadius: 6,
+          barBorderWidth: 0,
+          buttonArrowColor: 'none',
+          buttonBorderColor: 'none',
+          buttonBackgroundColor: 'none',
+          trackBackgroundColor: 'none',
+          trackBorderColor: 'none',
+          rifleColor: 'transparent',
         },
         yAxis: [{
             allowDecimals: true,
