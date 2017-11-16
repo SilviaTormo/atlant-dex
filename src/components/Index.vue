@@ -7,30 +7,75 @@
     .main__content(:class="{'main__content--withSidebar': (showSidebar && !isMobile)}")
       TheHeader(v-if="!isMobile")
       .main__tiles
-        .main__tile.main__tile--buysell
-          BuySell
-        .main__tile.main__tile--chart
-          Chart
-        .main__tile.main__tile--map
-          PropertyMap
-        .main__tile.main__tile--history
-          TileHeader.main__tileHeader.main__tileHeader--history(title='History of trades' center)
-          History
-        .main__tile.main__tile--books
-          TileHeader.main__tileHeader.main__tileHeader--book(title='Order book' center)
-          .main__books
-            .main__tile
-              BookHeader
-              Book.main__book(:limit='19')
-            .main__tile
-              BookHeader(ask)
-              Book.main__book(ask, :limit='19')
-        .main__tile.main__tile--orders
-          TileHeader.main__tileHeader.main__tileHeader--orders(title='Open orders')
-          Orders
-          .main__ordersSep
-          TileHeader.main__tileHeader.main__tileHeader--orders(title='Completed orders')
-          Orders
+        .grid-stack
+          .grid-stack-item(
+            data-gs-x='0',
+            data-gs-y='0',
+            data-gs-width='3',
+            data-gs-height='6',
+            data-gs-min-width='2',
+            data-gs-min-height='6',
+            data-gs-max-height='6',
+            )
+            .grid-stack-item-content
+              .main__tile
+                BuySell
+          .grid-stack-item(
+            data-gs-x='3',
+            data-gs-y='0',
+            data-gs-width='9',
+            data-gs-height='6',
+            data-gs-min-width='5',
+            data-gs-min-height='6',
+            )
+            .grid-stack-item-content
+              .main__tile
+                Chart
+          .grid-stack-item(
+            data-gs-x='0',
+            data-gs-y='7',
+            data-gs-width='3',
+            data-gs-height='5',
+            data-gs-min-width='3',
+            data-gs-min-height='2',
+            )
+            .grid-stack-item-content(v-scrollbar="")
+              .main__tile.main__tile--history
+                TileHeader.main__tileHeader.main__tileHeader--history(title='History of trades' center)
+                History
+          .grid-stack-item(
+            data-gs-x='3',
+            data-gs-y='7',
+            data-gs-width='5',
+            data-gs-height='5',
+            data-gs-min-width='5',
+            data-gs-min-height='2',
+            )
+            .grid-stack-item-content(v-scrollbar="")
+              .main__tile.main__tile--books
+                TileHeader.main__tileHeader.main__tileHeader--book(title='Order book' center)
+                .main__books
+                  .main__tile
+                    BookHeader
+                    Book.main__book(:limit='19')
+                  .main__tile
+                    BookHeader(ask)
+                    Book.main__book(ask, :limit='19')
+          .grid-stack-item(
+            data-gs-x='9',
+            data-gs-y='7',
+            data-gs-width='4',
+            data-gs-height='5',
+            data-gs-min-width='4',
+            data-gs-min-height='2',
+            )
+            .grid-stack-item-content(v-scrollbar="")
+              .main__tile.main__tile--orders
+                TileHeader.main__tileHeader.main__tileHeader--orders(title='Open orders')
+                Orders
+                .main__ordersSep
+                TileHeader.main__tileHeader.main__tileHeader--orders(title='Completed orders')
+                Orders
   //- Modals
   InDemo
   ImportKey
@@ -58,6 +103,15 @@ import ImportKey from './modals/ImportKey';
 import Welcome from './modals/Welcome';
 
 export default {
+  data() {
+    return {
+      layout: [
+        {x: 0, y: 0, w: 2, h: 12, minW: 2, minH: 12, i: '0'},
+        {x: 2, y: 0, w: 5, h: 12, maxH: 12, i: '1'},
+        {x: 4, y: 0, w: 2, h: 11, i: '2'},
+      ],
+    };
+  },
   computed: {
     ...mapState('misc', {
       showSidebar: 'showSidebar',
@@ -133,6 +187,12 @@ export default {
       this.openModal('welcome');
     }
     this.updateOverflow();
+    $('.grid-stack').gridstack({
+      animate: true,
+      resizable: {
+          handles: 'e, se, s, sw, w',
+      },
+    });
   },
   directives: {
     scrollbar,
@@ -206,12 +266,12 @@ export default {
     }
   }
   &__tiles {
-    display: flex;
-    flex-wrap: wrap;
+    // display: flex;
+    // flex-wrap: wrap;
   }
   &__tile {
-    flex-grow: 1;
-    border: 1px solid #182235;
+    width: 100%;
+    height: 100%;
     background-color: $color_blue;
     &--buysell {
       width: 15%;
@@ -224,14 +284,11 @@ export default {
       width: 40%;
     }
     &--history {
-      width: 20%;
       padding: $default_spacing;
     }
     &--books {
-      width: 40%;
     }
     &--orders {
-      width: 40%;
       padding: $default_spacing;
     }
   }
@@ -247,7 +304,7 @@ export default {
     }
   }
   &__book {
-    padding: $default_spacing;
+    padding: 13px;
   }
   &__books {
     width: 100%;

@@ -47,6 +47,7 @@ export default {
   width: 100%;
   &__cell {
     width: 33.333%;
+    text-align: center;
     &--ask {
       color: $color_red;
     }

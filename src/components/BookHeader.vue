@@ -43,7 +43,7 @@ export default {
   background-color: $color_daintree;
   &__title {
     color: #fff;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     text-transform: uppercase;
   }
