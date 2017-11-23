@@ -23,7 +23,6 @@ const DIR_PUBLIC = '/';
 module.exports = {
   context: DIR_SRC,
   entry: [
-    'babel-polyfill',
     './index.js',
   ],
   output: {
@@ -75,7 +74,6 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         use: [
-          'babel-loader',
           {
             loader: 'eslint-loader',
             options: {

@@ -20,7 +20,7 @@ Vue.mixin({
   },
 });
 
-window.app = new Vue({
+new Vue({
   el: '#app',
   store,
   i18n,

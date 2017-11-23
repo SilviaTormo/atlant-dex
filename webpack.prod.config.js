@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const baseConfig = require('./webpack.base.config.js');
 
 module.exports = merge(baseConfig, {
@@ -9,6 +10,6 @@ module.exports = merge(baseConfig, {
         NODE_ENV: '"production"',
       },
     }),
-    new webpack.optimize.UglifyJsPlugin(),
+    new UglifyJSPlugin(),
   ],
 });

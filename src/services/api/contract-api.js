@@ -8,7 +8,7 @@ let web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 const contractAddress = '0x2e9033818771f21f13bc17af8bdf4782104e4cbb';
 let exchInstance = new web3.eth.Contract(Exchange.abi, contractAddress);
 let privateKey = new Buffer('010D4423A7A24AE95DBC7F39DF1A2F8B046AAF444DEF560D6020516886D4D337', 'hex');
-let amt = new BigNumber(web3.utils.toWei(69, 'ether'));
+let amt = new BigNumber(web3.utils.toWei('69', 'ether'));
 let gasLim = 250000;
 
 function performTransaction(privateKey, rawTx) {
