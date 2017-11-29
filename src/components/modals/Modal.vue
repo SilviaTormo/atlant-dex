@@ -4,10 +4,9 @@
   .modal__body(:class="[`modal__body--${screenType}`, `modal__body--${name}`]")
     .modal__header
       Icon.modal__logo(id="logo")
-      Icon.modal__cross(id="cross" @click="close()")
     .modal__content
       slot
-    .modal__credits Copyright © Atlant, 2017
+    Icon.modal__cross(id="cross" @click="closeModal()")
 </template>
 
 <script>
@@ -49,7 +48,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "~variables";
 @import '~sass/bootstrap/media';
 $padding: 44px;
@@ -84,17 +83,13 @@ $padding: 44px;
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 9;
+    z-index: 888;
     background-color: rgba(61, 70, 83, 0.75);
   }
   &__header {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  &__credits {
-    font-size: 8px;
-    text-align: center;
   }
   &__logo {
     width: 192px;
@@ -114,13 +109,13 @@ $padding: 44px;
       width: 100%;
       top: 0;
       left: 0;
-      padding: $padding / 2;
+      padding-top: 60px;
+      padding-bottom: 30px;
+      padding-left: $padding / 2;
+      padding-right: $padding / 2;
       box-shadow: 0;
       position: static;
       transform: none;
-    }
-    &__header {
-      justify-content: space-between;
     }
     &__cross {
       $size: 24px;
@@ -129,6 +124,8 @@ $padding: 44px;
       fill: #fff;
       display: block;
       cursor: pointer;
+      margin-left: auto;
+      margin-right: auto;
     }
     &__overlay {
       display: none;
