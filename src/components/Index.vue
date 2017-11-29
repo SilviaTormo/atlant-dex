@@ -1,6 +1,7 @@
 <template lang='pug'>
 .main(:class="{'main--withSidebar': (showSidebar && isMobile)}")
-  .main__body(v-show="(isModalOpened() && !isMobile) || !isModalOpened()")
+  //- .main__body(v-show="(isModalOpened() && !isMobile) || !isModalOpened()")
+  .main__body(v-show="!isModalOpened()")
     .main__leftSide(:class="`main__leftSide--${(showSidebar) ? 'shown' : 'hidden'}`")
       Sidebar.main__sidebar(v-scrollbar="")
       Toolbar.main__toolbar
@@ -80,6 +81,7 @@
   InDemo
   ImportKey
   Welcome
+  Reset
 </template>
 
 <script>
@@ -101,6 +103,7 @@ import PropertyMap from './PropertyMap';
 import InDemo from './modals/InDemo';
 import ImportKey from './modals/ImportKey';
 import Welcome from './modals/Welcome';
+import Reset from './modals/Reset';
 
 export default {
   data() {
@@ -213,6 +216,7 @@ export default {
     InDemo,
     ImportKey,
     Welcome,
+    Reset,
   },
 };
 </script>
@@ -230,6 +234,7 @@ export default {
 @import '~bootstrap/scss/utilities/sizing';
 
 .main {
+  height: 100%;
   &__body {
     display: flex;
     min-width: 1250px;
