@@ -6,9 +6,7 @@ Modal2(name="reset")
       .reset__title Reset password
       .reset__other Sign in
     .reset__inputs
-      input.reset__input
-      input.reset__input
-      input.reset__input
+      IInput.reset__input(label="Email address", textVariable="emailReset")
       Radio(:name="acknowledged", value="acknowledged", label="I acknowledge that my account will be locked for a minimum of 24 hours.", v-model="type")
     BButton.reset__button(color="malachite" rounded) Reset now
 </template>
@@ -19,11 +17,13 @@ import Icon from 'components/Icon';
 import Radio from 'components/Radio';
 import BButton from 'components/BButton';
 import Modal2 from 'components/modals/Modal2';
+import IInput from 'components/IInput';
 
 export default {
   data() {
     return {
       acknowledged: false,
+      type: '',
     };
   },
   methods: {
@@ -39,6 +39,7 @@ export default {
     Radio,
     Modal2,
     BButton,
+    IInput,
   },
 };
 </script>

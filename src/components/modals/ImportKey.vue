@@ -6,7 +6,6 @@ Modal(name="importKey")
     .import__importWrapper
       input.import__input(:value="key" type="password")
     //- .import__orInsert Or #[span.link insert from clipboard]
-  IInput(name="Name", label="Email", error="Name should be longer than 10 symbols")
 </template>
 
 <script>

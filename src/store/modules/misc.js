@@ -4,6 +4,7 @@ export default {
   state: {
     screenType: '',
     showSidebar: true,
+    values: {},
   },
   getters: {
     isMobile(state) {
@@ -16,6 +17,9 @@ export default {
     },
     toggleSidebar(state) {
       state.showSidebar = !state.showSidebar;
+    },
+    setInput(state, data) {
+      state.values[data.name] = data.value;
     },
   },
   namespaced: true,

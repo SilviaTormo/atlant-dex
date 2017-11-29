@@ -4,7 +4,7 @@ Modal(name="welcome")
     Icon.welcome__icon(id="wallet2")
     .welcome__greeting Welcome,#[br] first of all you must create or#[br] import you wallet
     .welcome__buttons
-      BButton.welcome__button(color="malachite" rounded @click="openInDemo") Create new
+      BButton.welcome__button(color="malachite" rounded) Create new
       b.welcome__or or
       BButton.welcome__button(color="yellow" rounded outline @click="openImport()") Import
 </template>

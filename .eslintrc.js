@@ -36,6 +36,7 @@ module.exports = {
         count: 1,
       }
     ],
+    'no-invalid-this': 0,
     'vue/valid-template-root': 0,
     'vue/require-prop-types': 2,
     'vue/no-dupe-keys': 2,

@@ -15,7 +15,7 @@ header.header
     BButton.header__transfer(color="yellow" outline rounded @click="getEthBalance") Transfer to safe balance
   .header__group
     .header__block
-      Icon.header__info(id="info" @click="openInDemo")
+      Icon.header__info(id="info")
 </template>
 
 <script>

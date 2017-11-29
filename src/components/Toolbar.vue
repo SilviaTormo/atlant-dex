@@ -2,14 +2,14 @@
 .toolbar
   .toolbar__group
     Icon.toolbar__icon(:id="(showSidebar) ? 'cross' : 'hamburger'" @click='toggleSidebar')
-    Icon.toolbar__icon(id='wallet' @click="openInDemo")
-    Icon.toolbar__icon(id='alert' @click="openInDemo")
+    Icon.toolbar__icon(id='wallet')
+    Icon.toolbar__icon(id='alert')
   .toolbar__group
-    Icon.toolbar__icon(id='alert' @click="openInDemo")
-    Icon.toolbar__icon(id='alert' @click="openInDemo")
-    Icon.toolbar__icon(id='alert' @click="openInDemo")
-    Icon.toolbar__icon(id='alert' @click="openInDemo")
-  Icon.toolbar__icon(id='settings' @click="openInDemo")
+    Icon.toolbar__icon(id='alert')
+    Icon.toolbar__icon(id='alert')
+    Icon.toolbar__icon(id='alert')
+    Icon.toolbar__icon(id='alert')
+  Icon.toolbar__icon(id='settings')
 </template>
 
 <script>

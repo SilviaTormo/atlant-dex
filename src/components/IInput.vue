@@ -1,44 +1,57 @@
 <template lang='pug'>
 .inputField
   label.inputField__label(v-if="label") {{label}}
-  input.inputField__text(:name="name")
-  .inputField__details Details
+  input.inputField__text(v-model="inputValue")
+  .inputField__details
 </template>
 
 <script>
+import {mapState, mapMutations} from 'vuex';
 import Icon from './Icon';
 
 export default {
-  model: {
-    prop: 'cModel',
-    event: 'change',
+  data() {
+    return {
+      inputValue: '',
+    };
+  },
+  computed: {
+    ...mapState('misc', {
+      textValues: (state) => state.values,
+    }),
   },
   methods: {
+    ...mapMutations('misc', {
+      setInput: 'setInput',
+    }),
+  },
+  watch: {
+    inputValue() {
+      let data = {
+        name: this.textVariable,
+        value: this.inputValue,
+      };
+      this.setInput(data);
+    },
   },
   mounted() {
-
+    this.inputValue = this.textValues[this.textVariable];
   },
   props: {
-    name: {
-      type: [String, Number],
-      default: '',
-      required: true,
-    },
     label: {
       type: [String, Number],
       default: '',
       required: false,
     },
-    validation: {
-      type: Function,
-      required: false,
+    textVariable: {
+      type: [String, Number],
+      required: true,
     },
   },
   components: {
     Icon,
   },
 };
-
 </script>
 
 <style lang='scss' scoped>
