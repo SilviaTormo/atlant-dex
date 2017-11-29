@@ -6,11 +6,13 @@ Modal(name="importKey")
     .import__importWrapper
       input.import__input(:value="key" type="password")
     //- .import__orInsert Or #[span.link insert from clipboard]
+  IInput(name="Name", label="Email", error="Name should be longer than 10 symbols")
 </template>
 
 <script>
 import Icon from 'components/Icon';
 import Modal from 'components/modals/Modal';
+import IInput from 'components/IInput';
 
 export default {
   data() {
@@ -29,6 +31,7 @@ export default {
   components: {
     Icon,
     Modal,
+    IInput,
   },
 };
 </script>
