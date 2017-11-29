@@ -14,8 +14,8 @@ Vue.use(hub, {
 
 Vue.mixin({
   methods: {
-    openInDemo() {
-      store.commit('modal/open', 'inDemo');
+    openReset() {
+      store.commit('modal/open', 'reset');
     },
   },
 });

@@ -84,6 +84,7 @@ $ROOT: "radio";
     border-style: solid;
     border-width: 1px;
     border-color: $color_yellow;
+    flex-shrink: 0;
   }
   &__text {
     font-size: 12px;

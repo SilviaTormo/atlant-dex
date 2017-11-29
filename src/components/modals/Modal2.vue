@@ -1,12 +1,11 @@
 <template lang="pug">
-.modal(v-if="isOpened(name)")
-  .modal__overlay(@click="closeModal()")
-  .modal__body(:class="[`modal__body--${screenType}`, `modal__body--${name}`]")
-    .modal__header
-      Icon.modal__logo(id="logo")
-    .modal__content
-      slot
-    Icon.modal__cross(id="cross" @click="closeModal()")
+.modal2(v-if="isOpened(name)", :class="[`modal2--${screenType}`, `modal2--${name}`]")
+  .modal2__header
+    Icon.modal2__logo(id="logo")
+  .modal2__content
+    slot
+  //- Icon.modal2__cross(id="cross" @click="closeModal()")
+  .modal2__credits Copyright © Atlant, 2017
 </template>
 
 <script>
@@ -48,48 +47,42 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "~variables";
 @import '~sass/bootstrap/media';
 $padding: 44px;
 
-.modal {
-  &__body {
-    position: fixed;
-    margin: 0 auto;
-    padding: $padding;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    top: 50%;
-    left: 50%;
-    height: 600px;
-    width: 600px;
-    z-index: 998;
-    transform: translate(-50%, -50%);
-    border-radius: 12px;
-    background-image: linear-gradient(to top, #313b51 0%, #002338 100%);
-    box-shadow: 0 25px 20px rgba(0, 0, 0, 0.24);
-  }
+.modal2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 100px 0;
+  background-color: #000304;
   &__content {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: space-between;
-  }
-  &__overlay {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 888;
-    background-color: rgba(61, 70, 83, 0.75);
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 64px 52px;
+    background-image: repeating-linear-gradient(
+      135deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.05) 0,
+      rgba(255,255,255,0.05) 80px
+    )
   }
   &__header {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  &__credits {
+    font-size: 8px;
+    text-align: center;
   }
   &__logo {
     width: 192px;
@@ -102,21 +95,8 @@ $padding: 44px;
 }
 
 @include media-breakpoint-down(md) {
-  .modal {
+  .modal2 {
     height: 100%;
-    &__body {
-      height: 100%;
-      width: 100%;
-      top: 0;
-      left: 0;
-      padding-top: 60px;
-      padding-bottom: 30px;
-      padding-left: $padding / 2;
-      padding-right: $padding / 2;
-      box-shadow: 0;
-      position: static;
-      transform: none;
-    }
     &__cross {
       $size: 24px;
       width: $size;
@@ -126,9 +106,6 @@ $padding: 44px;
       cursor: pointer;
       margin-left: auto;
       margin-right: auto;
-    }
-    &__overlay {
-      display: none;
     }
   }
 }
