@@ -17,6 +17,12 @@ Vue.mixin({
     openReset() {
       store.commit('modal/open', 'reset');
     },
+    openSignUp() {
+      store.commit('modal/open', 'signUp');
+    },
+    openSignIn() {
+      store.commit('modal/open', 'signIn');
+    },
   },
 });
 

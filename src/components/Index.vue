@@ -82,6 +82,8 @@
   ImportKey
   Welcome
   Reset
+  SignUp
+  SignIn
 </template>
 
 <script>
@@ -104,6 +106,8 @@ import InDemo from './modals/InDemo';
 import ImportKey from './modals/ImportKey';
 import Welcome from './modals/Welcome';
 import Reset from './modals/Reset';
+import SignUp from './modals/SignUp';
+import SignIn from './modals/SignIn';
 
 export default {
   data() {
@@ -217,6 +221,8 @@ export default {
     ImportKey,
     Welcome,
     Reset,
+    SignUp,
+    SignIn,
   },
 };
 </script>

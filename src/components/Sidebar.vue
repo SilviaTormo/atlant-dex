@@ -13,9 +13,9 @@
     )
   .sidebar__item
     .sidebar__buttons
-      BButton(color="yellow" rounded @click="importAddr") Create new
+      BButton(color="yellow" rounded @click="openSignUp") Create new
       b or
-      BButton(color="malachite" rounded outline @click="openImport()") Import
+      BButton(color="malachite" rounded outline @click="openSignIn") Import
   .sidebar__item.sidebar__item--copyright Copyright &#169; Atlant, 2017
 </template>
 

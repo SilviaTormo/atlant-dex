@@ -57,7 +57,6 @@ export default {
 <style lang='scss' scoped>
 @import "~variables";
 .inputField {
-  width: 100%;
   display: flex;
   flex-direction: column;
   &__label {
