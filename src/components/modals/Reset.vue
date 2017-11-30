@@ -6,8 +6,8 @@ Modal2(name="reset")
       .reset__title Reset password
       .reset__other Sign in
     .reset__inputs
-      IInput.reset__input(label="Email address", textVariable="emailReset")
-      Radio(:name="acknowledged", value="acknowledged", label="I acknowledge that my account will be locked for a minimum of 24 hours.", v-model="type")
+      IInput.reset__input(label="Email address", v-model="email")
+      Radio(name="acknowledged", :value="true", label="I acknowledge that my account will be locked for a minimum of 24 hours.", v-model="acknowledged")
     BButton.reset__button(color="malachite" rounded) Reset now
 </template>
 
@@ -22,8 +22,8 @@ import IInput from 'components/IInput';
 export default {
   data() {
     return {
+      email: '',
       acknowledged: false,
-      type: '',
     };
   },
   methods: {

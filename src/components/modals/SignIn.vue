@@ -6,10 +6,10 @@ Modal2(name="signIn")
       .reset__title Sign in
       .reset__other Sign up
     .reset__inputs
-      IInput.reset__input(label="Email", textVariable="email")
-      IInput.reset__input(label="Password", textVariable="password")
+      IInput.reset__input(label="Email", v-model="email")
+      IInput.reset__input(label="Password", v-model="password")
     .reset__rememberContainer
-      Radio.reset__remember(name="remember", :value="remember", label="Remember me", v-model="type")
+      Radio.reset__remember(name="remember", :value="t", label="Remember me", v-model="remember")
     BButton.reset__button(color="malachite" rounded) Let me in
     a.reset__forgot(href="#") Forgot password?
 </template>
@@ -25,8 +25,9 @@ import IInput from 'components/IInput';
 export default {
   data() {
     return {
+      email: '',
+      password: '',
       remember: false,
-      type: '',
     };
   },
   methods: {
