@@ -1,7 +1,7 @@
 <template lang='pug'>
 .inputField
   label.inputField__label(v-if="label") {{label}}
-  input.inputField__text(v-model="inputValue")
+  input.inputField__text(@change="change")
   .inputField__details
 </template>
 
@@ -10,10 +10,8 @@ import {mapState, mapMutations} from 'vuex';
 import Icon from './Icon';
 
 export default {
-  data() {
-    return {
-      inputValue: '',
-    };
+  model: {
+    event: 'change',
   },
   computed: {
     ...mapState('misc', {
@@ -24,28 +22,15 @@ export default {
     ...mapMutations('misc', {
       setInput: 'setInput',
     }),
-  },
-  watch: {
-    inputValue() {
-      let data = {
-        name: this.textVariable,
-        value: this.inputValue,
-      };
-      this.setInput(data);
+    change(e) {
+      this.$emit('change', e.target.value);
     },
-  },
-  mounted() {
-    this.inputValue = this.textValues[this.textVariable];
   },
   props: {
     label: {
       type: [String, Number],
       default: '',
       required: false,
-    },
-    textVariable: {
-      type: [String, Number],
-      required: true,
     },
   },
   components: {
