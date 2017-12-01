@@ -9,7 +9,7 @@ Modal2(name="signIn")
       IInput.reset__input(label="Email", v-model="email")
       IInput.reset__input(label="Password", v-model="password")
     .reset__rememberContainer
-      Radio.reset__remember(name="remember", :value="t", label="Remember me", v-model="remember")
+      Radio.reset__remember(name="remember", :value="true", label="Remember me", v-model="remember")
     BButton.reset__button(color="malachite" rounded) Let me in
     a.reset__forgot(href="#") Forgot password?
 </template>

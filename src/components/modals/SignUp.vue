@@ -9,7 +9,7 @@ Modal2(name="signUp")
       IInput.reset__input(label="Email address", v-model="email")
       IInput.reset__input(label="Choose a password", v-model="password")
       IInput.reset__input(label="Confirm password", v-model="passwordRepeat")
-      Radio(:name="acknowledged", :value="true", label="I agree to the User Agreement and Privacy Policy.", v-model="iAgree")
+      Radio(name="acknowledged", :value="true", label="I agree to the User Agreement and Privacy Policy.", v-model="iAgree")
     BButton.reset__button(color="malachite" rounded) Create account
 </template>
 
