@@ -4,7 +4,7 @@ Modal2(name="reset")
     Icon.reset__icon(id="pass")
     .reset__header
       .reset__title Reset password
-      .reset__other Sign in
+      .reset__other(href="#" @click="openModal('signIn')") Sign in
     .reset__inputs
       IInput.reset__input(label="Email address", v-model="email")
       Radio(name="acknowledged", :value="true", label="I acknowledge that my account will be locked for a minimum of 24 hours.", v-model="acknowledged")
@@ -30,9 +30,6 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
-    openImport() {
-      this.openModal('importKey');
-    },
   },
   components: {
     Icon,

@@ -4,14 +4,14 @@ Modal2(name="signIn")
     Icon.reset__icon(id="signin")
     .reset__header
       .reset__title Sign in
-      .reset__other Sign up
+      .reset__other(@click="openModal('signUp')") Sign up
     .reset__inputs
       IInput.reset__input(label="Email", v-model="email")
       IInput.reset__input(label="Password", v-model="password")
     .reset__rememberContainer
       Radio.reset__remember(name="remember", :value="true", label="Remember me", v-model="remember")
     BButton.reset__button(color="malachite" rounded) Let me in
-    a.reset__forgot(href="#") Forgot password?
+    a.reset__forgot(href="#" @click="openModal('reset')") Forgot password?
 </template>
 
 <script>
@@ -34,9 +34,6 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
-    openImport() {
-      this.openModal('importKey');
-    },
   },
   components: {
     Icon,

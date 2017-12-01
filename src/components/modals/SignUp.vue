@@ -4,7 +4,7 @@ Modal2(name="signUp")
     Icon.reset__icon(id="signup")
     .reset__header
       .reset__title Sign up
-      .reset__other Sign in
+      .reset__other(@click="openModal('signIn')") Sign in
     .reset__inputs
       IInput.reset__input(label="Email address", v-model="email")
       IInput.reset__input(label="Choose a password", v-model="password")
