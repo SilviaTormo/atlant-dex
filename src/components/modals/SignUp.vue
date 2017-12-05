@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal2(name="signUp")
+Modal(name="signUp")
   .reset
     Icon.reset__icon(id="signup")
     .reset__header
@@ -18,7 +18,7 @@ import {mapMutations} from 'vuex';
 import Icon from 'components/Icon';
 import Radio from 'components/Radio';
 import BButton from 'components/BButton';
-import Modal2 from 'components/modals/Modal2';
+import Modal from 'components/modals/Modal';
 import IInput from 'components/IInput';
 
 export default {
@@ -38,7 +38,7 @@ export default {
   components: {
     Icon,
     Radio,
-    Modal2,
+    Modal,
     BButton,
     IInput,
   },

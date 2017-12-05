@@ -1,7 +1,6 @@
 <template lang='pug'>
 .main(:class="{'main--withSidebar': (showSidebar && isMobile)}")
-  //- .main__body(v-show="(isModalOpened() && !isMobile) || !isModalOpened()")
-  .main__body(v-show="!isModalOpened()")
+  .main__body(v-show="modalOpenedDesktop || !isModalOpened()", :class="{'main__body--modalOpened': modalOpenedDesktop}")
     .main__leftSide(:class="`main__leftSide--${(showSidebar) ? 'shown' : 'hidden'}`")
       Sidebar.main__sidebar(v-scrollbar="")
       Toolbar.main__toolbar
@@ -129,6 +128,9 @@ export default {
     ...mapGetters('modal', {
       isModalOpened: 'isOpened',
     }),
+    modalOpenedDesktop() {
+      return this.isModalOpened() && !this.isMobile;
+    },
   },
   methods: {
     ...mapMutations('misc', {
@@ -246,6 +248,9 @@ export default {
     min-width: 1250px;
     margin-left: auto;
     margin-right: auto;
+    &--modalOpened {
+      filter: blur(10px);
+    }
   }
   &__leftSide {
     display: flex;
