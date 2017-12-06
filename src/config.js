@@ -13,7 +13,7 @@ export const periods = {
   '1mn': '1h',
   '1y': '12h',
 };
-export const defPeriod = Object.keys(periods)[0];
+export const defPeriod = Object.keys(periods)[2];
 export const defCandleSize = periods[defPeriod];
 export const serverCodes = {
   '101': {

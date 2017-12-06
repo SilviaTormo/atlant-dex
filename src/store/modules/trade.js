@@ -124,12 +124,12 @@ export default {
         quote: currency,
       });
       commit('setPair', pair);
-      dispatch('loadChart');
+      // dispatch('loadChart');
       dispatch('loadDesktop');
     },
     changeChartPeriod({commit, dispatch}, period) {
       commit('setPeriod', period);
-      return dispatch('loadChart');
+      // return dispatch('loadChart');
     },
   },
   namespaced: true,

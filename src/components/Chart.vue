@@ -9,7 +9,8 @@
 </template>
 
 <script>
-import Highstock from 'highcharts/highstock';
+import echarts from 'echarts';
+import {DateTime} from 'luxon';
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {ticksToMilliseconds} from 'services/misc';
 import {periods} from 'config';
@@ -33,15 +34,35 @@ export default {
       startTicks: (state) => state.chart.data.startTicks,
       candleTicks: (state) => state.chart.data.candleTicks,
       candleSize: (state) => state.chart.data.candleSize,
-      allCandles: (state) => state.chart.data.candles,
+      rawCandles: (state) => state.chart.data.candles,
     }),
     ...mapGetters('trade', {
       isCurrentPeriod: 'isCurrentPeriod',
     }),
-    candles() {
-      if (this.allCandles) {
-        return this.allCandles.slice(-this.maxRenderedCandles);
+    priceSeries() {
+      if (this.rawCandles) {
+        return this.rawCandles.map((item) => [
+          item[0], // open
+          item[3], // close
+          item[2], // low
+          item[1], // high
+        ]);
       }
+    },
+    timeSeries(index) {
+      return this.rawCandles.map((item, i) => {
+        const msec = ticksToMilliseconds(this.startTicks + (this.candleTicks * i));
+        const date = new Date(msec).toISOString();
+        return DateTime.fromISO(date).toLocaleString({
+          hour: '2-digit',
+          minute: '2-digit',
+        });
+      });
+    },
+    volumeSeries() {
+      return this.rawCandles.map((item) => {
+        return item[4];
+      });
     },
   },
   methods: {
@@ -51,227 +72,183 @@ export default {
     }),
     setChartPeriod(pediod) {
       this.changeChartPeriod(pediod).then(() => {
-        this.limitCandles();
+        // this.limitCandles();
         this.$hub.proxy.invoke('setCandleSize', this.candleSize);
-        this.updateAxisWidth();
       });
     },
     isCurrentChart(chart) {
       return this.currentChart === chart;
     },
-    setChartType(chart) {
-      this.currentChart = chart;
-      if (this.currentChart=='candleChart') {
-        this.chart.update({
-          series: [{
-              type: 'candlestick',
-              data: this.getCandlestickSeries(),
-            },
-            {
-              data: this.getVolumeSeries(),
-            },
-          ],
-        }, true, true);
-      } else {
-        this.chart.update({
-          series: [{
-              type: 'line',
-              data: this.getPriceSeries(),
-            },
-            {
-              data: this.getVolumeSeries(),
-            },
-          ],
-        }, true, true);
-      }
-    },
-
-    getCandleTime(index) {
-      return ticksToMilliseconds(this.startTicks + (this.candleTicks * index));
-    },
-    getSeries(index) {
-      return this.candles.map((item, i) => {
-        return [
-          this.getCandleTime(i),
-          item[index],
-        ];
-      });
-    },
-    getPriceSeries() {
-      return this.getSeries(0);
-    },
-    getVolumeSeries() {
-      return this.getSeries(4);
-    },
-    getCandlestickSeries() {
-      return this.candles.map((item, i) => {
-        return [
-          this.getCandleTime(i),
-          item[0], item[1], item[2], item[3],
-        ];
-      });
-    },
-    updateAxisWidth() {
-      const minX = ticksToMilliseconds(this.startTicks + (this.candleTicks * (this.allCandles.length - 30)));
-      this.chart.xAxis[0].setExtremes(minX);
-    },
+    // setChartType(chart) {
+    //   this.currentChart = chart;
+    //   if (this.currentChart=='candleChart') {
+    //     this.chart.update({
+    //       series: [{
+    //           type: 'candlestick',
+    //           data: this.getCandlestickSeries(),
+    //         },
+    //         {
+    //           data: this.getVolumeSeries(),
+    //         },
+    //       ],
+    //     }, true, true);
+    //   } else {
+    //     this.chart.update({
+    //       series: [{
+    //           type: 'line',
+    //           data: this.getPriceSeries(),
+    //         },
+    //         {
+    //           data: this.getVolumeSeries(),
+    //         },
+    //       ],
+    //     }, true, true);
+    //   }
+    // },
     createChart() {
-      const prices = this.getCandlestickSeries();
-      const volumes = this.getVolumeSeries();
-      const minX = ticksToMilliseconds(this.startTicks + (this.candleTicks * (this.allCandles.length - 30)));
-      this.chart = Highstock.stockChart('chart', {
-        chart: {
-          renderTo: 'chart',
-          spacing: [50, 5, 10, 10],
-          backgroundColor: 'none',
-          reflow: true,
-          style: {
-            fontFamily: 'Roboto',
-            fontSize: '12px',
-          },
-        },
-        credits: {
-          enabled: false,
-        },
-        navigator: {
-          enabled: false,
-        },
-        rangeSelector: {
-          enabled: false,
-        },
-        title: '',
+      // const prices = this.getCandlestickSeries();
+      // const volumes = this.getVolumeSeries();
+      // const minX = ticksToMilliseconds(this.startTicks + (this.candleTicks * (this.rawCandles.length - 30)));
+      this.chart = echarts.init(document.querySelector('#chart'), '', {
+        width: 'auto',
+      });
+      this.chart.setOption({
         tooltip: {
-          crosshairs: {
-            color: 'green',
-            dashStyle: 'solid',
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
           },
-          shared: true,
         },
-        xAxis: {
-          type: 'datetime',
-          dateTimeLabelFormats: {
-            day: '%d %b %Y',
-          },
-          lineColor: '#2b5072',
-          labels: {
-            align: 'center',
-            y: 30,
-            style: {
-              color: '#376691',
-              fontSize: '12px',
-            },
-          },
-          min: minX,
-        },
-        scrollbar: {
-          enabled: true,
-          height: 10,
-          barBackgroundColor: '#aaa',
-          barBorderRadius: 6,
-          barBorderWidth: 0,
-          buttonArrowColor: 'none',
-          buttonBorderColor: 'none',
-          buttonBackgroundColor: 'none',
-          trackBackgroundColor: 'none',
-          trackBorderColor: 'none',
-          rifleColor: 'transparent',
-        },
-        yAxis: [{
-            allowDecimals: true,
-            opposite: true,
-            title: {
-              text: '',
-            },
-            labels: {
-              align: 'left',
-              x: 10,
-              y: 0,
-              style: {
-                color: '#376691',
-                fontSize: '12px',
-              },
-            },
-            lineWidth: 0,
-            gridLineWidth: 0,
-            top: '70%',
-            height: '30%',
+        animation: false,
+        grid: [
+          {
+            show: true,
+            left: '1%',
+            right: '1%',
+            bottom: '1%',
+            top: 64,
+            width: 'auto',
+            height: 'auto',
+            containLabel: true,
           },
           {
-            allowDecimals: true,
-            opposite: true,
-            title: {
-              text: '',
-            },
-            labels: {
-              align: 'left',
-              x: 10,
-              y: 0,
-              style: {
-                color: '#376691',
-                fontSize: '12px',
-              },
-            },
-            offset: 0,
-            gridLineWidth: 1,
-            gridLineColor: '#2b5072',
-            height: '75%',
+            show: true,
+            left: '1%',
+            right: '1%',
+            bottom: '1%',
+            top: 64,
+            width: 'auto',
+            height: 'auto',
+            containLabel: true,
           },
         ],
-        legend: {
-          enabled: false,
-        },
-        series: [{
+        xAxis: [
+          {
+              type: 'category',
+              data: this.timeSeries,
+              scale: true,
+              boundaryGap: false,
+              axisLine: {onZero: false},
+              splitLine: {show: false},
+              splitNumber: 20,
+              min: 'dataMin',
+              max: 'dataMax',
+              axisLine: {
+                lineStyle: {
+                  color: '#376691',
+                },
+              },
+          },
+          {
+            gridIndex: 1,
+            type: 'category',
+            data: this.timeSeries,
+            scale: true,
+          },
+        ],
+        yAxis: [
+          {
+            scale: true,
+            splitArea: {
+              show: false,
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: '#194362',
+                width: 2,
+              },
+            },
+            axisLine: {
+              lineStyle: {
+                color: '#376691',
+              },
+            },
+          },
+          {
+            scale: true,
+            gridIndex: 1,
+          },
+        ],
+        dataZoom: [
+          {
+            type: 'inside',
+            xAxisIndex: [0, 1],
+            start: 85,
+            end: 100,
+          },
+          {
+            type: 'inside',
+            xAxisIndex: [0, 1],
+            start: 85,
+            end: 100,
+          },
+        ],
+        series: [
+          {
             name: 'Price',
-            data: prices,
             type: 'candlestick',
-            upColor: '#00ce7d',
-            upLineColor: '#00ce7d',
-            color: '#e55541',
-            lineColor: '#e55541',
-            lineWidth: 2,
-            yAxis: 1,
-            zIndex: 2,
-            pointPadding: 0.05,
-            dataGrouping: {
-              enabled: false,
+            barMinWidth: 6,
+            data: this.priceSeries,
+            itemStyle: {
+              normal: {
+                color: '#e55541',
+                color0: '#00ce7d',
+                borderColor: '#e55541',
+                borderColor0: '#00ce7d',
+              },
             },
           },
           {
             name: 'Volume',
-            data: volumes,
-            type: 'column',
-            color: '#055580',
-            yAxis: 0,
-            zIndex: 1,
-            pointPadding: 0.05,
-            dataGrouping: {
-              enabled: false,
+            type: 'bar',
+            xAxisIndex: 1,
+            yAxisIndex: 1,
+            barMinWidth: 6,
+            data: this.volumeSeries,
+            itemStyle: {
+              normal: {
+                color: '#376691',
+                opacity: 0.5,
+              },
             },
-          }],
+          },
+        ],
       });
     },
-    limitCandles() {
-      this.maxRenderedCandles = this.allCandles.length;
-    },
+    // limitCandles() {
+    //   this.maxRenderedCandles = this.rawCandles.length;
+    // },
   },
   watch: {
-    candles() {
-      this.$nextTick().then(() => {
-        (this.chart === null) ? this.createChart(): this.chart.update({
-          series: [{
-              data: this.getCandlestickSeries(),
-            },
-            {
-              data: this.getVolumeSeries(),
-            },
-          ],
-        }, true, true);
-      });
+    rawCandles() {
+      this.createChart();
     },
   },
   created() {
     this.loadChart().then(() => {
-      this.limitCandles();
+      this.createChart();
+      // this.limitCandles();
     });
   },
   components: {
@@ -291,6 +268,12 @@ export default {
   &__body {
     width: 100%;
     height: 100%;
+    // & > div {
+    //   width: 100% !important;
+    //   & > canvas {
+    //     width: 100% !important;
+    //   }
+    // }
   }
   &__header {
     $padding: 20px;
