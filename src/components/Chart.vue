@@ -72,15 +72,15 @@ export default {
     }),
     setChartPeriod(pediod) {
       this.changeChartPeriod(pediod).then(() => {
-        // this.limitCandles();
         this.$hub.proxy.invoke('setCandleSize', this.candleSize);
+        this.createChart();
       });
     },
     isCurrentChart(chart) {
       return this.currentChart === chart;
     },
-    // setChartType(chart) {
-    //   this.currentChart = chart;
+    // setChartType(type) {
+    //   this.currentChart = type;
     //   if (this.currentChart=='candleChart') {
     //     this.chart.update({
     //       series: [{
@@ -106,9 +106,6 @@ export default {
     //   }
     // },
     createChart() {
-      // const prices = this.getCandlestickSeries();
-      // const volumes = this.getVolumeSeries();
-      // const minX = ticksToMilliseconds(this.startTicks + (this.candleTicks * (this.rawCandles.length - 30)));
       this.chart = echarts.init(document.querySelector('#chart'), '', {
         width: 'auto',
       });
@@ -122,48 +119,46 @@ export default {
         animation: false,
         grid: [
           {
-            show: true,
-            left: '1%',
-            right: '1%',
-            bottom: '1%',
+            show: false,
+            left: 64,
+            right: 16,
+            bottom: 32,
             top: 64,
             width: 'auto',
             height: 'auto',
-            containLabel: true,
+            containLabel: false,
           },
           {
-            show: true,
-            left: '1%',
-            right: '1%',
-            bottom: '1%',
+            show: false,
+            left: 64,
+            right: 16,
+            bottom: 32,
             top: 64,
             width: 'auto',
             height: 'auto',
-            containLabel: true,
+            containLabel: false,
           },
         ],
         xAxis: [
           {
-              type: 'category',
-              data: this.timeSeries,
-              scale: true,
-              boundaryGap: false,
-              axisLine: {onZero: false},
-              splitLine: {show: false},
-              splitNumber: 20,
-              min: 'dataMin',
-              max: 'dataMax',
-              axisLine: {
-                lineStyle: {
-                  color: '#376691',
-                },
+            type: 'category',
+            data: this.timeSeries,
+            scale: true,
+            axisLine: {
+              lineStyle: {
+                color: '#376691',
               },
+            },
           },
           {
             gridIndex: 1,
             type: 'category',
-            data: this.timeSeries,
+            data: this.volumeSeries,
+            silent: true,
             scale: true,
+            axisLabel: {
+              show: false,
+            },
           },
         ],
         yAxis: [
@@ -186,8 +181,16 @@ export default {
             },
           },
           {
+            max: 5000,
             scale: true,
+            silent: true,
             gridIndex: 1,
+            splitLine: {
+              show: false,
+            },
+            axisLabel: {
+              show: false,
+            },
           },
         ],
         dataZoom: [
@@ -229,16 +232,13 @@ export default {
             itemStyle: {
               normal: {
                 color: '#376691',
-                opacity: 0.5,
+                opacity: 0.3,
               },
             },
           },
         ],
       });
     },
-    // limitCandles() {
-    //   this.maxRenderedCandles = this.rawCandles.length;
-    // },
   },
   watch: {
     rawCandles() {
@@ -248,7 +248,6 @@ export default {
   created() {
     this.loadChart().then(() => {
       this.createChart();
-      // this.limitCandles();
     });
   },
   components: {
