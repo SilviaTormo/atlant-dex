@@ -1,8 +1,9 @@
 <template lang="pug">
 .pair
-  .pair__label Your current pair:
+  Icon.pair__icon(id="deposit")
   .pair__currency ETH
   Icon.pair__exchange(id="exchange")
+  Icon.pair__icon(id="deposit")
   Dropdown.pair__dropdown(:options="currencies" v-model="selected")
 </template>
 
@@ -53,11 +54,12 @@ export default {
 .pair {
   display: flex;
   align-items: center;
-  width: 100%;
-  &__label {
-    font-size: 12px;
-    margin-right: 17px;
-    flex-shrink: 0;
+  &__icon {
+    $size: 25px;
+    fill: #fff;
+    width: $size;
+    height: $size;
+    margin-right: 10px;
   }
   &__dropdown {
     min-width: 64px;

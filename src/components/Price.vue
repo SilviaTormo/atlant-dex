@@ -1,7 +1,7 @@
 <template lang="pug">
 .price
   .price__value {{last}}
-  .price__change (#[Icon.price__icon(id="triangle-red")] #[span {{change.toFixed(2)}}%])
+  .price__change (#[Icon.price__icon(id="triangle")] #[span {{change.toFixed(2)}}%])
 </template>
 
 <script>

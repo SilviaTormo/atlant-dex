@@ -1,28 +1,24 @@
 <template lang="pug">
 header.header
-  .header__group
-    .header__block.header__block--pair
-      Pair
-    .header__block
-      Price
-  .header__group
-    .header__block
-      .header__balance Trade balance:
-      .header__bvalues
-        Balance(currency="ETH")
-        .header__separator |
-        Balance(currency="ATL")
-    BButton.header__transfer(color="yellow" outline rounded @click="getEthBalance") Transfer to safe balance
-  .header__group
-    .header__block
-      Icon.header__info(id="info")
+  Pair
+  .header__stats
+    Stat(label="Last", :value="466.35")
+    Stat(label="High", :value="474.71")
+    Stat(label="Low", :value="461.02")
+    Stat(label="Volume", value="$1247880.00")
+  .header__userbar
+    User
+    Logout
 </template>
 
 <script>
 import {mapActions} from 'vuex';
 import Icon from './Icon';
+import Stat from './Stat';
 import BButton from './BButton';
 import Pair from './Pair';
+import User from './User';
+import Logout from './Logout';
 import Price from './Price';
 import Balance from './Balance';
 
@@ -40,7 +36,10 @@ export default {
     Icon,
     BButton,
     Pair,
+    Stat,
     Price,
+    User,
+    Logout,
     Balance,
   },
 };
@@ -67,6 +66,18 @@ export default {
     align-items: center;
     &--pair {
       margin-right: 18px;
+    }
+  }
+  &__userbar {
+    display: flex;
+    & > *:first-child {
+      margin-right: 32px;
+    }
+  }
+  &__stats {
+    display: flex;
+    & > *:not(last-of-type) {
+      margin-right: 24px;
     }
   }
   &__balance {

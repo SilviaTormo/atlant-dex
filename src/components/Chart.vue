@@ -199,12 +199,14 @@ export default {
             xAxisIndex: [0, 1],
             start: 85,
             end: 100,
+            throttle: 25,
           },
           {
             type: 'inside',
             xAxisIndex: [0, 1],
             start: 85,
             end: 100,
+            throttle: 25,
           },
         ],
         series: [
