@@ -109,23 +109,12 @@ export default {
         commit('setChartData', res.data.result);
       });
     },
-    loadDesktop({commit, state}) {
-      Trade.getDesktop({
-        limit: state.limit,
-        pair: state.pair,
-      }).then((res) => {
-        commit('setTradeHistory', res.data.result.trades);
-        commit('setBook', res.data.result);
-        commit('setOHLC', res.data.result);
-      });
-    },
     changeQuoteCurrency({commit, dispatch, getters}, currency) {
       const pair = getters.getPairName({
         quote: currency,
       });
       commit('setPair', pair);
       // dispatch('loadChart');
-      dispatch('loadDesktop');
     },
     changeChartPeriod({commit, dispatch}, period) {
       commit('setPeriod', period);

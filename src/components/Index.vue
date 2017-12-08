@@ -87,6 +87,7 @@
 
 <script>
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import * as Trade from 'services/api/trade';
 import {defCandleSize, showWelcome} from 'config';
 import {scrollbar} from 'directives';
 import TheHeader from './TheHeader';
@@ -122,6 +123,9 @@ export default {
     ...mapState('misc', {
       showSidebar: 'showSidebar',
     }),
+    ...mapState('trade', {
+      pair: 'pair',
+    }),
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
@@ -139,11 +143,17 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
+    ...mapMutations('stats', {
+      setStats: 'setStats',
+    }),
     ...mapMutations('trade', {
+      setBook: 'setBook',
+      setOHLC: 'setOHLC',
       addNewCandle: 'addNewCandle',
       addLastTrade: 'addLastTrade',
       setOrdersAsks: 'setOrdersAsks',
       setOrdersBids: 'setOrdersBids',
+      setTradeHistory: 'setTradeHistory',
     }),
     ...mapActions('localization', {
       setLang: 'setLang',
@@ -201,6 +211,15 @@ export default {
       resizable: {
           handles: 'e, se, s, sw, w',
       },
+    });
+    Trade.getDesktop({
+      limit: 23,
+      pair: this.pair,
+    }).then((res) => {
+      this.setTradeHistory(res.data.result.trades);
+      this.setBook(res.data.result);
+      this.setOHLC(res.data.result);
+      this.setStats(res.data.result);
     });
   },
   directives: {

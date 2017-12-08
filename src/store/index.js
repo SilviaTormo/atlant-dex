@@ -7,6 +7,7 @@ import trade from './modules/trade';
 import loader from './modules/loader';
 import modal from './modules/modal';
 import user from './modules/user';
+import stats from './modules/stats';
 
 Vue.use(Vuex);
 
@@ -18,6 +19,7 @@ const store = new Vuex.Store({
     loader,
     modal,
     user,
+    stats,
   },
   plugins: [createPersistedState({
     paths: [

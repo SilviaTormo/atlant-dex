@@ -8,7 +8,7 @@ table.history
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex';
+import {mapState} from 'vuex';
 
 export default {
   data() {
@@ -19,14 +19,6 @@ export default {
     ...mapState('trade', {
       lastTrades: (state) => state.trades,
     }),
-  },
-  methods: {
-    ...mapActions('trade', {
-      loadDesktop: 'loadDesktop',
-    }),
-  },
-  mounted() {
-    this.loadDesktop();
   },
 };
 </script>
