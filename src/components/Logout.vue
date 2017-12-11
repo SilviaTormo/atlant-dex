@@ -1,6 +1,6 @@
 <template lang="pug">
 .logout
-  Icon.logout__icon(id="deposit")
+  Icon.logout__icon(id="logout")
   .logout__label Logout
 </template>
 

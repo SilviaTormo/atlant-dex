@@ -3,13 +3,11 @@
   .toolbar__group
     Icon.toolbar__icon(:id="(showSidebar) ? 'cross' : 'hamburger'" @click='toggleSidebar')
     Icon.toolbar__icon(id='wallet')
+    Icon.toolbar__icon(id='arrows')
     Icon.toolbar__icon(id='alert')
   .toolbar__group
-    Icon.toolbar__icon(id='alert')
-    Icon.toolbar__icon(id='alert')
-    Icon.toolbar__icon(id='alert')
-    Icon.toolbar__icon(id='alert')
-  Icon.toolbar__icon(id='settings')
+    Icon.toolbar__icon(id='info')
+    Icon.toolbar__icon(id='settings')
 </template>
 
 <script>
