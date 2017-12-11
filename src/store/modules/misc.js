@@ -4,7 +4,7 @@ export default {
   state: {
     screenType: '',
     showSidebar: true,
-    values: {},
+    section: 'wallet',
   },
   getters: {
     isMobile(state) {
@@ -18,8 +18,8 @@ export default {
     toggleSidebar(state) {
       state.showSidebar = !state.showSidebar;
     },
-    setInput(state, data) {
-      state.values[data.name] = data.value;
+    setSection(state, section) {
+      state.section = section;
     },
   },
   namespaced: true,

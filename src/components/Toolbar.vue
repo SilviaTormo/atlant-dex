@@ -2,14 +2,10 @@
 .toolbar
   .toolbar__group
     Icon.toolbar__icon(:id="(showSidebar) ? 'cross' : 'hamburger'" @click='toggleSidebar')
-    Icon.toolbar__icon(id='wallet')
-    Icon.toolbar__icon(id='alert')
+    Icon.toolbar__icon(v-for='sec in sections', :id="sec", :class="isActive(sec)", @click="setSection(sec)")
   .toolbar__group
-    Icon.toolbar__icon(id='alert')
-    Icon.toolbar__icon(id='alert')
-    Icon.toolbar__icon(id='alert')
-    Icon.toolbar__icon(id='alert')
-  Icon.toolbar__icon(id='settings')
+    Icon.toolbar__icon(id='settings')
+    Icon.toolbar__icon(id='info')
 </template>
 
 <script>
@@ -19,17 +15,27 @@ import Icon from './Icon';
 export default {
   data() {
     return {
+      sections: [
+        'wallet',
+        'quotes',
+        'alert',
+      ],
     };
   },
   computed: {
     ...mapState('misc', {
       showSidebar: 'showSidebar',
+      section: 'section',
     }),
   },
   methods: {
     ...mapMutations('misc', {
       toggleSidebar: 'toggleSidebar',
+      setSection: 'setSection',
     }),
+    isActive(section) {
+      return (section == this.section) ? 'toolbar__icon--active' : '';
+    },
   },
   components: {
     Icon,
@@ -59,6 +65,9 @@ export default {
     height: $size;
     width: $size;
     fill: #fff;
+    &--active {
+      fill: #e9bd24;
+    }
     &:not(:last-of-type) {
       margin-bottom: 32px;
     }

@@ -52,6 +52,7 @@ export default {
   computed: {
     ...mapGetters('misc', {
       isMobile: 'isMobile',
+      sidebarTitle: 'sidebarTitle',
     }),
   },
   methods: {
