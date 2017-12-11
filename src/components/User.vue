@@ -1,6 +1,6 @@
 <template lang="pug">
 .user
-  Icon.user__icon(id="deposit")
+  Icon.user__icon(id="user")
   .user__label User info
   Icon.user__triangle(id="triangle")
 </template>

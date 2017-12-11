@@ -1,9 +1,9 @@
 <template lang="pug">
 .pair
-  Icon.pair__icon(id="deposit")
+  Icon.pair__icon(id="cur_eth")
   .pair__currency ETH
   Icon.pair__exchange(id="exchange")
-  Icon.pair__icon(id="deposit")
+  Icon.pair__icon(id="cur_zec")
   Dropdown.pair__dropdown(:options="currencies" v-model="selected")
 </template>
 
