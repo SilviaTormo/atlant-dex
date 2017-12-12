@@ -3,6 +3,7 @@ import * as ContractApi from 'services/api/contract-api';
 export default {
   state: {
     balance: 0,
+    userCurrencies: ['USD', 'BTC', 'ETH', 'ATL'],
   },
   getters: {
   },

@@ -42,7 +42,7 @@ export default {
   &__select {
     width: 100%;
     color: #fff;
-    font-size: 16px;
+    // font-size: 16px;
     font-weight: bold;
     appearance: none;
     background-color: transparent;
