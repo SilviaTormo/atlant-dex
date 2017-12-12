@@ -1,14 +1,22 @@
 <template lang='pug'>
-.balance__currencyContainer
-  .balance__main
-    .balance__currency
-      Icon.balance__currencyIcon(:id="'cur_'+ currency")
+.balance
+  Icon.balance__currencyIcon(:id="'cur_'+ currency")
+  .balance__currencyContainer
+    .balance__main
       .balance__currencyName(:class="activeClass") {{currency}}
       Icon.balance__icon.balance__icon--qr(id="qr")
-    .balance__amount
-      .balance__currencyBalance {{balance}}
-      .balance__equivBalance {{balanceEq}}
-    Icon.balance__icon.balance__icon--alert(id="alert-inactive")
+      .balance__amount
+        .balance__currencyBalance {{balance}}
+        .balance__equivBalance {{balanceEq}}
+    .balance__additional(v-if="isActive")
+      div &#8212;
+      .balance__deposit
+        Icon.balance__depositIcon(id="deposit")
+        .balance__actionText Make deposit
+        .balance__actionText Withdraw
+      div &#8212;
+      .balance__withdraw
+  Icon.balance__icon.balance__icon--alert(id="alert-inactive")
 </template>
 
 <script>
@@ -59,29 +67,33 @@ export default {
 @import '~sass/bootstrap/media';
 
 .balance {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 30px;
+  &__currencyContainer {
+    width: 100%;
+  }
   &__main {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 30px;
     &:hover {
       cursor: pointer;
       color: #ffc600;
     }
   }
-  &__currency {
-    display: flex;
-    align-items: center;
-  }
   &__currencyIcon {
     $size: 25px;
     width: $size;
     height: $size;
+    margin-top: 5px;
     margin-right: 13px;
   }
   &__currencyName {
     font-size: 12px;
-    margin-right: 28px;
+    font-weight: bold;
+    margin-top: 9px;
+    margin-right: 5px;
     text-transform: uppercase;
     &--active {
       color: #ffc600;
@@ -91,6 +103,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    margin: 0;
   }
   &__currencyBalance {
     font-size: 18px;
@@ -108,11 +121,29 @@ export default {
     height: $size;
     &--qr {
       fill: #fff;
+      margin-top: 9px;
     }
     &--alert {
       fill: #044669;
       margin-top: 5px;
+      margin-left: 14px;
     }
+  }
+  &__deposit {
+    margin: 18px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__actionText {
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+  &__depositIcon {
+    $size: 14px;
+    width: $size;
+    height: $size;
   }
 }
 </style>
