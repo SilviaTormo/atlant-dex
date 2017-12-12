@@ -4,6 +4,8 @@
     Icon.sidebar__logo(id="logo")
     Icon.sidebar__logo2(id="logo2")
   Portfolio(v-if="section == 'wallet'")
+  Quotes(v-if="section == 'quotes'")
+  Alerts(v-if="section == 'alert'")
   //- .sidebar__item(v-for="(account, index) in accounts")
   //-   CryptoAddress(
   //-     :isActive="account.isActive",
@@ -23,11 +25,9 @@
 import {importAddress} from 'services/api/contract-api';
 import {mapState, mapGetters, mapMutations} from 'vuex';
 import Icon from './Icon';
-import BButton from './BButton';
-import CryptoAddress from './CryptoAddress';
-import Dropdown from './Dropdown';
-import BalanceItem from './BalanceItem';
 import Portfolio from './Portfolio';
+import Alerts from './Alerts';
+import Quotes from './Quotes';
 
 export default {
   data() {
@@ -85,12 +85,10 @@ export default {
     },
   },
   components: {
-    CryptoAddress,
     Icon,
-    BButton,
-    Dropdown,
-    BalanceItem,
     Portfolio,
+    Alerts,
+    Quotes,
   },
 };
 
