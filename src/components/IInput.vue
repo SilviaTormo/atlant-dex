@@ -1,7 +1,7 @@
 <template lang='pug'>
 .inputField
   label.inputField__label(v-if="label") {{label}}
-  input.inputField__text(@change="change")
+  input.inputField__text(:placeholder="placeholder", @change="change")
   .inputField__details
 </template>
 
@@ -32,6 +32,11 @@ export default {
       default: '',
       required: false,
     },
+    placeholder: {
+      type: [String],
+      default: '',
+      required: false,
+    },
   },
   components: {
     Icon,
@@ -52,8 +57,10 @@ export default {
     border: none;
     background-color: transparent;
     padding: 0;
-    line-height: 34px;
-    font-size: 24px;
+    font-size: 14px;
+    &::placeholder {
+      text-align: center;
+    }
   }
   &__details{
     width: 100%;

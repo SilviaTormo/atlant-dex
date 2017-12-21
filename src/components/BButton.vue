@@ -114,6 +114,10 @@ $ROOT: "button";
       }
     }
   }
+  &--green{
+    color: #fff;
+    background-image: linear-gradient(180deg, #10df4d 0%, #02550f 100%);
+  }
   &--full {
     width: 100%;
   }

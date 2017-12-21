@@ -83,6 +83,8 @@
   Reset
   SignUp
   SignIn
+  CryptoDeposit
+  CryptoWithdraw
 </template>
 
 <script>
@@ -108,6 +110,8 @@ import Welcome from './modals/Welcome';
 import Reset from './modals/Reset';
 import SignUp from './modals/SignUp';
 import SignIn from './modals/SignIn';
+import CryptoDeposit from './modals/CryptoDeposit';
+import CryptoWithdraw from './modals/CryptoWithdraw';
 
 export default {
   data() {
@@ -244,6 +248,8 @@ export default {
     Reset,
     SignUp,
     SignIn,
+    CryptoDeposit,
+    CryptoWithdraw,
   },
 };
 </script>

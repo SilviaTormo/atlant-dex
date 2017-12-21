@@ -4,7 +4,7 @@
   .balance__currencyContainer
     .balance__main
       .balance__currencyName(:class="activeClass") {{currency}}
-      Icon.balance__icon.balance__icon--qr(id="qr")
+      //Icon.balance__icon.balance__icon--qr(id="qr")
       .balance__amount
         .balance__currencyBalance {{balance}}
         .balance__equivBalance {{balanceEq}}
@@ -12,14 +12,15 @@
       div &#8212;
       .balance__deposit
         Icon.balance__depositIcon(id="deposit")
-        .balance__actionText Make deposit
-        .balance__actionText Withdraw
+        .balance__actionText(@click="openModal('cryptoDeposit')") Make deposit
+        .balance__actionText(@click="openModal('cryptoWithdraw')") Withdraw
       div &#8212;
       .balance__withdraw
   Icon.balance__icon.balance__icon--alert(id="alert-inactive")
 </template>
 
 <script>
+import {mapMutations} from 'vuex';
 import Icon from './Icon';
 
 export default {
@@ -33,6 +34,9 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('modal', {
+      openModal: 'open',
+    }),
   },
   props: {
     currency: {
