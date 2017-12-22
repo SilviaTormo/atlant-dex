@@ -1,9 +1,10 @@
 export default {
   state: {
     name: '',
+    data: {},
   },
   mutations: {
-    open(state, name, data) {
+    open(state, {name, data}) {
       state.name = name;
       state.data = data;
     },

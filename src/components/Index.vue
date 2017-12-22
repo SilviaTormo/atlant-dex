@@ -85,6 +85,7 @@
   SignIn
   CryptoDeposit
   CryptoWithdraw
+  OrderStatus
 </template>
 
 <script>
@@ -112,6 +113,7 @@ import SignUp from './modals/SignUp';
 import SignIn from './modals/SignIn';
 import CryptoDeposit from './modals/CryptoDeposit';
 import CryptoWithdraw from './modals/CryptoWithdraw';
+import OrderStatus from './modals/OrderStatus';
 
 export default {
   data() {
@@ -250,6 +252,7 @@ export default {
     SignIn,
     CryptoDeposit,
     CryptoWithdraw,
+    OrderStatus,
   },
 };
 </script>
