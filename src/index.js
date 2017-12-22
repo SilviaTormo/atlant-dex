@@ -23,6 +23,16 @@ Vue.mixin({
     openSignIn() {
       store.commit('modal/open', 'signIn');
     },
+    openOrderStatus() {
+      store.commit('modal/open', {
+        name: 'orderStatus',
+        data: {
+          currency: 'USD',
+          isSuccess: false,
+          type: 'deposit',
+        },
+      });
+    },
   },
 });
 
