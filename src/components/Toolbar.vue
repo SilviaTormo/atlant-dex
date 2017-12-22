@@ -4,7 +4,7 @@
     Icon.toolbar__icon(:id="(showSidebar) ? 'cross' : 'hamburger'" @click='toggleSidebar')
     Icon.toolbar__icon(v-for='sec in sections', :id="sec", :class="isActive(sec)", @click="setSection(sec)")
   .toolbar__group
-    Icon.toolbar__icon(id='settings')
+    Icon.toolbar__icon(id='settings' @click="openTransactionHistory()")
     Icon.toolbar__icon(id='info')
 </template>
 
@@ -33,8 +33,16 @@ export default {
       toggleSidebar: 'toggleSidebar',
       setSection: 'setSection',
     }),
+    ...mapMutations('page', {
+      openPage: 'open',
+    }),
     isActive(section) {
       return (section == this.section) ? 'toolbar__icon--active' : '';
+    },
+    openTransactionHistory() {
+      this.openPage({
+        name: 'transactionHistory',
+      });
     },
   },
   components: {
@@ -75,9 +83,6 @@ export default {
       cursor: pointer;
       fill: #e9bd24;
     }
-  }
-  &--fixed {
-
   }
 }
 </style>

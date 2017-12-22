@@ -6,6 +6,7 @@ import localization from './modules/localization';
 import trade from './modules/trade';
 import loader from './modules/loader';
 import modal from './modules/modal';
+import page from './modules/page';
 import user from './modules/user';
 import stats from './modules/stats';
 
@@ -18,6 +19,7 @@ const store = new Vuex.Store({
     trade,
     loader,
     modal,
+    page,
     user,
     stats,
   },

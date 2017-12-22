@@ -6,7 +6,7 @@
       Toolbar.main__toolbar
     .main__content(:class="{'main__content--withSidebar': (showSidebar && !isMobile)}")
       TheHeader(v-if="!isMobile")
-      .main__tiles
+      .main__tiles(v-show="!isPageOpened()")
         .grid-stack
           .grid-stack-item(
             data-gs-x='0',
@@ -76,6 +76,7 @@
                 .main__ordersSep
                 TileHeader.main__tileHeader.main__tileHeader--orders(title='Completed orders')
                 Orders
+      TransactionHistory(v-if="isPageOpened('transactionHistory')")
   //- Modals
   InDemo
   ImportKey
@@ -104,6 +105,7 @@ import Book from './Book';
 import History from './History';
 import BookHeader from './BookHeader';
 import PropertyMap from './PropertyMap';
+import TransactionHistory from './pages/TransactionHistory';
 import InDemo from './modals/InDemo';
 import ImportKey from './modals/ImportKey';
 import Welcome from './modals/Welcome';
@@ -126,6 +128,7 @@ export default {
   computed: {
     ...mapState('misc', {
       showSidebar: 'showSidebar',
+      currentPage: 'currentPage',
     }),
     ...mapState('trade', {
       pair: 'pair',
@@ -135,6 +138,9 @@ export default {
     }),
     ...mapGetters('modal', {
       isModalOpened: 'isOpened',
+    }),
+    ...mapGetters('page', {
+      isPageOpened: 'isOpened',
     }),
     modalOpenedDesktop() {
       return this.isModalOpened() && !this.isMobile;
@@ -250,6 +256,7 @@ export default {
     SignIn,
     CryptoDeposit,
     CryptoWithdraw,
+    TransactionHistory,
   },
 };
 </script>
@@ -306,10 +313,6 @@ export default {
       width: calc(100% - #{$leftSide_width});
     }
   }
-  &__tiles {
-    // display: flex;
-    // flex-wrap: wrap;
-  }
   &__tile {
     width: 100%;
     height: 100%;
@@ -326,8 +329,6 @@ export default {
     }
     &--history {
       padding: $default_spacing;
-    }
-    &--books {
     }
     &--orders {
       padding: $default_spacing;

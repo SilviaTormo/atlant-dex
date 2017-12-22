@@ -23,7 +23,7 @@
 
 <script>
 import {importAddress} from 'services/api/contract-api';
-import {mapState, mapGetters, mapMutations} from 'vuex';
+import {mapState, mapGetters} from 'vuex';
 import Icon from './Icon';
 import Portfolio from './Portfolio';
 import Alerts from './Alerts';
@@ -65,12 +65,6 @@ export default {
     }),
   },
   methods: {
-    ...mapMutations('modal', {
-      openModal: 'open',
-    }),
-    openImport() {
-      this.openModal('importKey');
-    },
     setActive(account) {
       for (let i = 0; i < this.accounts.length; i++) {
         this.accounts[i].isActive = false;
@@ -101,9 +95,6 @@ export default {
 .sidebar {
   height: 100%;
   background-color: $color_blue;
-  &__currencyContainer {
-
-  }
   &__icon {
     $size: 14px;
     height: $size;
