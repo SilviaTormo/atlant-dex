@@ -12,8 +12,10 @@
       div &#8212;
       .balance__deposit
         Icon.balance__depositIcon(id="deposit")
-        .balance__actionText(@click="openModal('cryptoDeposit')") Make deposit
-        .balance__actionText(@click="openModal('cryptoWithdraw')") Withdraw
+        .balance__actionText(v-if="isCrypto" @click="openCrypto('cryptoDeposit')") Make deposit
+        .balance__actionText(v-if="isCrypto" @click="openCrypto('cryptoWithdraw')") Withdraw
+        .balance__actionText(v-if="!isCrypto" @click="openFiat(true)") Make deposit
+        .balance__actionText(v-if="!isCrypto" @click="openFiat(false)") Withdraw
       div &#8212;
       .balance__withdraw
   Icon.balance__icon.balance__icon--alert(id="alert-inactive")
@@ -37,6 +39,19 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
+    openFiat(isDeposit) {
+      this.openModal({
+        name: 'fiat',
+        data: {
+          isDeposit,
+        },
+      });
+    },
+    openCrypto(name) {
+      this.openModal({
+        name,
+      });
+    },
   },
   props: {
     currency: {
@@ -55,6 +70,11 @@ export default {
     },
     isActive: {
       type: Boolean,
+      default: false,
+      required: false,
+    },
+    isCrypto: {
+      type: [Boolean, String],
       default: false,
       required: false,
     },

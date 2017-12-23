@@ -3,6 +3,7 @@ label.radio
   input.radio__input(:id="`radio${_uid}`", type="radio", :name="name", @change="change")
   .radio__icon
   .radio__text(v-if="label") {{label}}
+  slot
 </template>
 
 <script>

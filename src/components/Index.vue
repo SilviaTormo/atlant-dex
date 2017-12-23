@@ -87,6 +87,7 @@
   CryptoDeposit
   CryptoWithdraw
   OrderStatus
+  Fiat
 </template>
 
 <script>
@@ -116,6 +117,7 @@ import SignIn from './modals/SignIn';
 import CryptoDeposit from './modals/CryptoDeposit';
 import CryptoWithdraw from './modals/CryptoWithdraw';
 import OrderStatus from './modals/OrderStatus';
+import Fiat from './modals/Fiat';
 
 export default {
   data() {
@@ -260,6 +262,7 @@ export default {
     CryptoWithdraw,
     TransactionHistory,
     OrderStatus,
+    Fiat,
   },
 };
 </script>

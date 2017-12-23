@@ -14,8 +14,8 @@
     .portfolio__headerLine
       .portfolio__header Coins:
       Icon.portfolio__icon(id="refresh")
-    BalanceItem(currency="btc", balance="0,00714512", balanceEq="$25 695,94", :isActive="'btc' == selectedCur", @click.native="openCur('btc')")
-    BalanceItem(currency="eth", balance="6,02981032", balanceEq="$3 773,11", :isActive="'eth' == selectedCur", @click.native="openCur('eth')")
+    BalanceItem(currency="btc", balance="0,00714512", balanceEq="$25 695,94", :isActive="'btc' == selectedCur", isCrypto, @click.native="openCur('btc')")
+    BalanceItem(currency="eth", balance="6,02981032", balanceEq="$3 773,11", :isActive="'eth' == selectedCur", isCrypto, @click.native="openCur('eth')")
   .portfolio__item
     .portfolio__headerLine
       .portfolio__header Fiat:
@@ -26,7 +26,7 @@
     .portfolio__headerLine
       .portfolio__header Tokens:
       Icon.portfolio__icon(id="refresh")
-    BalanceItem(currency="tether", balance="340,27", balanceEq="$3 156,74", :isActive="'tether' == selectedCur", @click.native="openCur('tether')")
+    BalanceItem(currency="tether", balance="340,27", balanceEq="$3 156,74", :isActive="'tether' == selectedCur", isCrypto, @click.native="openCur('tether')")
 </template>
 
 <script>
