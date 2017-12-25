@@ -1,6 +1,6 @@
 <template lang="pug">
 Modal
-  .fiat
+  .fiat(v-if="step == 0")
     .fiat__header
       .fiat__title {{title}} USD
       .fiat__balance Current balance: #[span.fiat__balanceAmt $317.240]
@@ -29,7 +29,9 @@ Modal
           span.fiat__receiveAmt $370.00
         IInput.fiat__input(placeholder="Contact information")
         IInput.fiat__input(placeholder="Comment")
-        BButton.fiat__button(rounded) Topup balance
+        BButton.fiat__button(rounded @click.native="finishTransaction") Topup balance
+  OrderStatus2(v-if="step == 1" isSuccess)
+    .fiat__successText {{title}} is successful. #[.fiat__link This is a link :)]
 </template>
 
 <script>
@@ -39,8 +41,14 @@ import IInput from 'components/IInput';
 import Icon from 'components/Icon';
 import Radio from 'components/Radio';
 import Modal from 'components/modals/Modal';
+import OrderStatus2 from 'components/modals/OrderStatus2';
 
 export default {
+  data() {
+    return {
+      step: 0,
+    };
+  },
   computed: {
     ...mapState('modal', {
       isDeposit: (state) => state.data.isDeposit,
@@ -53,6 +61,9 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
+    finishTransaction() {
+      this.step = 1;
+    },
   },
   components: {
     Modal,
@@ -60,6 +71,7 @@ export default {
     Icon,
     IInput,
     Radio,
+    OrderStatus2,
   },
 };
 </script>
