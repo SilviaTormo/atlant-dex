@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal(name="cryptoDeposit")
+Modal
   .cryptoDeposit
     .cryptoDeposit__title Deposit BTC
     QR.cryptoDeposit__qr(text="1Em13kZhv8VZcqDFhTE7TSAuTaxzRrykmG" size="148")

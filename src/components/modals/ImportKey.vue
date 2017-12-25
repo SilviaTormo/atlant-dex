@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal(name="importKey")
+Modal
   form.import(@submit.prevent="submit()")
     Icon.import__icon(id="pass")
     .import__typekey Type your private key below

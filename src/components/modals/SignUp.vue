@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal(name="signUp")
+Modal
   .reset
     Icon.reset__icon(id="signup")
     .reset__header

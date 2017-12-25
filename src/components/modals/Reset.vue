@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal(name="reset")
+Modal
   .reset
     Icon.reset__icon(id="pass")
     .reset__header

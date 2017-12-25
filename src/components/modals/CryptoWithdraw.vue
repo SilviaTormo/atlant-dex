@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal(name="cryptoWithdraw")
+Modal
   .cryptoDeposit
     .cryptoDeposit__title Withdraw BTC
     IInput.cryptoDeposit__input(placeholder="BTC wallet address", v-model="address")

@@ -1,10 +1,10 @@
 <template lang="pug">
-.modal(v-if="isOpened(name)")
+.modal
   .modal__overlay(@click="closeModal()")
   .modal__main
     .modal__header
       Icon.modal__logo(id="logo")
-    .modal__body(:class="[`modal__body--${screenType}`, `modal__body--${name}`]")
+    .modal__body(:class="[`modal__body--${screenType}`]")
       .modal__content
         slot
       Icon.modal__cross(id="cross" @click="closeModal()")
@@ -13,13 +13,10 @@
 
 <script>
 import Icon from 'components/Icon';
-import {mapState, mapGetters, mapMutations} from 'vuex';
+import {mapState, mapMutations} from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters('modal', {
-      isOpened: 'isOpened',
-    }),
     ...mapState('misc', {
       screenType: 'screenType',
     }),
@@ -34,10 +31,6 @@ export default {
     },
   },
   props: {
-    name: {
-      type: String,
-      required: true,
-    },
     onClose: {
       type: Function,
       required: false,

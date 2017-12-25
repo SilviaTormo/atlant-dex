@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal(name="welcome")
+Modal
   .welcome
     Icon.welcome__icon(id="wallet2")
     .welcome__greeting Welcome,#[br] first of all you must create or#[br] import you wallet

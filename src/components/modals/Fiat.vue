@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal(name="fiat")
+Modal
   .fiat
     .fiat__header
       .fiat__title {{title}} USD
@@ -41,10 +41,6 @@ import Radio from 'components/Radio';
 import Modal from 'components/modals/Modal';
 
 export default {
-  data() {
-    return {
-    };
-  },
   computed: {
     ...mapState('modal', {
       isDeposit: (state) => state.data.isDeposit,

@@ -78,16 +78,16 @@
                 Orders
       TransactionHistory(v-if="isPageOpened('transactionHistory')")
   //- Modals
-  InDemo
-  ImportKey
-  Welcome
-  Reset
-  SignUp
-  SignIn
-  CryptoDeposit
-  CryptoWithdraw
-  OrderStatus
-  Fiat
+  InDemo(v-if="isModalOpened('inDemo')")
+  ImportKey(v-else-if="isModalOpened('importKey')")
+  Welcome(v-else-if="isModalOpened('welcome')")
+  Reset(v-else-if="isModalOpened('reset')")
+  SignUp(v-else-if="isModalOpened('signUp')")
+  SignIn(v-else-if="isModalOpened('signIn')")
+  CryptoDeposit(v-else-if="isModalOpened('cryptoDeposit')")
+  CryptoWithdraw(v-else-if="isModalOpened('cryptoWithdraw')")
+  OrderStatus(v-else-if="isModalOpened('orderStatus')")
+  Fiat(v-else-if="isModalOpened('fiat')")
 </template>
 
 <script>
