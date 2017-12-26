@@ -9,6 +9,7 @@ import modal from './modules/modal';
 import page from './modules/page';
 import user from './modules/user';
 import stats from './modules/stats';
+import membership from './modules/membership';
 
 Vue.use(Vuex);
 
@@ -22,6 +23,7 @@ const store = new Vuex.Store({
     page,
     user,
     stats,
+    membership,
   },
   plugins: [createPersistedState({
     paths: [

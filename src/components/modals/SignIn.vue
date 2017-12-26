@@ -4,18 +4,18 @@ Modal
     Icon.reset__icon(id="signin")
     .reset__header
       .reset__title Sign in
-      .reset__other(@click="openModal('signUp')") Sign up
+      .reset__other(@click="openSignUp") Sign up
     .reset__inputs
       IInput.reset__input(label="Email", v-model="email")
       IInput.reset__input(label="Password", v-model="password")
     .reset__rememberContainer
       Radio.reset__remember(name="remember", :value="true", label="Remember me", v-model="remember")
-    BButton.reset__button(color="malachite" rounded) Let me in
+    BButton.reset__button(color="malachite" rounded @click.native="signIn") Let me in
     a.reset__forgot(href="#" @click="openModal('reset')") Forgot password?
 </template>
 
 <script>
-import {mapMutations} from 'vuex';
+import {mapMutations, mapActions} from 'vuex';
 import Icon from 'components/Icon';
 import Radio from 'components/Radio';
 import BButton from 'components/BButton';
@@ -32,8 +32,22 @@ export default {
   },
   methods: {
     ...mapMutations('modal', {
-      openModal: 'open',
+      open: 'open',
     }),
+    ...mapActions('membership', {
+      login: 'login',
+    }),
+    openSignUp() {
+      this.open({
+        name: 'signUp',
+      });
+    },
+    signIn() {
+      this.login({
+        email: this.email,
+        password: this.password,
+      });
+    },
   },
   components: {
     Icon,

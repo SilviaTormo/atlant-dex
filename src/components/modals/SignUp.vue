@@ -4,17 +4,17 @@ Modal
     Icon.reset__icon(id="signup")
     .reset__header
       .reset__title Sign up
-      .reset__other(@click="openModal('signIn')") Sign in
+      .reset__other(@click="openSignIn") Sign in
     .reset__inputs
       IInput.reset__input(label="Email address", v-model="email")
       IInput.reset__input(label="Choose a password", v-model="password")
       IInput.reset__input(label="Confirm password", v-model="passwordRepeat")
       Radio(name="acknowledged", :value="true", label="I agree to the User Agreement and Privacy Policy.", v-model="iAgree")
-    BButton.reset__button(color="malachite" rounded) Create account
+    BButton.reset__button(color="malachite" rounded @click.native="signUpUser") Create account
 </template>
 
 <script>
-import {mapMutations} from 'vuex';
+import {mapMutations, mapActions} from 'vuex';
 import Icon from 'components/Icon';
 import Radio from 'components/Radio';
 import BButton from 'components/BButton';
@@ -32,8 +32,22 @@ export default {
   },
   methods: {
     ...mapMutations('modal', {
-      openModal: 'open',
+      open: 'open',
     }),
+    ...mapActions('membership', [
+      'signup',
+    ]),
+    openSignIn() {
+      this.open({
+        name: 'signIn',
+      });
+    },
+    signUpUser() {
+      this.signup({
+        email: this.email,
+        login: 'abcdef',
+      });
+    },
   },
   components: {
     Icon,
