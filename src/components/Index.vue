@@ -191,6 +191,9 @@ export default {
         this.addLastTrade(data);
       });
     },
+    modalChangeStyleforBody() {
+      document.querySelector('body').style.overflow = (this.isModalOpened()) ? 'hidden' : 'auto';
+    },
   },
   watch: {
     showSidebar() {
@@ -198,6 +201,9 @@ export default {
     },
     isMobile() {
       this.updateOverflow();
+    },
+    modalOpenedDesktop() {
+      this.modalChangeStyleforBody();
     },
   },
   created() {

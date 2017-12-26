@@ -2,13 +2,11 @@
 .modal
   .modal__overlay(@click="closeModal()")
   .modal__main
-    .modal__header
-      Icon.modal__logo(id="logo")
     .modal__body(:class="[`modal__body--${screenType}`]")
+      Icon.modal__closeIcon(id="close"  @click="closeModal()")
       .modal__content
         slot
       Icon.modal__cross(id="cross" @click="closeModal()")
-    .modal__footer Copyright © Atlant, 2018
 </template>
 
 <script>
@@ -50,16 +48,17 @@ $padding: 44px;
 
 .modal {
   position: fixed;
-  width: 100%;
-  height: 100%;
+  overflow: auto;
   top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
   z-index: 888;
   &__main {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
+    justify-content: center;
+    min-height: 100%;
     width: 100%;
     padding: 64px 0;
   }
@@ -72,18 +71,13 @@ $padding: 44px;
     z-index: 800;
     background-color: rgba(0,0,0,0.40);
   }
-  &__header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 801;
-  }
   &__body {
+    position: relative;
     margin: 0 auto;
     padding: $padding;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     height: 600px;
     width: 600px;
     border-radius: 12px;
@@ -97,21 +91,19 @@ $padding: 44px;
       #0d2e41 80px
     )
   }
+  &__closeIcon {
+    z-index: 801;
+    top: -30px;
+    right: -30px;
+    width: 32px;
+    height: 32px;
+    position: absolute;
+  }
   &__content {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-  }
-  &__footer {
-    font-size: 10px;
-    text-align: center;
-    z-index: 801;
-  }
-  &__logo {
-    width: 192px;
-    height: 28px;
-    fill: #fff;
   }
   &__cross {
     display: none;
