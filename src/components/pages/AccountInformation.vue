@@ -1,6 +1,6 @@
 <template lang="pug">
-Page(title="Transaction history")
-  .tHistory TABLE
+Page(title="Account information", :sidebar="true")
+  .accountInfo account information content
 </template>
 
 <script>
@@ -15,5 +15,4 @@ export default {
 
 
 <style lang="scss">
-
 </style>

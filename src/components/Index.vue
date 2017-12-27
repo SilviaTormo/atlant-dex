@@ -76,7 +76,10 @@
                 .main__ordersSep
                 TileHeader.main__tileHeader.main__tileHeader--orders(title='Completed orders')
                 Orders
+      //- Pages
       TransactionHistory(v-if="isPageOpened('transactionHistory')")
+      GeneralSettings(v-if="isPageOpened('generalsettings')")
+      AccountInformation(v-if="isPageOpened('accountinformation')")
   //- Modals
   InDemo(v-if="isModalOpened('inDemo')")
   ImportKey(v-else-if="isModalOpened('importKey')")
@@ -108,6 +111,8 @@ import History from './History';
 import BookHeader from './BookHeader';
 import PropertyMap from './PropertyMap';
 import TransactionHistory from './pages/TransactionHistory';
+import GeneralSettings from './pages/GeneralSettings';
+import AccountInformation from './pages/AccountInformation';
 import InDemo from './modals/InDemo';
 import ImportKey from './modals/ImportKey';
 import Welcome from './modals/Welcome';
@@ -267,6 +272,8 @@ export default {
     CryptoDeposit,
     CryptoWithdraw,
     TransactionHistory,
+    GeneralSettings,
+    AccountInformation,
     OrderStatus,
     Fiat,
   },
