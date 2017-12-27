@@ -5,7 +5,7 @@
     Icon.toolbar__icon(v-for='sec in sections', :id="sec", :class="isActive(sec)", @click="setSection(sec)")
   .toolbar__group
     Icon.toolbar__icon(id='settings' @click="openTransactionHistory()")
-    Icon.toolbar__icon(id='info')
+    Icon.toolbar__icon(id='info' @click="openGeneralSettings()")
 </template>
 
 <script>
@@ -42,6 +42,11 @@ export default {
     openTransactionHistory() {
       this.openPage({
         name: 'transactionHistory',
+      });
+    },
+    openGeneralSettings() {
+      this.openPage({
+        name: 'generalsettings',
       });
     },
   },

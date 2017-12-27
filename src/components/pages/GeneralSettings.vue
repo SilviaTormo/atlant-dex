@@ -1,6 +1,6 @@
 <template lang="pug">
-Page(title="Transaction history")
-  .tHistory TABLE
+Page(title="General settings", :sidebar="true")
+  .generalSettings general settings content
 </template>
 
 <script>
@@ -15,5 +15,4 @@ export default {
 
 
 <style lang="scss">
-
 </style>

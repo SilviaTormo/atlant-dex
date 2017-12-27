@@ -2,7 +2,7 @@
 .dropdown
   select.dropdown__select(@change="select($event.target.value)")
     option.dropdown__option(v-for="option in options", :value="option") {{option}}
-  Icon.dropdown__triangle(id="triangle-down")
+  Icon.dropdown__triangle(id="triangle2")
 </template>
 
 <script>
