@@ -76,18 +76,15 @@ export default {
       state.ohlc.change = data.change;
     },
     addNewCandle(state, data) {
-      console.log(data);
       const open = data[0];
       const high = data[1];
       const low = data[2];
       const close = data[3];
       const volume = data[4];
-      console.log(state.chart.lastFlag);
       if (state.chart.lastFlag == true) {
         state.chart.data.candles.push([open, high, low, close, volume]);
       } else {
         if (!data[5]) {
-          console.log('this flag is false, previous is false');
           let oldArray = state.chart.data.candles;
           oldArray.splice(oldArray.length-1, 1);
           state.chart.data.candles = [
@@ -118,7 +115,7 @@ export default {
     },
     changeChartPeriod({commit, dispatch}, period) {
       commit('setPeriod', period);
-      // return dispatch('loadChart');
+      return dispatch('loadChart');
     },
   },
   namespaced: true,

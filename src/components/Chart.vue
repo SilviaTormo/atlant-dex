@@ -4,12 +4,13 @@
     .chart__buttons
       .chart__buttonTxt(v-for="period in periods", :class="{'chart__buttonTxt--active' : isCurrentPeriod(period)}", @click="setChartPeriod(period)") {{period}}
     .chart__buttons
-      Icon.chart__buttonIcon(:id="type" v-for="type in types", :class="{'chart__buttonIcon--active' : isCurrentChart(type)}", @click="setChartType(type)")
+      Icon.chart__buttonIcon(:id="type + 'Chart'" v-for="type in types", :class="{'chart__buttonIcon--active' : isCurrentChart(type)}", @click="setChartType(type)")
   .chart__body#chart
 </template>
 
 <script>
 import echarts from 'echarts';
+// import technical from 'binary-indicators';
 import {DateTime} from 'luxon';
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {ticksToMilliseconds} from 'services/misc';
@@ -23,10 +24,10 @@ export default {
       maxRenderedCandles: 0,
       periods: Object.keys(periods),
       types: [
-        'lineChart',
-        'candleChart',
+        'line',
+        'candlestick',
       ],
-      currentChart: 'candleChart',
+      currentChart: 'candlestick',
     };
   },
   computed: {
@@ -41,12 +42,16 @@ export default {
     }),
     priceSeries() {
       if (this.rawCandles) {
-        return this.rawCandles.map((item) => [
-          item[0], // open
-          item[3], // close
-          item[2], // low
-          item[1], // high
-        ]);
+        if (this.currentChart == 'candlestick') {
+          return this.rawCandles.map((item) => [
+            item[0], // open
+            item[3], // close
+            item[2], // low
+            item[1], // high
+          ]);
+        } else {
+          return this.rawCandles.map((item) => item[3]);
+        }
       }
     },
     timeSeries(index) {
@@ -70,8 +75,9 @@ export default {
       loadChart: 'loadChart',
       changeChartPeriod: 'changeChartPeriod',
     }),
-    setChartPeriod(pediod) {
-      this.changeChartPeriod(pediod).then(() => {
+    setChartPeriod(period) {
+      this.changeChartPeriod(period).then(() => {
+        console.log('changed chart period');
         this.$hub.proxy.invoke('setCandleSize', this.candleSize);
         this.createChart();
       });
@@ -79,32 +85,26 @@ export default {
     isCurrentChart(chart) {
       return this.currentChart === chart;
     },
-    // setChartType(type) {
-    //   this.currentChart = type;
-    //   if (this.currentChart=='candleChart') {
-    //     this.chart.update({
-    //       series: [{
-    //           type: 'candlestick',
-    //           data: this.getCandlestickSeries(),
-    //         },
-    //         {
-    //           data: this.getVolumeSeries(),
-    //         },
-    //       ],
-    //     }, true, true);
-    //   } else {
-    //     this.chart.update({
-    //       series: [{
-    //           type: 'line',
-    //           data: this.getPriceSeries(),
-    //         },
-    //         {
-    //           data: this.getVolumeSeries(),
-    //         },
-    //       ],
-    //     }, true, true);
-    //   }
-    // },
+    setChartType(type) {
+      this.currentChart = type;
+      this.chart.setOption({
+        series: [
+          {
+            type: this.currentChart,
+            data: this.priceSeries,
+            barMinWidth: 6,
+            itemStyle: {
+              normal: {
+                color: '#e55541',
+                color0: '#00ce7d',
+                borderColor: '#e55541',
+                borderColor0: '#00ce7d',
+              },
+            },
+          },
+        ],
+      });
+    },
     createChart() {
       this.chart = echarts.init(document.querySelector('#chart'), '', {
         width: 'auto',
@@ -212,7 +212,7 @@ export default {
         series: [
           {
             name: 'Price',
-            type: 'candlestick',
+            type: this.currentChart,
             barMinWidth: 6,
             data: this.priceSeries,
             itemStyle: {
@@ -251,6 +251,7 @@ export default {
     this.loadChart().then(() => {
       this.createChart();
     });
+    // console.log(technical);
   },
   components: {
     Icon,
