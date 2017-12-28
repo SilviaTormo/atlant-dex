@@ -3,6 +3,9 @@
   .chart__header
     .chart__buttons
       .chart__buttonTxt(v-for="period in periods", :class="{'chart__buttonTxt--active' : isCurrentPeriod(period)}", @click="setChartPeriod(period)") {{period}}
+    .chart__technical
+      input.chart__checkbox(type="checkbox" id="showMA" v-model="showTech")
+      label.chart__buttonTxt(for="showMA") MA
     .chart__buttons
       Icon.chart__buttonIcon(:id="type + 'Chart'" v-for="type in types", :class="{'chart__buttonIcon--active' : isCurrentChart(type)}", @click="setChartType(type)")
   .chart__body#chart
@@ -10,7 +13,7 @@
 
 <script>
 import echarts from 'echarts';
-// import technical from 'binary-indicators';
+import {simpleMovingAverageArray} from 'binary-indicators/lib/simpleMovingAverage';
 import {DateTime} from 'luxon';
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {ticksToMilliseconds} from 'services/misc';
@@ -27,6 +30,7 @@ export default {
         'line',
         'candlestick',
       ],
+      showTech: false,
       currentChart: 'candlestick',
     };
   },
@@ -54,6 +58,10 @@ export default {
         }
       }
     },
+    technical() {
+      const data = this.rawCandles.map((item) => item[3]);
+      return Array(9).fill(0).concat(simpleMovingAverageArray(data, {periods: 10, pipSize: 6}));
+    },
     timeSeries(index) {
       return this.rawCandles.map((item, i) => {
         const msec = ticksToMilliseconds(this.startTicks + (this.candleTicks * i));
@@ -77,7 +85,6 @@ export default {
     }),
     setChartPeriod(period) {
       this.changeChartPeriod(period).then(() => {
-        console.log('changed chart period');
         this.$hub.proxy.invoke('setCandleSize', this.candleSize);
         this.createChart();
       });
@@ -225,6 +232,24 @@ export default {
             },
           },
           {
+            name: 'MA',
+            type: 'line',
+            data: this.technical,
+            itemStyle: {
+              normal: {
+                color: 'orange',
+                opacity: this.showTech,
+              },
+            },
+            lineStyle: {
+              normal: {
+                color: 'orange',
+                opacity: this.showTech,
+              },
+            },
+            zlevel: 1,
+          },
+          {
             name: 'Volume',
             type: 'bar',
             xAxisIndex: 1,
@@ -246,12 +271,14 @@ export default {
     rawCandles() {
       this.createChart();
     },
+    showTech() {
+      this.createChart();
+    },
   },
   created() {
     this.loadChart().then(() => {
       this.createChart();
     });
-    // console.log(technical);
   },
   components: {
     Icon,
@@ -319,6 +346,13 @@ export default {
     &--active {
       fill: $color_summersky;
     }
+  }
+  &__technical{
+    display: flex;
+    align-items: center;
+  }
+  &__checkbox{
+    margin-right: 5px;
   }
 }
 </style>
