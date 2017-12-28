@@ -15,23 +15,20 @@ Vue.use(hub, {
 Vue.mixin({
   methods: {
     openReset() {
-      store.commit('modal/open', 'reset');
+      store.commit('modal/open', {
+        name: 'reset',
+      });
+    },
+    openInDemo() {
+      store.commit('modal/open', {
+        name: 'inDemo',
+      });
     },
     openSignUp() {
       store.commit('modal/open', 'signUp');
     },
     openSignIn() {
       store.commit('modal/open', 'signIn');
-    },
-    openOrderStatus() {
-      store.commit('modal/open', {
-        name: 'orderStatus',
-        data: {
-          currency: 'USD',
-          isSuccess: false,
-          type: 'deposit',
-        },
-      });
     },
   },
 });

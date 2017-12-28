@@ -3,9 +3,9 @@ Modal
   .fiat
     .fiat__header
       .fiat__title {{title}} USD
-      .fiat__balance Current balance: #[span.fiat__balanceAmt $317.240]
+      .fiat__balance(v-if="step == 0") Current balance: #[span.fiat__balanceAmt $317.240]
       .fiat__right
-    .fiat__main
+    .fiat__content(v-if="step == 0")
       .fiat__block.fiat__block--left
         span.fiat__step
           span.fiat__stepNumber STEP 1
@@ -29,7 +29,9 @@ Modal
           span.fiat__receiveAmt $370.00
         IInput.fiat__input(placeholder="Contact information")
         IInput.fiat__input(placeholder="Comment")
-        BButton.fiat__button(rounded) Topup balance
+        BButton.fiat__button(rounded @click="step++") Topup balance
+    Status.fiat__status(v-if="step == 1" isSuccess)
+      .fiat__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
 
 <script>
@@ -39,8 +41,15 @@ import IInput from 'components/IInput';
 import Icon from 'components/Icon';
 import Radio from 'components/Radio';
 import Modal from 'components/modals/Modal';
+import Status from 'components/modals/Status.vue';
 
 export default {
+  data() {
+    return {
+      step: 0,
+      isSuccess: false,
+    };
+  },
   computed: {
     ...mapState('modal', {
       isDeposit: (state) => state.data.isDeposit,
@@ -60,6 +69,7 @@ export default {
     Icon,
     IInput,
     Radio,
+    Status,
   },
 };
 </script>
@@ -95,7 +105,7 @@ export default {
     font-size: 22px;
     margin-left: 5px;
   }
-  &__main{
+  &__content{
     display: flex;
   }
   &__block{
@@ -167,6 +177,12 @@ export default {
   &__button{
     text-transform: uppercase;
     width: 176px;
+  }
+  &__statusMsg {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 900;
   }
 }
 

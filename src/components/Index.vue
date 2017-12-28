@@ -89,7 +89,7 @@
   SignIn(v-else-if="isModalOpened('signIn')")
   CryptoDeposit(v-else-if="isModalOpened('cryptoDeposit')")
   CryptoWithdraw(v-else-if="isModalOpened('cryptoWithdraw')")
-  OrderStatus(v-else-if="isModalOpened('orderStatus')")
+  Status(v-else-if="isModalOpened('status')")
   Fiat(v-else-if="isModalOpened('fiat')")
 </template>
 
@@ -121,7 +121,7 @@ import SignUp from './modals/SignUp';
 import SignIn from './modals/SignIn';
 import CryptoDeposit from './modals/CryptoDeposit';
 import CryptoWithdraw from './modals/CryptoWithdraw';
-import OrderStatus from './modals/OrderStatus';
+import Status from './modals/Status';
 import Fiat from './modals/Fiat';
 
 export default {
@@ -274,7 +274,7 @@ export default {
     TransactionHistory,
     GeneralSettings,
     AccountInformation,
-    OrderStatus,
+    Status,
     Fiat,
   },
 };
