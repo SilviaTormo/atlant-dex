@@ -1,13 +1,19 @@
 <template lang="pug">
-.logout
+.logout(@click="openModal({name:'signIn',})")
   Icon.logout__icon(id="logout")
   .logout__label Logout
 </template>
 
 <script>
+import {mapMutations} from 'vuex';
 import Icon from './Icon';
 
 export default {
+  methods: {
+    ...mapMutations('modal', {
+      openModal: 'open',
+    }),
+  },
   components: {
     Icon,
   },
@@ -16,6 +22,7 @@ export default {
 
 <style lang="scss">
 .logout {
+  cursor: pointer;
   display: flex;
   align-items: center;
   &__icon {

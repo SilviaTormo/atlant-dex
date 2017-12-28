@@ -1,13 +1,17 @@
 <template lang="pug">
 Modal
   .cryptoDeposit
-    .cryptoDeposit__title Withdraw BTC
-    IInput.cryptoDeposit__input(placeholder="BTC wallet address", v-model="address")
-    IInput.cryptoDeposit__input(placeholder="Withdrawal amount BTC", v-model="amount")
-    .cryptoDeposit__amountText Your will receive:
-    .cryptoDeposit__amount 0,00714512
-    BButton.cryptoDeposit__button(rounded) Withdraw
-    .cryptoDeposit__fee Withdrawal fee: #[span.cryptoDeposit__feeAmt 0.00017] BTC
+    .cryptoDeposit__header
+      .cryptoDeposit__title Withdraw BTC
+    .cryptoDeposit__content(v-if="step == 0")
+      IInput.cryptoDeposit__input(placeholder="BTC wallet address", v-model="address")
+      IInput.cryptoDeposit__input(placeholder="Withdrawal amount BTC", v-model="amount")
+      .cryptoDeposit__amountText Your will receive:
+      .cryptoDeposit__amount 0,00714512
+      BButton.cryptoDeposit__button(rounded @click="step++") Withdraw
+      .cryptoDeposit__fee Withdrawal fee: #[span.cryptoDeposit__feeAmt 0.00017] BTC
+    Status.cryptoDeposit__status(v-if="step == 1" isSuccess)
+      .fiat__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
 
 <script>
@@ -15,12 +19,15 @@ import {mapMutations} from 'vuex';
 import BButton from 'components/BButton';
 import IInput from 'components/IInput';
 import Modal from 'components/modals/Modal';
+import Status from 'components/modals/Status.vue';
 
 export default {
   data() {
     return {
       address: '',
       amount: '',
+      step: 0,
+      isSuccess: false,
     };
   },
   methods: {
@@ -32,6 +39,7 @@ export default {
     Modal,
     BButton,
     IInput,
+    Status,
   },
 };
 </script>
@@ -50,6 +58,11 @@ export default {
     text-transform: uppercase;
     color: #ffc600;
     margin-bottom: 32px;
+  }
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   &__input {
     margin-bottom: 30px;
