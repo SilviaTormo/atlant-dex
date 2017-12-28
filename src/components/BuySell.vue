@@ -14,11 +14,7 @@
     input.buySell__input
     .buySell__label Price
     input.buySell__input
-<<<<<<< HEAD
     BButton.buySell__button(color="yellow" full caps @click="openInDemo") Place order
-=======
-    BButton.buySell__button(color="yellow" full caps @click="openReset") Place order
->>>>>>> 2ead3f8b3563a3078492db9b04a895fe0de4aa10
     div.buySell__note Do not forget to top up the trade balance
 </template>
 
