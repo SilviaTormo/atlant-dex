@@ -1,17 +1,21 @@
 <template lang="pug">
 Modal
-  .reset
-    Icon.reset__icon(id="signin")
-    .reset__header
-      .reset__title Sign in
-      .reset__other(@click="openSignUp") Sign up
-    .reset__inputs
-      IInput.reset__input(label="Email", v-model="email")
-      IInput.reset__input(label="Password", v-model="password")
-    .reset__rememberContainer
-      Radio.reset__remember(name="remember", :value="true", label="Remember me", v-model="remember")
-    BButton.reset__button(color="malachite" rounded @click.native="signIn") Let me in
-    a.reset__forgot(href="#" @click="openModal('reset')") Forgot password?
+  .singIn
+    .singIn__header
+      Icon.singIn__icon(id="signin")
+    .singIn__content(v-if="step == 0")
+      .singIn__headerContent
+        .singIn__title Sign in
+        .singIn__other(@click="openSignUp") Sign up
+      .singIn__inputs
+        IInput.singIn__input(label="Email", v-model="email")
+        IInput.singIn__input(label="Password", v-model="password")
+      .singIn__rememberContainer
+        Radio.singIn__remember(name="remember", :value="true", label="Remember me", v-model="remember")
+      BButton.singIn__button(color="malachite" rounded @click.native="signIn") Let me in
+      a.singIn__forgot(href="#" @click="[openModal('reset'), finishTransaction]" ) Forgot password?
+    Status.singIn__status(v-if="step == 1" isSuccess)
+      .singIn__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
 
 <script>
@@ -21,6 +25,7 @@ import Radio from 'components/Radio';
 import BButton from 'components/BButton';
 import Modal from 'components/modals/Modal';
 import IInput from 'components/IInput';
+import Status from 'components/modals/Status.vue';
 
 export default {
   data() {
@@ -28,6 +33,8 @@ export default {
       email: '',
       password: '',
       remember: false,
+      step: 0,
+      isSuccess: false,
     };
   },
   methods: {
@@ -48,6 +55,9 @@ export default {
         password: this.password,
       });
     },
+    finishTransaction() {
+      this.step = 1;
+    },
   },
   components: {
     Icon,
@@ -55,6 +65,7 @@ export default {
     Modal,
     BButton,
     IInput,
+    Status,
   },
 };
 </script>
@@ -63,7 +74,7 @@ export default {
 @import "~variables";
 @import "~sass/bootstrap/media";
 
-.reset {
+.singIn {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -73,7 +84,7 @@ export default {
     height: $size;
     fill: $color_yellow;
   }
-  &__header {
+  &__headerContent {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -126,6 +137,12 @@ export default {
     color: #f7b933;
     margin-top: 40px;
     text-decoration: none;
+  }
+  &__statusMsg {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 900;
   }
 }
 

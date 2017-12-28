@@ -1,16 +1,20 @@
 <template lang="pug">
 Modal
-  .reset
-    Icon.reset__icon(id="signup")
-    .reset__header
-      .reset__title Sign up
-      .reset__other(@click="openSignIn") Sign in
-    .reset__inputs
-      IInput.reset__input(label="Email address", v-model="email")
-      IInput.reset__input(label="Choose a password", v-model="password")
-      IInput.reset__input(label="Confirm password", v-model="passwordRepeat")
-      Radio(name="acknowledged", :value="true", label="I agree to the User Agreement and Privacy Policy.", v-model="iAgree")
-    BButton.reset__button(color="malachite" rounded @click.native="signUpUser") Create account
+  .singUp
+    .singUp__header
+      Icon.singUp__icon(id="signup")
+    .singUp__content(v-if="step == 0")
+      .singUp__header
+        .singUp__title Sign up
+        .singUp__other(@click="openSignIn") Sign in
+      .singUp__inputs
+        IInput.singUp__input(label="Email address", v-model="email")
+        IInput.singUp__input(label="Choose a password", v-model="password")
+        IInput.singUp__input(label="Confirm password", v-model="passwordRepeat")
+        Radio(name="acknowledged", :value="true", label="I agree to the User Agreement and Privacy Policy.", v-model="iAgree")
+      BButton.singUp__button(color="malachite" rounded @click.native="signUpUser") Create account
+    Status.singUp__status(v-if="step == 1" isSuccess)
+      .singUp__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
 
 <script>
@@ -20,6 +24,7 @@ import Radio from 'components/Radio';
 import BButton from 'components/BButton';
 import Modal from 'components/modals/Modal';
 import IInput from 'components/IInput';
+import Status from 'components/modals/Status.vue';
 
 export default {
   data() {
@@ -28,6 +33,8 @@ export default {
       password: '',
       passwordRepeat: '',
       iAgree: false,
+      step: 0,
+      isSuccess: false,
     };
   },
   methods: {
@@ -55,6 +62,7 @@ export default {
     Modal,
     BButton,
     IInput,
+    Status,
   },
 };
 </script>
@@ -63,7 +71,7 @@ export default {
 @import "~variables";
 @import "~sass/bootstrap/media";
 
-.reset {
+.singUp {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -121,6 +129,12 @@ export default {
     font-size: 16px;
     font-weight: 900px;
     text-transform: uppercase;
+  }
+  &__statusMsg {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 900;
   }
 }
 
