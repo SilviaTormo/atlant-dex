@@ -4,7 +4,7 @@
     .chart__buttons
       .chart__buttonTxt(v-for="period in periods", :class="{'chart__buttonTxt--active' : isCurrentPeriod(period)}", @click="setChartPeriod(period)") {{period}}
     .chart__buttons
-      Icon.chart__buttonIcon(:id="type + 'Chart'" v-for="type in types", :class="{'chart__buttonIcon--active' : isCurrentChart(type)}", @click="setChartType(type)")
+      Icon.chart__buttonIcon(:id="type + 'Chart'" v-for="type in types", :key="type", :class="{'chart__buttonIcon--active' : isCurrentChart(type)}", @click="setChartType(type)")
   .chart__body#chart
 </template>
 
