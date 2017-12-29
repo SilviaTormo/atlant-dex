@@ -1,8 +1,8 @@
 <template lang='pug'>
 .inputField
+  input.inputField__input(:placeholder="placeholder", @change="change", :type="type" required)
+  .inputField__line
   label.inputField__label(v-if="label") {{label}}
-  input.inputField__text(:placeholder="placeholder", @change="change")
-  .inputField__details
 </template>
 
 <script>
@@ -37,6 +37,11 @@ export default {
       default: '',
       required: false,
     },
+    type: {
+      type: String,
+      default: 'text',
+      required: false,
+    },
   },
   components: {
     Icon,
@@ -47,36 +52,60 @@ export default {
 <style lang='scss' scoped>
 @import "~variables";
 .inputField {
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  margin-bottom: 45px;
   &__label {
-    font-size: 14px;
-    font-weight: bold;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 10px;
+    transition: 0.2s ease all;
   }
-  &__text {
-    border: none;
-    background-color: transparent;
-    padding: 0;
-    font-size: 14px;
-    &::placeholder {
-      text-align: center;
-    }
-  }
-  &__details{
+
+  &__input {
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
     width: 100%;
+    border: none;
+    border-bottom: 1px solid #ffffff;
+    background: none;
+  }
+
+  &__line {
     position: relative;
-    font-size: 14px;
-    overflow: hidden;
-    font-family: monospace;
-    padding-top: 5px;
-    &::before{
-      line-height: 0.3em;
+    display: block;
+    &:after,
+    &:before {
       position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 0;
-      content: "—————————————————————————————————————————————————————————————————————";
+      content: '';
+      height: 2px;
+      width: 0;
+      bottom: 0;
+      background: #ffffff;
+      transition: 0.2s ease all;
+    }
+    &:before {
+      left: 50%;
+    }
+    &:after {
+      right: 50%;
     }
   }
+  //Active
+  &__input:focus ~ &__line:after,
+  &__input:focus ~ &__line:before {
+    width: 50%;
+  }
+
+  &__input:focus ~ &__label,
+  &__input:valid ~ &__label {
+    top: -20px;
+    font-size: 14px;
+    color: #ffffff;
+}
 }
 </style>
