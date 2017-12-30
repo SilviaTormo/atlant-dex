@@ -4,8 +4,7 @@
     .chart__buttons
       .chart__buttonTxt(v-for="period in periods", :class="{'chart__buttonTxt--active' : isCurrentPeriod(period)}", @click="setChartPeriod(period)") {{period}}
     .chart__technical
-      input.chart__checkbox(type="checkbox" id="showMA" v-model="showTech")
-      label.chart__buttonTxt(for="showMA") MA
+      .chart__buttonTxt(v-for="tech in technicalIndicators", :class="[techClass(tech.name), colorClass(tech.name)]", @click="toggleIndicator(tech.name)") {{tech.name}}
     .chart__buttons
       Icon.chart__buttonIcon(:id="type + 'Chart'" v-for="type in types", :key="type", :class="{'chart__buttonIcon--active' : isCurrentChart(type)}", @click="setChartType(type)")
   .chart__body#chart
@@ -14,6 +13,8 @@
 <script>
 import echarts from 'echarts';
 import {simpleMovingAverageArray} from 'binary-indicators/lib/simpleMovingAverage';
+import {exponentialMovingAverageArray} from 'binary-indicators/lib/exponentialMovingAverage';
+// import {macdArray} from 'binary-indicators/lib/macd';
 import {DateTime} from 'luxon';
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {ticksToMilliseconds} from 'services/misc';
@@ -30,7 +31,23 @@ export default {
         'line',
         'candlestick',
       ],
-      showTech: false,
+      technicalIndicators: {
+        'MA': {
+          name: 'MA',
+          enabled: false,
+          color: '#42B6F6',
+        },
+        'EMA': {
+          name: 'EMA',
+          enabled: false,
+          color: 'orange',
+        },
+        // 'MACD': {
+        //   name: 'MACD',
+        //   enabled: false,
+        //   color: 'pink',
+        // },
+      },
       currentChart: 'candlestick',
     };
   },
@@ -57,10 +74,6 @@ export default {
           return this.rawCandles.map((item) => item[3]);
         }
       }
-    },
-    technical() {
-      const data = this.rawCandles.map((item) => item[3]);
-      return Array(9).fill(0).concat(simpleMovingAverageArray(data, {periods: 10, pipSize: 6}));
     },
     timeSeries(index) {
       return this.rawCandles.map((item, i) => {
@@ -233,21 +246,57 @@ export default {
           {
             name: 'MA',
             type: 'line',
-            data: this.technical,
+            data: this.technical('MA'),
             itemStyle: {
               normal: {
-                color: 'orange',
-                opacity: this.showTech,
+                color: this.technicalIndicators['MA'].color,
+                opacity: this.technicalIndicators['MA'].enabled,
               },
             },
             lineStyle: {
               normal: {
-                color: 'orange',
-                opacity: this.showTech,
+                color: this.technicalIndicators['MA'].color,
+                opacity: this.technicalIndicators['MA'].enabled,
               },
             },
             zlevel: 1,
           },
+          {
+            name: 'EMA',
+            type: 'line',
+            data: this.technical('EMA'),
+            itemStyle: {
+              normal: {
+                color: this.technicalIndicators['EMA'].color,
+                opacity: this.technicalIndicators['EMA'].enabled,
+              },
+            },
+            lineStyle: {
+              normal: {
+                color: this.technicalIndicators['EMA'].color,
+                opacity: this.technicalIndicators['EMA'].enabled,
+              },
+            },
+            zlevel: 1,
+          },
+          // {
+          //   name: 'MACD',
+          //   type: 'line',
+          //   data: this.technical('MACD'),
+          //   itemStyle: {
+          //     normal: {
+          //       color: this.technicalIndicators['MACD'].color,
+          //       opacity: this.technicalIndicators['MACD'].enabled,
+          //     },
+          //   },
+          //   lineStyle: {
+          //     normal: {
+          //       color: this.technicalIndicators['MACD'].color,
+          //       opacity: this.technicalIndicators['MACD'].enabled,
+          //     },
+          //   },
+          //   zlevel: 1,
+          // },
           {
             name: 'Volume',
             type: 'bar',
@@ -265,12 +314,28 @@ export default {
         ],
       });
     },
+    technical(indicator) {
+      const data = this.rawCandles.map((item) => item[3]);
+      if (indicator == 'MA') {
+        return Array(9).fill(0).concat(simpleMovingAverageArray(data, {periods: 10, pipSize: 6}));
+      } else if (indicator == 'EMA') {
+        return Array(9).fill(0).concat(exponentialMovingAverageArray(data, {periods: 10, pipSize: 6}));
+      }
+    },
+    techClass(indicator) {
+      return (this.technicalIndicators[indicator].enabled) ? 'chart__buttonTxt--activeBox' : '';
+    },
+    colorClass(indicator) {
+      return (this.technicalIndicators[indicator].enabled) ? ('chart__buttonTxt--' + indicator) : '';
+    },
+    toggleIndicator(indicator) {
+      this.technicalIndicators[indicator].enabled = !this.technicalIndicators[indicator].enabled;
+      this.createChart();
+    },
   },
   watch: {
     rawCandles() {
-      this.createChart();
-    },
-    showTech() {
+      this.technical('EMA');
       this.createChart();
     },
   },
@@ -326,11 +391,24 @@ export default {
     cursor: pointer;
     font-size: 14px;
     text-transform: uppercase;
-    &:not(:last-of-type) {
-      margin-right: 10px;
-    }
+    padding: 0 5px;
+    margin-right: 3px;
     &--active {
       color: $color_summersky;
+    }
+    &--activeBox {
+      border-radius: 2px;
+      color: #02334d;
+      font-weight: bold;
+    }
+    &--MA {
+      background-color: $color_summersky;
+    }
+    &--EMA {
+      background-color: orange;
+    }
+    &--MACD {
+      background-color: pink;
     }
   }
   &__buttonIcon {
