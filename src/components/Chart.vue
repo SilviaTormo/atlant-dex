@@ -7,7 +7,7 @@
       input.chart__checkbox(type="checkbox" id="showMA" v-model="showTech")
       label.chart__buttonTxt(for="showMA") MA
     .chart__buttons
-      Icon.chart__buttonIcon(:id="type + 'Chart'" v-for="type in types", :class="{'chart__buttonIcon--active' : isCurrentChart(type)}", @click="setChartType(type)")
+      Icon.chart__buttonIcon(:id="type + 'Chart'" v-for="type in types", :key="type", :class="{'chart__buttonIcon--active' : isCurrentChart(type)}", @click="setChartType(type)")
   .chart__body#chart
 </template>
 

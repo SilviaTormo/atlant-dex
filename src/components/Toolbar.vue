@@ -2,7 +2,7 @@
 .toolbar
   .toolbar__group
     Icon.toolbar__icon(:id="(showSidebar) ? 'cross' : 'hamburger'" @click='toggleSidebar')
-    Icon.toolbar__icon(v-for='sec in sections', :id="sec", :class="isActive(sec)", @click="setSection(sec)")
+    Icon.toolbar__icon(v-for='sec in sections', :id="sec", :key="sec", :class="isActive(sec)", @click="setSection(sec)")
   .toolbar__group
     Icon.toolbar__icon(id='settings' @click="openTransactionHistory()")
     Icon.toolbar__icon(id='info' @click="openGeneralSettings()")

@@ -9,50 +9,24 @@
       .main__tiles(v-show="!isPageOpened()")
         .grid-stack
           .grid-stack-item(
-            data-gs-x='0',
-            data-gs-y='0',
-            data-gs-width='3',
-            data-gs-height='6',
-            data-gs-min-width='2',
-            data-gs-min-height='6',
-            data-gs-max-height='6',
-            )
-            .grid-stack-item-content
-              .main__tile
-                BuySell
-          .grid-stack-item(
-            data-gs-x='3',
-            data-gs-y='0',
-            data-gs-width='9',
-            data-gs-height='6',
-            data-gs-min-width='5',
-            data-gs-min-height='6',
-            )
-            .grid-stack-item-content
-              .main__tile
-                Chart
-          .grid-stack-item(
-            data-gs-x='0',
-            data-gs-y='7',
-            data-gs-width='3',
-            data-gs-height='5',
-            data-gs-min-width='3',
-            data-gs-min-height='2',
-            )
+            v-for="({x, y, w, h, minW, minH, maxH}, index) in gridLayout",
+            :data-gs-x='x',
+            :data-gs-y='y',
+            :data-gs-width='w',
+            :data-gs-height='h',
+            :data-gs-min-width='minW',
+            :data-gs-min-height='minH',
+            :data-gs-max-height='maxH',
+          )
             .grid-stack-item-content(v-scrollbar="")
-              .main__tile.main__tile--history
+              .main__tile(v-if="index === 0")
+                BuySell
+              .main__tile(v-if="index === 1")
+                Chart
+              .main__tile.main__tile--history(v-if="index === 2")
                 TileHeader.main__tileHeader.main__tileHeader--history(title='History of trades' center)
                 History
-          .grid-stack-item(
-            data-gs-x='3',
-            data-gs-y='7',
-            data-gs-width='5',
-            data-gs-height='5',
-            data-gs-min-width='5',
-            data-gs-min-height='2',
-            )
-            .grid-stack-item-content(v-scrollbar="")
-              .main__tile.main__tile--books
+              .main__tile.main__tile--books(v-if="index === 3")
                 TileHeader.main__tileHeader.main__tileHeader--book(title='Order book' center)
                 .main__books
                   .main__tile
@@ -61,16 +35,7 @@
                   .main__tile
                     BookHeader(ask)
                     Book.main__book(ask, :limit='19')
-          .grid-stack-item(
-            data-gs-x='9',
-            data-gs-y='7',
-            data-gs-width='4',
-            data-gs-height='5',
-            data-gs-min-width='4',
-            data-gs-min-height='2',
-            )
-            .grid-stack-item-content(v-scrollbar="")
-              .main__tile.main__tile--orders
+              .main__tile.main__tile--orders(v-if="index === 4")
                 TileHeader.main__tileHeader.main__tileHeader--orders(title='Open orders')
                 Orders
                 .main__ordersSep
@@ -96,7 +61,7 @@
 <script>
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import * as Trade from 'services/api/trade';
-import {defCandleSize, showWelcome} from 'config';
+import {defCandleSize, showWelcome, gridLayout} from 'config';
 import {scrollbar} from 'directives';
 import TheHeader from './TheHeader';
 import TheFooter from './TheFooter';
@@ -127,11 +92,7 @@ import Fiat from './modals/Fiat';
 export default {
   data() {
     return {
-      layout: [
-        {x: 0, y: 0, w: 2, h: 12, minW: 2, minH: 12, i: '0'},
-        {x: 2, y: 0, w: 5, h: 12, maxH: 12, i: '1'},
-        {x: 4, y: 0, w: 2, h: 11, i: '2'},
-      ],
+      gridLayout,
     };
   },
   computed: {
