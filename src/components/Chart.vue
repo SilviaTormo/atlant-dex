@@ -188,7 +188,6 @@ export default {
             },
           },
           {
-            max: 5000,
             scale: true,
             silent: true,
             gridIndex: 1,
