@@ -56,7 +56,7 @@ export default {
   margin-bottom: 45px;
   &__label {
     color: #ffffff;
-    font-size: 18px;
+    font-size: inherit;
     font-weight: normal;
     position: absolute;
     pointer-events: none;
@@ -66,7 +66,7 @@ export default {
   }
 
   &__input {
-    font-size: 18px;
+    font-size: inherit;
     padding: 10px 10px 10px 5px;
     display: block;
     width: 100%;

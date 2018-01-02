@@ -78,8 +78,8 @@ $padding: 44px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    height: 600px;
-    width: 600px;
+    // height: 600px;
+    // width: 600px;
     border-radius: 12px;
     z-index: 801;
     box-shadow: 0 25px 20px rgba(0, 0, 0, 0.24);
@@ -98,6 +98,7 @@ $padding: 44px;
     width: 32px;
     height: 32px;
     position: absolute;
+    cursor: pointer;
   }
   &__content {
     display: flex;

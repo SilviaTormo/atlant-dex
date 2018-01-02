@@ -50,6 +50,9 @@ export default {
     openCrypto(name) {
       this.openModal({
         name,
+        data: {
+          currency: this.currency,
+        },
       });
     },
   },

@@ -1,16 +1,16 @@
 <template lang="pug">
 Modal
   .cryptoDeposit
-    .cryptoDeposit__title Deposit BTC
-    QR.cryptoDeposit__qr(text="1Em13kZhv8VZcqDFhTE7TSAuTaxzRrykmG" size="148")
+    .cryptoDeposit__title Deposit {{data.currency}}
+    QR.cryptoDeposit__qr(:text="address" size="148")
     .cryptoDeposit__addressText Your deposit address:
-    .cryptoDeposit__address 1Em13kZhv8VZcqDFhTE7TSAuTaxzRrykmG
+    .cryptoDeposit__address {{address}}
     BButton.cryptoDeposit__button(rounded) Copy
     .cryptoDeposit__confirmations Funds will be deposited automatically after 3 confirmations
 </template>
 
 <script>
-import {mapMutations} from 'vuex';
+import {mapState, mapMutations} from 'vuex';
 import BButton from 'components/BButton';
 import QR from 'components/QR';
 import Modal from 'components/modals/Modal';
@@ -18,10 +18,13 @@ import Modal from 'components/modals/Modal';
 export default {
   data() {
     return {
-      email: '',
-      password: '',
-      remember: false,
+      address: '1Em13kZhv8VZcqDFhTE7TSAuTaxzRrykmG',
     };
+  },
+  computed: {
+    ...mapState('modal', {
+      data: 'data',
+    }),
   },
   methods: {
     ...mapMutations('modal', {
@@ -44,39 +47,41 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 324px;
   &__title{
     font-size: 18px;
     font-weight: 900;
     text-transform: uppercase;
     color: #ffc600;
-    margin-bottom: 32px;
+    margin-bottom: 57px;
   }
   &__qr {
-    margin-bottom: 21px;
+    margin-bottom: 46px;
   }
   &__addressText {
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
-    margin-bottom: 17px;
+    margin-bottom: 37px;
   }
   &__address {
     color: #ffc600;
     font-size: 14px;
     font-weight: 700;
-    margin-bottom: 23px;
+    margin-bottom: 53px;
   }
   &__button {
-    padding-left: 45px;
-    padding-right: 45px;
+    padding: 8px 45px;
     border-radius: 3px;
+    font-size: 16px;
+    font-weight: 900;
     text-transform: uppercase;
   }
   &__confirmations {
     font-size: 10px;
     font-weight: 400;
     text-align: center;
-    margin-top: 35px;
+    margin-top: 45px;
   }
 }
 

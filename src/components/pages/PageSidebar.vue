@@ -31,7 +31,7 @@ export default {
           label: 'General settings',
         },
         {
-          name: 'password',
+          name: 'changePassword',
           label: 'Password',
         },
         {

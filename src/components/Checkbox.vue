@@ -1,0 +1,78 @@
+<template lang='pug'>
+label.checkbox
+  input.checkbox__input(type="checkbox", @change="change")
+  .checkbox__icon
+  .checkbox__text(v-if="label") {{label}}
+  slot
+</template>
+
+<script>
+import Icon from './Icon';
+
+export default {
+  model: {
+    event: 'change',
+  },
+  methods: {
+    change(e) {
+      this.$emit('change', e.target.checked);
+    },
+  },
+  props: {
+    value: {
+      type: [String, Number, Boolean],
+      default: '',
+      required: false,
+    },
+    label: {
+      type: [String, Number],
+      default: '',
+      required: false,
+    },
+  },
+  components: {
+    Icon,
+  },
+};
+
+</script>
+
+<style lang='scss' scoped>
+@import "~variables";
+$ROOT: "checkbox";
+.#{$ROOT} {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  &__input {
+    position: absolute;
+    clip: rect(0 0 0 0);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    &:checked {
+      & + .#{$ROOT}__icon {
+        border-color: $color_green;
+        background-color: $color_green;
+      }
+    }
+  }
+  &__icon {
+    $size: 18px;
+    width: $size;
+    height: $size;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: $color_yellow;
+    flex-shrink: 0;
+  }
+  &__text {
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 10px;
+    color: inherit;
+    text-transform: uppercase;
+  }
+}
+</style>

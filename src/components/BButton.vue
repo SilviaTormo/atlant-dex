@@ -57,7 +57,7 @@ export default {
 $ROOT: "button";
 .#{$ROOT} {
   $padding: 10px;
-  height: 28px;
+  min-height: 28px;
   font-size: 12px;
   padding-left: $padding;
   padding-right: $padding;

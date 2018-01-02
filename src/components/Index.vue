@@ -44,6 +44,7 @@
       //- Pages
       TransactionHistory(v-if="isPageOpened('transactionHistory')")
       GeneralSettings(v-if="isPageOpened('generalsettings')")
+      ChangePassword(v-if="isPageOpened('changePassword')")
       AccountInformation(v-if="isPageOpened('accountinformation')")
   //- Modals
   InDemo(v-if="isModalOpened('inDemo')")
@@ -77,6 +78,7 @@ import BookHeader from './BookHeader';
 import PropertyMap from './PropertyMap';
 import TransactionHistory from './pages/TransactionHistory';
 import GeneralSettings from './pages/GeneralSettings';
+import ChangePassword from './pages/ChangePassword';
 import AccountInformation from './pages/AccountInformation';
 import InDemo from './modals/InDemo';
 import ImportKey from './modals/ImportKey';
@@ -234,6 +236,7 @@ export default {
     CryptoWithdraw,
     TransactionHistory,
     GeneralSettings,
+    ChangePassword,
     AccountInformation,
     Status,
     Fiat,
