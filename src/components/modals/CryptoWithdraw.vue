@@ -1,21 +1,21 @@
 <template lang="pug">
 Modal
-  .cryptoDeposit
-    .cryptoDeposit__header
-      .cryptoDeposit__title Withdraw BTC
-    .cryptoDeposit__content(v-if="step == 0")
-      IInput.cryptoDeposit__input(placeholder="BTC wallet address", v-model="address")
-      IInput.cryptoDeposit__input(placeholder="Withdrawal amount BTC", v-model="amount")
-      .cryptoDeposit__amountText Your will receive:
-      .cryptoDeposit__amount 0,00714512
-      BButton.cryptoDeposit__button(rounded @click="step++") Withdraw
-      .cryptoDeposit__fee Withdrawal fee: #[span.cryptoDeposit__feeAmt 0.00017] BTC
-    Status.cryptoDeposit__status(v-if="step == 1" isSuccess)
+  .cryptoWithdraw
+    .cryptoWithdraw__header
+      .cryptoWithdraw__title Withdraw {{data.currency}}
+    .cryptoWithdraw__content(v-if="step == 0")
+      IInput.cryptoWithdraw__input(placeholder="BTC wallet address", v-model="address")
+      IInput.cryptoWithdraw__input(placeholder="Withdrawal amount BTC", v-model="amount")
+      .cryptoWithdraw__amountText Your will receive:
+      .cryptoWithdraw__amount {{netAmount}}
+      BButton.cryptoWithdraw__button(rounded @click="step++") Withdraw
+      .cryptoWithdraw__fee Withdrawal fee: #[span.cryptoWithdraw__feeAmt {{fee}}] #[span.cryptoWithdraw__currency {{data.currency}}]
+    Status.cryptoWithdraw__status(v-if="step == 1" isSuccess)
       .fiat__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
 
 <script>
-import {mapMutations} from 'vuex';
+import {mapState, mapMutations} from 'vuex';
 import BButton from 'components/BButton';
 import IInput from 'components/IInput';
 import Modal from 'components/modals/Modal';
@@ -27,8 +27,17 @@ export default {
       address: '',
       amount: '',
       step: 0,
+      fee: 0.00017,
       isSuccess: false,
     };
+  },
+  computed: {
+    ...mapState('modal', {
+      data: 'data',
+    }),
+    netAmount() {
+      return Math.max(this.amount- this.fee, 0);
+    },
   },
   methods: {
     ...mapMutations('modal', {
@@ -48,7 +57,7 @@ export default {
 @import "~variables";
 @import "~sass/bootstrap/media";
 
-.cryptoDeposit {
+.cryptoWithdraw {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -92,6 +101,9 @@ export default {
   }
   &__feeAmt {
     color: #31ecce;
+  }
+  &__currency {
+    text-transform: uppercase;
   }
 }
 

@@ -44,6 +44,7 @@ export default {
         name: 'fiat',
         data: {
           isDeposit,
+          currency: this.currency,
         },
       });
     },
