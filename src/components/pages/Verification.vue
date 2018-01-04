@@ -27,17 +27,38 @@ Page(title="Verification", :sidebar="true")
         li Document confirming the CEO's appointment
         li Documents confirming the CEO's identity and place of residence (please see document list for private individuals)
       p.verification__note Please make sure that all document scans are of a high quality and the text is fully readable.
-    form.verification__form
-      .verification__formText Drag your files here to upload
+    .verification__form
+      //.verification__formText Drag your files here to upload
 </template>
 
 <script>
+import Uppy from 'uppy/lib/core';
+import Dashboard from 'uppy/lib/plugins/Dashboard';
+import Tus from 'uppy/lib/plugins/Tus';
 import Page from './Page';
 
 export default {
   data() {
     return {
     };
+  },
+  mounted() {
+    const uppy = Uppy({autoProceed: false})
+      .use(Dashboard, {
+        target: '.verification__form',
+        inline: true,
+        locale: {
+          strings: {
+            dropPaste: 'Drag your files here to upload',
+          },
+        },
+      })
+      .use(Tus, {endpoint: '//master.tus.io/files/'})
+      .run();
+
+    uppy.on('complete', (result) => {
+      console.log(`Upload complete! We’ve uploaded these files: ${result.successful}`);
+    });
   },
   components: {
     Page,
@@ -93,17 +114,17 @@ export default {
     margin-bottom: 53px;
   }
   &__form {
-    min-height: 142px;
+    //min-height: 142px;
     border-radius: 4px;
     border: 1px dashed #ffffff;
     opacity: 0.5;
-    display: flex;
+    // display: flex;
   }
-  &__formText {
-    opacity: 0.5;
-    font-size: 20px;
-    font-weight: 300;
-    margin: auto;
-  }
+  // &__formText {
+  //   opacity: 0.5;
+  //   font-size: 20px;
+  //   font-weight: 300;
+  //   margin: auto;
+  // }
 }
 </style>

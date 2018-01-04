@@ -2,34 +2,37 @@
 Modal
   .fiat
     .fiat__header
-      .fiat__title {{title}} USD
-      .fiat__balance(v-if="step == 0") Current balance: #[span.fiat__balanceAmt $317.240]
+      .fiat__title {{title}} {{data.currency}}
+      .fiat__balance(v-if="step == 0") Current balance: #[span.fiat__balanceAmt ${{balance.toFixed(2)}}]
       .fiat__right
     .fiat__content(v-if="step == 0")
       .fiat__block.fiat__block--left
         span.fiat__step
           span.fiat__stepNumber STEP 1
-          span Choose deposit method:
+          span Choose {{transactionType}} method:
         .fiat__options
-          Radio.fiat__option(name="paymentSys")
+          Radio.fiat__option(name="paymentSys" value="sepa" v-model="paymentSystem")
             Icon.fiat__systemLogo(id="sepa")
-          Radio.fiat__option(name="paymentSys")
+          Radio.fiat__option(name="paymentSys" value="swift" v-model="paymentSystem")
             Icon.fiat__systemLogo(id="swift")
         .fiat__bottom
           div ***
-          .fiat__note The funds will be blocked for 24 hours #[br] Operations are carried out with a commission, with which you can in a #[a.fiat__link special section]
+          .fiat__note
+            p(v-if="data.isDeposit") The funds will be blocked for 24 hours
+            p(v-else) Withdrawals to payment systems may take up to 24 hours.
+            p Operations are carried out with a commission, with which you can in a #[a.fiat__link special section]
       .fiat__block.fiat__block--right
         .fiat__step
           .fiat__stepNumber STEP 2
-          div Enter fiat code or the desired topup amount:
-        IInput.fiat__input(placeholder="Amount for deposit")
-        .fiat__fee Fee: 1%
+          div Enter {{transactionType}} amount:
+        IInput.fiat__input(:placeholder="'Amount for ' + transactionType", :label="'Amount for ' + transactionType" v-model="amount")
+        .fiat__fee Fee: {{fee}}%
         .fiat__toReceive
-          span You will receive:
-          span.fiat__receiveAmt $370.00
-        IInput.fiat__input(placeholder="Contact information")
-        IInput.fiat__input(placeholder="Comment")
-        BButton.fiat__button(rounded @click="step++") Topup balance
+          span Your balance after operation:
+          span.fiat__receiveAmt ${{newBalance.toFixed(2)}}
+        IInput.fiat__input(placeholder="Contact information" label="Contact information" v-model="contact")
+        IInput.fiat__input(placeholder="Comment" label="Contact information" v-model="comment")
+        BButton.fiat__button(rounded @click="step++") Make {{transactionType}}
     Status.fiat__status(v-if="step == 1" isSuccess)
       .fiat__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
@@ -48,14 +51,28 @@ export default {
     return {
       step: 0,
       isSuccess: false,
+      amount: '',
+      fee: 1,
+      paymentSystem: '',
+      contact: '',
+      comment: '',
     };
   },
   computed: {
     ...mapState('modal', {
-      isDeposit: (state) => state.data.isDeposit,
+      data: 'data',
+    }),
+    ...mapState('user', {
+      balance: 'balance',
     }),
     title() {
-      return (this.isDeposit) ? 'deposit' : 'withdraw';
+      return (this.data.isDeposit) ? 'deposit' : 'withdraw';
+    },
+    transactionType() {
+      return (this.data.isDeposit) ? 'deposit' : 'withdrawal';
+    },
+    newBalance() {
+      return this.balance + ((this.data.isDeposit) ? this.amount * (1 - this.fee / 100) : - this.amount * (1 + this.fee / 100));
     },
   },
   methods: {
@@ -179,6 +196,7 @@ export default {
     width: 176px;
   }
   &__statusMsg {
+    min-width: 300px;
     text-align: center;
     text-transform: uppercase;
     font-size: 18px;

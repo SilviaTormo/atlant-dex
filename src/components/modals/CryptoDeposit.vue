@@ -1,16 +1,17 @@
-<template lang="pug">
+<template lang='pug'>
 Modal
   .cryptoDeposit
     .cryptoDeposit__title Deposit {{data.currency}}
-    QR.cryptoDeposit__qr(:text="address" size="148")
+    QR.cryptoDeposit__qr(:text='address' size='148')
     .cryptoDeposit__addressText Your deposit address:
     .cryptoDeposit__address {{address}}
-    BButton.cryptoDeposit__button(rounded) Copy
+    BButton.cryptoDeposit__button(rounded v-clipboard='address') Copy
     .cryptoDeposit__confirmations Funds will be deposited automatically after 3 confirmations
 </template>
 
 <script>
 import {mapState, mapMutations} from 'vuex';
+import clipboard from 'directives/clipboard';
 import BButton from 'components/BButton';
 import QR from 'components/QR';
 import Modal from 'components/modals/Modal';
@@ -31,6 +32,9 @@ export default {
       openModal: 'open',
     }),
   },
+  directives: {
+    clipboard,
+  },
   components: {
     Modal,
     BButton,
@@ -39,9 +43,9 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import "~variables";
-@import "~sass/bootstrap/media";
+<style lang='scss'>
+@import '~variables';
+@import '~sass/bootstrap/media';
 
 .cryptoDeposit {
   display: flex;

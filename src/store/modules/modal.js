@@ -1,7 +1,10 @@
 export default {
   state: {
     name: '',
-    data: {},
+    data: {
+      isDeposit: false,
+      currency: 'EUR',
+    },
   },
   mutations: {
     open(state, {name, data}) {

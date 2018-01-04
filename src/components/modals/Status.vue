@@ -23,10 +23,10 @@ export default {
 <style lang="scss">
 @import "~variables";
 .status {
-    &__icon {
-        width: 150px;
-        height: 150px;
-        margin: 90px auto;
-    }
+  &__icon {
+    width: 150px;
+    height: 150px;
+    margin: 90px auto;
+  }
 }
 </style>

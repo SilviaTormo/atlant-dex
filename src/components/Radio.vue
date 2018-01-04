@@ -64,6 +64,7 @@ $ROOT: "radio";
 .#{$ROOT} {
   display: flex;
   align-items: center;
+  cursor: pointer;
   &__input {
     position: absolute;
     clip: rect(0 0 0 0);

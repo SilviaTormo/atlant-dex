@@ -3,5 +3,32 @@
 }
 
 .grid-stack-item-content {
-    border: 1px solid #182235;    
+    border: 1px solid #182235;
+}
+
+.uppy-DashboardTabs, .uppy-Dashboard-browse {
+  display: none;
+}
+
+.uppy-Dashboard-files, .uppy-Dashboard-filesContainer, .uppy-Dashboard-innerWrap, .uppy-Dashboard-inner, .uppy-Dashboard {
+  height: 140px;
+}
+
+.uppy-Dashboard-inner > .uppy-Dashboard-close {
+  display: none;
+}
+
+.uppy-Dashboard-bgIcon {
+  display: flex;
+  height: 100%;
+  & > .UppyIcon {
+    display: none;
+  }
+}
+
+.uppy-Dashboard-dropFilesTitle {
+  opacity: 0.5;
+  font-size: 20px;
+  font-weight: 300;
+  margin: auto;
 }
