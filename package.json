@@ -30,6 +30,7 @@
     "qrious": "4.0.2",
     "qs": "6.5.1",
     "signalr-no-jquery": "0.1.8",
+    "uppy": "0.22.0",
     "vue": "2.5.13",
     "vue-i18n": "7.3.1",
     "vue-router": "3.0.1",
