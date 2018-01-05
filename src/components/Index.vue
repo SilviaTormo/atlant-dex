@@ -260,10 +260,14 @@ export default {
 @import '~bootstrap/scss/utilities/sizing';
 
 .main {
-  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
   &__body {
     display: flex;
     min-width: 1250px;
+    min-height: 100vh;
     margin-left: auto;
     margin-right: auto;
     &--modalOpened {
@@ -292,6 +296,7 @@ export default {
     width: $toolbar_width;
   }
   &__content {
+    position: relative;
     width: calc(100% - #{$toolbar_width});
     margin-left: auto;
     transition: width $sidebar_speed linear;

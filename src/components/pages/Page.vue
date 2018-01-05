@@ -38,6 +38,7 @@ export default {
     display: flex;
   }
   &__content {
+    width: 100%;
     padding: 36px;
   }
 }
