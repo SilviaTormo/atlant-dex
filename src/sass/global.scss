@@ -23,3 +23,29 @@
       text-decoration: underline;
     }
 }
+
+.checkboxCustom {
+  position: absolute;
+  opacity: 0;
+
+  & + label {
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  & + label:before {
+    content: '';
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: text-top;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #e9bd24;
+    border-radius: 50%;
+  }
+
+  &:checked + label:before {
+    background: #e9bd24;
+  }
+}

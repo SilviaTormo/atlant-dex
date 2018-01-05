@@ -8,21 +8,25 @@ Page(title="Transaction history")
           th ID
           th Time
           th Amount
-          th Description
+          th.tHistory__header--description Description
           th Status
-      tbody
-        tr(v-for="(item, index) in data")
+      tbody.tHistory__tableBody
+        tr(v-for="(item, index) in data").tHistory__tableLine
           td
-            input(type="checkbox" :id="item.id" :value="item.id" v-model="checkedArray" :key="item.id").tHistory__checkbox
+            .tHistory__checkbox
+              input(type="checkbox" :id="item.id" :value="item.id" v-model="checkedArray" :key="item.id").checkboxCustom
+              label(:for="item.id")
           td {{item.id}}
           td.tHistory__date {{item.date}}
-          td {{item.amount}} USD
+          td.tHistory__amount(:class="'tHistory__amount--' + (item.amount >= 0 ? 'positive' : 'negative')") {{item.amount}} USD
           td.tHistory__description
             Icon(id='qr' :class="{'tHistory__icon--visible': item.crypto}").tHistory__icon
             | {{item.description}}
-          td {{item.status}}
+          td.tHistory__status(:class="'tHistory__status--' + item.status.toLowerCase()") {{item.status}}
     .panel(:class="{'panel--active': isCheckedArray}")
-      input.panel__actions.panel__checkbox(type="checkbox" @click="switchAllCheckboxes" :checked="isAllChecked")
+      .panel__actions.panel__checkbox
+        input(type="checkbox" id="globalCheckbox" @click="switchAllCheckboxes" :checked="isAllChecked").checkboxCustom
+        label(for="globalCheckbox")
       .panel__actions Repeat
       .panel__actions Undo
       .panel__actions Delete
@@ -99,6 +103,8 @@ export default {
 
 <style lang="scss">
 .tHistory {
+  $tableHeight: 62px;
+  padding-left: 62px;
   width: 100%;
   &__table {
     width: 100%;
@@ -106,7 +112,36 @@ export default {
   }
 
   &__header {
+    height: $tableHeight;
+    border-bottom: 1px solid #032537;
     text-align: left;
+    color: #a1a1a1;
+    font-size: 12px;
+    font-weight: 700;
+    &--description {
+      padding-left: 26px;
+    }
+  }
+
+  &__tableLine {
+    position: relative;
+    height: $tableHeight;
+    border-bottom: 1px solid #023b59;
+  }
+
+  &__checkbox {
+    position: absolute;
+    left: 50px;
+    transform: translate(-50%, -50%);
+  }
+
+  &__amount {
+    &--positive {
+      color: #7ed321;
+    }
+    &--negative {
+      color: #f33a3a;
+    }
   }
 
   &__icon {
@@ -122,16 +157,26 @@ export default {
       visibility: visible;
     }
   }
+  &__status {
+    color: #a1a1a1;
+    &--completed {
+      color: #7ed321;
+    }
+    &--error {
+      color: #f33a3a;
+    }
+  }
 }
 .panel {
+  $panelHeight: 58px;
   position: absolute;
   display: flex;
   align-items: center;
   padding-left: 35px;
-  height: 58px;
+  height: $panelHeight;
   left: 0;
   right: 0;
-  bottom: -58px;
+  bottom: -$panelHeight;
   overflow: hidden;
   background-image: repeating-linear-gradient(
     135deg,
