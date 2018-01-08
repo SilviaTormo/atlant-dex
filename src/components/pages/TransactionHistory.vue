@@ -20,7 +20,7 @@ Page(title="Transaction history")
           td.tHistory__tableCell.tHistory__date {{item.date}}
           td.tHistory__tableCell.tHistory__amount(:class="'tHistory__amount--' + (item.amount >= 0 ? 'positive' : 'negative')") {{item.amount}} USD
           td.tHistory__tableCell.tHistory__description
-            Icon(id='qr' :class="{'tHistory__icon--visible': item.crypto}").tHistory__icon
+            Icon(id='icon-qr' :class="{'tHistory__icon--visible': item.crypto}").tHistory__icon
             | {{item.description}}
           td.tHistory__tableCell.tHistory__status(:class="'tHistory__status--' + item.status.toLowerCase()") {{item.status}}
     .panel(:class="{'panel--active': isCheckedArray}")

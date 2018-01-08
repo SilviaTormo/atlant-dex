@@ -62,6 +62,7 @@ export default {
   }
   &__input {
     font-size: 14px;
+    margin-bottom: 35px;
   }
   &__checkbox {
     padding-top: 10px;
