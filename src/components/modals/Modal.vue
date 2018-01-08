@@ -6,7 +6,6 @@
       Icon.modal__closeIcon(id="close"  @click="closeModal()")
       .modal__content
         slot
-      Icon.modal__cross(id="cross" @click="closeModal()")
 </template>
 
 <script>

@@ -8,8 +8,7 @@
     "build": "webpack --env=prod"
   },
   "keywords": [],
-  "author": "ES",
-  "license": "GNU https://github.com/AtlantPlatform/atlant-dex/blob/master/LICENSE",
+  "author": "atlant-team",
   "dependencies": {
     "axios": "0.16.2",
     "babel-polyfill": "6.26.0",

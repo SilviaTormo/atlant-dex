@@ -49,3 +49,15 @@
     background: #e9bd24;
   }
 }
+
+.dropdown {
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  background: transparent;
+  padding: 10px;
+  font-size: 14px;
+  color: #ffffff;
+  &__option {
+    width: 10px !important;
+  }
+}

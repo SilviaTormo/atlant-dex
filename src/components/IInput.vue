@@ -53,7 +53,6 @@ export default {
 @import "~variables";
 .inputField {
   position: relative;
-  margin-bottom: 45px;
   &__label {
     color: #ffffff;
     font-size: inherit;
