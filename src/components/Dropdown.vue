@@ -1,8 +1,8 @@
 <template lang="pug">
-.dropdown
-  select.dropdown__select(@change="select($event.target.value)")
-    option.dropdown__option(v-for="option in options", :value="option") {{option}}
-  Icon.dropdown__triangle(id="triangle2")
+.ddropdown
+  select.ddropdown__select(@change="select($event.target.value)")
+    option.ddropdown__option(v-for="option in options", :value="option") {{option}}
+  Icon.ddropdown__triangle(id="triangle2")
 </template>
 
 <script>
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="scss">
-.dropdown {
+.ddropdown {
   display: flex;
   align-items: center;
   position: relative;
