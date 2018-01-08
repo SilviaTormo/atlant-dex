@@ -298,6 +298,7 @@ export default {
   &__content {
     position: relative;
     width: calc(100% - #{$toolbar_width});
+    min-height: 100vh;
     margin-left: auto;
     transition: width $sidebar_speed linear;
     &--withSidebar {

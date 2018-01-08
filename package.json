@@ -8,7 +8,7 @@
     "build": "webpack --env=prod"
   },
   "keywords": [],
-  "author": "atlant-team",
+  "author": "ATLANT-team",
   "dependencies": {
     "axios": "0.16.2",
     "babel-polyfill": "6.26.0",

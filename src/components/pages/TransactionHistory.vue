@@ -12,17 +12,17 @@ Page(title="Transaction history")
           th Status
       tbody.tHistory__tableBody
         tr(v-for="(item, index) in data").tHistory__tableLine
-          td
+          td.tHistory__tableCell
             .tHistory__checkbox
               input(type="checkbox" :id="item.id" :value="item.id" v-model="checkedArray" :key="item.id").checkboxCustom
               label(:for="item.id")
-          td {{item.id}}
-          td.tHistory__date {{item.date}}
-          td.tHistory__amount(:class="'tHistory__amount--' + (item.amount >= 0 ? 'positive' : 'negative')") {{item.amount}} USD
-          td.tHistory__description
+          td.tHistory__tableCell {{item.id}}
+          td.tHistory__tableCell.tHistory__date {{item.date}}
+          td.tHistory__tableCell.tHistory__amount(:class="'tHistory__amount--' + (item.amount >= 0 ? 'positive' : 'negative')") {{item.amount}} USD
+          td.tHistory__tableCell.tHistory__description
             Icon(id='qr' :class="{'tHistory__icon--visible': item.crypto}").tHistory__icon
             | {{item.description}}
-          td.tHistory__status(:class="'tHistory__status--' + item.status.toLowerCase()") {{item.status}}
+          td.tHistory__tableCell.tHistory__status(:class="'tHistory__status--' + item.status.toLowerCase()") {{item.status}}
     .panel(:class="{'panel--active': isCheckedArray}")
       .panel__actions.panel__checkbox
         input(type="checkbox" id="globalCheckbox" @click="switchAllCheckboxes" :checked="isAllChecked").checkboxCustom
@@ -104,8 +104,8 @@ export default {
 <style lang="scss">
 .tHistory {
   $tableHeight: 62px;
-  padding-left: 62px;
-  width: 100%;
+  // width: 100%;
+  overflow: auto;
   &__table {
     width: 100%;
     border-collapse: collapse;
@@ -129,10 +129,16 @@ export default {
     border-bottom: 1px solid #023b59;
   }
 
+  &__tableCell {
+    padding: 0 5px;
+    white-space: nowrap;
+  }
+
+  &__description {
+    min-width: 320px;
+  }
+
   &__checkbox {
-    position: absolute;
-    left: 50px;
-    transform: translate(-50%, -50%);
   }
 
   &__amount {
