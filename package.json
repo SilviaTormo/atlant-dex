@@ -9,7 +9,7 @@
   },
   "keywords": [],
   "author": "ES",
-  "license": "ISC",
+  "license": "GNU https://github.com/AtlantPlatform/atlant-dex/blob/master/LICENSE",
   "dependencies": {
     "axios": "0.16.2",
     "babel-polyfill": "6.26.0",
