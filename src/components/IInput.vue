@@ -55,6 +55,7 @@ export default {
   position: relative;
   &__label {
     color: #ffffff;
+    white-space: nowrap;
     font-size: inherit;
     font-weight: normal;
     position: absolute;

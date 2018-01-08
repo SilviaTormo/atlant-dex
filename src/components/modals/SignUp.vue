@@ -7,12 +7,15 @@ Modal
       .singUp__header
         .singUp__title Sign up
         .singUp__other(@click="openSignIn") Sign in
-      .singUp__inputs
-        IInput.singUp__input(label="Email address", v-model="email")
-        IInput.singUp__input(label="Choose a password", v-model="password")
-        IInput.singUp__input(label="Confirm password", v-model="passwordRepeat")
-        Radio(name="acknowledged", :value="true", label="I agree to the User Agreement and Privacy Policy.", v-model="iAgree")
-      BButton.singUp__button(color="malachite" rounded @click.native="signUpUser") Create account
+      .singUp__blocks
+        .singUp__block
+          IInput.singUp__input(label="Email address", v-model="email")
+          IInput.singUp__input(label="Choose a password", v-model="password")
+          IInput.singUp__input(label="Confirm password", v-model="passwordRepeat")
+        .singUp__block
+          Checkbox.singUp__checkbox(name="acknowledged", :value="true", v-model="iAgree")
+            span.singUp__iAgree I certify that I am 18 years of age or older, and I agree to the #[a.link(href="#") User Agreement] and #[a.link(href="#") Privacy Policy].
+          BButton.singUp__button(color="malachite" rounded @click.native="signUpUser") Create account
     Status.singUp__status(v-if="step == 1" isSuccess)
       .singUp__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
@@ -20,7 +23,7 @@ Modal
 <script>
 import {mapMutations, mapActions} from 'vuex';
 import Icon from 'components/Icon';
-import Radio from 'components/Radio';
+import Checkbox from 'components/Checkbox';
 import BButton from 'components/BButton';
 import Modal from 'components/modals/Modal';
 import IInput from 'components/IInput';
@@ -58,7 +61,7 @@ export default {
   },
   components: {
     Icon,
-    Radio,
+    Checkbox,
     Modal,
     BButton,
     IInput,
@@ -75,18 +78,19 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 600px;
   &__icon {
     $size: 77px;
     width: $size;
     height: $size;
     fill: $color_yellow;
+    margin: auto;
   }
   &__header {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    margin-top: 66px;
-    margin-bottom: 70px;
+    margin-bottom: 50px;
   }
   &__title {
     font-size: 18px;
@@ -110,18 +114,41 @@ export default {
       background-color: $color;
     }
   }
-  &__inputs {
+  &__blocks {
     display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+    flex-direction: space-between;
     justify-content: space-between;
+  }
+
+  &__block {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  &__inputs {
+
+    display: flex;
+    flex-direction: column;
     & > * {
       flex-basis: 40%;
       margin-bottom: 50px;
     }
   }
   &__input {
-    width: 45%;
+    &:not(:last-child){
+      margin-bottom: 40px;
+    }
+  }
+  &__checkbox {
+    align-items: flex-start !important;
+  }
+
+  &__iAgree {
+    margin-left: 29px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 20px;
   }
   &__button {
     margin-left: auto;
