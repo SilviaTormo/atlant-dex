@@ -73,13 +73,13 @@ $padding: 44px;
   }
   &__body {
     position: relative;
-    margin: 0 auto;
-    padding: $padding;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    // height: 600px;
-    // width: 600px;
+    min-width: 407px;
+    min-height: 600px;
+    margin: 0 auto;
+    padding: $padding;
     border-radius: 12px;
     z-index: 801;
     box-shadow: 0 25px 20px rgba(0, 0, 0, 0.24);
@@ -114,11 +114,12 @@ $padding: 44px;
 @include media-breakpoint-down(md) {
   .modal {
     height: 100%;
+    &__main {
+      padding: 0;
+    }
     &__body {
-      height: 100%;
+      height: 100vh;
       width: 100%;
-      top: 0;
-      left: 0;
       padding-top: 60px;
       padding-bottom: 30px;
       padding-left: $padding / 2;
@@ -139,6 +140,14 @@ $padding: 44px;
     }
     &__overlay {
       display: none;
+    }
+
+    &__closeIcon {
+      z-index: 801;
+      top: 19px;
+      right: 24px;
+      width: 20px;
+      height: 20px;
     }
   }
 }
