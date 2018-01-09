@@ -6,19 +6,21 @@ Modal
     .reset__content(v-if="step == 0")
       .reset__headerContent
         .reset__title Reset password
-        .reset__other(href="#" @click="openModal({name: 'signIn'})") Sign in
+        .reset__other(v-if="!isMobile", href="#" @click="openModal({name: 'signIn'})") Sign in
       .reset__inputs
         IInput.reset__input(label="Email address", v-model="email")
-        Radio(name="acknowledged", :value="true", label="I acknowledge that my account will be locked for a minimum of 24 hours.", v-model="acknowledged")
+        Checkbox.reset__checkbox(name="acknowledged", :value="true", v-model="acknowledged")
+          .reset__checkboxText I acknowledge that my account will be locked for a minimum of 24 hours.
       BButton.reset__button(color="malachite" rounded @click.native="step++") Reset now
+    .reset__other(v-if="isMobile", href="#" @click="openModal({name: 'signIn'})") Sign in
     Status.reset__status(v-if="step == 1" isSuccess)
       .reset__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
 
 <script>
-import {mapMutations} from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 import Icon from 'components/Icon';
-import Radio from 'components/Radio';
+import Checkbox from 'components/Checkbox';
 import BButton from 'components/BButton';
 import Modal from 'components/modals/Modal';
 import IInput from 'components/IInput';
@@ -33,6 +35,11 @@ export default {
       isSuccess: false,
     };
   },
+  computed: {
+    ...mapGetters('misc', {
+      isMobile: 'isMobile',
+    }),
+  },
   methods: {
     ...mapMutations('modal', {
       openModal: 'open',
@@ -40,7 +47,7 @@ export default {
   },
   components: {
     Icon,
-    Radio,
+    Checkbox,
     Modal,
     BButton,
     IInput,
@@ -57,6 +64,8 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 522px;
+  justify-content: space-between;
   &__icon {
     $size: 77px;
     width: $size;
@@ -98,11 +107,18 @@ export default {
     flex-wrap: wrap;
     justify-content: space-between;
     & > * {
-      flex-basis: 40%;
+      flex-basis: 45%;
       margin-bottom: 50px;
     }
   }
+  &__checkbox {
+    align-items: flex-start !important;
+  }
+  &__checkboxText {
+    margin-left: 20px;
+  }
   &__button {
+    display: flex;
     margin-left: auto;
     margin-right: auto;
     font-size: 16px;
@@ -118,5 +134,32 @@ export default {
 }
 
 @include media-breakpoint-down(md) {
+  .reset {
+    margin: auto;
+    &__icon {
+      display: none;
+    }
+    &__inputs {
+      flex-direction: column;
+      & >* {
+        flex-basis: auto;
+        width: 100%;
+      }
+    }
+    &__checkbox {
+      margin-top: 30px;
+      flex-direction: column;
+      align-items: center !important;
+    }
+
+    &__checkboxText {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    &__other {
+      margin-top: 40px;
+    }
+  }
 }
 </style>

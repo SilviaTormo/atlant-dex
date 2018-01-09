@@ -101,7 +101,7 @@ $padding: 44px;
     transition: transform .5s;
     &:hover {
       transition: transform .5s;
-      transform: rotate(36deg);
+      transform: scale(1.1);
     }
   }
   & {
