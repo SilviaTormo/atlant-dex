@@ -65,6 +65,7 @@ export default {
     height: 35px;
     font-size: inherit;
     width: 111px;
+    white-space: nowrap;
   }
 }
 

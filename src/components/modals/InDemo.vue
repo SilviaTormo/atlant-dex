@@ -19,7 +19,13 @@ export default {
 <style lang="scss">
 @import "~variables";
 .inDemo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 522px;
+  justify-content: space-between;
   &__icon {
+    margin: auto;
     $size: 128px;
     width: $size;
     height: $size;
