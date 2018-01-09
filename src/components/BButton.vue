@@ -56,19 +56,22 @@ export default {
 @import '~variables';
 $ROOT: "button";
 .#{$ROOT} {
-  $padding: 10px;
   min-height: 28px;
   font-size: 12px;
-  padding-left: $padding;
-  padding-right: $padding;
+  padding: 8px 20px;
   color: $color_daintree;
   &__content {
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     font-size: inherit;
     font-weight: 700;
     color: inherit;
+    transition: all .5s;
+    &:hover {
+      transition: all .5s;
+    }
   }
   &--yellow {
     $color1: $color_energy;

@@ -10,10 +10,11 @@ Modal
       .singIn__inputs
         IInput.singIn__input(label="Email", v-model="email")
         IInput.singIn__input(label="Password", v-model="password")
-      .singIn__rememberContainer
-        Radio.singIn__remember(name="remember", :value="true", label="Remember me", v-model="remember")
+      .singIn__checkboxContainer
+        Checkbox.singIn__checkbox(name="remember", :value="true", v-model="remember")
+          .singIn__checkboxLabel Remember me
       BButton.singIn__button(color="malachite" rounded @click.native="signIn") Let me in
-      a.singIn__forgot(href="#" @click="[openModal('reset'), finishTransaction]" ) Forgot password?
+      .singIn__forgot #[a.link(href="#" @click="[openModal('reset'), finishTransaction]") Forgot password?]
     Status.singIn__status(v-if="step == 1" isSuccess)
       .singIn__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
@@ -21,7 +22,7 @@ Modal
 <script>
 import {mapMutations, mapActions} from 'vuex';
 import Icon from 'components/Icon';
-import Radio from 'components/Radio';
+import Checkbox from 'components/Checkbox';
 import BButton from 'components/BButton';
 import Modal from 'components/modals/Modal';
 import IInput from 'components/IInput';
@@ -61,7 +62,7 @@ export default {
   },
   components: {
     Icon,
-    Radio,
+    Checkbox,
     Modal,
     BButton,
     IInput,
@@ -75,14 +76,15 @@ export default {
 @import "~sass/bootstrap/media";
 
 .singIn {
+  min-width: 522px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   &__icon {
     $size: 77px;
     width: $size;
     height: $size;
     fill: $color_yellow;
+    margin: auto;
   }
   &__headerContent {
     display: flex;
@@ -124,19 +126,34 @@ export default {
     }
   }
   &__button {
-    margin-left: auto;
-    margin-right: auto;
+    display: block;
+    margin: auto;
+    min-width: 130px;
+    align-items: center;
+    margin-bottom: 40px;
     font-size: 16px;
-    font-weight: 900px;
+    font-weight: 900;
+    text-align: center;
     text-transform: uppercase;
   }
-  &__rememberContainer {
+  &__checkboxContainer {
     margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+  }
+  &__checkbox {
+    flex-direction: column;
+  }
+  &__checkboxLabel {
+    margin-top: 21px;
+    font-size: 14px;
+    font-weight: 400;
   }
   &__forgot {
-    color: #f7b933;
-    margin-top: 40px;
-    text-decoration: none;
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
   }
   &__statusMsg {
     text-align: center;

@@ -19,8 +19,13 @@
 .link {
   cursor: pointer;
   color: $color_yellow;
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  transition: border .5s;
     &:hover {
-      text-decoration: underline;
+      transition: border.5s;
+      border-color: $color_yellow;
     }
 }
 

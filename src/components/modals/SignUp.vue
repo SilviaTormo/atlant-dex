@@ -22,7 +22,7 @@ Modal
 </template>
 
 <script>
-import {mapMutations, mapGetters, mapActions} from 'vuex';
+import {mapGetters, mapMutations, mapActions} from 'vuex';
 import Icon from 'components/Icon';
 import Checkbox from 'components/Checkbox';
 import BButton from 'components/BButton';
@@ -41,6 +41,11 @@ export default {
       isSuccess: false,
     };
   },
+  computed: {
+    ...mapGetters('misc', {
+      isMobile: 'isMobile',
+    }),
+  },
   methods: {
     ...mapMutations('modal', {
       open: 'open',
@@ -48,9 +53,6 @@ export default {
     ...mapActions('membership', [
       'signup',
     ]),
-    ...mapGetters('misc', {
-      isMobile: 'isMobile',
-    }),
     openSignIn() {
       this.open({
         name: 'signIn',
@@ -82,7 +84,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 600px;
+  max-width: 522px;
   &__icon {
     $size: 77px;
     width: $size;
