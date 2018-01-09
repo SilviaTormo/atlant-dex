@@ -104,13 +104,6 @@ $padding: 44px;
       transform: scale(1.1);
     }
   }
-  & {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-  }
   &__cross {
     display: none;
   }
