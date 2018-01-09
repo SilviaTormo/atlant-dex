@@ -6,21 +6,22 @@ Modal
     .singIn__content(v-if="step == 0")
       .singIn__headerContent
         .singIn__title Sign in
-        .singIn__other(@click="openSignUp") Sign up
+        .singIn__other(v-if="!isMobile", @click="openSignUp") Sign up
       .singIn__inputs
         IInput.singIn__input(label="Email", v-model="email")
         IInput.singIn__input(label="Password", v-model="password")
       .singIn__checkboxContainer
         Checkbox.singIn__checkbox(name="remember", :value="true", v-model="remember")
           .singIn__checkboxLabel Remember me
-      BButton.singIn__button(color="malachite" rounded @click.native="signIn") Let me in
-      .singIn__forgot #[a.link(href="#" @click="[openModal('reset'), finishTransaction]") Forgot password?]
+      BButton.singIn__button(color="malachite" rounded @click.native="[signIn, finishTransaction]") Let me in
+      .singIn__forgot #[a.link(href="#" @click="openModal({name: 'reset'})") Forgot password?]
+    .singIn__other(v-if="isMobile", @click="openSignUp") Sign up
     Status.singIn__status(v-if="step == 1" isSuccess)
       .singIn__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
 
 <script>
-import {mapMutations, mapActions} from 'vuex';
+import {mapGetters, mapMutations, mapActions} from 'vuex';
 import Icon from 'components/Icon';
 import Checkbox from 'components/Checkbox';
 import BButton from 'components/BButton';
@@ -38,15 +39,20 @@ export default {
       isSuccess: false,
     };
   },
+  computed: {
+    ...mapGetters('misc', {
+      isMobile: 'isMobile',
+    }),
+  },
   methods: {
     ...mapMutations('modal', {
-      open: 'open',
+      openModal: 'open',
     }),
     ...mapActions('membership', {
       login: 'login',
     }),
     openSignUp() {
-      this.open({
+      this.openModal({
         name: 'signUp',
       });
     },
@@ -76,9 +82,11 @@ export default {
 @import "~sass/bootstrap/media";
 
 .singIn {
-  min-width: 522px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  min-width: 522px;
+  justify-content: space-between;
   &__icon {
     $size: 77px;
     width: $size;
@@ -115,6 +123,13 @@ export default {
       background-color: $color;
     }
   }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+  }
   &__inputs {
     display: flex;
     align-items: center;
@@ -124,6 +139,10 @@ export default {
       flex-basis: 40%;
       margin-bottom: 50px;
     }
+  }
+  &__input {
+    width: 100%;
+    max-width: 400px;
   }
   &__button {
     display: block;
@@ -164,5 +183,22 @@ export default {
 }
 
 @include media-breakpoint-down(md) {
+  .singIn {
+    min-width: 100%;
+    &__icon {
+      display: none;
+    }
+    &__headerContent {
+      justify-content: center;
+    }
+    &__inputs {
+      flex-direction: column;
+      width: 100%;
+      justify-content: center;
+    }
+    &__other {
+      margin-top: 40px;
+    }
+  }
 }
 </style>

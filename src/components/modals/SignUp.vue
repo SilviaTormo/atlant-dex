@@ -82,9 +82,11 @@ export default {
 
 .singUp {
   display: flex;
+  flex: 1;
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
   max-width: 522px;
+  margin: auto;
   &__icon {
     $size: 77px;
     width: $size;

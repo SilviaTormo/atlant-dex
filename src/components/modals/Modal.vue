@@ -98,8 +98,13 @@ $padding: 44px;
     height: 32px;
     position: absolute;
     cursor: pointer;
+    transition: transform .5s;
+    &:hover {
+      transition: transform .5s;
+      transform: rotate(36deg);
+    }
   }
-  &__content {
+  & {
     display: flex;
     flex: 1;
     flex-direction: column;
