@@ -101,6 +101,7 @@ $padding: 44px;
   }
   &__content {
     display: flex;
+    flex: 1;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
