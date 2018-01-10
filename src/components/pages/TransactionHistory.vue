@@ -1,9 +1,9 @@
 <template lang="pug">
 Page(title="Transaction history")
-  .tHistory
-    table.tHistory__table
+  .tHistory.table__container
+    table.table
       thead
-        tr.tHistory__header
+        tr.table__header
           th
           th ID
           th Time
@@ -11,8 +11,8 @@ Page(title="Transaction history")
           th.tHistory__header--description Description
           th Status
       tbody.tHistory__tableBody
-        tr(v-for="(item, index) in data").tHistory__tableLine
-          td.tHistory__tableCell
+        tr(v-for="(item, index) in data").table__row
+          td.table__cell
             .tHistory__checkbox
               input(type="checkbox" :id="item.id" :value="item.id" v-model="checkedArray" :key="item.id").checkboxCustom
               label(:for="item.id")
@@ -103,35 +103,10 @@ export default {
 
 <style lang="scss">
 .tHistory {
-  $tableHeight: 62px;
-  // width: 100%;
-  overflow: auto;
-  &__table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
   &__header {
-    height: $tableHeight;
-    border-bottom: 1px solid #032537;
-    text-align: left;
-    color: #a1a1a1;
-    font-size: 12px;
-    font-weight: 700;
     &--description {
       padding-left: 26px;
     }
-  }
-
-  &__tableLine {
-    position: relative;
-    height: $tableHeight;
-    border-bottom: 1px solid #023b59;
-  }
-
-  &__tableCell {
-    padding: 0 5px;
-    white-space: nowrap;
   }
 
   &__description {
@@ -158,7 +133,6 @@ export default {
     height: 12px;
     fill: white;
     visibility: hidden;
-
     &--visible {
       visibility: visible;
     }

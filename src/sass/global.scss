@@ -66,3 +66,34 @@
     width: 10px !important;
   }
 }
+
+.table {
+  $tableHeight: 62px;
+  width: 100%;
+  border-collapse: collapse;
+  &__container {
+    overflow: auto;
+  }
+  &__header {
+    height: $tableHeight;
+    border-bottom: 1px solid #032537;
+    text-align: left;
+    color: #a1a1a1;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  &__row {
+    position: relative;
+    height: $tableHeight;
+    border-bottom: 1px solid #023b59;
+  }
+
+  &__cell {
+    padding: 0 5px;
+    white-space: nowrap;
+  }
+
+
+
+}
