@@ -35,11 +35,11 @@ export default {
           label: 'Password',
         },
         {
-          name: 'securitysettings',
+          name: 'securitySettings',
           label: 'Security settings',
         },
         {
-          name: 'securitylog',
+          name: 'securityLog',
           label: 'Security log',
         },
         {

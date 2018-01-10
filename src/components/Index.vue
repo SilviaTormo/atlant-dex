@@ -47,6 +47,8 @@
       GeneralSettings(v-if="isPageOpened('generalsettings')")
       ChangePassword(v-if="isPageOpened('changePassword')")
       AccountInformation(v-if="isPageOpened('accountinformation')")
+      SecuritySettings(v-if="isPageOpened('securitySettings')")
+      SecurityLog(v-if="isPageOpened('securityLog')")
   //- Modals
   InDemo(v-if="isModalOpened('inDemo')")
   ImportKey(v-else-if="isModalOpened('importKey')")
@@ -82,6 +84,8 @@ import Verification from './pages/Verification';
 import GeneralSettings from './pages/GeneralSettings';
 import ChangePassword from './pages/ChangePassword';
 import AccountInformation from './pages/AccountInformation';
+import SecuritySettings from './pages/SecuritySettings';
+import SecurityLog from './pages/SecurityLog';
 import InDemo from './modals/InDemo';
 import ImportKey from './modals/ImportKey';
 import Welcome from './modals/Welcome';
@@ -241,6 +245,8 @@ export default {
     GeneralSettings,
     ChangePassword,
     AccountInformation,
+    SecuritySettings,
+    SecurityLog,
     Status,
     Fiat,
   },
