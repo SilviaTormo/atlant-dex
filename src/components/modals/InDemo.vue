@@ -1,7 +1,8 @@
 <template lang="pug">
-Modal.inDemo
-  Icon.inDemo__icon(id="info")
-  .inDemo__text ATLANT DEX exchange is currently in demo, live trading to be enabled once released
+Modal
+  .inDemo
+    Icon.inDemo__icon(id="info")
+    .inDemo__text ATLANT DEX exchange is currently in demo, live trading to be enabled once released
 </template>
 
 <script>
