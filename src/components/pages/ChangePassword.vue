@@ -1,6 +1,6 @@
 <template lang="pug">
 Page(title="Password", :sidebar="true")
-  .changePassword__title Change password
+  .title Change password
   .changePassword__main
     .changePassword__block
       IInput.changePassword__input(v-if="showSymbols" placeholder="Old password" label="Old password" v-model="passwordOld")
@@ -53,12 +53,6 @@ export default {
     &:not(:last-of-type) {
       margin-right: 58px;
     }
-  }
-  &__title {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 25px;
-    text-transform: uppercase;
   }
   &__input {
     font-size: 14px;

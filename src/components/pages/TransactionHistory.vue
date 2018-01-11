@@ -10,22 +10,22 @@ Page(title="Transaction history")
           th Amount
           th.tHistory__header--description Description
           th Status
-      tbody.tHistory__tableBody
+      tbody
         tr(v-for="(item, index) in data").table__row
           td.table__cell
             .tHistory__checkbox
-              input(type="checkbox" :id="item.id" :value="item.id" v-model="checkedArray" :key="item.id").checkboxCustom
+              input(type="checkbox" :id="item.id" :value="item.id" v-model="checkedArray" :key="item.id").checkboxTable
               label(:for="item.id")
-          td.tHistory__tableCell {{item.id}}
-          td.tHistory__tableCell.tHistory__date {{item.date}}
-          td.tHistory__tableCell.tHistory__amount(:class="'tHistory__amount--' + (item.amount >= 0 ? 'positive' : 'negative')") {{item.amount}} USD
-          td.tHistory__tableCell.tHistory__description
+          td.table__cell {{item.id}}
+          td.table__cell.tHistory__date {{item.date}}
+          td.table__cell.tHistory__amount(:class="'tHistory__amount--' + (item.amount >= 0 ? 'positive' : 'negative')") {{item.amount}} USD
+          td.table__cell.tHistory__description
             Icon(id='icon-qr' :class="{'tHistory__icon--visible': item.crypto}").tHistory__icon
             | {{item.description}}
-          td.tHistory__tableCell.tHistory__status(:class="'tHistory__status--' + item.status.toLowerCase()") {{item.status}}
+          td.table__cell.tHistory__status(:class="'tHistory__status--' + item.status.toLowerCase()") {{item.status}}
     .panel(:class="{'panel--active': isCheckedArray}")
       .panel__actions.panel__checkbox
-        input(type="checkbox" id="globalCheckbox" @click="switchAllCheckboxes" :checked="isAllChecked").checkboxCustom
+        input(type="checkbox" id="globalCheckbox" @click="switchAllCheckboxes" :checked="isAllChecked").checkboxTable
         label(for="globalCheckbox")
       .panel__actions Repeat
       .panel__actions Undo
@@ -108,14 +108,9 @@ export default {
       padding-left: 26px;
     }
   }
-
   &__description {
     min-width: 320px;
   }
-
-  &__checkbox {
-  }
-
   &__amount {
     &--positive {
       color: #7ed321;
@@ -124,7 +119,6 @@ export default {
       color: #f33a3a;
     }
   }
-
   &__icon {
     display: inline-block;
     vertical-align: middle;
@@ -149,6 +143,7 @@ export default {
 }
 .panel {
   $panelHeight: 58px;
+  z-index: 1.6;
   position: absolute;
   display: flex;
   align-items: center;

@@ -1,6 +1,6 @@
 <template lang="pug">
 Page(title="Account information", :sidebar="true")
-  .accountInfo account information content
+  .title account information content
 </template>
 
 <script>

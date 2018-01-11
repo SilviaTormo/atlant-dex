@@ -1,7 +1,7 @@
 <template lang="pug">
 Page(title="General settings", :sidebar="true")
   .generalSettings__block
-    .generalSettings__title TWO-FACTOR AUTHENTICATION
+    .title TWO-FACTOR AUTHENTICATION
     .generalSettings__content
       Checkbox(v-model="use2FA")
         .generalSettings__text Use 2FA for account login
@@ -35,12 +35,6 @@ export default {
 .generalSettings {
   &__block {
     margin-bottom: 67px;
-  }
-  &__title {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 25px;
-    text-transform: uppercase;
   }
   &__content {
     margin-top: 42px;

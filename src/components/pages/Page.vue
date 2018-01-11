@@ -33,13 +33,25 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~sass/bootstrap/media";
 .page {
+  height: 100%;
   &__body {
+    height: 100%;
     display: flex;
   }
   &__content {
     width: 100%;
     padding: 36px;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .page {
+    padding-bottom: 60px;
+    &__body {
+      flex-direction: column;
+    }
   }
 }
 </style>

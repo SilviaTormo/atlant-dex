@@ -1,6 +1,6 @@
 <template lang="pug">
 Page(title="Security settings", :sidebar="true")
-  .accountInfo Security settings
+  .title Security settings
 </template>
 
 <script>

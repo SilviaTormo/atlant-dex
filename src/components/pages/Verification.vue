@@ -1,7 +1,7 @@
 <template lang="pug">
 Page(title="Verification", :sidebar="true")
   .verification
-    .verification__title Please upload the following files in order to verify your account:
+    .title Please upload the following files in order to verify your account:
     .verification__main
       p Please upload the following files in order to verify your account:
       p.verification__entityType If you are a private individual:
@@ -70,13 +70,6 @@ export default {
 <style lang="scss">
 .verification {
   max-width: 560px;
-  &__title {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 25px;
-    text-transform: uppercase;
-    margin-bottom: 41px;
-  }
   &__main {
     font-size: 14px;
     font-weight: 400;

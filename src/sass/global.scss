@@ -29,7 +29,7 @@
     }
 }
 
-.checkboxCustom {
+.checkboxTable{
   position: absolute;
   opacity: 0;
 
@@ -48,6 +48,7 @@
     height: 18px;
     border: 2px solid #e9bd24;
     border-radius: 50%;
+    transition: background .5s;
   }
 
   &:checked + label:before {
@@ -93,7 +94,12 @@
     padding: 0 5px;
     white-space: nowrap;
   }
+}
 
-
-
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 25px;
+  text-transform: uppercase;
+  margin-bottom: 41px;
 }

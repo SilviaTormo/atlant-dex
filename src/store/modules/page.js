@@ -1,6 +1,6 @@
 export default {
   state: {
-    name: 'verification',
+    name: '',
     data: {},
   },
   mutations: {

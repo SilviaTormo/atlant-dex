@@ -6,8 +6,8 @@
       :class="{'pageSidebar__item--selected': isPageOpened(name)}",
       @click="openPage({name})"
     )
-      Icon.pageSidebar__icon(id="triangle2" v-if="isPageOpened(name)")
-      .pageSidebar__label {{label}}
+      Icon.pageSidebar__icon(id="triangle2" v-if="isPageOpened(name) && !isMobile")
+      span.pageSidebar__label {{label}}
 </template>
 
 <script>
@@ -53,6 +53,9 @@ export default {
     ...mapGetters('page', {
       isPageOpened: 'isOpened',
     }),
+    ...mapGetters('misc', {
+      isMobile: 'isMobile',
+    }),
   },
   methods: {
     ...mapMutations('page', {
@@ -68,18 +71,20 @@ export default {
 
 <style lang="scss">
 @import "~variables";
+@import "~sass/bootstrap/media";
+
 .pageSidebar {
   padding: 36px;
   border-right: 1px solid $color_tangaroa;
+  height: 100%;
   &__list {
     list-style: none;
   }
   &__item {
-    display: flex;
-    align-items: center;
     position: relative;
     font-weight: 700;
     cursor: pointer;
+    white-space: nowrap;
     &:not(:last-of-type) {
       margin-bottom: 24px;
     }
@@ -95,6 +100,20 @@ export default {
     position: absolute;
     transform: rotate(270deg);
     left: -22px;
+  }
+  &__label {
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .pageSidebar {
+    &__list {
+      border: 1px solid #032537;
+    }
+
+    &__item {
+      text-align: center;
+    }
   }
 }
 </style>

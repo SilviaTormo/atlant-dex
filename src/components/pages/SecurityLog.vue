@@ -1,17 +1,19 @@
 <template lang="pug">
 Page(title="Security log", :sidebar="true")
-  .table__container
-    table.table
-      thead
-        tr.table__header
-          th IP address
-          th Date
-          th Type
-      tbody
-        tr(v-for="(item, index) in data").table__row
-          td {{ item.ip }}
-          td {{ item.date }}
-          td {{ item.type }}
+  .securityLog
+    .title TWO-FACTOR AUTHENTICATION
+    .table__container
+      table.table
+        thead
+          tr.table__header
+            th IP address
+            th Date
+            th Type
+        tbody
+          tr(v-for="(item, index) in data").table__row
+            td.table__cell {{ item.ip }}
+            td.table__cell {{ item.date }}
+            td.table__cell {{ item.type }}
 </template>
 
 <script>
@@ -67,4 +69,7 @@ export default {
 </script>
 
 <style lang="css">
+.securityLog {
+  max-width: 500px;
+}
 </style>
