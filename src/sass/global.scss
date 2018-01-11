@@ -70,27 +70,32 @@
 
 .table {
   $tableHeight: 62px;
-  width: 100%;
-  border-collapse: collapse;
-  &__container {
-    overflow: auto;
-  }
-  &__header {
-    height: $tableHeight;
-    border-bottom: 1px solid #032537;
-    text-align: left;
-    color: #a1a1a1;
-    font-size: 12px;
-    font-weight: 700;
+  overflow: auto;
+  
+  &__body {
+    width: 100%;
+    border-collapse: collapse;
   }
 
-  &__row {
-    position: relative;
+  thead {
+    border-color: #032537;
+    color: #a1a1a1;
+  }
+  tbody{
+    tr {
+      position: relative;
+    }
+  }
+
+  tr {
     height: $tableHeight;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: left;
     border-bottom: 1px solid #023b59;
   }
 
-  &__cell {
+  td {
     padding: 0 5px;
     white-space: nowrap;
   }

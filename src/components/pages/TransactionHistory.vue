@@ -1,9 +1,9 @@
 <template lang="pug">
 Page(title="Transaction history")
-  .tHistory.table__container
-    table.table
+  .tHistory.table
+    table.table__body
       thead
-        tr.table__header
+        tr
           th
           th ID
           th Time
@@ -11,18 +11,18 @@ Page(title="Transaction history")
           th.tHistory__header--description Description
           th Status
       tbody
-        tr(v-for="(item, index) in data").table__row
-          td.table__cell
+        tr(v-for="(item, index) in data")
+          td
             .tHistory__checkbox
               input(type="checkbox" :id="item.id" :value="item.id" v-model="checkedArray" :key="item.id").checkboxTable
               label(:for="item.id")
-          td.table__cell {{item.id}}
-          td.table__cell.tHistory__date {{item.date}}
-          td.table__cell.tHistory__amount(:class="'tHistory__amount--' + (item.amount >= 0 ? 'positive' : 'negative')") {{item.amount}} USD
-          td.table__cell.tHistory__description
+          td {{item.id}}
+          td.tHistory__date {{item.date}}
+          td.tHistory__amount(:class="'tHistory__amount--' + (item.amount >= 0 ? 'positive' : 'negative')") {{item.amount}} USD
+          td.tHistory__description
             Icon(id='icon-qr' :class="{'tHistory__icon--visible': item.crypto}").tHistory__icon
             | {{item.description}}
-          td.table__cell.tHistory__status(:class="'tHistory__status--' + item.status.toLowerCase()") {{item.status}}
+          td.tHistory__status(:class="'tHistory__status--' + item.status.toLowerCase()") {{item.status}}
     .panel(:class="{'panel--active': isCheckedArray}")
       .panel__actions.panel__checkbox
         input(type="checkbox" id="globalCheckbox" @click="switchAllCheckboxes" :checked="isAllChecked").checkboxTable
@@ -151,7 +151,8 @@ export default {
   height: $panelHeight;
   left: 0;
   right: 0;
-  bottom: -$panelHeight;
+  top: 100vh;
+  margin-top: 0px;
   overflow: hidden;
   background-image: repeating-linear-gradient(
     135deg,
@@ -160,10 +161,8 @@ export default {
     #03324c 0,
     #03324c 60px
   );
-  transition: bottom .5s;
   &--active {
-    transition: bottom .5s;
-    bottom: 0px;
+    margin-top: -$panelHeight;
   }
   &__actions {
     cursor: pointer;

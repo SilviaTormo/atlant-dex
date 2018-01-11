@@ -2,18 +2,18 @@
 Page(title="Security log", :sidebar="true")
   .securityLog
     .title TWO-FACTOR AUTHENTICATION
-    .table__container
-      table.table
+    .table
+      table.table__body
         thead
-          tr.table__header
+          tr
             th IP address
             th Date
             th Type
         tbody
-          tr(v-for="(item, index) in data").table__row
-            td.table__cell {{ item.ip }}
-            td.table__cell {{ item.date }}
-            td.table__cell {{ item.type }}
+          tr(v-for="(item, index) in data")
+            td {{ item.ip }}
+            td {{ item.date }}
+            td {{ item.type }}
 </template>
 
 <script>

@@ -43,6 +43,7 @@
                 Orders
       //- Pages
       TransactionHistory(v-if="isPageOpened('transactionHistory')")
+      MyOrders(v-if="isPageOpened('myOrders')")
       Verification(v-if="isPageOpened('verification')")
       GeneralSettings(v-if="isPageOpened('generalsettings')")
       ChangePassword(v-if="isPageOpened('changePassword')")
@@ -80,6 +81,7 @@ import History from './History';
 import BookHeader from './BookHeader';
 import PropertyMap from './PropertyMap';
 import TransactionHistory from './pages/TransactionHistory';
+import MyOrders from './pages/MyOrders';
 import Verification from './pages/Verification';
 import GeneralSettings from './pages/GeneralSettings';
 import ChangePassword from './pages/ChangePassword';
@@ -241,6 +243,7 @@ export default {
     CryptoDeposit,
     CryptoWithdraw,
     TransactionHistory,
+    MyOrders,
     Verification,
     GeneralSettings,
     ChangePassword,

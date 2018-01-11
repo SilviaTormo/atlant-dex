@@ -4,8 +4,8 @@
     Icon.toolbar__icon(:id="(showSidebar) ? 'cross' : 'hamburger'" @click='toggleSidebar')
     Icon.toolbar__icon(v-for='sec in sections', :id="sec", :key="sec", :class="isActive(sec)", @click="setSection(sec)")
   .toolbar__group
-    Icon.toolbar__icon(id='settings' @click="openTransactionHistory()")
-    Icon.toolbar__icon(id='info' @click="openGeneralSettings()")
+    Icon.toolbar__icon(id='settings' @click="getOpenPage('generalsettings')")
+    Icon.toolbar__icon(id='info' @click="getOpenPage('transactionHistory')")
 </template>
 
 <script>
@@ -39,14 +39,9 @@ export default {
     isActive(section) {
       return (section == this.section) ? 'toolbar__icon--active' : '';
     },
-    openTransactionHistory() {
+    getOpenPage(pageName) {
       this.openPage({
-        name: 'transactionHistory',
-      });
-    },
-    openGeneralSettings() {
-      this.openPage({
-        name: 'generalsettings',
+        name: pageName,
       });
     },
   },
