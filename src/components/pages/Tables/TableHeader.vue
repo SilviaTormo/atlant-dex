@@ -1,16 +1,32 @@
 <template lang="pug">
 .tableHeader
-  BackToDashboard
-  .tableHeader__title(v-if="!isMobile" @click="getOpenPage('transactionHistory')") Transaction History
-  .tableHeader__title(v-if="!isMobile" @click="getOpenPage('myOrders')") My Orders
+  BackToDashboard.tableHeader__backToDashboard
+  .tableHeader__title(v-if="!isMobile" @click="getOpenPage('transactionHistory')", :class="(isThisPage('transactionHistory')) ? 'tableHeader__title--active' : ''") Transaction History
+  .tableHeader__title(v-if="!isMobile" @click="getOpenPage('myOrders')", :class="(isThisPage('myOrders')) ? 'tableHeader__title--active' : ''") My Orders
+    Dropdown.tableHeader__dropdown(v-if="isThisPage('myOrders')", :options="sortTypes" v-model="sortType")
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex';
+import {mapState, mapGetters, mapMutations} from 'vuex';
 import BackToDashboard from '../BackToDashboard';
+import Dropdown from '../../Dropdown';
 
 export default {
+  data() {
+    return {
+      sortType: '',
+      sortTypes: [
+        'FULLY MATCHED',
+        'FULLY MATCHED',
+        'FULLY MATCHED',
+        'FULLY MATCHED',
+      ],
+    };
+  },
   computed: {
+    ...mapState('page', {
+      name: 'name',
+    }),
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
@@ -24,6 +40,9 @@ export default {
         name: pageName,
       });
     },
+    isThisPage(pageName) {
+      return pageName == this.name;
+    },
   },
   props: {
     title: {
@@ -33,6 +52,7 @@ export default {
     },
   },
   components: {
+    Dropdown,
     BackToDashboard,
   },
 };
@@ -44,13 +64,38 @@ export default {
 
 .tableHeader {
   display: flex;
-  align-items: center;
-  padding: 36px;
+  padding: 0 36px;
+  min-height: 73px;
   border-top: 1px solid $color_tangaroa;
+  &__backToDashboard {
+    padding-right: 43px;
+  }
   &__title {
+    display: flex;
+    align-items: center;
     font-weight: 700;
     text-transform: uppercase;
-    margin-left: 52px;
+    padding: 0 43px;
+    vertical-align: baseline;
+    white-space: nowrap;
+    &--active {
+      color: #31edd7;
+      font-size: 16px;
+      font-weight: 700;
+      border-left: 1px solid $color_tangaroa;
+      border-right: 1px solid $color_tangaroa;
+      border-bottom: 1px solid $color_blue;
+      margin-bottom: -1px;
+      z-index: 1;
+    }
+  }
+  &__dropdown {
+    margin-left: 24px;
+    padding-right: 20px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
   }
 }
 
@@ -74,6 +119,8 @@ export default {
       #03324c 60px
     );
     z-index: 1.5;
+
+
   }
 }
 </style>
