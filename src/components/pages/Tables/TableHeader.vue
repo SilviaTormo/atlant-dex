@@ -1,18 +1,29 @@
 <template lang="pug">
-.pageHeader
+.tableHeader
   BackToDashboard
-  .pageHeader__title(v-if="!isMobile") {{title}} :
+  .tableHeader__title(v-if="!isMobile" @click="getOpenPage('transactionHistory')") Transaction History
+  .tableHeader__title(v-if="!isMobile" @click="getOpenPage('myOrders')") My Orders
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
-import BackToDashboard from './BackToDashboard';
+import {mapGetters, mapMutations} from 'vuex';
+import BackToDashboard from '../BackToDashboard';
 
 export default {
   computed: {
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
+  },
+  methods: {
+    ...mapMutations('page', {
+      openPage: 'open',
+    }),
+    getOpenPage(pageName) {
+      this.openPage({
+        name: pageName,
+      });
+    },
   },
   props: {
     title: {
@@ -31,7 +42,7 @@ export default {
 @import '~variables';
 @import "~sass/bootstrap/media";
 
-.pageHeader {
+.tableHeader {
   display: flex;
   align-items: center;
   padding: 36px;
@@ -44,7 +55,7 @@ export default {
 }
 
 @include media-breakpoint-down(md) {
-  .pageHeader {
+  .tableHeader {
     position: fixed;
     display: flex;
     justify-content: center;

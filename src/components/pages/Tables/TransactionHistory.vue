@@ -1,32 +1,28 @@
 <template lang="pug">
-Page(title="My orders")
-  .myOrders.table
+TablePage(title="Transaction history")
+  .tHistory.table
     table.table__body
       thead
         tr
           th
           th ID
-          th Timestamp
-          th Type
-          th Action
-          th Pair
+          th Time
           th Amount
-          th Price
-          th Total
+          th.tHistory__header--description Description
+          th Status
       tbody
         tr(v-for="(item, index) in data")
           td
-            .myOrders__checkbox
+            .tHistory__checkbox
               input(type="checkbox" :id="item.id" :value="item.id" v-model="checkedArray" :key="item.id").checkboxTable
               label(:for="item.id")
           td {{item.id}}
-          td {{item.timestamp}}
-          td {{item.type}}
-          td.myOrders__action(:class="'myOrders__action--' + item.action.toLowerCase()") {{item.action}}
-          td {{item.pair}}
-          td {{item.amount}}
-          td {{item.price}} USD
-          td {{item.total}} USD
+          td.tHistory__date {{item.date}}
+          td.tHistory__amount(:class="'tHistory__amount--' + (item.amount >= 0 ? 'positive' : 'negative')") {{item.amount}} USD
+          td.tHistory__description
+            Icon(id='icon-qr' :class="{'tHistory__icon--visible': item.crypto}").tHistory__icon
+            | {{item.description}}
+          td.tHistory__status(:class="'tHistory__status--' + item.status.toLowerCase()") {{item.status}}
     .panel(:class="{'panel--active': isCheckedArray}")
       .panel__actions.panel__checkbox
         input(type="checkbox" id="globalCheckbox" @click="switchAllCheckboxes" :checked="isAllChecked").checkboxTable
@@ -38,8 +34,8 @@ Page(title="My orders")
 </template>
 
 <script>
-import Icon from '../Icon';
-import Page from './Page';
+import Icon from '../../Icon';
+import TablePage from './TablePage';
 
 export default {
   data() {
@@ -68,62 +64,35 @@ export default {
   created() {
     this.data = [
       {
-        id: 48436400,
-        timestamp: '01.08.2017 21:15',
-        type: 'Market',
-        action: 'Sell',
-        pair: 'BTC/USD',
-        amount: '0.0150 BTC',
-        price: 1500.00,
-        total: 22.50,
+        id: 484,
+        date: '01.08.2017 21:15',
+        amount: -15.00,
+        description: 'Transfer to belpoker',
+        status: 'Completed',
       },
       {
-        id: 38622643,
-        timestamp: '31.07.2017 16:21',
-        type: 'Limit',
-        action: 'Buy',
-        pair: 'ETH/USD',
-        amount: '1.0000 ETH',
-        price: 199.59,
-        total: 199.59,
+        id: 485,
+        date: '01.08.2017 21:14',
+        amount: 562.00,
+        description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
+        crypto: true,
+        status: 'Pending',
       },
       {
-        id: 35195753,
-        timestamp: '24.07.2017 4:13',
-        type: 'Limit',
-        action: 'Buy',
-        pair: 'EMC/USD',
-        amount: '5.0000 EMC',
-        price: 0.60,
-        total: 3.00,
-      },
-      {
-        id: 31229014,
-        timestamp: '18.07.2017 2:01',
-        type: 'Limit',
-        action: 'Sell',
-        pair: 'BTC/USD',
-        amount: '0.0150 BTC',
-        price: 1500.00,
-        total: 22.50,
-      },
-      {
-        id: 24311784,
-        timestamp: '22.06.2017 16:31',
-        type: 'Market',
-        action: 'Buy',
-        pair: 'BTC/USD',
-        amount: '0.0150 BTC',
-        price: 1500.00,
-        total: 22.50,
+        id: 486,
+        date: '01.08.2017 21:14',
+        amount: -5.00,
+        crypto: true,
+        description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
+        status: 'Error',
       },
     ];
     this.$nextTick(() => {
-      this.checkboxCount = document.getElementsByClassName('myOrders__checkbox').length;
+      this.checkboxCount = document.getElementsByClassName('tHistory__checkbox').length;
     });
   },
   components: {
-    Page,
+    TablePage,
     Icon,
   },
 };
@@ -131,12 +100,41 @@ export default {
 
 
 <style lang="scss">
-.myOrders {
-  &__action {
-    &--buy{
+.tHistory {
+  &__header {
+    &--description {
+      padding-left: 26px;
+    }
+  }
+  &__description {
+    min-width: 320px;
+  }
+  &__amount {
+    &--positive {
       color: #7ed321;
     }
-    &--sell {
+    &--negative {
+      color: #f33a3a;
+    }
+  }
+  &__icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 14px;
+    width: 12px;
+    height: 12px;
+    fill: white;
+    visibility: hidden;
+    &--visible {
+      visibility: visible;
+    }
+  }
+  &__status {
+    color: #a1a1a1;
+    &--completed {
+      color: #7ed321;
+    }
+    &--error {
       color: #f33a3a;
     }
   }
@@ -151,7 +149,8 @@ export default {
   height: $panelHeight;
   left: 0;
   right: 0;
-  bottom: -$panelHeight;
+  top: 100vh;
+  margin-top: 0px;
   overflow: hidden;
   background-image: repeating-linear-gradient(
     135deg,
@@ -160,10 +159,8 @@ export default {
     #03324c 0,
     #03324c 60px
   );
-  transition: bottom .5s;
   &--active {
-    transition: bottom .5s;
-    bottom: 0px;
+    margin-top: -$panelHeight;
   }
   &__actions {
     cursor: pointer;
