@@ -1,7 +1,6 @@
 <template lang="pug">
 .logout(@click="openModal({name:'signIn',})")
   Icon.logout__icon(id="logout")
-  .logout__label Logout
 </template>
 
 <script>
@@ -29,11 +28,10 @@ export default {
     $size: 19px;
     width: $size;
     height: $size;
-    margin-right: 12px;
-    fill: #fff;
-  }
-  &__label {
-    font-weight: 700;
+    fill: #ffc600;
+    &:hover {
+      fill: #ffffff;
+    }
   }
 }
 </style>

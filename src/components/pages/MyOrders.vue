@@ -147,7 +147,7 @@ export default {
   position: absolute;
   display: flex;
   align-items: center;
-  padding-left: 35px;
+  padding-left: 41px;
   height: $panelHeight;
   left: 0;
   right: 0;

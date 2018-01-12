@@ -75,8 +75,8 @@ export default {
 
 .pageSidebar {
   padding: 36px;
-  border-right: 1px solid $color_tangaroa;
   height: 100%;
+  border-right: 1px solid $color_tangaroa;
   &__list {
     list-style: none;
   }

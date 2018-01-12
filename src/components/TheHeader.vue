@@ -7,7 +7,6 @@ header.header
     Stat(label="Low", :value="461.02")
     Stat(label="Volume", value="$1247880.00")
   .header__userbar
-    User
     Logout
 </template>
 
@@ -17,7 +16,6 @@ import Icon from './Icon';
 import Stat from './Stat';
 import BButton from './BButton';
 import Pair from './Pair';
-import User from './User';
 import Logout from './Logout';
 import Price from './Price';
 import Balance from './Balance';
@@ -38,7 +36,6 @@ export default {
     Pair,
     Stat,
     Price,
-    User,
     Logout,
     Balance,
   },
@@ -70,9 +67,6 @@ export default {
   }
   &__userbar {
     display: flex;
-    & > *:first-child {
-      margin-right: 32px;
-    }
   }
   &__stats {
     display: flex;

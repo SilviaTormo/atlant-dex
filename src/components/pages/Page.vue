@@ -33,6 +33,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~variables";
 @import "~sass/bootstrap/media";
 .page {
   height: 100%;
@@ -43,6 +44,7 @@ export default {
   &__content {
     width: 100%;
     padding: 36px;
+    border-top: 1px solid $color_tangaroa;
   }
 }
 

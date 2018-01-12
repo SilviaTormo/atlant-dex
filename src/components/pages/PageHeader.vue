@@ -36,7 +36,6 @@ export default {
   align-items: center;
   padding: 36px;
   border-top: 1px solid $color_tangaroa;
-  border-bottom: 1px solid $color_tangaroa;
   &__title {
     font-weight: 700;
     text-transform: uppercase;

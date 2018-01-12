@@ -50,6 +50,7 @@
       AccountInformation(v-if="isPageOpened('accountinformation')")
       SecuritySettings(v-if="isPageOpened('securitySettings')")
       SecurityLog(v-if="isPageOpened('securityLog')")
+      FAQ(v-if="isPageOpened('faq')")
   //- Modals
   InDemo(v-if="isModalOpened('inDemo')")
   ImportKey(v-else-if="isModalOpened('importKey')")
@@ -88,6 +89,7 @@ import ChangePassword from './pages/ChangePassword';
 import AccountInformation from './pages/AccountInformation';
 import SecuritySettings from './pages/SecuritySettings';
 import SecurityLog from './pages/SecurityLog';
+import FAQ from './pages/FAQ';
 import InDemo from './modals/InDemo';
 import ImportKey from './modals/ImportKey';
 import Welcome from './modals/Welcome';
@@ -250,6 +252,7 @@ export default {
     AccountInformation,
     SecuritySettings,
     SecurityLog,
+    FAQ,
     Status,
     Fiat,
   },

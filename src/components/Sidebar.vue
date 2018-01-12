@@ -1,6 +1,6 @@
 <template lang='pug'>
 .sidebar
-  .sidebar__item.sidebar__item--logo
+  .sidebar__item.sidebar__item--logo(@click="getOpenPage('generalsettings')")
     Icon.sidebar__logo(id="logo")
     Icon.sidebar__logo2(id="logo2")
   Portfolio(v-if="section == 'wallet'")
@@ -23,7 +23,7 @@
 
 <script>
 import {importAddress} from 'services/api/contract-api';
-import {mapState, mapGetters} from 'vuex';
+import {mapMutations, mapState, mapGetters} from 'vuex';
 import Icon from './Icon';
 import Portfolio from './Portfolio';
 import Alerts from './Alerts';
@@ -65,6 +65,14 @@ export default {
     }),
   },
   methods: {
+    ...mapMutations('page', {
+      openPage: 'open',
+    }),
+    getOpenPage() {
+      this.openPage({
+        name: '',
+      });
+    },
     setActive(account) {
       for (let i = 0; i < this.accounts.length; i++) {
         this.accounts[i].isActive = false;
@@ -115,6 +123,7 @@ export default {
       font-size: 14px;
       font-weight: bold;
       color: red;
+      cursor: pointer;
     }
     &--header {
       font-weight: 700;
