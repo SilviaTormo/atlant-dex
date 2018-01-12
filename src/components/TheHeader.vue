@@ -1,7 +1,7 @@
 <template lang="pug">
 header.header
   Pair
-  .header__stats
+  .header__stats(v-if="!isMobile")
     Stat(label="Last", :value="466.35")
     Stat(label="High", :value="474.71")
     Stat(label="Low", :value="461.02")
@@ -11,7 +11,7 @@ header.header
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import {mapGetters, mapActions} from 'vuex';
 import Icon from './Icon';
 import Stat from './Stat';
 import BButton from './BButton';
@@ -24,6 +24,11 @@ export default {
   data() {
     return {
     };
+  },
+  computed: {
+    ...mapGetters('misc', {
+      isMobile: 'isMobile',
+    }),
   },
   methods: {
     ...mapActions('user', {
@@ -97,6 +102,18 @@ export default {
     &:hover {
       cursor: pointer;
     }
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .header {
+    position: fixed;
+    background: $color_blue;
+    left: 35px;
+    top: 0;
+    padding-right: 40px;
+    border-bottom: 1px solid $color_tangaroa;
+    z-index: 2;
   }
 }
 </style>

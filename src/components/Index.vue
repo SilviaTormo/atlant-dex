@@ -5,7 +5,7 @@
       Sidebar.main__sidebar(v-scrollbar="")
       Toolbar.main__toolbar
     .main__content(:class="{'main__content--withSidebar': (showSidebar && !isMobile)}")
-      TheHeader(v-if="!isMobile")
+      TheHeader
       .main__tiles(v-show="!isPageOpened()")
         .grid-stack
           .grid-stack-item(
