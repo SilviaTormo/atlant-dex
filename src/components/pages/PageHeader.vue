@@ -2,6 +2,7 @@
 .pageHeader
   BackToDashboard
   .pageHeader__title(v-if="!isMobile") {{title}} :
+  .pageHeader__shadow
 </template>
 
 <script>
@@ -63,6 +64,13 @@ export default {
       #03324c 60px
     );
     z-index: 1.5;
+    &__shadow {
+      background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #01293f 100%);
+      height: 52px;
+      width: 100%;
+      position: absolute;
+      top: -50px;
+    }
   }
 }
 </style>

@@ -50,9 +50,12 @@ export default {
 
 @include media-breakpoint-down(md) {
   .page {
-    padding-bottom: 60px;
+    padding: 50px 0;
     &__body {
       flex-direction: column;
+    }
+    &__sidebar {
+      display: none;
     }
   }
 }
