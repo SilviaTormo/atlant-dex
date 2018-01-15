@@ -2,10 +2,7 @@
 header.header
   Pair
   .header__stats(v-if="!isMobile")
-    Stat(label="Last", :value="466.35")
-    Stat(label="High", :value="474.71")
-    Stat(label="Low", :value="461.02")
-    Stat(label="Volume", value="$1247880.00")
+    PairInfo
   .header__userbar
     Logout
 </template>
@@ -13,7 +10,7 @@ header.header
 <script>
 import {mapGetters, mapActions} from 'vuex';
 import Icon from './Icon';
-import Stat from './Stat';
+import PairInfo from './PairInfo';
 import BButton from './BButton';
 import Pair from './Pair';
 import Logout from './Logout';
@@ -39,7 +36,7 @@ export default {
     Icon,
     BButton,
     Pair,
-    Stat,
+    PairInfo,
     Price,
     Logout,
     Balance,
@@ -72,12 +69,6 @@ export default {
   }
   &__userbar {
     display: flex;
-  }
-  &__stats {
-    display: flex;
-    & > *:not(last-of-type) {
-      margin-right: 24px;
-    }
   }
   &__balance {
     font-weight: 700;

@@ -41,6 +41,7 @@
                 .main__ordersSep
                 TileHeader.main__tileHeader.main__tileHeader--orders(title='Completed orders')
                 Orders
+        PairInfo(v-if="isMobile")
       //- Pages
       TransactionHistory(v-if="isPageOpened('transactionHistory')")
       MyOrders(v-if="isPageOpened('myOrders')")
@@ -70,6 +71,7 @@ import * as Trade from 'services/api/trade';
 import {defCandleSize, showWelcome, gridLayout} from 'config';
 import {scrollbar} from 'directives';
 import TheHeader from './TheHeader';
+import PairInfo from './PairInfo';
 import TheFooter from './TheFooter';
 import TileHeader from './TileHeader';
 import Sidebar from './Sidebar';
@@ -227,6 +229,7 @@ export default {
     TheFooter,
     Sidebar,
     TheHeader,
+    PairInfo,
     Toolbar,
     BuySell,
     Orders,
@@ -373,6 +376,10 @@ export default {
     &__body {
       min-width: 100%;
       flex-direction: column;
+    }
+    &__content {
+      margin-top: 60px;
+      margin-bottom: 60px;
     }
     &__leftSide {
       &--shown {
