@@ -139,7 +139,7 @@ export default {
       position: fixed;
       left: 55px;
       right: 0;
-      bottom: -260px;
+      bottom: -270px;
       transition: bottom .5s;
       &--visible {
         transition: bottom .5s;
@@ -222,6 +222,10 @@ export default {
       height: 24px;
       background: #ffffff;
       margin-bottom: 13px;
+    }
+    &__volume {
+      font-size: 18px;
+      font-weight: 700;
     }
   }
 }

@@ -63,7 +63,8 @@ export default {
   }
   &__dropdown {
     min-width: 64px;
-    max-width: 64px
+    max-width: 64px;
+    font-size: 16px;
   }
   &__currency {
     font-weight: bold;

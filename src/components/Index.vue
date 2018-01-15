@@ -319,6 +319,15 @@ export default {
     &--withSidebar {
       width: calc(100% - #{$leftSide_width});
     }
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 307px;
+      background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #01293f 100%);
+    }
   }
   &__tile {
     width: 100%;
@@ -378,8 +387,11 @@ export default {
       flex-direction: column;
     }
     &__content {
-      margin-top: 60px;
-      margin-bottom: 60px;
+      padding-top: 60px;
+      padding-bottom: 60px;
+      &:before {
+        height: 150px;
+      }
     }
     &__leftSide {
       &--shown {
