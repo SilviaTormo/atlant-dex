@@ -22,11 +22,6 @@
       Icon.portfolio__icon(id="refresh")
     BalanceItem(currency="usd", balance="4 960,02", balanceEq="$4 960,02", :isActive="'usd' == selectedCur", @click.native="openCur('usd')")
     BalanceItem(currency="eur", balance="27 230,00", balanceEq="$32 415,10", :isActive="'eur' == selectedCur", @click.native="openCur('eur')")
-  .portfolio__item
-    .portfolio__headerLine
-      .portfolio__header Tokens:
-      Icon.portfolio__icon(id="refresh")
-    BalanceItem(currency="tether", balance="340,27", balanceEq="$3 156,74", :isActive="'tether' == selectedCur", isCrypto, @click.native="openCur('tether')")
 </template>
 
 <script>
