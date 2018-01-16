@@ -1,6 +1,6 @@
 <template lang='pug'>
 .sidebar
-  .sidebar__shadowBottom
+  .sidebar__shadowBottom(:class="(showSidebar) ? '' : 'sidebar__shadowBottom--hidden'")
   .sidebar__item.sidebar__item--logo(@click="getOpenPage('generalsettings')")
     Icon.sidebar__logo(id="logo")
     Icon.sidebar__logo2(id="logo2")
@@ -58,9 +58,11 @@ export default {
   },
   computed: {
     ...mapState('misc', {
+      showSidebar: 'showSidebar',
       section: 'section',
     }),
     ...mapGetters('misc', {
+      toggleSidebar: 'toggleSidebar',
       isMobile: 'isMobile',
       sidebarTitle: 'sidebarTitle',
     }),
@@ -114,7 +116,13 @@ export default {
     bottom: 0;
     width: 328px;
     height: 307px;
-    background: $background__shadow__gradient__to__top;
+    background: $background__shadow__gradient__to__top;left: 0;
+    left: 0;
+    transition: left .1s linear;
+    &--hidden {
+      left: -328px;
+      transition: left .1s linear;
+    }
   }
   &__icon {
     $size: 14px;
@@ -216,6 +224,10 @@ export default {
 @include media-breakpoint-down(md) {
   .sidebar {
     &__shadowBottom {
+      width: 100%;
+      &--hidden {
+        left: -100%;
+      }
     }
   }
 }

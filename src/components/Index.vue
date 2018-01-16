@@ -305,7 +305,7 @@ export default {
     top: 0;
     left: 0;
     z-index: 10;
-    transition: all $sidebar_speed linear;
+    transition: left $sidebar_speed linear;
     &--hidden {
       left: -280px;
     }
@@ -451,7 +451,8 @@ export default {
     }
     &__books {
       flex-direction: column;
-    }&__shadow {
+    }
+    &__shadow {
       &--top {
         position: fixed;
         width: 100%;

@@ -27,7 +27,7 @@ TablePage(title="My orders")
           td {{item.amount}}
           td {{item.price}} USD
           td {{item.total}} USD
-    .panel(:class="{'panel--active': isCheckedArray}")
+    .panel(:class="{'panel--active': isCheckedArray, 'panel__scrollbarOpened' : showSidebar}")
       .panel__actions.panel__checkbox
         input(type="checkbox" id="globalCheckbox" @click="switchAllCheckboxes" :checked="isAllChecked").checkboxTable
         label(for="globalCheckbox")
@@ -38,6 +38,7 @@ TablePage(title="My orders")
 </template>
 
 <script>
+import {mapState} from 'vuex';
 import Icon from '../../Icon';
 import TablePage from './TablePage';
 
@@ -50,6 +51,9 @@ export default {
     };
   },
   computed: {
+    ...mapState('misc', {
+      showSidebar: 'showSidebar',
+    }),
     isCheckedArray() {
       return Boolean(this.checkedArray.length);
     },
@@ -130,7 +134,8 @@ export default {
 </script>
 
 
-<style lang="scss">
+<style lang="scss" scoped>
+@import '~sass/bootstrap/media';
 .myOrders {
   &__action {
     &--buy{
@@ -144,12 +149,12 @@ export default {
 .panel {
   $panelHeight: 58px;
   z-index: 1.6;
-  position: absolute;
+  position: fixed;
   display: flex;
   align-items: center;
   padding-left: 41px;
   height: $panelHeight;
-  left: 0;
+  left: 55px;
   right: 0;
   bottom: -$panelHeight;
   overflow: hidden;
@@ -160,7 +165,7 @@ export default {
     #03324c 0,
     #03324c 60px
   );
-  transition: bottom .5s;
+  transition: bottom .5s, left .15s;
   &--active {
     transition: bottom .5s;
     bottom: 0px;
@@ -172,6 +177,10 @@ export default {
     font-family: Roboto;
     font-size: 12px;
     font-weight: 700;
+  }
+  &__scrollbarOpened {
+    transition: left .15s;
+    left: 335px;
   }
 }
 </style>
