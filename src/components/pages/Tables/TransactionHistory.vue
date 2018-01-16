@@ -23,7 +23,7 @@ TablePage(title="Transaction history")
             Icon(id='icon-qr' :class="{'tHistory__icon--visible': item.crypto}").tHistory__icon
             | {{item.description}}
           td.tHistory__status(:class="'tHistory__status--' + item.status.toLowerCase()") {{item.status}}
-    .panel(:class="{'panel--active': isCheckedArray}")
+    .panel(:class="{'panel--active': isCheckedArray, 'panel__scrollbarOpened' : showSidebar}")
       .panel__actions.panel__checkbox
         input(type="checkbox" id="globalCheckbox" @click="switchAllCheckboxes" :checked="isAllChecked").checkboxTable
         label(for="globalCheckbox")
@@ -34,6 +34,7 @@ TablePage(title="Transaction history")
 </template>
 
 <script>
+import {mapState} from 'vuex';
 import Icon from '../../Icon';
 import TablePage from './TablePage';
 
@@ -46,6 +47,9 @@ export default {
     };
   },
   computed: {
+    ...mapState('misc', {
+      showSidebar: 'showSidebar',
+    }),
     isCheckedArray() {
       return Boolean(this.checkedArray.length);
     },
@@ -99,7 +103,8 @@ export default {
 </script>
 
 
-<style lang="scss">
+<style lang="scss" scoped>
+@import '~sass/bootstrap/media';
 .tHistory {
   &__header {
     &--description {
@@ -142,15 +147,14 @@ export default {
 .panel {
   $panelHeight: 58px;
   z-index: 1.6;
-  position: absolute;
+  position: fixed;
   display: flex;
   align-items: center;
   padding-left: 41px;
   height: $panelHeight;
-  left: 0;
+  left: 55px;
   right: 0;
-  top: 100vh;
-  margin-top: 0px;
+  bottom: -$panelHeight;
   overflow: hidden;
   background-image: repeating-linear-gradient(
     135deg,
@@ -159,8 +163,10 @@ export default {
     #03324c 0,
     #03324c 60px
   );
+  transition: bottom .5s, left .15s;
   &--active {
-    margin-top: -$panelHeight;
+    transition: bottom .5s;
+    bottom: 0px;
   }
   &__actions {
     cursor: pointer;
@@ -169,6 +175,10 @@ export default {
     font-family: Roboto;
     font-size: 12px;
     font-weight: 700;
+  }
+  &__scrollbarOpened {
+    transition: left .15s;
+    left: 335px;
   }
 }
 </style>
