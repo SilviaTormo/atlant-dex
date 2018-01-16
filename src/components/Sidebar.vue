@@ -114,8 +114,7 @@ export default {
     bottom: 0;
     width: 328px;
     height: 307px;
-    // margin-top: -307px;
-    background: linear-gradient(180deg, rgba(1, 30, 46, 0) 0%, rgba(1, 30, 46, 1) 100%);
+    background: $background__shadow__gradient__to__top;
   }
   &__icon {
     $size: 14px;
@@ -212,6 +211,12 @@ export default {
     width: 75%;
     margin-left: auto;
     margin-right: auto;
+  }
+}
+@include media-breakpoint-down(md) {
+  .sidebar {
+    &__shadowBottom {
+    }
   }
 }
 </style>

@@ -5,6 +5,9 @@
       Sidebar.main__sidebar(v-scrollbar="")
       Toolbar.main__toolbar
     .main__content(:class="{'main__content--withSidebar': (showSidebar && !isMobile)}")
+      .main__shadows(v-show="isPageOpened()")
+        .main__shadow--top
+        .main__shadow--bottom
       TheHeader
       .main__tiles(v-show="!isPageOpened()")
         .grid-stack
@@ -20,27 +23,32 @@
           )
             .grid-stack-item-content(v-scrollbar="")
               .main__tile(v-if="index === 0")
-                BuySell
+                .main__tileContent
+                  BuySell
               .main__tile(v-if="index === 1")
-                Chart
+                .main__tileContent
+                  Chart
               .main__tile.main__tile--history(v-if="index === 2")
-                TileHeader.main__tileHeader.main__tileHeader--history(title='History of trades' center)
-                History
-              .main__tile.main__tile--books(v-if="index === 3")
-                TileHeader.main__tileHeader.main__tileHeader--book(title='Order book' center)
-                .main__books
-                  .main__tile
-                    BookHeader
-                    Book.main__book(:limit='19')
-                  .main__tile
-                    BookHeader(ask)
-                    Book.main__book(ask, :limit='19')
-              .main__tile.main__tile--orders(v-if="index === 4")
-                TileHeader.main__tileHeader.main__tileHeader--orders(title='Open orders')
-                Orders
-                .main__ordersSep
-                TileHeader.main__tileHeader.main__tileHeader--orders(title='Completed orders')
-                Orders
+                .main__tileContent.main__tileContent--history
+                  TileHeader.main__tileHeader.main__tileHeader--history(title='History of trades' center)
+                  History
+              .main__tile(v-if="index === 3")
+                .main__tileContent.main__tileContent--books
+                  TileHeader.main__tileHeader.main__tileHeader--book(title='Order book' center)
+                  .main__books
+                    .main__tile
+                      BookHeader
+                      Book.main__book(:limit='19')
+                    .main__tile
+                      BookHeader(ask)
+                      Book.main__book(ask, :limit='19')
+              .main__tile(v-if="index === 4")
+                .main__tileContent.main__tileContent--orders
+                  TileHeader.main__tileHeader.main__tileHeader--orders(title='Open orders')
+                  Orders
+                  .main__ordersSep
+                  TileHeader.main__tileHeader.main__tileHeader--orders(title='Completed orders')
+                  Orders
         PairInfo(v-if="isMobile")
       //- Pages
       TransactionHistory(v-if="isPageOpened('transactionHistory')")
@@ -319,20 +327,15 @@ export default {
     &--withSidebar {
       width: calc(100% - #{$leftSide_width});
     }
-    &:before {
-      content: '';
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 307px;
-      background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #01293f 100%);
-    }
   }
   &__tile {
     width: 100%;
     height: 100%;
     background-color: $color_blue;
+  }
+  &__tileContent {
+    width: 100%;
+    height: 100%;
     &--buysell {
       width: 15%;
     }
@@ -378,6 +381,15 @@ export default {
   &--withSidebar {
     overflow: hidden;
   }
+  &__shadow {
+    &--bottom {
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      height: 300px;
+      background: $background__shadow__gradient__to__top;
+    }
+  }
 }
 
 @include media-breakpoint-down(md) {
@@ -406,6 +418,16 @@ export default {
       flex-direction: column;
     }
     &__tile {
+      position: relative;
+      &:before {
+        content: "";
+        display: block;
+        height: 20px;
+        margin-bottom: -20px;
+        background: $background__shadow__gradient__to__bottom;
+      }
+    }
+    &__tileContent {
       &--buysell {
         width: 100%;
       }
@@ -429,6 +451,21 @@ export default {
     }
     &__books {
       flex-direction: column;
+    }&__shadow {
+      &--top {
+        position: fixed;
+        width: 100%;
+        top: 50px;
+        height: 50px;
+        background: $background__shadow__gradient__to__bottom;
+      }
+      &--bottom {
+        position: fixed;
+        width: 100%;
+        bottom: 50px;
+        height: 50px;
+        background: $background__shadow__gradient__to__top;
+      }
     }
   }
 }

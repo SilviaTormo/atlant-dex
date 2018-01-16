@@ -36,7 +36,8 @@ export default {
 @import "~variables";
 @import "~sass/bootstrap/media";
 .page {
-  height: 100%;
+  min-height: 100%;
+  position: relative;
   &__body {
     height: 100%;
     display: flex;

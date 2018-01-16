@@ -152,7 +152,7 @@ export default {
       bottom: 20px;
       width: 100%;
       height: 60px;
-      background: linear-gradient(to top, rgba(1, 42, 63, 1), rgba(1, 41, 63, 0));
+      background: $background__shadow__gradient__to__top;
     }
     &__arrowContainer {
       position: fixed;
