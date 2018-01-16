@@ -8,10 +8,22 @@
     )
       Icon.pageSidebar__icon(id="triangle2" v-if="isPageOpened(name) && !isMobile")
       span.pageSidebar__label {{label}}
+  ul.pageSidebar__mobileList
+    li.pageSidebar__mobileItem(
+      :class="{'pageSidebar__mobileItem--selected': selectedCat == cat}",
+      v-for="cat in categories"
+      @click="unhideCategory(cat)"
+    ) {{cat}}
+      .pageSidebar__mobileSubItem(
+        v-show="openCat == cat",
+        :class="{'pageSidebar__mobileSubItem--selected': isPageOpened(name)}",
+        v-for="{name, label, category} in items" v-if="category == cat",
+        @click="openMobilePage({name})"
+      ) {{label}}
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex';
+import {mapState, mapGetters, mapMutations} from 'vuex';
 import Icon from '../Icon';
 
 export default {
@@ -21,46 +33,83 @@ export default {
         {
           name: 'accountinformation',
           label: 'Account information',
+          category: 'user info',
         },
         {
           name: 'verification',
           label: 'Verification',
+          category: 'user info',
         },
         {
           name: 'generalsettings',
           label: 'General settings',
+          category: 'user info',
         },
         {
           name: 'changePassword',
           label: 'Password',
+          category: 'security',
         },
         {
           name: 'securitySettings',
           label: 'Security settings',
+          category: 'security',
         },
         {
           name: 'securityLog',
           label: 'Security log',
+          category: 'security',
         },
         {
           name: 'faq',
           label: 'FAQ',
+          category: 'user info',
         },
       ],
+      categories: [
+        'user info',
+        // 'transaction history',
+        // 'my orders',
+        'security',
+      ],
+      openCat: '',
     };
   },
   computed: {
+    ...mapState('page', {
+      pageName: 'name',
+    }),
     ...mapGetters('page', {
       isPageOpened: 'isOpened',
     }),
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
+    selectedCat() {
+      return this.items.find((item) => item.name == this.pageName).category;
+    },
   },
   methods: {
     ...mapMutations('page', {
       openPage: 'open',
     }),
+    scrollToMethods() {
+      this.$nextTick(() => {
+        const headerHeight = document.querySelector('.header').getBoundingClientRect().height;
+        const scrollY = document.querySelector('.page__content').getBoundingClientRect().top;
+        window.scrollTo(0, scrollY - headerHeight);
+      });
+    },
+    unhideCategory(cat) {
+      this.openCat = cat;
+    },
+    openMobilePage(param) {
+      this.openPage(param);
+      this.scrollToMethods();
+    },
+  },
+  created() {
+    this.openCat = this.selectedCat;
   },
   components: {
     Icon,
@@ -103,16 +152,43 @@ export default {
   }
   &__label {
   }
+  &__mobileList {
+    display: none;
+  }
 }
 
 @include media-breakpoint-down(md) {
   .pageSidebar {
+    padding: 0;
     &__list {
-      border: 1px solid #032537;
+      display: none;
     }
-
-    &__item {
+    &__mobileList {
+      display: block;
+    }
+    &__mobileItem {
+      padding: 14px;
       text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border: 1px solid #032537;
+      &--selected {
+        color: $color_yellow;
+      }
+    }
+    &__mobileSubItem {
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 35px;
+      text-transform: none;
+      &:first-child {
+        margin-top: 8px;
+      }
+      &--selected {
+        color: $color_turquoise;
+      }
     }
   }
 }

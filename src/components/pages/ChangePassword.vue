@@ -82,6 +82,11 @@ export default {
       margin-top: 0;
       margin-bottom: 43px;
     }
+    &__block {
+      &:not(:last-of-type) {
+        margin: 0;
+      }
+    }
   }
 }
 </style>

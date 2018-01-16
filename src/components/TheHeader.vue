@@ -26,6 +26,9 @@ export default {
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
+    ...mapGetters('page', {
+      isProfileOpened: 'isProfileOpened',
+    }),
   },
   methods: {
     ...mapActions('user', {

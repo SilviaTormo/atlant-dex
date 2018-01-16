@@ -17,6 +17,9 @@ export default {
     isOpened: (state) => (name) => {
       return (name) ? (state.name === name) : (state.name !== '');
     },
+    isProfileOpened(state) {
+      return state.name !== '';
+    },
   },
   namespaced: true,
   strict: process.env.NODE_ENV !== 'production',

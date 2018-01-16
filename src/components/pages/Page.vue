@@ -51,12 +51,14 @@ export default {
 
 @include media-breakpoint-down(md) {
   .page {
-    padding: 50px 0;
+    padding: 0;
     &__body {
       flex-direction: column;
     }
-    &__sidebar {
-      display: none;
+    &__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   }
 }

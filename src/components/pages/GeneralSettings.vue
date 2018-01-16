@@ -6,7 +6,7 @@ Page(title="General settings", :sidebar="true")
       Checkbox(v-model="use2FA")
         .generalSettings__text Use 2FA for account login
   .generalSettings__block
-    .generalSettings__title E-MAIL NEWSLETTER
+    .title.generalSettings__title E-MAIL NEWSLETTER
     .generalSettings__content
       Checkbox(v-model="subscribe")
         .generalSettings__text Subscribe to our e-mail newsletter
