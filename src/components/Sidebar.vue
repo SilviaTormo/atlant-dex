@@ -1,5 +1,6 @@
 <template lang='pug'>
 .sidebar
+  .sidebar__shadowBottom
   .sidebar__item.sidebar__item--logo(@click="getOpenPage('generalsettings')")
     Icon.sidebar__logo(id="logo")
     Icon.sidebar__logo2(id="logo2")
@@ -101,8 +102,21 @@ export default {
 @import '~sass/bootstrap/media';
 
 .sidebar {
-  height: 100%;
-  background-color: $color_blue;
+  min-height: 100%;
+  background-image: linear-gradient(to top, #01253A 0%, #03354F 100%);
+  position: relative;
+  &:not(:first-child) {
+    position: relative;
+  }
+  &__shadowBottom {
+    position: fixed;
+    z-index: 0;
+    bottom: 0;
+    width: 328px;
+    height: 307px;
+    // margin-top: -307px;
+    background: linear-gradient(180deg, rgba(1, 30, 46, 0) 0%, rgba(1, 30, 46, 1) 100%);
+  }
   &__icon {
     $size: 14px;
     height: $size;
@@ -116,6 +130,7 @@ export default {
     padding: 32px 18px 32px 25px;
     border-bottom: 1px solid #032537;
     font-size: 12px;
+    position: relative;
     &--logo {
       display: flex;
       align-items: center;

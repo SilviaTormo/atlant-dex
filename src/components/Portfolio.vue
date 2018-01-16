@@ -67,6 +67,7 @@ export default {
 @import '~sass/bootstrap/media';
 
 .portfolio {
+  position: relative;
   &__icon {
     $size: 14px;
     height: $size;

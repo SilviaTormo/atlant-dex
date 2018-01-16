@@ -4,6 +4,7 @@
     .pairInfo__circle
     .pairInfo__arrow
   .pairInfo__bg(v-if="isMobile", :class="(this.visible) ? 'pairInfo__bg--visible' : ''", @click="visible = (visible ? false : true)")
+  .pairInfo__topShadow(v-if="isMobile", :class="(this.visible) ? 'pairInfo__topShadow--visible' : ''", @click="visible = (visible ? false : true)")
   .pairInfo__content(:class="(this.visible) ? 'pairInfo__content--visible' : ''")
     .pairInfo__title(v-if="isMobile", @click="visible = (visible ? false : true)", :class="(this.visible) ? 'pairInfo__title--visible' : ''") CURRENT PAIR INFO
     .pairInfo__container
@@ -145,6 +146,13 @@ export default {
         transition: bottom .5s;
         bottom: 0px;
       }
+    }
+    &__topShadow {
+      position: fixed;
+      bottom: 20px;
+      width: 100%;
+      height: 60px;
+      background: linear-gradient(to top, rgba(1, 42, 63, 1), rgba(1, 41, 63, 0));
     }
     &__arrowContainer {
       position: fixed;

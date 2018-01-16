@@ -65,7 +65,7 @@ export default {
   height: 100%;
   padding: 24px 0;
   background-color: $color_blue;
-  background-image: linear-gradient(to bottom, #02324c 0, #011a29 100%);
+  background-image: linear-gradient(to top, #01253A 0%, #03354F 100%);
   border-left: 1px solid $color_tangaroa;
   z-index: 1;
   flex-shrink: 0;
