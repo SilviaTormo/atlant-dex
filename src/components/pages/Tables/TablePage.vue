@@ -1,8 +1,8 @@
 <template lang="pug">
-.page
+.tablePage
   TableHeader
-  .page__body
-    .page__content
+  .tablePage__body
+    .tablePage__content
       slot
 </template>
 
@@ -31,7 +31,8 @@ export default {
 <style lang="scss">
 @import "~variables";
 @import "~sass/bootstrap/media";
-.page {
+.tablePage {
+  overflow: auto;
   height: 100%;
   &__body {
     height: 100%;
@@ -45,10 +46,13 @@ export default {
 }
 
 @include media-breakpoint-down(md) {
-  .page {
+  .tablePage {
     padding-bottom: 60px;
     &__body {
       flex-direction: column;
+    }
+    &__content {
+      padding: 10px;
     }
   }
 }

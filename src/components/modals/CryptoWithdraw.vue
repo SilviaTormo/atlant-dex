@@ -8,7 +8,7 @@ Modal
       IInput.cryptoWithdraw__input(placeholder="Withdrawal amount BTC", v-model="amount")
       .cryptoWithdraw__amountText Your will receive:
       .cryptoWithdraw__amount {{netAmount}}
-      BButton.cryptoWithdraw__button(rounded @click="step++") Withdraw
+      BButton.cryptoWithdraw__button(color="malachite" rounded  @click="step++") Withdraw
       .cryptoWithdraw__fee Withdrawal fee: #[span.cryptoWithdraw__feeAmt {{fee}}] #[span.cryptoWithdraw__currency {{data.currency}}]
     Status.cryptoWithdraw__status(v-if="step == 1" isSuccess)
       .fiat__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}

@@ -1,8 +1,7 @@
 <template lang="pug">
 Modal
   .reset
-    .reset__header
-      Icon.reset__icon(id="pass")
+    Icon.reset__icon(id="pass")
     .reset__content(v-if="step == 0")
       .reset__headerContent
         .reset__title Reset password
@@ -64,20 +63,19 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 522px;
   justify-content: space-between;
   &__icon {
     $size: 77px;
     width: $size;
     height: $size;
     fill: $color_yellow;
+    margin-bottom: 50px;
   }
   &__headerContent {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    margin-top: 66px;
-    margin-bottom: 70px;
+    margin-bottom: 50px;
   }
   &__title {
     font-size: 18px;
@@ -146,8 +144,12 @@ export default {
         width: 100%;
       }
     }
+
+    &__headerContent{
+      justify-content: center;
+    }
+
     &__checkbox {
-      margin-top: 30px;
       flex-direction: column;
       align-items: center !important;
     }

@@ -57,7 +57,8 @@ export default {
 $ROOT: "button";
 .#{$ROOT} {
   min-height: 28px;
-  font-size: 12px;
+  font-size: 16px;
+  white-space: nowrap;
   padding: 8px 20px;
   color: $color_daintree;
   &__content {

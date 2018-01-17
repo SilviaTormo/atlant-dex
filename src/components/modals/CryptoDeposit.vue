@@ -5,7 +5,7 @@ Modal
     QR.cryptoDeposit__qr(:text='address' size='148')
     .cryptoDeposit__addressText Your deposit address:
     .cryptoDeposit__address {{address}}
-    BButton.cryptoDeposit__button(rounded v-clipboard='address') Copy
+    BButton.cryptoDeposit__button(color="malachite" rounded  v-clipboard='address') Copy
     .cryptoDeposit__confirmations Funds will be deposited automatically after 3 confirmations
 </template>
 
@@ -51,7 +51,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 324px;
   &__title{
     font-size: 18px;
     font-weight: 900;

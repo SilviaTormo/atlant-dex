@@ -1,15 +1,14 @@
 <template lang="pug">
 Modal
   .singIn
-    .singIn__header
-      Icon.singIn__icon(id="signin")
+    Icon.singIn__icon(id="signin")
     .singIn__content(v-if="step == 0")
       .singIn__headerContent
         .singIn__title Sign in
         .singIn__other(v-if="!isMobile", @click="openSignUp") Sign up
       .singIn__inputs
         IInput.singIn__input(label="Email", v-model="email")
-        IInput.singIn__input(label="Password", v-model="password")
+        IInput.singIn__input(label="Password", v-model="password", type="password")
       .singIn__checkboxContainer
         Checkbox.singIn__checkbox(name="remember", :value="true", v-model="remember")
           .singIn__checkboxLabel Remember me
@@ -93,13 +92,13 @@ export default {
     height: $size;
     fill: $color_yellow;
     margin: auto;
+    margin-bottom: 50px;
   }
   &__headerContent {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    margin-top: 66px;
-    margin-bottom: 70px;
+    margin-bottom: 50px;
   }
   &__title {
     font-size: 18px;

@@ -32,7 +32,7 @@ Modal
           span.fiat__receiveAmt ${{newBalance.toFixed(2)}}
         IInput.fiat__input(placeholder="Contact information" v-model="contact")
         IInput.fiat__input(placeholder="Comment" v-model="comment")
-        BButton.fiat__button(rounded @click="step++") Make {{transactionType}}
+        BButton.fiat__button(color="malachite" rounded @click="step++") Make {{transactionType}}
       .fiat__bottom(v-if="isMobile")
         div ***
         .fiat__note

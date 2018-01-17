@@ -107,6 +107,7 @@ export default {
   }
   &__button {
     margin-top: 34px;
+    font-size: 12px;
   }
   &__note{
     margin-top: 38px;

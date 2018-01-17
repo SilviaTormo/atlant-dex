@@ -1,17 +1,16 @@
 <template lang="pug">
 Modal
   .singUp
-    .singUp__header
-      Icon.singUp__icon(id="signup")
+    Icon.singUp__icon(id="signup")
     .singUp__content(v-if="step == 0")
-      .singUp__header
+      .singUp__headerContent
         .singUp__title Sign up
         .singUp__other(v-if="!isMobile", @click="openSignIn") Sign in
       .singUp__blocks
         .singUp__block
           IInput.singUp__input(label="Email address", v-model="email")
-          IInput.singUp__input(label="Choose a password", v-model="password")
-          IInput.singUp__input(label="Confirm password", v-model="passwordRepeat")
+          IInput.singUp__input(label="Choose a password", v-model="password",  type="password")
+          IInput.singUp__input(label="Confirm password", v-model="passwordRepeat",  type="password")
         .singUp__block
           Checkbox.singUp__checkbox(name="acknowledged", :value="true", v-model="iAgree")
             span.singUp__iAgree I certify that I am 18 years of age or older, and I agree to the #[a.link(href="#") User Agreement] and #[a.link(href="#") Privacy Policy].
@@ -93,8 +92,9 @@ export default {
     height: $size;
     fill: $color_yellow;
     margin: auto;
+    margin-bottom: 50px;
   }
-  &__header {
+  &__headerContent {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -186,7 +186,11 @@ export default {
       flex: 1;
     }
 
-    &__header {
+    &__headerContent {
+      justify-content: center;
+    }
+
+    &__icon {
       flex: 0;
       justify-content: center;
     }
