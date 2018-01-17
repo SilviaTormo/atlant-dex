@@ -1,6 +1,5 @@
 <template lang="pug">
-Page(title="Password", :sidebar="true")
-  .title Change password
+Page(title="Password", title2="Change password", :sidebar="true")
   .changePassword__main
     .changePassword__block
       IInput.changePassword__input(v-if="showSymbols" placeholder="Old password" label="Old password" v-model="passwordOld")

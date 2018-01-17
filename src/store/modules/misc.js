@@ -18,8 +18,12 @@ export default {
     toggleSidebar(state) {
       state.showSidebar = !state.showSidebar;
     },
+    setSidebar(state, showSidebar) {
+      state.showSidebar = showSidebar;
+    },
     setSection(state, section) {
       state.section = section;
+      if (state.screenType === 'mobile') state.showSidebar = true;
     },
   },
   namespaced: true,

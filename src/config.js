@@ -28,3 +28,49 @@ export const gridLayout = [
   {x: 3, y: 7, w: 5, h: 5, minW: 5, minH: 2},
   {x: 9, y: 7, w: 4, h: 5, minW: 4, minH: 2},
 ];
+
+export const profileSections = [
+  {
+    name: 'accountinformation',
+    label: 'Account information',
+    category: 'user info',
+  },
+  {
+    name: 'verification',
+    label: 'Verification',
+    category: 'user info',
+  },
+  {
+    name: 'generalsettings',
+    label: 'General settings',
+    category: 'user info',
+  },
+  {
+    name: 'changePassword',
+    label: 'Password',
+    category: 'security',
+  },
+  {
+    name: 'securitySettings',
+    label: 'Security settings',
+    category: 'security',
+  },
+  {
+    name: 'securityLog',
+    label: 'Security log',
+    category: 'security',
+  },
+  {
+    name: 'faq',
+    label: 'FAQ',
+    category: 'user info',
+  },
+  {
+    name: 'transactionHistory',
+    label: 'Transaction history',
+  },
+  {
+    name: 'myOrders',
+    label: 'My orders',
+  },
+];

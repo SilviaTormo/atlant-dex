@@ -24,48 +24,13 @@
 
 <script>
 import {mapState, mapGetters, mapMutations} from 'vuex';
+import {profileSections} from 'config';
 import Icon from '../Icon';
 
 export default {
   data() {
     return {
-      items: [
-        {
-          name: 'accountinformation',
-          label: 'Account information',
-          category: 'user info',
-        },
-        {
-          name: 'verification',
-          label: 'Verification',
-          category: 'user info',
-        },
-        {
-          name: 'generalsettings',
-          label: 'General settings',
-          category: 'user info',
-        },
-        {
-          name: 'changePassword',
-          label: 'Password',
-          category: 'security',
-        },
-        {
-          name: 'securitySettings',
-          label: 'Security settings',
-          category: 'security',
-        },
-        {
-          name: 'securityLog',
-          label: 'Security log',
-          category: 'security',
-        },
-        {
-          name: 'faq',
-          label: 'FAQ',
-          category: 'user info',
-        },
-      ],
+      items: [],
       categories: [
         'user info',
         // 'transaction history',
@@ -109,6 +74,7 @@ export default {
     },
   },
   created() {
+    this.items = profileSections;
     this.openCat = this.selectedCat;
   },
   components: {

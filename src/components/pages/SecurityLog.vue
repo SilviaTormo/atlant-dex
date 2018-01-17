@@ -1,7 +1,6 @@
 <template lang="pug">
-Page(title="Security log", :sidebar="true")
+Page(title="Security log", title2="Authorization sheet", :sidebar="true")
   .securityLog
-    .title TWO-FACTOR AUTHENTICATION
     .table
       table.table__body
         thead

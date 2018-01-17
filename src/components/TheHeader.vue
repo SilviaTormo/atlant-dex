@@ -1,14 +1,17 @@
 <template lang="pug">
 header.header
-  Pair
-  .header__stats(v-if="!isMobile")
-    PairInfo
-  .header__userbar
-    Logout
+  .header__profileTitle(v-if="isMobile && isProfileOpened") {{openProfilePage}}
+  .header__main(v-else)
+    Pair
+    .header__stats(v-if="!isMobile")
+      PairInfo
+    .header__userbar
+      Logout
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import {mapState, mapGetters, mapActions} from 'vuex';
+import {profileSections} from 'config';
 import Icon from './Icon';
 import PairInfo from './PairInfo';
 import BButton from './BButton';
@@ -23,12 +26,18 @@ export default {
     };
   },
   computed: {
+    ...mapState('page', {
+      pageName: 'name',
+    }),
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
     ...mapGetters('page', {
       isProfileOpened: 'isProfileOpened',
     }),
+    openProfilePage() {
+      return profileSections.find((item) => item.name == this.pageName).label;
+    },
   },
   methods: {
     ...mapActions('user', {
@@ -52,50 +61,25 @@ export default {
 @import '~sass/bootstrap/media';
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 12px 28px;
   width: 100%;
   color: #fff;
   background-color: $color_blue;
-  &__group {
+  &__main {
     display: flex;
     align-items: center;
-  }
-  &__block {
-    display: flex;
-    align-items: center;
-    &--pair {
-      margin-right: 18px;
-    }
+    justify-content: space-between;
   }
   &__userbar {
     display: flex;
   }
-  &__balance {
-    font-weight: 700;
+  &__profileTitle {
+    width: 100%;
+    line-height: 25px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 900;
     text-transform: uppercase;
-    margin-right: 22px;
-  }
-  &__bvalues {
-    display: flex;
-    align-items: center;
-  }
-  &__separator {
-    margin: 0 11px;
-  }
-  &__transfer {
-    margin-left: 26px;
-  }
-  &__info {
-    $size: 16px;
-    height: $size;
-    width: $size;
-    fill: #fff;
-    &:hover {
-      cursor: pointer;
-    }
   }
 }
 

@@ -1,12 +1,12 @@
 <template lang="pug">
-Page(title="General settings", :sidebar="true")
+Page(title="General settings", title2="General settings", :sidebar="true")
   .generalSettings__block
-    .title TWO-FACTOR AUTHENTICATION
+    .generalSettings__title TWO-FACTOR AUTHENTICATION
     .generalSettings__content
       Checkbox(v-model="use2FA")
         .generalSettings__text Use 2FA for account login
   .generalSettings__block
-    .title.generalSettings__title E-MAIL NEWSLETTER
+    .generalSettings__title E-MAIL NEWSLETTER
     .generalSettings__content
       Checkbox(v-model="subscribe")
         .generalSettings__text Subscribe to our e-mail newsletter
@@ -44,6 +44,13 @@ export default {
     font-weight: 400;
     line-height: 19px;
     margin-left: 20px;
+  }
+  &__title {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 25px;
+    text-transform: uppercase;
+    margin-bottom: 41px;
   }
 }
 </style>

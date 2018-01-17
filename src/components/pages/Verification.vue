@@ -1,7 +1,6 @@
 <template lang="pug">
-Page(title="Verification", :sidebar="true")
+Page(title="Verification", title2="Please upload the following files in order to verify your account:", :sidebar="true")
   .verification
-    .title Please upload the following files in order to verify your account:
     .verification__main
       p Please upload the following files in order to verify your account:
       p.verification__entityType If you are a private individual:

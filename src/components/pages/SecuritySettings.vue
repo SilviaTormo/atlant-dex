@@ -1,6 +1,5 @@
 <template lang="pug">
-Page(title="Security settings", :sidebar="true")
-  .title Security settings
+Page(title="Security settings", title2="Security settings" :sidebar="true")
 </template>
 
 <script>

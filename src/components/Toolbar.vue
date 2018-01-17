@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import {mapState, mapMutations} from 'vuex';
+import {mapState, mapGetters, mapMutations} from 'vuex';
 import Icon from './Icon';
 
 export default {
@@ -28,10 +28,14 @@ export default {
       showSidebar: 'showSidebar',
       section: 'section',
     }),
+    ...mapGetters('misc', {
+      isMobile: 'isMobile',
+    }),
   },
   methods: {
     ...mapMutations('misc', {
       toggleSidebar: 'toggleSidebar',
+      setSidebar: 'setSidebar',
       setSection: 'setSection',
     }),
     ...mapMutations('page', {
@@ -44,6 +48,7 @@ export default {
       this.openPage({
         name: pageName,
       });
+      if (this.isMobile) this.setSidebar(false);
     },
   },
   components: {

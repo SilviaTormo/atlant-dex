@@ -1,6 +1,5 @@
 <template lang="pug">
-Page(title="FAQ", :sidebar="true")
-  .title FAQ
+Page(title="FAQ", title2="FAQ" :sidebar="true")
 </template>
 
 <script>
