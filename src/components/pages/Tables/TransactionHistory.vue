@@ -23,6 +23,9 @@ TablePage(title="Transaction history")
             Icon(id='icon-qr' :class="{'tHistory__icon--visible': item.crypto}").tHistory__icon
             | {{item.description}}
           td.tHistory__status(:class="'tHistory__status--' + item.status.toLowerCase()") {{item.status}}
+    .tHistory__empty(v-if="data.length == 0")
+      Icon.tHistory__emptyIcon(id="magnifier")
+      .tHistory__emptyText We can’t find any orders of this type.
     .panel(:class="{'panel--active': isCheckedArray, 'panel__scrollbarOpened' : showSidebar}")
       .panel__actions.panel__checkbox
         input(type="checkbox" id="globalCheckbox" @click="switchAllCheckboxes" :checked="isAllChecked").checkboxTable
@@ -67,29 +70,29 @@ export default {
   },
   created() {
     this.data = [
-      {
-        id: 484,
-        date: '01.08.2017 21:15',
-        amount: -15.00,
-        description: 'Transfer to belpoker',
-        status: 'Completed',
-      },
-      {
-        id: 485,
-        date: '01.08.2017 21:14',
-        amount: 562.00,
-        description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
-        crypto: true,
-        status: 'Pending',
-      },
-      {
-        id: 486,
-        date: '01.08.2017 21:14',
-        amount: -5.00,
-        crypto: true,
-        description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
-        status: 'Error',
-      },
+      // {
+      //   id: 484,
+      //   date: '01.08.2017 21:15',
+      //   amount: -15.00,
+      //   description: 'Transfer to belpoker',
+      //   status: 'Completed',
+      // },
+      // {
+      //   id: 485,
+      //   date: '01.08.2017 21:14',
+      //   amount: 562.00,
+      //   description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
+      //   crypto: true,
+      //   status: 'Pending',
+      // },
+      // {
+      //   id: 486,
+      //   date: '01.08.2017 21:14',
+      //   amount: -5.00,
+      //   crypto: true,
+      //   description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
+      //   status: 'Error',
+      // },
     ];
     this.$nextTick(() => {
       this.checkboxCount = document.getElementsByClassName('tHistory__checkbox').length;
@@ -142,6 +145,25 @@ export default {
     &--error {
       color: #f33a3a;
     }
+  }
+  &__empty {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &__emptyIcon {
+    $size: 128px;
+    width: $size;
+    height: $size;
+    margin: 53px 0;
+  }
+  &__emptyText {
+    opacity: 0.5;
+    font-size: 30px;
+    font-weight: 300;
+    line-height: 45px;
+    text-align: center;
   }
 }
 .panel {

@@ -146,6 +146,8 @@ export default {
       font-weight: bold;
       color: red;
       cursor: pointer;
+      padding-top: 18px;
+      padding-bottom: 18px;
     }
     &--header {
       font-weight: 700;

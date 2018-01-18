@@ -67,6 +67,7 @@ export default {
 
 
 <style lang="scss">
+@import "~sass/bootstrap/media";
 .verification {
   max-width: 560px;
   &__main {
@@ -118,5 +119,19 @@ export default {
   //   font-weight: 300;
   //   margin: auto;
   // }
+}
+@include media-breakpoint-down(md) {
+  .verification {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &__main {
+      & * {
+        width: 100%;
+      }
+      max-width: 560px;
+    }
+  }
 }
 </style>
