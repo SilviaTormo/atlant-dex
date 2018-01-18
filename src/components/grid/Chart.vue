@@ -19,7 +19,7 @@ import {DateTime} from 'luxon';
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {ticksToMilliseconds} from 'services/misc';
 import {periods} from 'config';
-import Icon from './Icon';
+import Icon from '../Icon';
 
 export default {
   data() {

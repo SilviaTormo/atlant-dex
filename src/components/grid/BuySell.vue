@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import Icon from './Icon';
-import Radio from './Radio';
-import BButton from './BButton';
+import Icon from '../Icon';
+import Radio from '../Radio';
+import BButton from '../BButton';
 
 export default {
   data() {

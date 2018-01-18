@@ -21,13 +21,6 @@ export const serverCodes = {
     type: 'error',
   },
 };
-export const gridLayout = [
-  {x: 0, y: 0, w: 3, h: 6, minW: 2, minH: 6, maxH: 6},
-  {x: 3, y: 0, w: 9, h: 6, minW: 5, minH: 6},
-  {x: 0, y: 7, w: 3, h: 5, minW: 3, minH: 2},
-  {x: 3, y: 7, w: 5, h: 5, minW: 5, minH: 2},
-  {x: 9, y: 7, w: 4, h: 5, minW: 4, minH: 2},
-];
 
 export const profileSections = [
   {

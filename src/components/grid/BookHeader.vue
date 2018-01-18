@@ -7,7 +7,7 @@
 
 <script>
 import {mapState} from 'vuex';
-import Icon from './Icon';
+import Icon from '../Icon';
 
 export default {
   computed: {

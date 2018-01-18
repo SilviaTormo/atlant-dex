@@ -32,7 +32,7 @@ export default {
 @import "~variables";
 @import "~sass/bootstrap/media";
 .tablePage {
-  overflow: auto;
+  overflow-ч: auto;
   height: 100%;
   &__body {
     height: 100%;
