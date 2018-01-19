@@ -2,7 +2,7 @@
 .grid
   .grid-stack
     .grid-stack-item(
-      v-for="({id, x, y, width, height, minWidth, minHeight, maxHeight}, index) in gridLayout",
+      v-for="({id, x, y, width, height, minWidth, minHeight, maxHeight}, index) in (isMobile ? defaultGridLayout : gridLayout)",
       :data-gs-id='id',
       :data-gs-x='x',
       :data-gs-y='y',
@@ -48,6 +48,7 @@
 // import 'lodash';
 // import 'gridstack';
 // import 'gridstack.jquery-ui';
+import {mapGetters} from 'vuex';
 import {scrollbar} from 'directives';
 import TileHeader from './TileHeader';
 import BuySell from './BuySell';
@@ -63,12 +64,17 @@ export default {
       defaultGridLayout: [
         {id: 'buySell', x: 0, y: 0, width: 3, height: 7, minWidth: 2, minHeight: 7, maxHeight: 7},
         {id: 'chart', x: 3, y: 0, width: 9, height: 7, minWidth: 5, minHeight: 7},
-        {id: 'book', x: 0, y: 7, width: 3, height: 5, minWidth: 3, minHeight: 2},
-        {id: 'history', x: 3, y: 7, width: 5, height: 5, minWidth: 5, minHeight: 2},
+        {id: 'history', x: 0, y: 7, width: 3, height: 5, minWidth: 3, minHeight: 2},
+        {id: 'book', x: 3, y: 7, width: 5, height: 5, minWidth: 5, minHeight: 2},
         {id: 'orders', x: 9, y: 7, width: 4, height: 5, minWidth: 4, minHeight: 2},
       ],
       gridLayout: [],
     };
+  },
+  computed: {
+    ...mapGetters('misc', {
+      isMobile: 'isMobile',
+    }),
   },
   mounted() {
     $('.grid-stack').gridstack({
@@ -80,12 +86,27 @@ export default {
       },
     });
     $('.grid-stack').on('change', function(event, items) {
-        console.log(items);
-        // localStorage.gridLayout(JSON.stringify(items));
+      let gridLayout = [];
+      gridLayout = _.map($('.grid-stack .grid-stack-item:visible'), function(el) {
+        el = $(el);
+        let node = el.data('_gridstack_node');
+        return {
+          id: node.id,
+          x: node.x,
+          y: node.y,
+          width: node.width,
+          height: node.height,
+          minWidth: node.minWidth,
+          minHeight: node.minHeight,
+          maxHeight: node.maxHeight,
+        };
+       });
+      localStorage.setItem('gridLayout', JSON.stringify(gridLayout));
+      // console.log(gridLayout);
     });
   },
   created() {
-    this.gridLayout = (localStorage.getItem('gridLayout') || this.defaultGridLayout);
+    this.gridLayout = (localStorage.gridLayout) ? JSON.parse(localStorage.gridLayout) : false || this.defaultGridLayout;
   },
   directives: {
     scrollbar,
