@@ -2,27 +2,28 @@
 .grid
   .grid-stack
     .grid-stack-item(
-      v-for="({x, y, w, h, minW, minH, maxH}, index) in gridLayout",
+      v-for="({id, x, y, width, height, minWidth, minHeight, maxHeight}, index) in gridLayout",
+      :data-gs-id='id',
       :data-gs-x='x',
       :data-gs-y='y',
-      :data-gs-width='w',
-      :data-gs-height='h',
-      :data-gs-min-width='minW',
-      :data-gs-min-height='minH',
-      :data-gs-max-height='maxH',
+      :data-gs-width='width',
+      :data-gs-height='height',
+      :data-gs-min-width='minWidth',
+      :data-gs-min-height='minHeight',
+      :data-gs-max-height='maxHeight',
     )
-      .grid-stack-item-content(v-scrollbar="")
-        .grid__tile(v-if="index === 0")
+      .grid-stack-item-content#chartContainer(v-scrollbar="")
+        .grid__tile(v-if="id === 'buySell'")
           .grid__tileContent
             BuySell
-        .grid__tile(v-if="index === 1")
+        .grid__tile(v-if="id === 'chart'")
           .grid__tileContent
             Chart
-        .grid__tile.grid__tile--history(v-if="index === 2")
-          .grid__tileContent.grid__tileContent--history
+        .grid__tile.grid__tile--history(v-if="id === 'history'" )
+          .grid__tileContent.grid__tileContent--history(styles="overflow: hidden")
             TileHeader.grid__tileHeader.grid__tileHeader--history(title='History of trades' center)
-            History
-        .grid__tile(v-if="index === 3")
+            History(styles="overflow: auto")(v-scrollbar="")
+        .grid__tile(v-if="id === 'book'")
           .grid__tileContent.grid__tileContent--books
             TileHeader.grid__tileHeader.grid__tileHeader--book(title='Order book' center)
             .grid__books
@@ -32,7 +33,7 @@
               .grid__tile
                 BookHeader(ask)
                 Book.grid__book(ask, :limit='19')
-        .grid__tile(v-if="index === 4")
+        .grid__tile(v-if="id === 'orders'")
           .grid__tileContent.grid__tileContent--orders
             TileHeader.grid__tileHeader.grid__tileHeader--orders(title='Open orders')
             Orders
@@ -59,23 +60,32 @@ import BookHeader from './BookHeader';
 export default {
   data() {
     return {
-      gridLayout: [
-        {x: 0, y: 0, w: 3, h: 6, minW: 2, minH: 6, maxH: 6},
-        {x: 3, y: 0, w: 9, h: 6, minW: 5, minH: 6},
-        {x: 0, y: 7, w: 3, h: 5, minW: 3, minH: 2},
-        {x: 3, y: 7, w: 5, h: 5, minW: 5, minH: 2},
-        {x: 9, y: 7, w: 4, h: 5, minW: 4, minH: 2},
+      defaultGridLayout: [
+        {id: 'buySell', x: 0, y: 0, width: 3, height: 7, minWidth: 2, minHeight: 7, maxHeight: 7},
+        {id: 'chart', x: 3, y: 0, width: 9, height: 7, minWidth: 5, minHeight: 7},
+        {id: 'book', x: 0, y: 7, width: 3, height: 5, minWidth: 3, minHeight: 2},
+        {id: 'history', x: 3, y: 7, width: 5, height: 5, minWidth: 5, minHeight: 2},
+        {id: 'orders', x: 9, y: 7, width: 4, height: 5, minWidth: 4, minHeight: 2},
       ],
+      gridLayout: [],
     };
   },
   mounted() {
     $('.grid-stack').gridstack({
-      animate: true,
+      width: 12,
       verticalMargin: 0,
+      animate: true,
       resizable: {
-          handles: 'e, se, s, sw, w',
+        handles: 'e, se, s, sw, w',
       },
     });
+    $('.grid-stack').on('change', function(event, items) {
+        console.log(items);
+        // localStorage.gridLayout(JSON.stringify(items));
+    });
+  },
+  created() {
+    this.gridLayout = (localStorage.getItem('gridLayout') || this.defaultGridLayout);
   },
   directives: {
     scrollbar,
@@ -95,24 +105,10 @@ export default {
 <style lang="scss">
 @import '~perfect-scrollbar/dist/css/perfect-scrollbar';
 @import '~variables';
+@import '~sass/overrides';
 @import '~sass/bootstrap/media';
 
-.grid-stack {
-  .grid-stack-placeholder > .placeholder-content {
-    left: 0;
-    right: 0;
-  }
-
-  > .grid-stack-item {
-    left: 1px;
-    border: 1px solid #182235;
-  }
-}
-
-
 .grid {
-  margin-left: 1px;
-  margin-right: 1px;
   &__tile {
     width: 100%;
     height: 100%;
