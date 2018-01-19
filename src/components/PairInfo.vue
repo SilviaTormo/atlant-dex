@@ -5,8 +5,8 @@
     .pairInfo__arrow
   .pairInfo__bg(v-if="isMobile", :class="(this.visible) ? 'pairInfo__bg--visible' : ''", @click="visible = (visible ? false : true)")
   .pairInfo__topShadow(v-if="isMobile", :class="(this.visible) ? 'pairInfo__topShadow--visible' : ''", @click="visible = (visible ? false : true)")
-  .pairInfo__content(:class="(this.visible) ? 'pairInfo__content--visible' : ''")
-    .pairInfo__title(v-if="isMobile", @click="visible = (visible ? false : true)", :class="(this.visible) ? 'pairInfo__title--visible' : ''") CURRENT PAIR INFO
+  .pairInfo__content(:class="(this.visible) ? 'pairInfo__content--visible' : ''", @click="visible = (visible ? false : true)")
+    .pairInfo__title(v-if="isMobile", :class="(this.visible) ? 'pairInfo__title--visible' : ''") CURRENT PAIR INFO
     .pairInfo__container
       .pairInfo__label Last:
       .pairInfo__block
@@ -157,7 +157,7 @@ export default {
     &__arrowContainer {
       position: fixed;
       bottom: 0px;
-      left: calc(50vw + 8px);
+      left: calc(50vw + 13px);
       z-index: 2;
       transform: rotate(180deg);
       transition: all 0.5s;

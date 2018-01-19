@@ -20,26 +20,34 @@
           .grid__tileContent
             Chart
         .grid__tile.grid__tile--history(v-if="id === 'history'" )
-          .grid__tileContent.grid__tileContent--history(styles="overflow: hidden")
+          .grid__tileContent.grid__tileContent--history
             TileHeader.grid__tileHeader.grid__tileHeader--history(title='History of trades' center)
-            History(styles="overflow: auto")(v-scrollbar="")
+            .grid__containerWitchOverflow(v-scrollbar="")
+              History
         .grid__tile(v-if="id === 'book'")
           .grid__tileContent.grid__tileContent--books
             TileHeader.grid__tileHeader.grid__tileHeader--book(title='Order book' center)
             .grid__books
               .grid__tile
                 BookHeader
-                Book.grid__book(:limit='19')
               .grid__tile
                 BookHeader(ask)
+            .grid__books
+              .grid__containerWitchOverflow(v-scrollbar="")
+                Book.grid__book(:limit='19')
+              .grid__containerWitchOverflow(v-scrollbar="")
                 Book.grid__book(ask, :limit='19')
         .grid__tile(v-if="id === 'orders'")
           .grid__tileContent.grid__tileContent--orders
-            TileHeader.grid__tileHeader.grid__tileHeader--orders(title='Open orders')
-            Orders
+            .grid__tileContent--ordersTop
+              TileHeader.grid__tileHeader.grid__tileHeader--orders(title='Open orders')
+              .grid__containerWitchOverflow(v-scrollbar="")
+                Orders
             .grid__ordersSep
-            TileHeader.grid__tileHeader.grid__tileHeader--orders(title='Completed orders')
-            Orders
+            .grid__tileContent--ordersBottom
+              TileHeader.grid__tileHeader.grid__tileHeader--orders(title='Completed orders')
+              .grid__containerWitchOverflow(v-scrollbar="")
+                Orders
 </template>
 
 <script>
@@ -64,9 +72,9 @@ export default {
       defaultGridLayout: [
         {id: 'buySell', x: 0, y: 0, width: 3, height: 7, minWidth: 2, minHeight: 7, maxHeight: 7},
         {id: 'chart', x: 3, y: 0, width: 9, height: 7, minWidth: 5, minHeight: 7},
-        {id: 'history', x: 0, y: 7, width: 3, height: 5, minWidth: 3, minHeight: 2},
-        {id: 'book', x: 3, y: 7, width: 5, height: 5, minWidth: 5, minHeight: 2},
-        {id: 'orders', x: 9, y: 7, width: 4, height: 5, minWidth: 4, minHeight: 2},
+        {id: 'history', x: 0, y: 7, width: 3, height: 8, minWidth: 3, minHeight: 2},
+        {id: 'book', x: 3, y: 7, width: 5, height: 8, minWidth: 5, minHeight: 2},
+        {id: 'orders', x: 9, y: 7, width: 4, height: 8, minWidth: 4, minHeight: 2},
       ],
       gridLayout: [],
     };
@@ -138,6 +146,8 @@ export default {
   &__tileContent {
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
     &--buysell {
       width: 15%;
     }
@@ -153,6 +163,16 @@ export default {
     }
     &--orders {
       padding: $default_spacing;
+    }
+    &--ordersTop {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    &--ordersBottom {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
   }
   &__tileHeader {
@@ -180,6 +200,11 @@ export default {
     margin-bottom: $margin + 8;
     border: 1px solid #032537;
   }
+  &__containerWitchOverflow {
+    position: relative;
+    display: flex;
+    flex: 1;
+  }
 }
 
 @include media-breakpoint-down(md) {
@@ -198,6 +223,7 @@ export default {
       }
     }
     &__tileContent {
+      overflow: hidden;
       &--buysell {
         width: 100%;
       }
