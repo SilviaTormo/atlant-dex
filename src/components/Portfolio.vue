@@ -63,6 +63,12 @@ export default {
 
 .portfolio {
   position: relative;
+  &:after {
+    display: block;
+    content: '';
+    height: 1px;
+    border-top: 1px solid #00334C;
+  }
   &__icon {
     $size: 14px;
     height: $size;
@@ -76,6 +82,7 @@ export default {
     padding: 32px 18px 32px 25px;
     border-bottom: 1px solid #032537;
     font-size: 12px;
+    border-top: 1px solid #00334C;
     &--header {
       font-weight: 700;
     }

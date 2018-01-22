@@ -55,6 +55,13 @@ export default {
 @import '~sass/bootstrap/media';
 
 .alerts {
+  position: relative;
+  &:after {
+    display: block;
+    content: '';
+    height: 1px;
+    border-top: 1px solid #00334C;
+  }
   &__icon {
     $size: 14px;
     height: $size;
@@ -67,6 +74,7 @@ export default {
   &__item {
     padding: 32px 18px 32px 25px;
     border-bottom: 1px solid #032537;
+    border-top: 1px solid #00334C;
     font-size: 12px;
     &--header {
       font-weight: 700;

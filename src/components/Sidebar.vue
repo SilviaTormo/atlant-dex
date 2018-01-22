@@ -3,7 +3,7 @@
   .sidebar__shadowBottom(:class="(showSidebar) ? '' : 'sidebar__shadowBottom--hidden'")
   .sidebar__item.sidebar__item--logo(@click="getOpenPage('generalsettings')")
     Icon.sidebar__logo(id="logo")
-    Icon.sidebar__logo2(id="logo2")
+    h1.sidebar__title EXCHANGE
   Portfolio(v-if="section == 'wallet'")
   Quotes(v-if="section == 'quotes'")
   Alerts(v-if="section == 'alert'")
@@ -107,6 +107,7 @@ export default {
   min-height: 100%;
   background-image: linear-gradient(to top, #01253A 0%, #03354F 100%);
   position: relative;
+  border-right: 1px solid #00334C;
   &:not(:first-child) {
     position: relative;
   }
@@ -140,7 +141,7 @@ export default {
     position: relative;
     &--logo {
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: space-between;
       font-size: 14px;
       font-weight: bold;
@@ -209,10 +210,12 @@ export default {
     height: 15px;
     fill: #fff;
   }
-  &__logo2 {
-    width: 60px;
-    height: 11px;
-    fill: #fff;
+  &__title {
+    color: #ffffff;
+    font-size: 10px;
+    line-height: 8px;
+    font-weight: 700;
+    letter-spacing: 1px;
   }
   &__buttons {
     display: flex;
