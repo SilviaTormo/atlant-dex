@@ -9,9 +9,8 @@
         .main__shadow--top
         .main__shadow--bottom
       TheHeader
-      .main__tiles(v-show="!isPageOpened()")
-        Grid
-        PairInfo(v-if="isMobile")
+      Grid(v-show="!isPageOpened()")
+      PairInfo(v-if="isMobile" v-show="!isPageOpened()")
       //- Pages
       TransactionHistory(v-if="isPageOpened('transactionHistory')")
       MyOrders(v-if="isPageOpened('myOrders')")

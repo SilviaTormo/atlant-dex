@@ -1,30 +1,37 @@
 <template lang="pug">
-.grid
-  .grid-stack
-    .grid-stack-item(
-      v-for="({id, x, y, width, height, minWidth, minHeight, maxHeight}, index) in (isMobile ? defaultGridLayout : gridLayout)",
-      :data-gs-id='id',
-      :data-gs-x='x',
-      :data-gs-y='y',
-      :data-gs-width='width',
-      :data-gs-height='height',
-      :data-gs-min-width='minWidth',
-      :data-gs-min-height='minHeight',
-      :data-gs-max-height='maxHeight',
+.grid#chartContainer
+  grid-layout(
+    :layout="defaultGridLayout"
+    :col-num="12"
+    :row-height="50"
+    :is-draggable="true"
+    :is-resizable="true"
+    :is-mirrored="false"
+    :vertical-compact="true"
+    :margin="[10, 10]"
+    :use-css-transforms="true"
     )
-      .grid-stack-item-content#chartContainer(v-scrollbar="")
-        .grid__tile(v-if="id === 'buySell'")
+    grid-item(
+      v-for="({i, x, y, w, h, minWidth, minHeight, maxHeight}, index) in defaultGridLayout"
+      :key="index"
+      :x="x"
+      :y="y"
+      :w="w"
+      :h="h"
+      :i="i"
+      ) {{i}}
+        .grid__tile(v-if="i === 'buySell'")
           .grid__tileContent
             BuySell
-        .grid__tile(v-if="id === 'chart'")
+        .grid__tile(v-if="i === 'chart'")
           .grid__tileContent
             Chart
-        .grid__tile.grid__tile--history(v-if="id === 'history'" )
+        .grid__tile.grid__tile--history(v-if="i === 'history'" )
           .grid__tileContent.grid__tileContent--history
             TileHeader.grid__tileHeader.grid__tileHeader--history(title='History of trades' center)
             .grid__containerWitchOverflow(v-scrollbar="")
               History
-        .grid__tile(v-if="id === 'book'")
+        .grid__tile(v-if="i === 'book'")
           .grid__tileContent.grid__tileContent--books
             TileHeader.grid__tileHeader.grid__tileHeader--book(title='Order book' center)
             .grid__books
@@ -37,7 +44,7 @@
                 Book.grid__book(:limit='19')
               .grid__containerWitchOverflow(v-scrollbar="")
                 Book.grid__book(ask, :limit='19')
-        .grid__tile(v-if="id === 'orders'")
+        .grid__tile(v-if="i === 'orders'")
           .grid__tileContent.grid__tileContent--orders
             .grid__tileContent--ordersTop
               TileHeader.grid__tileHeader.grid__tileHeader--orders(title='Open orders')
@@ -51,11 +58,7 @@
 </template>
 
 <script>
-// import $ from 'jquery';
-// import 'jquery-ui';
-// import 'lodash';
-// import 'gridstack';
-// import 'gridstack.jquery-ui';
+import VueGridLayout from 'vue-grid-layout';
 import {mapGetters} from 'vuex';
 import {scrollbar} from 'directives';
 import TileHeader from './TileHeader';
@@ -66,15 +69,18 @@ import Book from './Book';
 import History from './History';
 import BookHeader from './BookHeader';
 
+let GridLayout = VueGridLayout.GridLayout;
+let GridItem = VueGridLayout.GridItem;
+
 export default {
   data() {
     return {
       defaultGridLayout: [
-        {id: 'buySell', x: 0, y: 0, width: 3, height: 7, minWidth: 2, minHeight: 7, maxHeight: 7},
-        {id: 'chart', x: 3, y: 0, width: 9, height: 7, minWidth: 5, minHeight: 7},
-        {id: 'history', x: 0, y: 7, width: 3, height: 8, minWidth: 3, minHeight: 2},
-        {id: 'book', x: 3, y: 7, width: 5, height: 8, minWidth: 5, minHeight: 2},
-        {id: 'orders', x: 9, y: 7, width: 4, height: 8, minWidth: 4, minHeight: 2},
+        {i: 'buySell', x: 0, y: 0, w: 3, h: 7, minWidth: 2, minHeight: 7, maxHeight: 7},
+        {i: 'chart', x: 3, y: 0, w: 9, h: 7, minWidth: 5, minHeight: 7},
+        {i: 'history', x: 0, y: 7, w: 3, h: 8, minWidth: 3, minHeight: 2},
+        {i: 'book', x: 3, y: 7, w: 5, h: 8, minWidth: 5, minHeight: 2},
+        {i: 'orders', x: 9, y: 7, w: 4, h: 8, minWidth: 4, minHeight: 2},
       ],
       gridLayout: [],
     };
@@ -85,41 +91,43 @@ export default {
     }),
   },
   mounted() {
-    $('.grid-stack').gridstack({
-      width: 12,
-      verticalMargin: 0,
-      animate: true,
-      resizable: {
-        handles: 'e, se, s, sw, w',
-      },
-    });
-    $('.grid-stack').on('change', function(event, items) {
-      let gridLayout = [];
-      gridLayout = _.map($('.grid-stack .grid-stack-item:visible'), function(el) {
-        el = $(el);
-        let node = el.data('_gridstack_node');
-        return {
-          id: node.id,
-          x: node.x,
-          y: node.y,
-          width: node.width,
-          height: node.height,
-          minWidth: node.minWidth,
-          minHeight: node.minHeight,
-          maxHeight: node.maxHeight,
-        };
-       });
-      localStorage.setItem('gridLayout', JSON.stringify(gridLayout));
-      // console.log(gridLayout);
-    });
+    // $('.grid-stack').gridstack({
+    //   width: 12,
+    //   verticalMargin: 0,
+    //   animate: true,
+    //   resizable: {
+    //     handles: 'e, se, s, sw, w',
+    //   },
+    // });
+    // $('.grid-stack').on('change', function(event, items) {
+    //   let gridLayout = [];
+    //   gridLayout = _.map($('.grid-stack .grid-stack-item:visible'), function(el) {
+    //     el = $(el);
+    //     let node = el.data('_gridstack_node');
+    //     return {
+    //       id: node.id,
+    //       x: node.x,
+    //       y: node.y,
+    //       width: node.width,
+    //       height: node.height,
+    //       minWidth: node.minWidth,
+    //       minHeight: node.minHeight,
+    //       maxHeight: node.maxHeight,
+    //     };
+    //    });
+    //   localStorage.setItem('gridLayout', JSON.stringify(gridLayout));
+    //   // console.log(gridLayout);
+    // });
   },
   created() {
-    this.gridLayout = (localStorage.gridLayout) ? JSON.parse(localStorage.gridLayout) : false || this.defaultGridLayout;
+    // this.gridLayout = (localStorage.gridLayout) ? JSON.parse(localStorage.gridLayout) : false || this.defaultGridLayout;
   },
   directives: {
     scrollbar,
   },
   components: {
+    GridLayout,
+    GridItem,
     TileHeader,
     BuySell,
     Chart,
