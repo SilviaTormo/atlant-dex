@@ -21,9 +21,7 @@ TablePage(title="Transaction history")
             Icon(id='icon-qr' :class="{'tHistory__icon--visible': item.crypto}").tHistory__icon
             | {{item.description}}
           td.tHistory__status(:class="'tHistory__status--' + item.status.toLowerCase()") {{item.status}}
-    .tHistory__empty(v-if="data.length == 0")
-      Icon.tHistory__emptyIcon(id="magnifier")
-      .tHistory__emptyText We can’t find any orders of this type.
+    EmptyPlaceholder(v-if="data.length == 0")
     PanelForTable(
       :isAllChecked="isAllChecked",
       :isCheckedArray="isCheckedArray",
@@ -37,6 +35,7 @@ import Checkbox from 'components/Checkbox';
 import PanelForTable from 'components/pages/PanelForTable';
 import Icon from '../../Icon';
 import TablePage from './TablePage';
+import EmptyPlaceholder from './EmptyPlaceholder';
 
 export default {
   data() {
@@ -107,6 +106,7 @@ export default {
     Icon,
     Checkbox,
     PanelForTable,
+    EmptyPlaceholder,
   },
 };
 </script>
@@ -114,6 +114,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '~sass/bootstrap/media';
+
 .tHistory {
   &__header {
     &--description {
@@ -152,25 +153,6 @@ export default {
       color: #f33a3a;
     }
   }
-  &__empty {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  &__emptyIcon {
-    $size: 128px;
-    width: $size;
-    height: $size;
-    margin: 53px 0;
-  }
-  &__emptyText {
-    opacity: 0.5;
-    font-size: 30px;
-    font-weight: 300;
-    line-height: 45px;
-    text-align: center;
-  }
   &__checkboxContainer {
     width: 50px;
     position: relative;
@@ -178,43 +160,6 @@ export default {
   &__checkbox {
     position: absolute;
     top: 20px;
-  }
-}
-.panel {
-  $panelHeight: 58px;
-  z-index: 1.6;
-  position: fixed;
-  display: flex;
-  align-items: center;
-  padding-left: 41px;
-  height: $panelHeight;
-  left: 55px;
-  right: 0;
-  bottom: -$panelHeight;
-  overflow: hidden;
-  background-image: repeating-linear-gradient(
-    135deg,
-    #103c55,
-    #103c55 25px,
-    #03324c 0,
-    #03324c 60px
-  );
-  transition: bottom .5s, left .15s;
-  &--active {
-    transition: bottom .5s;
-    bottom: 0px;
-  }
-  &__actions {
-    cursor: pointer;
-    margin-right: 40px;
-    color: #ffffff;
-    font-family: Roboto;
-    font-size: 12px;
-    font-weight: 700;
-  }
-  &__scrollbarOpened {
-    transition: left .15s;
-    left: 335px;
   }
 }
 </style>
