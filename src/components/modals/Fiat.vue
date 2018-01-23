@@ -11,10 +11,9 @@ Modal
           span.fiat__stepNumber STEP 1
           span Choose {{transactionType}} method:
         .fiat__options(v-if="!isMobile")
-          Radio.fiat__option(v-for="method in paymentMethods", name="paymentSys" value="method.paymentName" v-model="CheckedPaymentSystem")
+          Radio.fiat__option(v-for="(method, index) in paymentMethods", :key="index", name="paymentSys" value="method.paymentName" v-model="CheckedPaymentSystem")
             Icon.fiat__systemLogo(:id="method.iconName")
-        Select.fiat__options.dropdown(v-if="isMobile")
-          option.dropdown__option(v-for="method in paymentMethods" v-model="CheckedPaymentSystem") {{method.paymentName}}
+        Dropdown.fiat__options.dropdown(:options="getPaymentMethods(paymentMethods)", :border="true", v-if="isMobile", v-model="CheckedPaymentSystem")
         .fiat__bottom(v-if="!isMobile")
           div ***
           .fiat__note
@@ -48,6 +47,7 @@ import {mapState, mapGetters, mapMutations} from 'vuex';
 import BButton from 'components/BButton';
 import IInput from 'components/IInput';
 import Icon from 'components/Icon';
+import Dropdown from 'components/Dropdown';
 import Radio from 'components/Radio';
 import Modal from 'components/modals/Modal';
 import Status from 'components/modals/Status.vue';
@@ -98,6 +98,9 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
+    getPaymentMethods(array) {
+      return array.map((item) => item.paymentName);
+    },
   },
   components: {
     Modal,
@@ -106,6 +109,7 @@ export default {
     IInput,
     Radio,
     Status,
+    Dropdown,
   },
 };
 </script>
