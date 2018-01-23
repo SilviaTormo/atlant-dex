@@ -1,6 +1,6 @@
 <template lang='pug'>
 label.checkbox
-  input.checkbox__input(type="checkbox", @change="change")
+  input.checkbox__input(type="checkbox", @change="change", :checked="value")
   .checkbox__icon(:class="'checkbox__icon--' + (color === 'green' ? 'green' : 'yellow')")
   .checkbox__text(v-if="label") {{label}}
   slot
