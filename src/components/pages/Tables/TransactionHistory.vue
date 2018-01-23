@@ -24,19 +24,17 @@ TablePage(title="Transaction history")
     .tHistory__empty(v-if="data.length == 0")
       Icon.tHistory__emptyIcon(id="magnifier")
       .tHistory__emptyText We can’t find any orders of this type.
-    .panel(:class="{'panel--active': isCheckedArray, 'panel__scrollbarOpened' : showSidebar}")
-      .panel__actions.panel__checkbox
-        input(type="checkbox" id="globalCheckbox" @click="toggleCheckboxes", :checked="isAllChecked").checkboxTable
-        label(for="globalCheckbox")
-      .panel__actions Repeat
-      .panel__actions Undo
-      .panel__actions Delete
-      .panel__actions Export
+    PanelForTable(
+      :isAllChecked="isAllChecked",
+      :isCheckedArray="isCheckedArray",
+      :toggleCheckboxes="toggleCheckboxes",
+      :showSidebar="showSidebar")
 </template>
 
 <script>
 import {mapState} from 'vuex';
 import Checkbox from 'components/Checkbox';
+import PanelForTable from 'components/pages/PanelForTable';
 import Icon from '../../Icon';
 import TablePage from './TablePage';
 
@@ -101,13 +99,14 @@ export default {
       },
     ];
     this.$nextTick(() => {
-      this.checkboxCount = document.getElementsByClassName('tHistory__checkbox').length;
+      this.checkboxCount = this.data.length;
     });
   },
   components: {
     TablePage,
     Icon,
     Checkbox,
+    PanelForTable,
   },
 };
 </script>
