@@ -12,10 +12,8 @@ TablePage(title="Transaction history")
           th Status
       tbody
         tr(v-for="(item, index) in data")
-          td
-            .tHistory__checkbox
-              input(type="checkbox" :id="item.id" :value="item.id" v-model="checkedArray" :key="item.id").checkboxTable
-              label(:for="item.id")
+          td.tHistory__checkboxContainer
+            Checkbox.tHistory__checkbox(:tableId="item.id", :key="item.id" v-model="item.checked")
           td {{item.id}}
           td.tHistory__date {{item.date}}
           td.tHistory__amount(:class="'tHistory__amount--' + (item.amount >= 0 ? 'positive' : 'negative')") {{item.amount}} USD
@@ -28,7 +26,7 @@ TablePage(title="Transaction history")
       .tHistory__emptyText We can’t find any orders of this type.
     .panel(:class="{'panel--active': isCheckedArray, 'panel__scrollbarOpened' : showSidebar}")
       .panel__actions.panel__checkbox
-        input(type="checkbox" id="globalCheckbox" @click="switchAllCheckboxes" :checked="isAllChecked").checkboxTable
+        input(type="checkbox" id="globalCheckbox" @click="toggleCheckboxes", :checked="isAllChecked").checkboxTable
         label(for="globalCheckbox")
       .panel__actions Repeat
       .panel__actions Undo
@@ -38,6 +36,7 @@ TablePage(title="Transaction history")
 
 <script>
 import {mapState} from 'vuex';
+import Checkbox from 'components/Checkbox';
 import Icon from '../../Icon';
 import TablePage from './TablePage';
 
@@ -46,7 +45,6 @@ export default {
     return {
       checkboxCount: 0,
       data: [],
-      checkedArray: [],
     };
   },
   computed: {
@@ -54,45 +52,53 @@ export default {
       showSidebar: 'showSidebar',
     }),
     isCheckedArray() {
-      return Boolean(this.checkedArray.length);
+      return Boolean(this.checkedCount);
     },
     checkedCount() {
-      return this.checkedArray.length;
+      return this.data.filter((item) => item.checked).length;
     },
     isAllChecked() {
       return this.checkboxCount === this.checkedCount;
     },
   },
   methods: {
-    switchAllCheckboxes() {
-      this.checkedArray = !this.isAllChecked ? this.data.map((item) => item.id) : [];
+    switchAllCheckboxes(val) {
+      for (let i of this.data) {
+        i.checked = val;
+      }
+    },
+    toggleCheckboxes() {
+      this.isAllChecked ? this.switchAllCheckboxes(false) : this.switchAllCheckboxes(true);
     },
   },
   created() {
     this.data = [
-      // {
-      //   id: 484,
-      //   date: '01.08.2017 21:15',
-      //   amount: -15.00,
-      //   description: 'Transfer to belpoker',
-      //   status: 'Completed',
-      // },
-      // {
-      //   id: 485,
-      //   date: '01.08.2017 21:14',
-      //   amount: 562.00,
-      //   description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
-      //   crypto: true,
-      //   status: 'Pending',
-      // },
-      // {
-      //   id: 486,
-      //   date: '01.08.2017 21:14',
-      //   amount: -5.00,
-      //   crypto: true,
-      //   description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
-      //   status: 'Error',
-      // },
+      {
+        id: 484,
+        date: '01.08.2017 21:15',
+        amount: -15.00,
+        description: 'Transfer to belpoker',
+        status: 'Completed',
+        checked: false,
+      },
+      {
+        id: 485,
+        date: '01.08.2017 21:14',
+        amount: 562.00,
+        description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
+        crypto: true,
+        status: 'Pending',
+        checked: false,
+      },
+      {
+        id: 486,
+        date: '01.08.2017 21:14',
+        amount: -5.00,
+        crypto: true,
+        description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
+        status: 'Error',
+        checked: false,
+      },
     ];
     this.$nextTick(() => {
       this.checkboxCount = document.getElementsByClassName('tHistory__checkbox').length;
@@ -101,6 +107,7 @@ export default {
   components: {
     TablePage,
     Icon,
+    Checkbox,
   },
 };
 </script>
@@ -164,6 +171,14 @@ export default {
     font-weight: 300;
     line-height: 45px;
     text-align: center;
+  }
+  &__checkboxContainer {
+    width: 50px;
+    position: relative;
+  }
+  &__checkbox {
+    position: absolute;
+    top: 20px;
   }
 }
 .panel {
