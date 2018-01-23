@@ -1,8 +1,8 @@
 <template lang="pug">
-.ddropdown
-  select.ddropdown__select(@change="select($event.target.value)", :class="{'ddropdown__select--witchBorder': border}")
-    option.ddropdown__option(v-for="option in options", :value="option") {{option}}
-  Icon.ddropdown__triangle(id="triangle2", :class="{'ddropdown__triangle--witchPadding': border}")
+.dropdown
+  select.dropdown__select(@change="select($event.target.value)", :class="{'dropdown__select--withBorder': border}")
+    option.dropdown__option(v-for="option in options", :value="option") {{option}}
+  Icon.dropdown__triangle(id="triangle2", :class="{'dropdown__triangle--withPadding': border}")
 </template>
 
 <script>
@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style lang="scss">
-.ddropdown {
+.dropdown {
   display: flex;
   align-items: center;
   position: relative;
@@ -51,7 +51,7 @@ export default {
     font-weight: bold;
     appearance: none;
     background-color: transparent;
-    &--witchBorder {
+    &--withBorder {
       border: 1px solid #ffffff;
       border-radius: 4px;
       background: transparent;
@@ -69,7 +69,7 @@ export default {
     position: absolute;
     right: 0;
     pointer-events: none;
-    &--witchPadding {
+    &--withPadding {
       right: 10px;
     }
   }
