@@ -55,15 +55,17 @@ export default {
     margin-bottom: 41px;
   }
 }
-.generalSettings {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  &__block {
-    & * {
-      width: 100%;
+@include media-breakpoint-down(md) {
+  .generalSettings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &__block {
+      & * {
+        width: 100%;
+      }
+      max-width: 560px;
     }
-    max-width: 560px;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template lang='pug'>
-.balance
-  Icon.balance__currencyIcon(:id="'cur_'+ currency")
+.balance(:class="{'balance--zero': balance === '0.00'}")
+  Icon.balance__currencyIcon(:class="{'balance__currencyIcon--zero': balance === 0}", :id="'cur_'+ currency")
   .balance__currencyContainer
     .balance__main
       .balance__currencyName(:class="activeClass") {{currency}}
@@ -64,12 +64,12 @@ export default {
     },
     balance: {
       type: [Number, String],
-      default: 0,
+      default: '0.00',
       required: false,
     },
     balanceEq: {
       type: [Number, String],
-      default: 0,
+      default: '$0.00',
       required: false,
     },
     isActive: {
@@ -98,6 +98,12 @@ export default {
   display: flex;
   align-items: flex-start;
   margin-bottom: 30px;
+  &--zero {
+    opacity: 0.2;
+  }
+  &:hover {
+    opacity: 1;
+  }
   &__currencyContainer {
     width: 100%;
   }

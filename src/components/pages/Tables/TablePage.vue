@@ -4,12 +4,48 @@
   .tablePage__body
     .tablePage__content
       slot
+      EmptyPlaceholder(v-if="data.length == 0")
+      PanelForTable(
+        :isAllChecked="isAllChecked",
+        :isCheckedArray="isCheckedArray",
+        :toggleCheckboxes="toggleCheckboxes",
+        :showSidebar="showSidebar")
 </template>
 
 <script>
+import {mapState} from 'vuex';
+import PanelForTable from 'components/pages/PanelForTable';
 import TableHeader from './TableHeader';
+import EmptyPlaceholder from './EmptyPlaceholder';
 
 export default {
+  computed: {
+    ...mapState('misc', {
+      showSidebar: 'showSidebar',
+    }),
+    checkboxCount() {
+      return this.data.length;
+    },
+    checkedCount() {
+      return this.data.filter((item) => item.checked).length;
+    },
+    isCheckedArray() {
+      return Boolean(this.checkedCount);
+    },
+    isAllChecked() {
+      return this.checkboxCount === this.checkedCount;
+    },
+  },
+  methods: {
+    switchAllCheckboxes(val) {
+      for (let i of this.data) {
+        i.checked = val;
+      }
+    },
+    toggleCheckboxes() {
+      this.isAllChecked ? this.switchAllCheckboxes(false) : this.switchAllCheckboxes(true);
+    },
+  },
   props: {
     title: {
       type: String,
@@ -21,9 +57,15 @@ export default {
       default: false,
       required: false,
     },
+    data: {
+      type: Array,
+      required: true,
+    },
   },
   components: {
     TableHeader,
+    PanelForTable,
+    EmptyPlaceholder,
   },
 };
 </script>

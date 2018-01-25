@@ -14,14 +14,19 @@
     .portfolio__headerLine
       .portfolio__header Coins:
       Icon.portfolio__icon(id="refresh")
-    BalanceItem(currency="btc", balance="0,00714512", balanceEq="$25 695,94", :isActive="'btc' == selectedCur", isCrypto, @click.native="openCur('btc')")
-    BalanceItem(currency="eth", balance="6,02981032", balanceEq="$3 773,11", :isActive="'eth' == selectedCur", isCrypto, @click.native="openCur('eth')")
+    BalanceItem(v-for="bal in balances", v-if="bal.isCrypto && bal.balance", :key="bal.name",
+      :currency="bal.name", :balance="bal.balance", :balanceEq="bal.balanceUSD",
+      :isActive="bal.name == selectedCur", @click.native="openCur(bal.name)")
+    BalanceItem(v-for="bal in balances", v-if="bal.isCrypto && !bal.balance", :key="bal.name",
+      :currency="bal.name", :balance="bal.balance", :balanceEq="bal.balanceUSD",
+      :isActive="bal.name == selectedCur", @click.native="openCur(bal.name)")
   .portfolio__item
     .portfolio__headerLine
       .portfolio__header Fiat:
       Icon.portfolio__icon(id="refresh")
-    BalanceItem(currency="usd", balance="4 960,02", balanceEq="$4 960,02", :isActive="'usd' == selectedCur", @click.native="openCur('usd')")
-    BalanceItem(currency="eur", balance="27 230,00", balanceEq="$32 415,10", :isActive="'eur' == selectedCur", @click.native="openCur('eur')")
+    BalanceItem(v-for="bal in balances", v-if="!bal.isCrypto", :key="bal.name",
+      :currency="bal.name", :balance="bal.balance", :balanceEq="bal.balanceUSD",
+      :isActive="bal.name == selectedCur", @click.native="openCur(bal.name)")
 </template>
 
 <script>
@@ -36,6 +41,36 @@ export default {
       selected: '',
       selectedCur: 'btc',
       percChng: 2.73,
+      balances: [
+        {
+          name: 'btc',
+          balance: 0.00714512,
+          balanceUSD: '$25 695,94',
+          isCrypto: true,
+        },
+        {
+          name: 'eth',
+          balance: 6.02981032,
+          balanceUSD: '$3 773,11',
+          isCrypto: true,
+        },
+        {
+          name: 'tether',
+          isCrypto: true,
+        },
+        {
+          name: 'usd',
+          balance: '4 960.02',
+          balanceUSD: '$32 415,10',
+          isCrypto: false,
+        },
+        {
+          name: 'eur',
+          balance: '27 230.00',
+          balanceUSD: '$3 773,11',
+          isCrypto: false,
+        },
+      ],
     };
   },
   computed: {

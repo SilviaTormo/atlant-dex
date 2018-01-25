@@ -1,5 +1,5 @@
 <template lang="pug">
-TablePage(title="My orders")
+TablePage(title="My orders", :data="data")
   .myOrders.table
     table.table__body
       thead
@@ -15,10 +15,8 @@ TablePage(title="My orders")
           th Total
       tbody
         tr(v-for="(item, index) in data")
-          td
-            .myOrders__checkbox
-              input(type="checkbox" :id="item.id" :value="item.id" v-model="checkedArray" :key="item.id").checkboxTable
-              label(:for="item.id")
+          td.myOrders__checkboxContainer
+            Checkbox.myOrders__checkbox(:key="item.id" v-model="item.checked")
           td {{item.id}}
           td {{item.timestamp}}
           td {{item.type}}
@@ -27,47 +25,18 @@ TablePage(title="My orders")
           td {{item.amount}}
           td {{item.price}} USD
           td {{item.total}} USD
-    .panel(:class="{'panel--active': isCheckedArray, 'panel__scrollbarOpened' : showSidebar}")
-      .panel__actions.panel__checkbox
-        input(type="checkbox" id="globalCheckbox" @click="switchAllCheckboxes" :checked="isAllChecked").checkboxTable
-        label(for="globalCheckbox")
-      .panel__actions Repeat
-      .panel__actions Undo
-      .panel__actions Delete
-      .panel__actions Export
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import Checkbox from 'components/Checkbox';
 import Icon from '../../Icon';
 import TablePage from './TablePage';
 
 export default {
   data() {
     return {
-      checkboxCount: 0,
       data: [],
-      checkedArray: [],
     };
-  },
-  computed: {
-    ...mapState('misc', {
-      showSidebar: 'showSidebar',
-    }),
-    isCheckedArray() {
-      return Boolean(this.checkedArray.length);
-    },
-    checkedCount() {
-      return this.checkedArray.length;
-    },
-    isAllChecked() {
-      return this.checkboxCount === this.checkedCount;
-    },
-  },
-  methods: {
-    switchAllCheckboxes() {
-      this.checkedArray = !this.isAllChecked ? this.data.map((item) => item.id) : [];
-    },
   },
   created() {
     this.data = [
@@ -80,6 +49,7 @@ export default {
         amount: '0.0150 BTC',
         price: 1500.00,
         total: 22.50,
+        checked: false,
       },
       {
         id: 38622643,
@@ -90,6 +60,7 @@ export default {
         amount: '1.0000 ETH',
         price: 199.59,
         total: 199.59,
+        checked: false,
       },
       {
         id: 35195753,
@@ -100,6 +71,7 @@ export default {
         amount: '5.0000 EMC',
         price: 0.60,
         total: 3.00,
+        checked: false,
       },
       {
         id: 31229014,
@@ -110,6 +82,7 @@ export default {
         amount: '0.0150 BTC',
         price: 1500.00,
         total: 22.50,
+        checked: false,
       },
       {
         id: 24311784,
@@ -120,15 +93,14 @@ export default {
         amount: '0.0150 BTC',
         price: 1500.00,
         total: 22.50,
+        checked: false,
       },
     ];
-    this.$nextTick(() => {
-      this.checkboxCount = document.getElementsByClassName('myOrders__checkbox').length;
-    });
   },
   components: {
     TablePage,
     Icon,
+    Checkbox,
   },
 };
 </script>
@@ -145,42 +117,14 @@ export default {
       color: #f33a3a;
     }
   }
-}
-.panel {
-  $panelHeight: 58px;
-  z-index: 1.6;
-  position: fixed;
-  display: flex;
-  align-items: center;
-  padding-left: 41px;
-  height: $panelHeight;
-  left: 55px;
-  right: 0;
-  bottom: -$panelHeight;
-  overflow: hidden;
-  background-image: repeating-linear-gradient(
-    135deg,
-    #103c55,
-    #103c55 25px,
-    #03324c 0,
-    #03324c 60px
-  );
-  transition: bottom .5s, left .15s;
-  &--active {
-    transition: bottom .5s;
-    bottom: 0px;
+  &__checkboxContainer {
+    width: 50px;
+    min-width: 32px;
+    position: relative;
   }
-  &__actions {
-    cursor: pointer;
-    margin-right: 40px;
-    color: #ffffff;
-    font-family: Roboto;
-    font-size: 12px;
-    font-weight: 700;
-  }
-  &__scrollbarOpened {
-    transition: left .15s;
-    left: 335px;
+  &__checkbox {
+    position: absolute;
+    top: 20px;
   }
 }
 </style>

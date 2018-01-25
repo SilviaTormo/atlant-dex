@@ -1,5 +1,5 @@
 <template lang="pug">
-TablePage(title="Transaction history")
+TablePage(title="Transaction history", :data="data")
   .tHistory.table
     table.table__body
       thead
@@ -13,60 +13,26 @@ TablePage(title="Transaction history")
       tbody
         tr(v-for="(item, index) in data")
           td.tHistory__checkboxContainer
-            Checkbox.tHistory__checkbox(:tableId="item.id", :key="item.id" v-model="item.checked")
+            Checkbox.tHistory__checkbox(:key="item.id" v-model="item.checked")
           td {{item.id}}
           td.tHistory__date {{item.date}}
           td.tHistory__amount(:class="'tHistory__amount--' + (item.amount >= 0 ? 'positive' : 'negative')") {{item.amount}} USD
           td.tHistory__description
-            Icon(id='icon-qr' :class="{'tHistory__icon--visible': item.crypto}").tHistory__icon
+            Icon(id='icon-qr', :class="{'tHistory__icon--visible': item.crypto}").tHistory__icon
             | {{item.description}}
           td.tHistory__status(:class="'tHistory__status--' + item.status.toLowerCase()") {{item.status}}
-    EmptyPlaceholder(v-if="data.length == 0")
-    PanelForTable(
-      :isAllChecked="isAllChecked",
-      :isCheckedArray="isCheckedArray",
-      :toggleCheckboxes="toggleCheckboxes",
-      :showSidebar="showSidebar")
 </template>
 
 <script>
-import {mapState} from 'vuex';
 import Checkbox from 'components/Checkbox';
-import PanelForTable from 'components/pages/PanelForTable';
 import Icon from '../../Icon';
 import TablePage from './TablePage';
-import EmptyPlaceholder from './EmptyPlaceholder';
 
 export default {
   data() {
     return {
-      checkboxCount: 0,
       data: [],
     };
-  },
-  computed: {
-    ...mapState('misc', {
-      showSidebar: 'showSidebar',
-    }),
-    isCheckedArray() {
-      return Boolean(this.checkedCount);
-    },
-    checkedCount() {
-      return this.data.filter((item) => item.checked).length;
-    },
-    isAllChecked() {
-      return this.checkboxCount === this.checkedCount;
-    },
-  },
-  methods: {
-    switchAllCheckboxes(val) {
-      for (let i of this.data) {
-        i.checked = val;
-      }
-    },
-    toggleCheckboxes() {
-      this.isAllChecked ? this.switchAllCheckboxes(false) : this.switchAllCheckboxes(true);
-    },
   },
   created() {
     this.data = [
@@ -97,16 +63,11 @@ export default {
         checked: false,
       },
     ];
-    this.$nextTick(() => {
-      this.checkboxCount = this.data.length;
-    });
   },
   components: {
     TablePage,
     Icon,
     Checkbox,
-    PanelForTable,
-    EmptyPlaceholder,
   },
 };
 </script>
@@ -155,6 +116,7 @@ export default {
   }
   &__checkboxContainer {
     width: 50px;
+    min-width: 32px;
     position: relative;
   }
   &__checkbox {
