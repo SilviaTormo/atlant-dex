@@ -33,6 +33,7 @@
   CryptoWithdraw(v-else-if="isModalOpened('cryptoWithdraw')")
   Status(v-else-if="isModalOpened('status')")
   Fiat(v-else-if="isModalOpened('fiat')")
+  TFA(v-else-if="isModalOpened('tfa')")
 </template>
 
 <script>
@@ -66,6 +67,7 @@ import CryptoDeposit from './modals/CryptoDeposit';
 import CryptoWithdraw from './modals/CryptoWithdraw';
 import Status from './modals/Status';
 import Fiat from './modals/Fiat';
+import TFA from './modals/TFA';
 
 export default {
   computed: {
@@ -205,6 +207,7 @@ export default {
     FAQ,
     Status,
     Fiat,
+    TFA,
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template lang='pug'>
 .inputField
-  input.inputField__input(:placeholder="placeholder", @change="change", :type="type" required)
+  input.inputField__input(:placeholder="placeholder", @change="change", :type="type" required, :class="{'inputField__input--center' : center}")
   .inputField__line
   label.inputField__label(v-if="label") {{label}}
 </template>
@@ -42,6 +42,11 @@ export default {
       default: 'text',
       required: false,
     },
+    center: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
   },
   components: {
     Icon,
@@ -73,6 +78,9 @@ export default {
     border: none;
     border-bottom: 1px solid #ffffff;
     background: none;
+    &--center {
+      text-align: center;
+    }
   }
 
   &__line {

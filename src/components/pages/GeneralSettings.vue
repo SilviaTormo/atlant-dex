@@ -14,6 +14,7 @@ Page(title="General settings", title2="General settings", :sidebar="true")
 </template>
 
 <script>
+import {mapMutations} from 'vuex';
 import Checkbox from 'components/Checkbox';
 import Page from './Page';
 
@@ -23,6 +24,16 @@ export default {
       use2FA: false,
       subscribe: false,
     };
+  },
+  methods: {
+    ...mapMutations('modal', {
+      openModal: 'open',
+    }),
+  },
+  watch: {
+    use2FA() {
+      this.openModal({name: 'tfa'});
+    },
   },
   components: {
     Page,
