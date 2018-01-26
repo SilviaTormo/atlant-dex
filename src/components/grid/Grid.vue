@@ -1,8 +1,10 @@
 <template lang="pug">
 .grid
+  .grid__edit(@click="isEdit = !isEdit") Edit
+  GridPanel(:data="hiddenLayout", :isEdit="isEdit", v-show="!isMobile")
   .grid-stack
     .grid-stack-item(
-      v-for="({id, x, y, width, height, minWidth, minHeight, maxHeight}, index) in (isMobile ? defaultGridLayout : gridLayout)",
+      v-for='({id, x, y, width, height, minWidth, minHeight, maxHeight}, index) in (isMobile ? defaultGridLayout : gridLayout)',
       :data-gs-id='id',
       :data-gs-x='x',
       :data-gs-y='y',
@@ -12,42 +14,7 @@
       :data-gs-min-height='minHeight',
       :data-gs-max-height='maxHeight',
     )
-      .grid-stack-item-content#chartContainer(v-scrollbar="")
-        .grid__tile(v-if="id === 'buySell'")
-          .grid__tileContent
-            BuySell
-        .grid__tile(v-if="id === 'chart'")
-          .grid__tileContent
-            Chart
-        .grid__tile.grid__tile--history(v-if="id === 'history'" )
-          .grid__tileContent.grid__tileContent--history
-            TileHeader.grid__tileHeader.grid__tileHeader--history(title='History of trades' center)
-            .grid__containerWitchOverflow(v-scrollbar="")
-              History
-        .grid__tile(v-if="id === 'book'")
-          .grid__tileContent.grid__tileContent--books
-            TileHeader.grid__tileHeader.grid__tileHeader--book(title='Order book' center)
-            .grid__books
-              .grid__tile
-                BookHeader
-              .grid__tile
-                BookHeader(ask)
-            .grid__books
-              .grid__containerWitchOverflow(v-scrollbar="")
-                Book.grid__book(:limit='19')
-              .grid__containerWitchOverflow(v-scrollbar="")
-                Book.grid__book(ask, :limit='19')
-        .grid__tile(v-if="id === 'orders'")
-          .grid__tileContent.grid__tileContent--orders
-            .grid__tileContent--ordersTop
-              TileHeader.grid__tileHeader.grid__tileHeader--orders(title='Open orders')
-              .grid__containerWitchOverflow(v-scrollbar="")
-                Orders
-            .grid__ordersSep
-            .grid__tileContent--ordersBottom
-              TileHeader.grid__tileHeader.grid__tileHeader--orders(title='Completed orders')
-              .grid__containerWitchOverflow(v-scrollbar="")
-                Orders
+      GridItems(v-bind:component="id")
 </template>
 
 <script>
@@ -57,14 +24,8 @@
 // import 'gridstack';
 // import 'gridstack.jquery-ui';
 import {mapGetters} from 'vuex';
-import {scrollbar} from 'directives';
-import TileHeader from './TileHeader';
-import BuySell from './BuySell';
-import Chart from './Chart';
-import Orders from './Orders';
-import Book from './Book';
-import History from './History';
-import BookHeader from './BookHeader';
+import GridItems from './GridItems';
+import GridPanel from './GridPanel';
 
 export default {
   data() {
@@ -77,6 +38,8 @@ export default {
         {id: 'orders', x: 9, y: 7, width: 4, height: 8, minWidth: 4, minHeight: 2},
       ],
       gridLayout: [],
+      hiddenLayout: [],
+      isEdit: false,
     };
   },
   computed: {
@@ -84,18 +47,55 @@ export default {
       isMobile: 'isMobile',
     }),
   },
+  methods: {
+    getEdit() {
+      $('.grid-stack').data('gridstack').enableMove(this.isEdit);
+      $('.grid-stack').data('gridstack').enableResize(this.isEdit);
+    },
+    createArrayWithHiddenEl() {
+      this.hiddenLayout = this.defaultGridLayout.filter((e) => this.gridLayout.findIndex((i) => i.id == e.id) === -1);
+      // console.log(this.hiddenLayout);
+    },
+  },
+  watch: {
+    isEdit() {
+      this.getEdit();
+    },
+    gridLayout() {
+      this.createArrayWithHiddenEl();
+    },
+  },
   mounted() {
+    // Initial Gridstack
     $('.grid-stack').gridstack({
       width: 12,
+      minWidth: 991,
       verticalMargin: 0,
       animate: true,
+      // acceptWidgets: '.grid-stack-item',
+      removable: '.gridPanel__panelTrash',
+      removeTimeout: 100,
+      float: false,
       resizable: {
         handles: 'e, se, s, sw, w',
       },
     });
+
+    this.getEdit();
+
+    // Add new block with dragable
+    // $('.grid__panel .grid-stack-item').draggable({
+    //   revert: true,
+    //   handle: '.grid-stack-item-content',
+    //   acceptWidgets: '.grid-stack-item',
+    //   scroll: false,
+    //   appendTo: '.grid-stack',
+    //   helper: 'clone',
+    // });
+
+    // Event listener for grid
     $('.grid-stack').on('change', function(event, items) {
-      let gridLayout = [];
-      gridLayout = _.map($('.grid-stack .grid-stack-item:visible'), function(el) {
+      this.gridLayout = _.map($('.grid-stack .grid-stack-item:visible'), function(el) {
         el = $(el);
         let node = el.data('_gridstack_node');
         return {
@@ -108,146 +108,35 @@ export default {
           minHeight: node.minHeight,
           maxHeight: node.maxHeight,
         };
-       });
-      localStorage.setItem('gridLayout', JSON.stringify(gridLayout));
-      // console.log(gridLayout);
+      });
+      localStorage.setItem('gridLayout', JSON.stringify(this.gridLayout));
+      // console.log(this.gridLayout);
     });
   },
   created() {
     this.gridLayout = (localStorage.gridLayout) ? JSON.parse(localStorage.gridLayout) : false || this.defaultGridLayout;
   },
-  directives: {
-    scrollbar,
-  },
   components: {
-    TileHeader,
-    BuySell,
-    Chart,
-    Orders,
-    Book,
-    History,
-    BookHeader,
+    GridItems,
+    GridPanel,
   },
 };
 </script>
 
 <style lang="scss">
-@import '~perfect-scrollbar/dist/css/perfect-scrollbar';
-@import '~variables';
-@import '~sass/overrides';
-@import '~sass/bootstrap/media';
-
-.grid {
-  &__tile {
-    width: 100%;
-    height: 100%;
-    background-color: $color_blue;
-  }
-  &__tileContent {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    &--buysell {
-      width: 15%;
-    }
-    &--chart {
-      width: 35%;
-      height: 512px;
-    }
-    &--map {
-      width: 40%;
-    }
-    &--history {
-      padding: $default_spacing;
-    }
-    &--orders {
-      padding: $default_spacing;
-    }
-    &--ordersTop {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    &--ordersBottom {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-  }
-  &__tileHeader {
-    &--history {
-      margin-bottom: $default_spacing;
-    }
-    &--book {
-      padding: $default_spacing;
-    }
-    &--orders {
-      margin-bottom: $default_spacing;
-    }
-  }
-  &__book {
-    padding: 13px;
-  }
-  &__books {
-    width: 100%;
-    display: flex;
-  }
-  &__ordersSep {
-    $margin: 18px;
-    width: 100%;
-    margin-top: $margin;
-    margin-bottom: $margin + 8;
-    border: 1px solid #032537;
-  }
-  &__containerWitchOverflow {
-    position: relative;
-    display: flex;
-    flex: 1;
-  }
-}
-
-@include media-breakpoint-down(md) {
   .grid {
-    &__tiles {
-      flex-direction: column;
-    }
-    &__tile {
-      position: relative;
-      &:before {
-        content: "";
-        display: block;
-        height: 20px;
-        margin-bottom: -20px;
-        background: $background__shadow__gradient__to__bottom;
+    &__edit {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      height: 50px;
+      border: 1px solid rgb(24, 34, 53);
+      border-radius: 50%;
+      margin-bottom: 5px;
+      &:hover {
+        background: rgb(24, 34, 53);
       }
-    }
-    &__tileContent {
-      overflow: hidden;
-      &--buysell {
-        width: 100%;
-      }
-      &--chart {
-        height: 320px;
-        width: 100%;
-      }
-      &--map {
-        height: 320px;
-        width: 100%;
-      }
-      &--history {
-        width: 100%;
-      }
-      &--books {
-        width: 100%;
-      }
-      &--orders {
-        width: 100%;
-      }
-    }
-    &__books {
-      flex-direction: column;
     }
   }
-}
 </style>

@@ -13,6 +13,9 @@
       left: 0px;
       right: 0px;
     }
+    &-removing {
+      background: red;
+    }
   }
   &.grid-stack-one-column-mode>.grid-stack-item {
       margin-bottom: -1px;
