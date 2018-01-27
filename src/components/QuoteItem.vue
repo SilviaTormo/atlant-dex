@@ -56,7 +56,7 @@ export default {
       required: true,
     },
     priceChng: {
-      type: Number,
+      type: [Number, String],
       required: true,
     },
     cap: {
