@@ -17,9 +17,10 @@
     BalanceItem(v-for="bal in balances", v-if="bal.isCrypto && bal.balance", :key="bal.name",
       :currency="bal.name", :balance="bal.balance", :balanceEq="bal.balanceUSD",
       :isActive="bal.name == selectedCur", @click.native="openCur(bal.name)")
-    BalanceItem(v-for="bal in balances", v-if="bal.isCrypto && !bal.balance", :key="bal.name",
+    BalanceItem(v-for="bal in balances", v-if="bal.isCrypto && !bal.balance && showAll", :key="bal.name",
       :currency="bal.name", :balance="bal.balance", :balanceEq="bal.balanceUSD",
       :isActive="bal.name == selectedCur", @click.native="openCur(bal.name)")
+    Icon.portfolio__EllipsisIcon(v-if="!showAll" id="ellipsis" @click="toggleShowAll()")
   .portfolio__item
     .portfolio__headerLine
       .portfolio__header Fiat:
@@ -38,6 +39,7 @@ import BalanceItem from './BalanceItem';
 export default {
   data() {
     return {
+      showAll: false,
       selected: '',
       selectedCur: 'btc',
       percChng: 2.73,
@@ -81,6 +83,9 @@ export default {
   methods: {
     openCur(cur) {
       this.selectedCur = cur;
+    },
+    toggleShowAll() {
+      this.showAll = true;
     },
   },
   components: {
@@ -154,6 +159,12 @@ export default {
       fill: $color_red;
       transform: rotate(180deg);
     }
+  }
+  &__EllipsisIcon {
+    width: 30px;
+    height: 5px;
+    fill: #044669;
+    cursor: pointer;
   }
   &__changeAmt {
     font-size: 14px;
