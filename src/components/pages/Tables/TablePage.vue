@@ -5,16 +5,18 @@
     .tablePage__content
       slot
       EmptyPlaceholder(v-if="data.length == 0")
-      PanelForTable(
-        :isAllChecked="isAllChecked",
-        :isCheckedArray="isCheckedArray",
-        :toggleCheckboxes="toggleCheckboxes",
-        :showSidebar="showSidebar")
+      .tablePage__panel(:class="{'tablePage__panel--active': isCheckedArray, 'tablePage__panelScrollbarOpened' : showSidebar}")
+        .tablePage__panelActions.panel__checkbox
+          Checkbox.tHistory__checkbox(:value="isAllChecked" @change="toggleCheckboxes")
+        .tablePage__panelActions Repeat
+        .tablePage__panelActions Undo
+        .tablePage__panelActions Delete
+        .tablePage__panelActions Export
 </template>
 
 <script>
 import {mapState} from 'vuex';
-import PanelForTable from 'components/pages/PanelForTable';
+import Checkbox from 'components/Checkbox';
 import TableHeader from './TableHeader';
 import EmptyPlaceholder from './EmptyPlaceholder';
 
@@ -64,8 +66,8 @@ export default {
   },
   components: {
     TableHeader,
-    PanelForTable,
     EmptyPlaceholder,
+    Checkbox,
   },
 };
 </script>
@@ -84,6 +86,43 @@ export default {
     width: 100%;
     padding: 36px;
     border-top: 1px solid $color_tangaroa;
+  }
+  &__panel {
+    $panelHeight: 58px;
+    z-index: 1.6;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    padding-left: 41px;
+    height: $panelHeight;
+    left: 55px;
+    right: 0;
+    bottom: -$panelHeight;
+    overflow: hidden;
+    background-image: repeating-linear-gradient(
+      135deg,
+      #103c55,
+      #103c55 25px,
+      #03324c 0,
+      #03324c 60px
+    );
+    transition: bottom .5s, left .15s;
+  &--active {
+    transition: bottom .5s;
+    bottom: 0px;
+  }
+  }
+  &__panelActions {
+    cursor: pointer;
+    margin-right: 40px;
+    color: #ffffff;
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  &__panelScrollbarOpened {
+    transition: left .15s;
+    left: 335px;
   }
 }
 
