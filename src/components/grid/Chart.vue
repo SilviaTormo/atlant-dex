@@ -7,11 +7,46 @@
       .chart__buttonTxt(v-for="tech in technicalIndicators", :class="[techClass(tech.name), colorClass(tech.name)]", @click="toggleIndicator(tech.name)") {{tech.name}}
     .chart__buttons
       Icon.chart__buttonIcon(:id="type + 'Chart'" v-for="type in types", :key="type", :class="{'chart__buttonIcon--active' : isCurrentChart(type)}", @click="setChartType(type)")
-  .chart__body#chart
+  IEcharts(:option="chart", :loading="false", :resizable="true", @ready="onReady")
 </template>
 
 <script>
-import echarts from 'echarts';
+import IEcharts from 'vue-echarts-v3/src/lite.js';
+import 'echarts/lib/chart/line';
+import 'echarts/lib/chart/bar';
+// import 'echarts/lib/chart/pie';
+// import 'echarts/lib/chart/scatter';
+// import 'echarts/lib/chart/radar';
+// import 'echarts/lib/chart/map';
+// import 'echarts/lib/chart/treemap';
+// import 'echarts/lib/chart/graph';
+// import 'echarts/lib/chart/gauge';
+// import 'echarts/lib/chart/funnel';
+// import 'echarts/lib/chart/parallel';
+// import 'echarts/lib/chart/sankey';
+// import 'echarts/lib/chart/boxplot';
+import 'echarts/lib/chart/candlestick';
+// import 'echarts/lib/chart/effectScatter';
+import 'echarts/lib/chart/lines';
+// import 'echarts/lib/chart/heatmap';
+// import 'echarts/lib/component/graphic';
+// import 'echarts/lib/component/grid';
+// import 'echarts/lib/component/legend';
+import 'echarts/lib/component/tooltip';
+// import 'echarts/lib/component/polar';
+// import 'echarts/lib/component/geo';
+// import 'echarts/lib/component/parallel';
+// import 'echarts/lib/component/singleAxis';
+// import 'echarts/lib/component/brush';
+import 'echarts/lib/component/title';
+import 'echarts/lib/component/dataZoom';
+// import 'echarts/lib/component/visualMap';
+// import 'echarts/lib/component/markPoint';
+// import 'echarts/lib/component/markLine';
+// import 'echarts/lib/component/markArea';
+// import 'echarts/lib/component/timeline';
+// import 'echarts/lib/component/toolbox';
+// import 'zrender/lib/vml/vml';
 import {simpleMovingAverageArray} from 'binary-indicators/lib/simpleMovingAverage';
 import {exponentialMovingAverageArray} from 'binary-indicators/lib/exponentialMovingAverage';
 // import {macdArray} from 'binary-indicators/lib/macd';
@@ -24,7 +59,7 @@ import Icon from '../Icon';
 export default {
   data() {
     return {
-      chart: null,
+      chart: {},
       maxRenderedCandles: 0,
       periods: Object.keys(periods),
       types: [
@@ -92,6 +127,9 @@ export default {
     },
   },
   methods: {
+    onReady(instance) {
+      console.log(instance);
+    },
     ...mapActions('trade', {
       loadChart: 'loadChart',
       changeChartPeriod: 'changeChartPeriod',
@@ -107,7 +145,7 @@ export default {
     },
     setChartType(type) {
       this.currentChart = type;
-      this.chart.setOption({
+      this.chart = ({
         series: [
           {
             type: this.currentChart,
@@ -126,10 +164,7 @@ export default {
       });
     },
     createChart() {
-      this.chart = echarts.init(document.querySelector('#chart'), '', {
-        width: 'auto',
-      });
-      this.chart.setOption({
+      this.chart = {
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -140,8 +175,8 @@ export default {
         grid: [
           {
             show: false,
-            left: 64,
-            right: 16,
+            left: 0,
+            right: 70,
             bottom: 32,
             top: 64,
             width: 'auto',
@@ -150,10 +185,10 @@ export default {
           },
           {
             show: false,
-            left: 64,
-            right: 16,
+            left: 0,
+            right: 70,
             bottom: 32,
-            top: 64,
+            top: '70%',
             width: 'auto',
             height: 'auto',
             containLabel: false,
@@ -174,8 +209,14 @@ export default {
             gridIndex: 1,
             type: 'category',
             data: this.volumeSeries,
+            position: 'bottom',
             silent: true,
             scale: true,
+            axisLine: {
+              lineStyle: {
+                color: '#376691',
+              },
+            },
             axisLabel: {
               show: false,
             },
@@ -184,6 +225,9 @@ export default {
         yAxis: [
           {
             scale: true,
+            position: 'right',
+            offset: 5,
+            width: 100,
             splitArea: {
               show: false,
             },
@@ -191,20 +235,28 @@ export default {
               show: true,
               lineStyle: {
                 color: '#194362',
-                width: 2,
+                width: 1,
               },
             },
+            axisLabel: {
+              show: true,
+              color: '#376691',
+              verticalAlign: 'middle',
+            },
             axisLine: {
-              lineStyle: {
-                color: '#376691',
-              },
+              show: false,
             },
           },
           {
+            show: false,
             scale: true,
             silent: true,
+            position: 'left',
             gridIndex: 1,
             splitLine: {
+              show: false,
+            },
+            axisLine: {
               show: false,
             },
             axisLabel: {
@@ -228,6 +280,7 @@ export default {
             throttle: 25,
           },
         ],
+        animation: false,
         series: [
           {
             name: 'Price',
@@ -312,7 +365,7 @@ export default {
             },
           },
         ],
-      });
+      };
     },
     technical(indicator) {
       const data = this.rawCandles.map((item) => item[3]);
@@ -335,7 +388,7 @@ export default {
   },
   watch: {
     rawCandles() {
-      this.technical('EMA');
+      // this.technical('EMA');
       this.createChart();
     },
   },
@@ -346,6 +399,7 @@ export default {
   },
   components: {
     Icon,
+    IEcharts,
   },
 };
 
@@ -356,18 +410,7 @@ export default {
 .chart {
   $buttonColor: desaturate(lighten($color_summersky, 6), 68);
   position: relative;
-  width: 100%;
   height: 100%;
-  &__body {
-    width: 100%;
-    height: 100%;
-    // & > div {
-    //   width: 100% !important;
-    //   & > canvas {
-    //     width: 100% !important;
-    //   }
-    // }
-  }
   &__header {
     $padding: 20px;
     display: flex;
