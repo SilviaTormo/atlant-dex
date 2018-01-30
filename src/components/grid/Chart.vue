@@ -7,7 +7,7 @@
       .chart__buttonTxt(v-for="tech in technicalIndicators", :class="[techClass(tech.name), colorClass(tech.name)]", @click="toggleIndicator(tech.name)") {{tech.name}}
     .chart__buttons
       Icon.chart__buttonIcon(:id="type + 'Chart'" v-for="type in types", :key="type", :class="{'chart__buttonIcon--active' : isCurrentChart(type)}", @click="setChartType(type)")
-  IEcharts(:option="chart", :loading="false", :resizable="true", @ready="onReady")
+  IEcharts(:option="chart", :loading="false", :resizable="true")
 </template>
 
 <script>
@@ -38,7 +38,7 @@ import 'echarts/lib/component/tooltip';
 // import 'echarts/lib/component/parallel';
 // import 'echarts/lib/component/singleAxis';
 // import 'echarts/lib/component/brush';
-import 'echarts/lib/component/title';
+// import 'echarts/lib/component/title';
 import 'echarts/lib/component/dataZoom';
 // import 'echarts/lib/component/visualMap';
 // import 'echarts/lib/component/markPoint';
@@ -127,9 +127,6 @@ export default {
     },
   },
   methods: {
-    onReady(instance) {
-      console.log(instance);
-    },
     ...mapActions('trade', {
       loadChart: 'loadChart',
       changeChartPeriod: 'changeChartPeriod',
@@ -388,7 +385,7 @@ export default {
   },
   watch: {
     rawCandles() {
-      // this.technical('EMA');
+      this.technical('EMA');
       this.createChart();
     },
   },
