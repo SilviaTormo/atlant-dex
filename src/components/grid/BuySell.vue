@@ -93,7 +93,7 @@ export default {
     }
   }
   &__main {
-    padding: 6%;
+    padding: 20px;
     padding-bottom: 0;
   }
   &__label{

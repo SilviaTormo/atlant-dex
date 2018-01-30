@@ -10,6 +10,7 @@ import page from './modules/page';
 import user from './modules/user';
 import stats from './modules/stats';
 import membership from './modules/membership';
+import grid from './modules/grid';
 
 Vue.use(Vuex);
 
@@ -24,10 +25,12 @@ const store = new Vuex.Store({
     user,
     stats,
     membership,
+    grid,
   },
   plugins: [createPersistedState({
     paths: [
       'localization.lang',
+      // 'JSON.stringify(grid.gridData)',
     ],
   })],
 });

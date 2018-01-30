@@ -1,6 +1,18 @@
 <template lang="pug">
 .gridPanel(:class="{'gridPanel--hidden': !isEdit}")
-  .gridPanel__elements(v-for='items in data', @click="addBlock(items)") {{items.id}}
+  .grid-stack-item.gridPanel__elements(
+    v-for='items in data',
+    @click="addBlock(items)",
+    :data-gs-id='items.id',
+    :data-gs-x='items.x',
+    :data-gs-y='items.y',
+    :data-gs-width='items.width',
+    :data-gs-height='items.height',
+    :data-gs-min-width='items.minWidth',
+    :data-gs-min-height='items.minHeight',
+    :data-gs-max-height='items.maxHeight',
+  )
+    .grid-stack-item-content {{items.id}}
   .gridPanel__elements.gridPanel__panelTrash
     Icon(id="trash").gridPanel__panelTrash--icon
 </template>
@@ -11,11 +23,9 @@ import Icon from '../Icon';
 export default {
   methods: {
     addBlock(block) {
-      let grid = $('.grid-stack').data('gridstack');
-      grid.addWidget(`
-        <div class="grid-stack-item">
-          <div class="grid-stack-item-content ui-draggable-handle">
-            block
+      $('.grid-stack').data('gridstack').addWidget(`
+        <div class="grid-stack-item ui-draggable">
+          <div class="grid-stack-item-content">
           </div>
         </div>`, // el
         block.x, // x
@@ -30,6 +40,22 @@ export default {
         block.id, // id
       );
     },
+  },
+  watch: {
+    data() {
+      // console.log(this.data);
+    },
+  },
+  mounted() {
+    // Add new block with dragable
+    // $('.gridPanel .grid-stack-item').draggable({
+    //   revert: true,
+    //   handle: '.grid-stack-item-content',
+    //   // acceptWidgets: '.gridPanel',
+    //   scroll: false,
+    //   appendTo: '.grid-stack',
+    //   helper: 'clone',
+    // });
   },
   props: {
     data: {
@@ -68,6 +94,7 @@ export default {
     border-radius: 10%;
   }
   &__panelTrash {
+    margin-left: auto;
     border-color: red;
     flex: 2;
     fill: red;

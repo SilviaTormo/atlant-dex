@@ -1,5 +1,5 @@
 <template lang="pug">
-.grid-stack-item-content#chartContainer(v-scrollbar="")
+.grid-stack-item-content(v-scrollbar="")
   .gridItem__tile(v-if="this.component === 'buySell'")
     .gridItem__tileContent
       BuySell
