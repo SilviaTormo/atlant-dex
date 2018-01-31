@@ -30,7 +30,7 @@ const store = new Vuex.Store({
   plugins: [createPersistedState({
     paths: [
       'localization.lang',
-      // 'JSON.stringify(grid.gridData)',
+      'grid.gridData',
     ],
   })],
 });

@@ -18,14 +18,21 @@
 </template>
 
 <script>
+import {mapMutations} from 'vuex';
 import Icon from '../Icon';
 
 export default {
   methods: {
+    ...mapMutations('grid', {
+      addGridLayout: 'addGridLayout',
+      removeGridLayout: 'removeGridLayout',
+    }),
     addBlock(block) {
-      $('.grid-stack').data('gridstack').addWidget(`
-        <div class="grid-stack-item ui-draggable">
+      let grid = $('.grid-stack').data('gridstack');
+      grid.addWidget(`
+        <div class="grid-stack-item ui-draggable ui-resizable ui-draggable-handle ui-resizable-autohide">
           <div class="grid-stack-item-content">
+            <grid-items :component="items.id"></grid-items>
           </div>
         </div>`, // el
         block.x, // x
@@ -41,12 +48,19 @@ export default {
       );
     },
   },
-  watch: {
-    data() {
-      // console.log(this.data);
-    },
-  },
   mounted() {
+    // let data = $('.grid-stack').data('gridstack');
+    // console.log(data);
+    // Dragable remove
+    // $('.grid-stack-item').on('remove', function() {
+    //   console.log('start remove', this.gridData);
+    //   let el = $(this)[0].dataset.gsId;
+    //
+    //   console.log(this.gridData);
+    //   this.removeGridLayout(el);
+    // });
+    // this.removeGridLayout('chart');
+
     // Add new block with dragable
     // $('.gridPanel .grid-stack-item').draggable({
     //   revert: true,

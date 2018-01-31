@@ -1,11 +1,12 @@
 <template lang="pug">
 .grid
-  .grid__edit(@click="isEdit = !isEdit") Edit
-  GridPanel(:data="defaultGridLayout", :isEdit="isEdit", v-show="!isMobile")
+  .grid__edit(@click="setIsEdit", v-show="!isMobile") Edit
+  GridPanel(:data="getHiddenLayout", :isEdit="isEdit", v-show="!isMobile")
   .grid-stack
     .grid-stack-item(
-      v-for='(items in (isMobile ? defaultGridLayout : gridLayout)',
+      v-for='(items in (isMobile ? defaultGridData : createDashbard)',
       :data-gs-id='items.id',
+      :data-gs-autoPosition='items.autoPosition',
       :data-gs-x='items.x',
       :data-gs-y='items.y',
       :data-gs-width='items.width',
@@ -14,62 +15,45 @@
       :data-gs-min-height='items.minHeight',
       :data-gs-max-height='items.maxHeight',
     )
-      GridItems(v-bind:component="items.id")
+      GridItems(:component="items.id")
 </template>
 
 <script>
-// import $ from 'jquery';
-// import 'jquery-ui';
-// import 'lodash';
-// import 'gridstack';
-// import 'gridstack.jquery-ui';
 import {mapState, mapMutations, mapGetters} from 'vuex';
 import GridItems from './GridItems';
 import GridPanel from './GridPanel';
 
 export default {
-  data() {
-    return {
-      hiddenLayout: [],
-      isEdit: false,
-    };
-  },
   computed: {
     ...mapState('grid', {
-      defaultGridLayout: 'defaultData',
+      defaultGridData: 'defaultGridData',
+      isEdit: 'isEdit',
     }),
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
     ...mapGetters('grid', {
-      gridLayout: 'gridData',
+      gridData: 'gridData',
+      getHiddenLayout: 'getHiddenLayout',
     }),
-    ...mapMutations('grid', {
-      changeGrid: 'changeGrid',
-    }),
+    createDashbard() {
+      return this.gridData;
+    },
   },
   methods: {
+    ...mapMutations('grid', {
+      changeGrid: 'changeGrid',
+      setIsEdit: 'setIsEdit',
+    }),
     getEdit() {
       $('.grid-stack').data('gridstack').enableMove(this.isEdit);
       $('.grid-stack').data('gridstack').enableResize(this.isEdit);
-    },
-    createArrayWithHiddenEl() {
-      return this.hiddenLayout = this.defaultGridLayout.filter((e) => this.gridLayout.findIndex((i) => i.id == e.id) === -1);
-    },
-    changeGridLayout(array) {
-      this.gridLayout = [];
-      this.gridLayout = array;
     },
   },
   watch: {
     isEdit() {
       this.getEdit();
     },
-    // gridLayout() {
-    //   // console.log(this.gridLayout);
-    //   // localStorage.setItem('gridLayout', JSON.stringify(this.gridLayout));
-    //   this.createArrayWithHiddenEl();
-    // },
   },
   mounted() {
     // Initial Gridstack
@@ -89,11 +73,9 @@ export default {
 
     this.getEdit();
 
-    this.changeGrid('fuck');
-
     // Event listener for grid
     $('.grid-stack').on('change', function(event, items) {
-      (_.map($('.grid-stack .grid-stack-item'), (el) => {
+      let changes = _.map($('.grid-stack .grid-stack-item:visible'), function(el) {
         el = $(el);
         let node = el.data('_gridstack_node');
         return {
@@ -106,11 +88,10 @@ export default {
           minHeight: node.minHeight,
           maxHeight: node.maxHeight,
         };
-      }));
-    });
-  },
-  created() {
-    // this.gridLayout = (localStorage.gridLayout) ? JSON.parse(localStorage.gridLayout) : false || this.defaultGridLayout;
+      });
+      console.log('grid change: ', changes);
+      this.changeGrid(changes);
+    }.bind(this));
   },
   components: {
     GridItems,
