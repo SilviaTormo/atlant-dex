@@ -1,21 +1,38 @@
 <template lang="pug">
 .gridPanel(:class="{'gridPanel--hidden': !isEdit}")
-  .gridPanel__elements(v-for='items in data', @click="addBlock(items)") {{items.id}}
+  .grid-stack-item.gridPanel__elements(
+    v-for='items in data',
+    @click="addBlock(items)",
+    :data-gs-id='items.id',
+    :data-gs-x='items.x',
+    :data-gs-y='items.y',
+    :data-gs-width='items.width',
+    :data-gs-height='items.height',
+    :data-gs-min-width='items.minWidth',
+    :data-gs-min-height='items.minHeight',
+    :data-gs-max-height='items.maxHeight',
+  )
+    .grid-stack-item-content {{items.id}}
   .gridPanel__elements.gridPanel__panelTrash
     Icon(id="trash").gridPanel__panelTrash--icon
 </template>
 
 <script>
+import {mapMutations} from 'vuex';
 import Icon from '../Icon';
 
 export default {
   methods: {
+    ...mapMutations('grid', {
+      addGridLayout: 'addGridLayout',
+      removeGridLayout: 'removeGridLayout',
+    }),
     addBlock(block) {
       let grid = $('.grid-stack').data('gridstack');
       grid.addWidget(`
-        <div class="grid-stack-item">
-          <div class="grid-stack-item-content ui-draggable-handle">
-            block
+        <div class="grid-stack-item ui-draggable ui-resizable ui-draggable-handle ui-resizable-autohide">
+          <div class="grid-stack-item-content">
+            <grid-items :component="items.id"></grid-items>
           </div>
         </div>`, // el
         block.x, // x
@@ -30,6 +47,29 @@ export default {
         block.id, // id
       );
     },
+  },
+  mounted() {
+    // let data = $('.grid-stack').data('gridstack');
+    // console.log(data);
+    // Dragable remove
+    // $('.grid-stack-item').on('remove', function() {
+    //   console.log('start remove', this.gridData);
+    //   let el = $(this)[0].dataset.gsId;
+    //
+    //   console.log(this.gridData);
+    //   this.removeGridLayout(el);
+    // });
+    // this.removeGridLayout('chart');
+
+    // Add new block with dragable
+    // $('.gridPanel .grid-stack-item').draggable({
+    //   revert: true,
+    //   handle: '.grid-stack-item-content',
+    //   // acceptWidgets: '.gridPanel',
+    //   scroll: false,
+    //   appendTo: '.grid-stack',
+    //   helper: 'clone',
+    // });
   },
   props: {
     data: {
@@ -68,6 +108,7 @@ export default {
     border-radius: 10%;
   }
   &__panelTrash {
+    margin-left: auto;
     border-color: red;
     flex: 2;
     fill: red;
