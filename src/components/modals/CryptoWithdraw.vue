@@ -8,9 +8,10 @@ Modal
       IInput.cryptoWithdraw__input(placeholder="Withdrawal amount BTC", v-model="amount")
       .cryptoWithdraw__amountText Your will receive:
       .cryptoWithdraw__amount {{netAmount}}
-      BButton.cryptoWithdraw__button(color="malachite" rounded  @click="step++") Withdraw
+      BButton.cryptoWithdraw__button(color="malachite" rounded  @click.native="step++") Withdraw
       .cryptoWithdraw__fee Withdrawal fee: #[span.cryptoWithdraw__feeAmt {{fee}}] #[span.cryptoWithdraw__currency {{data.currency}}]
-    Status.cryptoWithdraw__status(v-if="step == 1" isSuccess)
+    TFA(v-if="step == 1", :onConfirm="tryConfirmation" text="Enter 2FA code to confirm withdrawal")
+    Status.cryptoWithdraw__status(v-if="step == 2", :isSuccess="isSuccess")
       .fiat__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
 
@@ -19,6 +20,7 @@ import {mapState, mapMutations} from 'vuex';
 import BButton from 'components/BButton';
 import IInput from 'components/IInput';
 import Modal from 'components/modals/Modal';
+import TFA from 'components/modals/TFA';
 import Status from 'components/modals/Status.vue';
 
 export default {
@@ -43,12 +45,19 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
+    tryConfirmation(code) {
+      if (code) {
+        this.step += 1;
+        this.isSuccess = true;
+      }
+    },
   },
   components: {
     Modal,
     BButton,
     IInput,
     Status,
+    TFA,
   },
 };
 </script>

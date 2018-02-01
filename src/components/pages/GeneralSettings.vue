@@ -29,10 +29,16 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
+    confirmMethod() {
+      console.log('This methods was passed from General Settings');
+    },
   },
   watch: {
     use2FA() {
-      this.openModal({name: 'tfa'});
+      let data = {
+        function: this.confirmMethod,
+      };
+      this.openModal({name: 'tfaModal', data});
     },
   },
   components: {

@@ -16,10 +16,10 @@
       Icon.portfolio__icon(id="refresh")
     BalanceItem(v-for="bal in balances", v-if="bal.isCrypto && bal.balance", :key="bal.name",
       :currency="bal.name", :balance="bal.balance", :balanceEq="bal.balanceUSD",
-      :isActive="bal.name == selectedCur", @click.native="openCur(bal.name)")
+      :isActive="bal.name == selectedCur", isCrypto, @click.native="openCur(bal.name)")
     BalanceItem(v-for="bal in balances", v-if="bal.isCrypto && !bal.balance && showAll", :key="bal.name",
       :currency="bal.name", :balance="bal.balance", :balanceEq="bal.balanceUSD",
-      :isActive="bal.name == selectedCur", @click.native="openCur(bal.name)")
+      :isActive="bal.name == selectedCur", isCrypto, @click.native="openCur(bal.name)")
     Icon.portfolio__EllipsisIcon(v-if="!showAll" id="ellipsis" @click="toggleShowAll()")
   .portfolio__item
     .portfolio__headerLine

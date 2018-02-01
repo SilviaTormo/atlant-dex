@@ -24,8 +24,6 @@
       FAQ(v-if="isPageOpened('faq')")
   //- Modals
   InDemo(v-if="isModalOpened('inDemo')")
-  ImportKey(v-else-if="isModalOpened('importKey')")
-  Welcome(v-else-if="isModalOpened('welcome')")
   Reset(v-else-if="isModalOpened('reset')")
   SignUp(v-else-if="isModalOpened('signUp')")
   SignIn(v-else-if="isModalOpened('signIn')")
@@ -33,7 +31,7 @@
   CryptoWithdraw(v-else-if="isModalOpened('cryptoWithdraw')")
   Status(v-else-if="isModalOpened('status')")
   Fiat(v-else-if="isModalOpened('fiat')")
-  TFA(v-else-if="isModalOpened('tfa')")
+  TFAModal(v-else-if="isModalOpened('tfaModal')")
 </template>
 
 <script>
@@ -58,8 +56,6 @@ import SecuritySettings from './pages/SecuritySettings';
 import SecurityLog from './pages/SecurityLog';
 import FAQ from './pages/FAQ';
 import InDemo from './modals/InDemo';
-import ImportKey from './modals/ImportKey';
-import Welcome from './modals/Welcome';
 import Reset from './modals/Reset';
 import SignUp from './modals/SignUp';
 import SignIn from './modals/SignIn';
@@ -67,7 +63,7 @@ import CryptoDeposit from './modals/CryptoDeposit';
 import CryptoWithdraw from './modals/CryptoWithdraw';
 import Status from './modals/Status';
 import Fiat from './modals/Fiat';
-import TFA from './modals/TFA';
+import TFAModal from './modals/TFAModal';
 
 export default {
   computed: {
@@ -189,8 +185,6 @@ export default {
     Grid,
     PropertyMap,
     InDemo,
-    ImportKey,
-    Welcome,
     Reset,
     SignUp,
     SignIn,
@@ -207,7 +201,7 @@ export default {
     FAQ,
     Status,
     Fiat,
-    TFA,
+    TFAModal,
   },
 };
 </script>

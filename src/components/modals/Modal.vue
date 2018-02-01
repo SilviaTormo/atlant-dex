@@ -72,7 +72,7 @@ $padding: 40px;
     flex-direction: column;
     justify-content: center;
     min-width: 407px;
-    min-height: 600px;
+    // min-height: 600px;
     padding: $padding;
     margin: auto;
     border-radius: 12px;

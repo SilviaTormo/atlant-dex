@@ -1,24 +1,22 @@
 <template lang="pug">
-Modal
-  .tfa
-    Icon.tfa__icon(id="2fa")
-    .tfa__content(v-if="step == 0")
-      .tfa__title confirmation
-      .tfa__text You were sent 2FA code to confirm two-factor authentication
-      IInput.tfa__input(placeholder="Enter secure code", v-model="secureCode", center)
-      BButton.tfa__button(color="malachite" rounded @click.native="step++") Confirm
-      .tfa__repeat
-        .tfa__repeatText(v-if="!isLinkAviable") The new code will be available in #[span.tfa__repeatTimer {{timer}} seconds]
-        a.link(v-else @click="getCountDown()") Send new code
-    Status.tfa__status(v-if="step == 1" isSuccess)
-      .tfa__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
+.tfa
+  Icon.tfa__icon(id="2fa")
+  form.tfa__content(v-if="tfaStep == 0" @submit.prevent="onConfirm(secureCode)")
+    .tfa__title confirmation
+    .tfa__text {{text}}
+    IInput.tfa__input(placeholder="Enter secure code", v-model="secureCode", center)
+    BButton.tfa__button(color="malachite" rounded) Confirm
+    .tfa__repeat
+      .tfa__repeatText(v-if="!isLinkAviable") The new code will be available in #[span.tfa__repeatTimer {{timer}} seconds]
+      a.link(v-else @click="getCountDown()") Send new code
+  //- Status.tfa__status(v-if="tfaStep == 1" isSuccess)
+  //-   .tfa__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
 
 <script>
 import {mapGetters, mapMutations} from 'vuex';
 import Icon from 'components/Icon';
 import BButton from 'components/BButton';
-import Modal from 'components/modals/Modal';
 import IInput from 'components/IInput';
 import Status from 'components/modals/Status.vue';
 
@@ -26,7 +24,7 @@ export default {
   data() {
     return {
       secureCode: '',
-      step: 0,
+      tfaStep: 0,
       timer: 5,
       isLinkAviable: false,
       isSuccess: false,
@@ -58,9 +56,19 @@ export default {
   created() {
     this.getCountDown();
   },
+  props: {
+    text: {
+      type: String,
+      default: 'You were sent 2FA code to confirm two-factor authentication',
+      required: false,
+    },
+    onConfirm: {
+      type: Function,
+      required: true,
+    },
+  },
   components: {
     Icon,
-    Modal,
     BButton,
     IInput,
     Status,
@@ -118,12 +126,6 @@ export default {
     font-weight: 900px;
     text-transform: uppercase;
     margin-bottom: 38px;
-  }
-  &__statusMsg {
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 18px;
-    font-weight: 900;
   }
   &__repeat {
     color: #ffffff;
