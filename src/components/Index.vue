@@ -18,7 +18,7 @@
       Verification(v-if="isPageOpened('verification')")
       GeneralSettings(v-if="isPageOpened('generalsettings')")
       ChangePassword(v-if="isPageOpened('changePassword')")
-      AccountInformation(v-if="isPageOpened('accountinformation')")
+      AccountInformation(v-if="isPageOpened('accountInformation')")
       SecuritySettings(v-if="isPageOpened('securitySettings')")
       SecurityLog(v-if="isPageOpened('securityLog')")
       FAQ(v-if="isPageOpened('faq')")
