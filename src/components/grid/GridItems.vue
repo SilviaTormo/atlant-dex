@@ -1,5 +1,5 @@
 <template lang="pug">
-.grid-stack-item-content(v-scrollbar="")
+.gridItem
   .gridItem__tile(v-if="this.component === 'buySell'")
     .gridItem__tileContent
       BuySell
@@ -35,10 +35,13 @@
         TileHeader.gridItem__tileHeader.gridItem__tileHeader--orders(title='Completed orders')
         .gridItem__containerWitchOverflow(v-scrollbar="")
           Orders
+  Icon.gridItem__deleteTile(id="trash", @click="removeGridLayout(component)" v-show="isEdit")
 </template>
 
 <script>
+import {mapState, mapMutations} from 'vuex';
 import {scrollbar} from 'directives';
+import Icon from '../Icon';
 import TileHeader from './TileHeader';
 import BuySell from './BuySell';
 import Chart from './Chart';
@@ -48,9 +51,23 @@ import History from './History';
 import BookHeader from './BookHeader';
 
 export default {
+  computed: {
+    ...mapState('grid', {
+      isEdit: 'isEdit',
+    }),
+  },
+  methods: {
+  ...mapMutations('grid', {
+    removeGridLayout: 'removeGridLayout',
+  }),
+},
   props: {
     component: {
       type: String,
+      required: true,
+    },
+    index: {
+      type: Number,
       required: true,
     },
   },
@@ -58,6 +75,7 @@ export default {
     scrollbar,
   },
   components: {
+    Icon,
     TileHeader,
     BuySell,
     Chart,
@@ -76,6 +94,9 @@ export default {
 @import '~sass/bootstrap/media';
 
 .gridItem {
+  height: 100%;
+  outline: 1px solid black;
+  position: relative;
   &__tile {
     width: 100%;
     height: 100%;
@@ -143,6 +164,14 @@ export default {
     display: flex;
     flex: 1;
   }
+  &__deleteTile {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    fill: red;
+    cursor: pointer;
+    z-index: 1;
+  }
 }
 
 @include media-breakpoint-down(md) {
@@ -182,9 +211,6 @@ export default {
       &--orders {
         width: 100%;
       }
-    }
-    &__books {
-      flex-direction: column;
     }
   }
 }

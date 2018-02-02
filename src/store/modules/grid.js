@@ -1,47 +1,60 @@
 export default {
   state: {
-    defaultGridData: [
-      {autoPosition: true, id: 'buySell', x: 0, y: 0, width: 3, height: 7, minWidth: 2, minHeight: 7, maxHeight: 7},
-      {autoPosition: true, id: 'chart', x: 3, y: 0, width: 9, height: 7, minWidth: 5, minHeight: 7},
-      {autoPosition: true, id: 'history', x: 0, y: 7, width: 3, height: 8, minWidth: 3, minHeight: 2},
-      {autoPosition: true, id: 'book', x: 3, y: 7, width: 5, height: 8, minWidth: 5, minHeight: 2},
-      {autoPosition: true, id: 'orders', x: 9, y: 7, width: 4, height: 8, minWidth: 4, minHeight: 2},
+    allGridLayout: [
+      {i: 'buySell', x: 0, y: 0, w: 3, h: 7, minW: 2, minH: 7, maxH: 7},
+      {i: 'chart', x: 3, y: 0, w: 9, h: 7, minW: 5, minH: 7},
+      {i: 'history', x: 0, y: 7, w: 3, h: 8, minW: 3, minH: 2},
+      {i: 'book', x: 3, y: 7, w: 5, h: 8, minW: 5, minH: 2},
+      {i: 'orders', x: 8, y: 7, w: 4, h: 8, minW: 4, minH: 2},
     ],
-    gridData: [],
+    gridData: [
+      {i: 'buySell', x: 0, y: 0, w: 3, h: 7, minW: 2, minH: 7, maxH: 7},
+      {i: 'chart', x: 3, y: 0, w: 9, h: 7, minW: 5, minH: 7},
+      {i: 'history', x: 0, y: 7, w: 3, h: 8, minW: 3, minH: 2},
+      {i: 'book', x: 3, y: 7, w: 5, h: 8, minW: 5, minH: 2},
+      {i: 'orders', x: 8, y: 7, w: 4, h: 8, minW: 4, minH: 2},
+    ],
+    mobileGridData: [
+      {i: 'buySell', x: 0, y: 0, w: 12, h: 7, minW: 2, minH: 7, maxH: 7},
+      {i: 'chart', x: 0, y: 7, w: 12, h: 7, minW: 5, minH: 7},
+      {i: 'history', x: 0, y: 14, w: 12, h: 8, minW: 3, minH: 2},
+      {i: 'book', x: 0, y: 22, w: 12, h: 8, minW: 5, minH: 2},
+      {i: 'orders', x: 0, y: 30, w: 12, h: 8, minW: 4, minH: 2},
+    ],
     isEdit: false,
   },
-  actions: {
-    // changeGrid({commit}, gridData) {
-    //   commit('CHANGE_GRID', gridData);
-    // },
-  },
+
   mutations: {
     changeGrid(state, data) {
-      state.gridData = data;
+      state.gridData = data.map((el) => {
+        return {
+          i: el.i,
+          x: el.x,
+          y: el.y,
+          w: el.w,
+          h: el.h,
+          minW: el.minW,
+          minH: el.minH,
+          maxH: el.maxH,
+        };
+      });
+      console.log('state ', state.gridData);
     },
     setIsEdit(state) {
       state.isEdit = !state.isEdit;
     },
     addGridLayout(state, data) {
-      // state.gridData = state.gridData.filter((el) => {
-      //   el.id != data;
-      // });
+      state.gridData.push(data);
     },
-    removeGridLayout(state, data) {
-      // state.gridData = state.gridData.filter((el) => {
-      //   el.id != data;
-      // });
+    removeGridLayout(state, component) {
+      state.gridData = state.gridData.filter((e) => {
+        return e.i != component;
+      });
     },
   },
   getters: {
-    gridData(state) {
-      if (state.gridData.length == 0) {
-        state.gridData = state.defaultGridData;
-      }
-      return state.gridData;
-    },
     getHiddenLayout(state) {
-      return state.defaultGridData.filter((e) => state.gridData.findIndex((i) => i.id == e.id) === -1);
+      return state.allGridLayout.filter((e) => state.gridData.findIndex((i) => i.i == e.i) === -1);
     },
   },
   namespaced: true,

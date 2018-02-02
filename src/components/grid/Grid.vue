@@ -2,98 +2,69 @@
 .grid
   .grid__edit(@click="setIsEdit", v-show="!isMobile") Edit
   GridPanel(:data="getHiddenLayout", :isEdit="isEdit", v-show="!isMobile")
-  .grid-stack
-    .grid-stack-item(
-      v-for='(items in (isMobile ? defaultGridData : createDashbard)',
-      :data-gs-id='items.id',
-      :data-gs-autoPosition='items.autoPosition',
-      :data-gs-x='items.x',
-      :data-gs-y='items.y',
-      :data-gs-width='items.width',
-      :data-gs-height='items.height',
-      :data-gs-min-width='items.minWidth',
-      :data-gs-min-height='items.minHeight',
-      :data-gs-max-height='items.maxHeight',
+  GridLayout(
+      :layout="(isMobile ? mobileGridData : gridData)"
+      :col-num="12"
+      :row-height="60"
+      :is-draggable="isEdit"
+      :is-resizable="isEdit"
+      :vertical-compact="true"
+      :margin="[0, 0]"
+      :use-css-transforms="true"
+      @layout-updated="layoutUpdatedEvent"
     )
-      GridItems(:component="items.id")
+    GridItem(
+      v-for="(item, index) in (isMobile ? mobileGridData : gridData)",
+      :key="index"
+      :x="item.x"
+      :y="item.y"
+      :w="item.w"
+      :h="item.h"
+      :i="item.i"
+      :minW="item.minW"
+      :minH="item.minH"
+      :maxH="item.maxH"
+    )
+      GridItems(:component="item.i" :index="index")
 </template>
 
 <script>
+import VueGridLayout from 'vue-grid-layout';
 import {mapState, mapMutations, mapGetters} from 'vuex';
 import GridItems from './GridItems';
 import GridPanel from './GridPanel';
 
+const GridLayout = VueGridLayout.GridLayout;
+const GridItem = VueGridLayout.GridItem;
+
 export default {
   computed: {
     ...mapState('grid', {
-      defaultGridData: 'defaultGridData',
+      allGridLayout: 'allGridLayout',
+      gridData: 'gridData',
+      mobileGridData: 'mobileGridData',
       isEdit: 'isEdit',
     }),
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
     ...mapGetters('grid', {
-      gridData: 'gridData',
       getHiddenLayout: 'getHiddenLayout',
     }),
-    createDashbard() {
-      return this.gridData;
-    },
   },
   methods: {
     ...mapMutations('grid', {
       changeGrid: 'changeGrid',
       setIsEdit: 'setIsEdit',
     }),
-    getEdit() {
-      $('.grid-stack').data('gridstack').enableMove(this.isEdit);
-      $('.grid-stack').data('gridstack').enableResize(this.isEdit);
+    layoutUpdatedEvent(newLayout) {
+      this.changeGrid(newLayout);
+      // console.log('Updated layout: ', newLayout);
     },
-  },
-  watch: {
-    isEdit() {
-      this.getEdit();
-    },
-  },
-  mounted() {
-    // Initial Gridstack
-    $('.grid-stack').gridstack({
-      width: 12,
-      minWidth: 991,
-      verticalMargin: 0,
-      animate: true,
-      acceptWidgets: '.grid-stack-item',
-      removable: '.gridPanel',
-      removeTimeout: 100,
-      float: false,
-      resizable: {
-        handles: 'e, se, s, sw, w',
-      },
-    });
-
-    this.getEdit();
-
-    // Event listener for grid
-    $('.grid-stack').on('change', function(event, items) {
-      let changes = _.map($('.grid-stack .grid-stack-item:visible'), function(el) {
-        el = $(el);
-        let node = el.data('_gridstack_node');
-        return {
-          id: node.id,
-          x: node.x,
-          y: node.y,
-          width: node.width,
-          height: node.height,
-          minWidth: node.minWidth,
-          minHeight: node.minHeight,
-          maxHeight: node.maxHeight,
-        };
-      });
-      console.log('grid change: ', changes);
-      this.changeGrid(changes);
-    }.bind(this));
   },
   components: {
+    GridLayout,
+    GridItem,
     GridItems,
     GridPanel,
   },
@@ -102,6 +73,7 @@ export default {
 
 <style lang="scss">
   .grid {
+    margin: 0 1px;
     &__edit {
       display: flex;
       justify-content: center;
