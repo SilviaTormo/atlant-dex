@@ -24,7 +24,7 @@ export const serverCodes = {
 
 export const profileSections = [
   {
-    name: 'accountinformation',
+    name: 'accountInformation',
     label: 'Account information',
     category: 'user info',
   },
