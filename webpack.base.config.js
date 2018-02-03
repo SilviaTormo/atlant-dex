@@ -178,14 +178,14 @@ module.exports = {
       },
       canPrint: true,
     }),
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-      openAnalyzer: false,
-    }),
     new ExtractTextPlugin('[hash].main.css'),
     new StyleExtHtmlWebpackPlugin(),
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'async',
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false,
     }),
     new FaviconsWebpackPlugin({
       logo: `${DIR_IMAGES}/favicon.png`,

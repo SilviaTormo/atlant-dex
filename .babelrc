@@ -1,4 +1,9 @@
 {
-  "presets": ["env", "stage-3"],
-  "plugins": ["transform-async-to-generator"]
+  "presets": ["env", "stage-3", "flow"],
+  "plugins": [
+    "transform-async-to-generator",
+    "babel-plugin-transform-class-properties",
+    "babel-plugin-syntax-flow",
+    "babel-plugin-transform-flow-strip-types"
+  ]
 }

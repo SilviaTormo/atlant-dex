@@ -11,7 +11,7 @@ module.exports = {
     process: true,
     require: true,
   },
-  plugins: ['import'],
+  plugins: ['import', 'flowtype-errors'],
   extends: ['plugin:vue/recommended', 'google'],
   rules: {
     'max-len': 0,
@@ -64,5 +64,6 @@ module.exports = {
         ],
       },
     ],
+    "flowtype-errors/show-errors": 2,
   },
 };
