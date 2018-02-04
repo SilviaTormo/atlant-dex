@@ -7,7 +7,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-const StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
+// const StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
 const DIR_SRC = path.resolve(__dirname, 'src');
@@ -179,7 +179,7 @@ module.exports = {
       canPrint: true,
     }),
     new ExtractTextPlugin('[hash].main.css'),
-    new StyleExtHtmlWebpackPlugin(),
+    // new StyleExtHtmlWebpackPlugin(),
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'async',
     }),
