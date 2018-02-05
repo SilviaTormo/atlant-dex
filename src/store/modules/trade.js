@@ -4,7 +4,15 @@ import {defPeriod} from 'config';
 export default {
   state: {
     pair: 'BTC_ATL',
+    last: 0,
+    high: 0,
+    low: 0,
+    volume: 0,
+    change: 0,
+    bid: 0,
+    ask: 0,
     limit: 23,
+    pairs: {},
     chart: {
       data: {},
       period: defPeriod,
@@ -40,6 +48,7 @@ export default {
     setChartData(state, data) {
       state.chart.data = data;
     },
+
     addLastTrade(state, lastTrade) {
       const lastTrades = [
         [lastTrade[8], lastTrade[7], lastTrade[11], lastTrade[6]],
@@ -59,8 +68,32 @@ export default {
     setPair(state, pair) {
       state.pair = pair;
     },
+    setLastPrice(state, last) {
+      state.last = last;
+    },
+    setHighPrice(state, high) {
+      state.high = high;
+    },
+    setLowPrice(state, low) {
+      state.low = low;
+    },
+    setVolumePrice(state, volume) {
+      state.volume = volume;
+    },
+    setChangePrice(state, change) {
+      state.change = change;
+    },
+    setBidPrice(state, bid) {
+      state.bid = bid;
+    },
+    setAskPrice(state, ask) {
+      state.ask = ask;
+    },
     setPeriod(state, period) {
       state.chart.period = period;
+    },
+    setPairs(state, pairs) {
+      state.pairs = pairs;
     },
     setTradeHistory(state, trades) {
       state.trades = trades;

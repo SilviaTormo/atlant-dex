@@ -9,11 +9,11 @@
       Radio(:name="`type${_uid}`", value="market", label="Market", v-model="type", checked)
       Radio(:name="`type${_uid}`", value="limit", label="Limit", v-model="type")
     .buySell__label Amount to buy
-    input.buySell__input
+    input.buySell__input(type="number" placeholder="0.0000" step="0.0001" min="0.0000" max="10000.0000")
+    .buySell__label(v-show="type === 'limit'") Price
+    input.buySell__input(type="number" placeholder="0.0000" step="0.0001" min="0.0000" max="10000.0000" v-show="type === 'limit'" )
     .buySell__label Total
-    input.buySell__input
-    .buySell__label Price
-    input.buySell__input
+    input.buySell__input(type="number" placeholder="0.0000" step="0.0001" min="0.0000" max="10000.0000")
     BButton.buySell__button(color="yellow" full caps @click="openInDemo") Place order
     div.buySell__note Do not forget to top up the trade balance
 </template>

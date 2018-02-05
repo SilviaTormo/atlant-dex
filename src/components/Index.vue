@@ -98,6 +98,15 @@ export default {
       setStats: 'setStats',
     }),
     ...mapMutations('trade', {
+      setPair: 'setPair',
+      setLastPrice: 'setLastPrice',
+      setHighPrice: 'setHighPrice',
+      setLowPrice: 'setLowPrice',
+      setVolumePrice: 'setVolumePrice',
+      setChangePrice: 'setChangePrice',
+      setBidPrice: 'setBidPrice',
+      setAskPrice: 'setAskPrice',
+      setPairs: 'setPairs',
       setBook: 'setBook',
       setOHLC: 'setOHLC',
       addNewCandle: 'addNewCandle',
@@ -167,6 +176,15 @@ export default {
       limit: 23,
       pair: this.pair,
     }).then((res) => {
+      this.setPair(res.data.result.pair);
+      this.setLastPrice(res.data.result.last);
+      this.setHighPrice(res.data.result.high);
+      this.setLowPrice(res.data.result.low);
+      this.setVolumePrice(res.data.result.volume);
+      this.setChangePrice(res.data.result.change);
+      this.setPairs(res.data.result.pairs);
+      this.setBidPrice(res.data.result);
+      this.setAskPrice(res.data.result);
       this.setTradeHistory(res.data.result.trades);
       this.setBook(res.data.result);
       this.setOHLC(res.data.result);

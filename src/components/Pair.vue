@@ -1,14 +1,14 @@
 <template lang="pug">
 .pair
   Icon.pair__icon(id="cur_eth")
-  .pair__currency ETH
+  .pair__currency(v-text="baseCurrency")
   Icon.pair__exchange(id="exchange")
   Icon.pair__icon(id="cur_zec")
-  Dropdown.pair__dropdown(:options="currencies" v-model="selected")
+  Dropdown.pair__dropdown(:options="pairs.BTC" v-model="selected")
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import {mapState, mapGetters, mapActions} from 'vuex';
 import Icon from './Icon';
 import Dropdown from './Dropdown';
 
@@ -16,15 +16,12 @@ export default {
   data() {
     return {
       selected: '',
-      currencies: [
-        'ATL',
-        'ATLE',
-        'ATLF',
-        'ATLG',
-      ],
     };
   },
   computed: {
+    ...mapState('trade', {
+      pairs: 'pairs',
+    }),
     ...mapGetters('trade', {
       baseCurrency: 'baseCurrency',
       quoteCurrency: 'quoteCurrency',
@@ -34,6 +31,8 @@ export default {
     ...mapActions('trade', {
       changeQuoteCurrency: 'changeQuoteCurrency',
     }),
+    setCurrenciesList() {
+    },
   },
   watch: {
     selected() {
@@ -42,6 +41,7 @@ export default {
   },
   created() {
     this.selected = this.quoteCurrency;
+    console.log(this.pairs);
   },
   components: {
     Icon,

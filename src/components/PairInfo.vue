@@ -10,53 +10,59 @@
     .pairInfo__container
       .pairInfo__label Last:
       .pairInfo__block
-        .pairInfo__value.pairInfo__value--last {{getFixed(stat.last)}}
-        Icon.pairInfo__triangle(id="triangle")
+        .pairInfo__value.pairInfo__value--last {{getFixed(last)}}
+        Icon.pairInfo__triangle(id="triangle", :class="(change  < 0) ? 'pairInfo__triangle--negative' : ''")
+        .pairInfo__percent(:class="(change < 0) ? 'pairInfo__percent--negative' : ''") %{{getFixed(((change < 0) ? -change : change), 2)}}
     .pairInfo__localContainer
       .pairInfo__container
         .pairInfo__label High:
         .pairInfo__block
-          .pairInfo__value {{getFixed(stat.high)}}
-          Icon.pairInfo__triangle(id="triangle", :class="(stat.highPersent  < 0) ? 'pairInfo__triangle--negative' : ''")
-          .pairInfo__percent(:class="(stat.highPersent < 0) ? 'pairInfo__percent--negative' : ''") %{{getFixed((stat.highPersent < 0) ? -stat.highPersent : stat.highPersent)}}
+          .pairInfo__value {{getFixed(high)}}
+          //- Icon.pairInfo__triangle(id="triangle", :class="(stat.highPersent  < 0) ? 'pairInfo__triangle--negative' : ''")
+          //- .pairInfo__percent(:class="(stat.highPersent < 0) ? 'pairInfo__percent--negative' : ''") %{{getFixed(((stat.highPersent < 0) ? -stat.highPersent : stat.highPersent), 2)}}
       .pairInfo__line(v-if="isMobile")
       .pairInfo__container
         .pairInfo__label Low:
         .pairInfo__block
-          .pairInfo__value {{getFixed(stat.low)}}
-          Icon.pairInfo__triangle(id="triangle", :class="(stat.lowPercent  < 0) ? 'pairInfo__triangle--negative' : ''")
-          .pairInfo__percent(:class="(stat.lowPercent < 0) ? 'pairInfo__percent--negative' : ''") %{{getFixed((stat.lowPercent < 0) ? -stat.lowPercent : stat.lowPercent)}}
+          .pairInfo__value {{getFixed(low)}}
+          //- Icon.pairInfo__triangle(id="triangle", :class="(stat.lowPercent  < 0) ? 'pairInfo__triangle--negative' : ''")
+          //- .pairInfo__percent(:class="(stat.lowPercent < 0) ? 'pairInfo__percent--negative' : ''") %{{getFixed(((stat.lowPercent < 0) ? -stat.lowPercent : stat.lowPercent), 2)}}
     .pairInfo__container
       .pairInfo__label Volume:
-      .pairInfo__volume ${{addSpacesForNumbers(getFixed(stat.volume))}}
+      .pairInfo__volume ${{addSpacesForNumbers(getFixed(volume, 2))}}
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import {mapState, mapGetters} from 'vuex';
 import Icon from './Icon';
 
 export default {
   data() {
     return {
       stat: {
-        last: 466.35,
-        high: 474.71,
         highPersent: 4.60,
-        low: 461.02,
         lowPercent: -1.73,
-        volume: 1247880.00,
       },
       visible: false,
     };
   },
   computed: {
+    ...mapState('trade', {
+      last: 'last',
+      high: 'high',
+      low: 'low',
+      volume: 'volume',
+      change: 'change',
+      bid: 'bid',
+      ask: 'ask',
+    }),
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
   },
   methods: {
-    getFixed(number) {
-      return number.toFixed(2);
+    getFixed(number, fixTo = 4) {
+      return number.toFixed(fixTo);
     },
     addSpacesForNumbers(number) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
