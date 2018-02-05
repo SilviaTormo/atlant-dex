@@ -4,7 +4,7 @@
     Icon.toolbar__icon(:id="(showSidebar) ? 'cross' : 'hamburger'" @click='toggleSidebar')
     Icon.toolbar__icon(v-for='sec in sections', :id="sec", :key="sec", :class="isActive(sec)", @click="setSection(sec)")
   .toolbar__group
-    Icon.toolbar__icon(id='user' @click="getOpenPage('accountinformation')")
+    Icon.toolbar__icon(id='user' @click="getOpenPage('accountInformation')")
     Icon.toolbar__icon(id='settings' @click="getOpenPage('generalsettings')")
     Icon.toolbar__icon(id='info' @click="getOpenPage('transactionHistory')")
 </template>

@@ -23,7 +23,7 @@ export default {
     },
     setSection(state, section) {
       state.section = section;
-      if (state.screenType === 'mobile') state.showSidebar = true;
+      if (state.showSidebar === false) state.showSidebar = true;
     },
   },
   namespaced: true,
