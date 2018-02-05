@@ -41,7 +41,6 @@ export default {
   },
   created() {
     this.selected = this.quoteCurrency;
-    console.log(this.pairs);
   },
   components: {
     Icon,

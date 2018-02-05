@@ -13,12 +13,13 @@
     .buySell__label(v-show="type === 'limit'") Price
     input.buySell__input(type="number" placeholder="0.0000" step="0.0001" min="0.0000" max="10000.0000" v-show="type === 'limit'" )
     .buySell__label Total
-    input.buySell__input(type="number" placeholder="0.0000" step="0.0001" min="0.0000" max="10000.0000")
+    input.buySell__input(v-bind:placeholder="getTotal" disabled)
     BButton.buySell__button(color="yellow" full caps @click="openInDemo") Place order
     div.buySell__note Do not forget to top up the trade balance
 </template>
 
 <script>
+import {mapState} from 'vuex';
 import Icon from '../Icon';
 import Radio from '../Radio';
 import BButton from '../BButton';
@@ -28,7 +29,26 @@ export default {
     return {
       type: '',
       isBuy: false,
+      amount: 0,
+      price: 0,
     };
+  },
+  computed: {
+    ...mapState('trade', {
+      bid: 'bid',
+      ask: 'ask',
+    }),
+  },
+  methods: {
+    getTotal() {
+      let total = 0;
+      if (this.tupe == 'market') {
+        total = this.isBuy ? this.ask * this.amount : this.bid * this.amount;
+      } else {
+        total = this.amount * this.price;
+      };
+      return total;
+    },
   },
   components: {
     Icon,
@@ -104,6 +124,9 @@ export default {
   }
   &__input {
     width: 100%;
+    &::placeholder {
+      color: #fff;
+    }
   }
   &__button {
     margin-top: 34px;
