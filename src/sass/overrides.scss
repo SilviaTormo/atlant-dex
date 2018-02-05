@@ -2,26 +2,6 @@
   display: none;
 }
 
-.grid-stack {
-  .grid-stack-placeholder > .placeholder-content {
-    left: 0;
-    right: 0;
-  }
-  &> .grid-stack-item {
-    border: 1px solid #182235;
-    &>.grid-stack-item-content {
-      left: 0px;
-      right: 0px;
-    }
-    &-removing {
-      background: red;
-    }
-  }
-  &.grid-stack-one-column-mode>.grid-stack-item {
-      margin-bottom: -1px;
-  }
-}
-
 .uppy-DashboardTabs, .uppy-Dashboard-browse, .uppy-DashboardItem-edit, .uppy-DashboardItem-status, .uppy-StatusBar-actionBtn, .uppy-DashboardItem-progress {
   display: none;
 }

@@ -14,7 +14,7 @@
   .gridItem__tile(v-if="this.component === 'book'")
     .gridItem__tileContent.gridItem__tileContent--books
       TileHeader.gridItem__tileHeader.gridItem__tileHeader--book(title='Order book' center)
-      .gridItem__books
+      .gridItem__booksTitle
         .gridItem__tile
           BookHeader
         .gridItem__tile
@@ -95,7 +95,7 @@ export default {
 
 .gridItem {
   height: 100%;
-  outline: 1px solid black;
+  outline: 1px solid #032537;
   position: relative;
   &__tile {
     width: 100%;
@@ -145,12 +145,13 @@ export default {
       margin-bottom: $default_spacing;
     }
   }
-  &__book {
-    padding: 13px;
+  &__booksTitle {
+    display: flex;
   }
   &__books {
     width: 100%;
     display: flex;
+    padding: 13px;
   }
   &__ordersSep {
     $margin: 18px;

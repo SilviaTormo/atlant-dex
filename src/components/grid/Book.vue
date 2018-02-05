@@ -1,7 +1,7 @@
 <template lang='pug'>
 table.book
   tbody.book__body
-    tr.book__row(v-for="order in orderBook")
+    tr.book__row(v-for="(order, index) in orderBook", :class="`actions__orders--${(ask) ? 'sell' : 'buy'}`", :key="order[0] + order[1]")
       td.book__cell(:class="`book__cell--${(ask) ? 'ask' : 'bid'}`") {{order[0]}}
       td.book__cell {{order[1].toFixed(4)}}
       td.book__cell {{(order[0]*order[1]).toFixed(4)}}
@@ -41,13 +41,11 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import '~sass/bootstrap/media';
 
 .book {
   width: 100%;
   &__cell {
     width: 33.333%;
-    text-align: center;
     &--ask {
       color: $color_red;
     }
@@ -57,11 +55,4 @@ export default {
   }
 }
 
-@include media-breakpoint-down(md) {
-  .book {
-    &__cell {
-      text-align: center;
-    }
-  }
-}
 </style>

@@ -96,3 +96,33 @@
   text-transform: uppercase;
   margin-bottom: 41px;
 }
+
+.actions {
+  &__orders {
+    &--buy {
+      animation: animBuy 0.7s ease-out 0s;
+    }
+    &--sell {
+      animation: animSell 0.7s ease-out 0s;
+    }
+  }
+}
+
+// animations
+@keyframes animBuy {
+  10% {
+    background: #00CE7D;
+  }
+  100% {
+    background: inherit;
+  }
+}
+
+@keyframes animSell {
+  10% {
+    background: #E55541;
+  }
+  100% {
+    background: inherit;
+  }
+}
