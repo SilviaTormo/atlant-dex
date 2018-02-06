@@ -1,7 +1,7 @@
 <template lang='pug'>
 table.book
   tbody.book__body
-    tr.book__row(v-for="(order, index) in orderBook", :class="`actions__orders--${(ask) ? 'sell' : 'buy'}`", :key="order[0] + order[1]")
+    tr.book__row(v-for="(order, index) in orderBook")
       td.book__cell(:class="`book__cell--${(ask) ? 'ask' : 'bid'}`") {{order[0]}}
       td.book__cell {{order[1].toFixed(4)}}
       td.book__cell {{(order[0]*order[1]).toFixed(4)}}
