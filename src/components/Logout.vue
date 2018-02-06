@@ -1,17 +1,29 @@
 <template lang="pug">
-.logout(@click="openModal({name:'signIn',})")
+.logout(@click="membershipAction")
   Icon.logout__icon(id="logout")
+  .logout__text {{ userId ? 'Logout' : 'Login' }}
 </template>
 
 <script>
-import {mapMutations} from 'vuex';
+import {mapState, mapMutations, mapActions} from 'vuex';
 import Icon from './Icon';
 
 export default {
+  computed: {
+    ...mapState('membership', {
+      userId: 'userId',
+    }),
+  },
   methods: {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
+    ...mapActions('membership', {
+      logout: 'logout',
+    }),
+    membershipAction() {
+      this.userId ? this.logout() : this.openModal({name: 'signIn'});
+    },
   },
   components: {
     Icon,
@@ -24,14 +36,20 @@ export default {
   cursor: pointer;
   display: flex;
   align-items: center;
+  fill: #fff;
   &__icon {
     $size: 19px;
     width: $size;
     height: $size;
+  }
+  &__text {
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: 12px;
+  }
+  &:hover {
     fill: #ffc600;
-    &:hover {
-      fill: #ffffff;
-    }
+    color: #ffc600;
   }
 }
 </style>

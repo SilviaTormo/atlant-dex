@@ -97,6 +97,9 @@ export default {
     ...mapMutations('stats', {
       setStats: 'setStats',
     }),
+    ...mapMutations('membership', {
+      dropUser: 'dropUser',
+    }),
     ...mapMutations('trade', {
       setPair: 'setPair',
       setLastPrice: 'setLastPrice',
@@ -135,6 +138,10 @@ export default {
 
       this.$hub.proxy.on('newTrade', (data) => {
         this.addLastTrade(data);
+      });
+
+      this.$hub.proxy.on('tokenExpired', () => {
+        this.dropUser();
       });
     },
     modalChangeStyleforBody() {

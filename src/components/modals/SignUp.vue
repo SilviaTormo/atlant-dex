@@ -60,7 +60,8 @@ export default {
     signUpUser() {
       this.signup({
         email: this.email,
-        login: 'abcdef',
+        login: this.email.split('@')[0],
+        agree: this.iAgree,
       });
     },
   },
