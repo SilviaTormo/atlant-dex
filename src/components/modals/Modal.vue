@@ -1,6 +1,5 @@
 <template lang="pug">
-.modal
-  .modal__overlay(@click="closeModal()")
+.modal(@click="closeModal()")
   .modal__main
     .modal__body(:class="[`modal__body--${screenType}`]")
       Icon.modal__closeIcon(id="close"  @click="closeModal()")
@@ -54,17 +53,11 @@ $padding: 40px;
   bottom: 0;
   left: 0;
   z-index: 888;
+  background-color: rgba(0,0,0,0.40);
   &__main {
     display: flex;
     justify-content: center;
     width: 100%;
-  }
-  &__overlay {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    z-index: 800;
-    background-color: rgba(0,0,0,0.40);
   }
   &__body {
     position: relative;
@@ -129,10 +122,6 @@ $padding: 40px;
       margin-left: auto;
       margin-right: auto;
     }
-    &__overlay {
-      display: none;
-    }
-
     &__closeIcon {
       z-index: 801;
       top: 19px;
