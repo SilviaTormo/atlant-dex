@@ -29,6 +29,10 @@ export default {
       low: 0,
       change: 0,
     },
+    orders: {
+      openOrders: [],
+      completedOrders: [],
+    },
   },
   getters: {
     baseCurrency(state) {
@@ -48,7 +52,6 @@ export default {
     setChartData(state, data) {
       state.chart.data = data;
     },
-
     addLastTrade(state, lastTrade) {
       const lastTrades = [
         [lastTrade[8], lastTrade[7], lastTrade[11], lastTrade[6]],
@@ -129,8 +132,34 @@ export default {
 
       state.chart.lastFlag = data[5];
     },
+    setOrderList(state, list) {
+      state.orders = list.data.result.orders;
+    },
   },
   actions: {
+    getPlaceMarket({commit, state}, {amount, base_cur_amount, side}) {
+      return Trade.getPlaceMarket(
+      state.pair,
+      {
+        amount: amount,
+        base_cur_amount: base_cur_amount,
+        side: side,
+      }
+    ).then((res) => {
+        console.log('getPlaceMarket ok! Amount: ', res);
+      });
+    },
+    getPlaceLimit({commit, state}, {amount, price, side}) {
+      return Trade.getPlaceLimit(
+        state.pair,
+        {
+          amount,
+          price,
+          side,
+      }).then((res) => {
+        console.log('getPlaceLimit ok! Amount: ', res);
+      });
+    },
     loadChart({commit, state}) {
       return Trade.getChart({
         period: state.chart.period,
@@ -149,6 +178,14 @@ export default {
     changeChartPeriod({commit, dispatch}, period) {
       commit('setPeriod', period);
       return dispatch('loadChart');
+    },
+    getCancelOrder({commit, state}, id) {
+      return Trade.getCancelOrder(
+        state.pair,
+        id
+      ).then((res) => {
+        console.log('Order canceled: ', id);
+      });
     },
   },
   namespaced: true,

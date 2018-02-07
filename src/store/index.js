@@ -31,6 +31,7 @@ const store = new Vuex.Store({
     paths: [
       'localization.lang',
       'grid.gridData',
+      'membership.token',
     ],
   })],
 });

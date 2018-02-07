@@ -2,7 +2,7 @@ import * as Membership from 'services/api/membership';
 
 export default {
   state: {
-    token: '',
+    token: '16274efc00d6c4acba4469e38eb02efc44e9bda7fed8b03c58a3191d511a6203',
     userId: 0,
     login: '',
     email: 'user@mail.com',

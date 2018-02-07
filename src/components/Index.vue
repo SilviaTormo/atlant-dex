@@ -114,6 +114,7 @@ export default {
       setOrdersAsks: 'setOrdersAsks',
       setOrdersBids: 'setOrdersBids',
       setTradeHistory: 'setTradeHistory',
+      setOrderList: 'setOrderList',
     }),
     ...mapActions('localization', {
       setLang: 'setLang',
@@ -183,12 +184,16 @@ export default {
       this.setVolumePrice(res.data.result.volume);
       this.setChangePrice(res.data.result.change);
       this.setPairs(res.data.result.pairs);
-      this.setBidPrice(res.data.result);
-      this.setAskPrice(res.data.result);
+      this.setBidPrice(res.data.result.bid);
+      this.setAskPrice(res.data.result.ask);
       this.setTradeHistory(res.data.result.trades);
       this.setBook(res.data.result);
       this.setOHLC(res.data.result);
       this.setStats(res.data.result);
+    });
+    Trade.getOrderList(this.pair).then((res) => {
+      console.log(res.data.result.orders);
+      this.setOrderList(res);
     });
   },
   directives: {

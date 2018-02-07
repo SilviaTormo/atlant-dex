@@ -9,17 +9,17 @@
       Radio(:name="`type${_uid}`", value="market", label="Market", v-model="type", checked)
       Radio(:name="`type${_uid}`", value="limit", label="Limit", v-model="type")
     .buySell__label Amount to buy
-    input.buySell__input(type="number" placeholder="0.0000" step="0.0001" min="0.0000" max="10000.0000")
+    input.buySell__input(type="number" placeholder="0.0000" step="0.0001" min="0.0000" max="10000.0000", v-model="amount")
     .buySell__label(v-show="type === 'limit'") Price
-    input.buySell__input(type="number" placeholder="0.0000" step="0.0001" min="0.0000" max="10000.0000" v-show="type === 'limit'" )
+    input.buySell__input(type="number" placeholder="0.0000" step="0.0001" min="0.0000" max="10000.0000" v-show="type === 'limit'", v-model="price")
     .buySell__label Total
-    input.buySell__input(v-bind:placeholder="getTotal" disabled)
-    BButton.buySell__button(color="yellow" full caps @click="openInDemo") Place order
+    input.buySell__input(:placeholder="total" disabled)
+    BButton.buySell__button(color="yellow" full caps @click="getOrder") Place order
     div.buySell__note Do not forget to top up the trade balance
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import {mapState, mapActions} from 'vuex';
 import Icon from '../Icon';
 import Radio from '../Radio';
 import BButton from '../BButton';
@@ -27,10 +27,11 @@ import BButton from '../BButton';
 export default {
   data() {
     return {
-      type: '',
+      type: 'market',
       isBuy: false,
       amount: 0,
       price: 0,
+      total: 0,
     };
   },
   computed: {
@@ -40,14 +41,41 @@ export default {
     }),
   },
   methods: {
+    ...mapActions('trade', {
+      getPlaceMarket: 'getPlaceMarket',
+      getPlaceLimit: 'getPlaceLimit',
+    }),
     getTotal() {
       let total = 0;
-      if (this.tupe == 'market') {
+      if (this.type === 'market') {
         total = this.isBuy ? this.ask * this.amount : this.bid * this.amount;
       } else {
         total = this.amount * this.price;
       };
-      return total;
+      this.total = total;
+    },
+    getOrder() {
+      if ('market' === this.type) {
+        this.getPlaceMarket({
+          amount: this.amount,
+          base_cur_amount: false,
+          side: !this.isBuy,
+        });
+      } else {
+        this.getPlaceLimit({
+          amount: this.amount,
+          price: this.price,
+          side: !this.isBuy,
+        });
+      }
+    },
+  },
+  watch: {
+    amount() {
+      this.getTotal();
+    },
+    price() {
+      this.getTotal();
     },
   },
   components: {

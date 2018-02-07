@@ -1,55 +1,73 @@
 <template lang='pug'>
 table.orders
   tbody.orders__body
-    tr.orders__row(v-for="i in 0")
+    tr.orders__row(v-for="item in items")
       td.orders__cell
         .orders__typeWrapper
-          .orders__square(:class="{'orders__square--buy': getType(i), 'orders__square--sell': !getType(i)}")
-          .orders__type {{(getType(i)) ? 'Buy' : 'Sell'}}
-      td.orders__cell {{getItem(i).eth.toFixed(3)}}
-      td.orders__cell {{getItem(i).atl.toFixed(3)}}
-      td.orders__cell {{getItem(i).atl.toFixed(3)}}
-      td.orders__cell {{getItem(i).date}}
+          .orders__square(:class="'orders__square--' + (!item[2] ? 'buy' : 'sell')")
+          .orders__type {{!item[2] ? 'Buy' : 'Sell'}}
+      td.orders__cell(v-show="item[7]") Filled
+      td.orders__cell(v-show="!item[7]") Accepted
+      td.orders__cell {{ item[5] }}
+      td.orders__cell {{ item[3] }}
+      td.orders__cell {{ item[4] }}
+      td.orders__cell(v-show="item[8]") Market
+      td.orders__cell(v-show="!item[8]") Limit
+      td.orders__cell {{ setDate(item[10]) }}
       td.orders__cell
-        Icon.orders__trash(id="trash")
+        Icon.orders__trash(id='trash' @click="deleteOrder(item[0])")
   tfoot.orders__header
     tr
+      th.orders__title Side
       th.orders__title Type
-      th.orders__title ETH
-      th.orders__title ETH
-      th.orders__title ETH/ETH
+      th.orders__title Price
+      th.orders__title Current
+      th.orders__title Initial
+      th.orders__title Status
       th.orders__title Date
-      th.orders__title
+      th
 </template>
 
 <script>
+import {mapState, mapActions} from 'vuex';
 import Icon from '../Icon';
 
 export default {
-  data() {
-    return {
-      items: [
-        {
-          buy: true,
-          eth: 7.000,
-          atl: 7.272,
-          date: '12.12.2017',
-        },
-        {
-          buy: false,
-          eth: 0.526,
-          atl: 1.500,
-          date: '31.11.2017',
-        },
-      ],
-    };
+  // data() {
+  //   return {
+  //     items: [
+  //       {
+  //         buy: true,
+  //         eth: 7.000,
+  //         atl: 7.272,
+  //         date: '12.12.2017',
+  //       },
+  //       {
+  //         buy: false,
+  //         eth: 0.526,
+  //         atl: 1.500,
+  //         date: '31.11.2017',
+  //       },
+  //     ],
+  //   };
+  // },
+  computed: {
+    ...mapState('trade', {
+      items: 'orders',
+    }),
   },
   methods: {
+    ...mapActions('trade', {
+      getCancelOrder: 'getCancelOrder',
+    }),
     getItem(index) {
       return this.items[index % 2];
     },
-    getType(index) {
-      return this.getItem(index).buy;
+    setDate(tick) {
+      return new Date((tick - 621355968000000000) / 10000).toLocaleDateString(); // C# ticks to local date
+    },
+    deleteOrder(id) {
+      this.getCancelOrder(id);
     },
   },
   components: {
@@ -95,6 +113,10 @@ export default {
     width: 7px;
     height: 9px;
     fill: $color_yellow;
+    cursor: pointer;
+    &:hover {
+      fill: $color_red;
+    }
   }
 }
 </style>

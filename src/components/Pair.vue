@@ -1,10 +1,10 @@
 <template lang="pug">
 .pair
-  Icon.pair__icon(id="cur_eth")
+  Icon.pair__icon(id="'cur_' + baseCurrency")
   .pair__currency(v-text="baseCurrency")
   Icon.pair__exchange(id="exchange")
-  Icon.pair__icon(id="cur_zec")
-  Dropdown.pair__dropdown(:options="pairs.BTC" v-model="selected")
+  Icon.pair__icon(id="'cur_' + quoteCurrency")
+  Dropdown.pair__dropdown(:options="pairs[baseCurrency]" v-model="selected")
 </template>
 
 <script>
@@ -31,8 +31,6 @@ export default {
     ...mapActions('trade', {
       changeQuoteCurrency: 'changeQuoteCurrency',
     }),
-    setCurrenciesList() {
-    },
   },
   watch: {
     selected() {
