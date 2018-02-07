@@ -12,10 +12,10 @@ Modal
       .singIn__checkboxContainer
         Checkbox.singIn__checkbox(name="remember", :value="true", v-model="remember")
           .singIn__checkboxLabel Remember me
-      BButton.singIn__button(color="malachite" rounded @click.native="[signIn, finishTransaction]") Let me in
+      BButton.singIn__button(color="malachite" rounded @click.native="signIn()") Let me in
       .singIn__forgot #[a.link(href="#" @click="openModal({name: 'reset'})") Forgot password?]
     .singIn__other(v-if="isMobile", @click="openSignUp") Sign up
-    Status.singIn__status(v-if="step == 1" isSuccess)
+    Status.singIn__status(v-if="step == 1", :isSuccess="isSuccess")
       .singIn__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
 
@@ -59,10 +59,13 @@ export default {
       this.login({
         email: this.email,
         password: this.password,
+      }).then(() => {
+        this.finishTransaction();
       });
     },
     finishTransaction() {
       this.step = 1;
+      this.isSuccess = true;
     },
   },
   components: {

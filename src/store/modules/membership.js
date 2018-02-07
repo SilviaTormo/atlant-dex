@@ -2,8 +2,8 @@ import * as Membership from 'services/api/membership';
 
 export default {
   state: {
-    token: '16274efc00d6c4acba4469e38eb02efc44e9bda7fed8b03c58a3191d511a6203',
-    userId: 0,
+    token: '',
+    userId: undefined,
     login: '',
     email: 'user@mail.com',
   },
@@ -16,7 +16,7 @@ export default {
     },
     dropUser(state) {
       state.token = '';
-      state.userId = 0;
+      state.userId = undefined;
       state.login = '';
       state.email = '';
     },
@@ -40,9 +40,11 @@ export default {
         commit('dropUser');
       });
     },
-    signup({state}, {email, login}) {
-      console.log('attempt signup', email, login);
-      Membership.signup({email, login});
+    signup({state}, {email, login, agree}) {
+      Membership.signup({email, login, agree});
+    },
+    resetPassword({state}, email) {
+      return Membership.requestPasswordRestore(email);
     },
   },
   namespaced: true,

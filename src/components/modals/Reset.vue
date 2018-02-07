@@ -10,14 +10,14 @@ Modal
         IInput.reset__input(label="Email address", v-model="email")
         Checkbox.reset__checkbox(name="acknowledged", :value="true", v-model="acknowledged")
           .reset__checkboxText I acknowledge that my account will be locked for a minimum of 24 hours.
-      BButton.reset__button(color="malachite" rounded @click.native="step++") Reset now
+      BButton.reset__button(color="malachite" rounded @click.native="reset()") Reset now
     .reset__other(v-if="isMobile", href="#" @click="openModal({name: 'signIn'})") Sign in
     Status.reset__status(v-if="step == 1" isSuccess)
       .reset__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex';
+import {mapGetters, mapMutations, mapActions} from 'vuex';
 import Icon from 'components/Icon';
 import Checkbox from 'components/Checkbox';
 import BButton from 'components/BButton';
@@ -43,6 +43,12 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
+    ...mapActions('membership', {
+      resetPassword: 'resetPassword',
+    }),
+    reset() {
+      this.resetPassword(this.email);
+    },
   },
   components: {
     Icon,
