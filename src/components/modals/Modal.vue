@@ -1,5 +1,5 @@
 <template lang="pug">
-.modal
+.modal(v-scrollbar="")
   .modal__overlay(@click="closeModal()")
   .modal__main
     .modal__body(:class="[`modal__body--${screenType}`]")
@@ -10,6 +10,7 @@
 
 <script>
 import Icon from 'components/Icon';
+import {scrollbar} from 'directives';
 import {mapState, mapMutations} from 'vuex';
 
 export default {
@@ -34,6 +35,9 @@ export default {
       default: () => {},
     },
   },
+  directives: {
+    scrollbar,
+  },
   components: {
     Icon,
   },
@@ -41,30 +45,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~perfect-scrollbar/dist/css/perfect-scrollbar';
 @import "~variables";
 @import '~sass/bootstrap/media';
 $padding: 40px;
 
 .modal {
   position: fixed;
-  overflow: auto;
   display: flex;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   z-index: 888;
-  &__main {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
+  overflow: visible;
   &__overlay {
     width: 100%;
     height: 100%;
     position: fixed;
-    z-index: 800;
     background-color: rgba(0,0,0,0.40);
+  }
+  &__main {
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
   &__body {
     position: relative;

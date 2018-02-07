@@ -1,9 +1,9 @@
 <template lang="pug">
 .pair
-  Icon.pair__icon(id="'cur_' + baseCurrency")
+  Icon.pair__icon(:id="('cur_' + baseCurrency).toLocaleLowerCase()")
   .pair__currency(v-text="baseCurrency")
   Icon.pair__exchange(id="exchange")
-  Icon.pair__icon(id="'cur_' + quoteCurrency")
+  Icon.pair__icon(:id="('cur_' + quoteCurrency).toLocaleLowerCase()")
   Dropdown.pair__dropdown(:options="pairs[baseCurrency]" v-model="selected")
 </template>
 
