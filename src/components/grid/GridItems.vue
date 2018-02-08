@@ -16,14 +16,14 @@
       TileHeader.gridItem__tileHeader.gridItem__tileHeader--book(title='Order book' center)
       .gridItem__booksTitle
         .gridItem__tile
-          BookHeader
+          OrderBookHeader
         .gridItem__tile
-          BookHeader(ask)
+          OrderBookHeader(ask)
       .gridItem__books
         .gridItem__containerWitchOverflow(v-scrollbar="")
-          Book.gridItem__book(:limit='19')
+          OrderBook.gridItem__book(:limit='19')
         .gridItem__containerWitchOverflow(v-scrollbar="")
-          Book.gridItem__book(ask, :limit='19')
+          OrderBook.gridItem__book(ask, :limit='19')
   .gridItem__tile(v-if="this.component === 'orders'")
     .gridItem__tileContent.gridItem__tileContent--orders
       .gridItem__tileContent--ordersTop
@@ -46,9 +46,9 @@ import TileHeader from './TileHeader';
 import BuySell from './BuySell';
 import Chart from './Chart';
 import Orders from './Orders';
-import Book from './Book';
+import OrderBook from './OrderBook';
+import OrderBookHeader from './OrderBookHeader';
 import History from './History';
-import BookHeader from './BookHeader';
 
 export default {
   computed: {
@@ -80,9 +80,9 @@ export default {
     BuySell,
     Chart,
     Orders,
-    Book,
+    OrderBook,
+    OrderBookHeader,
     History,
-    BookHeader,
   },
 };
 </script>
