@@ -13,7 +13,7 @@ table.orders
       td.orders__cell {{status[order[7]]}}
       td.orders__cell {{ setDate(order[10]) }}
       td.orders__cell
-        Icon.orders__trash(id='trash' @click="deleteOrder(order[0])")
+        Icon.orders__trash(id='trash' @click="isActive ? deleteOrder(order[0]) : ''" :class="'orders__trash--' + (isActive ? 'active' : 'disabled')")
   tfoot.orders__header
     tr
       th.orders__title Side
@@ -115,10 +115,15 @@ export default {
   &__trash {
     width: 7px;
     height: 9px;
-    fill: $color_yellow;
-    cursor: pointer;
-    &:hover {
-      fill: $color_red;
+    &--active {
+      cursor: pointer;
+      fill: $color_yellow;
+      &:hover {
+        fill: $color_red;
+      }
+    }
+    &--disabled {
+      fill: #4a4a4a;
     }
   }
 }
