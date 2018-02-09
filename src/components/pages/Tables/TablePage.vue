@@ -76,8 +76,7 @@ export default {
 @import "~variables";
 @import "~sass/bootstrap/media";
 .tablePage {
-  overflow-ч: auto;
-  height: 100%;
+  position: relative;
   &__body {
     height: 100%;
     display: flex;

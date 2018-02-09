@@ -29,9 +29,11 @@ const store = new Vuex.Store({
   },
   plugins: [createPersistedState({
     paths: [
-      'localization.lang',
       'grid.gridData',
-      'membership.token',
+        'membership.token',
+        'membership.userId',
+        'membership.login',
+        'membership.email',
     ],
   })],
 });

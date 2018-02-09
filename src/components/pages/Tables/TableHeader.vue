@@ -16,10 +16,11 @@ export default {
     return {
       sortType: '',
       sortTypes: [
-        'FULLY MATCHED',
-        'FULLY MATCHED',
-        'FULLY MATCHED',
-        'FULLY MATCHED',
+        'All Orders',
+        'Accepted',
+        'Partially filled',
+        'Filled',
+        'Cancelled',
       ],
     };
   },

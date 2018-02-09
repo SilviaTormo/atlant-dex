@@ -33,6 +33,7 @@ export default {
       openOrders: [],
       completedOrders: [],
     },
+    accountTradeHistory: [],
   },
   getters: {
     baseCurrency(state) {
@@ -49,6 +50,16 @@ export default {
     },
   },
   mutations: {
+    setDesktopData(state, data) {
+      state.last = data.last;
+      state.high = data.high;
+      state.low = data.low;
+      state.volume = data.volume;
+      state.change = data.change;
+      state.bid = data.bid;
+      state.ask = data.ask;
+      state.pairs = data.pairs;
+    },
     setChartData(state, data) {
       state.chart.data = data;
     },
@@ -71,32 +82,8 @@ export default {
     setPair(state, pair) {
       state.pair = pair;
     },
-    setLastPrice(state, last) {
-      state.last = last;
-    },
-    setHighPrice(state, high) {
-      state.high = high;
-    },
-    setLowPrice(state, low) {
-      state.low = low;
-    },
-    setVolumePrice(state, volume) {
-      state.volume = volume;
-    },
-    setChangePrice(state, change) {
-      state.change = change;
-    },
-    setBidPrice(state, bid) {
-      state.bid = bid;
-    },
-    setAskPrice(state, ask) {
-      state.ask = ask;
-    },
     setPeriod(state, period) {
       state.chart.period = period;
-    },
-    setPairs(state, pairs) {
-      state.pairs = pairs;
     },
     setTradeHistory(state, trades) {
       state.trades = trades;
@@ -135,8 +122,23 @@ export default {
     setOrderList(state, list) {
       state.orders = list.data.result.orders;
     },
+    setAccountTradeHistory(state, list) {
+      state.accountTradeHistory = list;
+    },
   },
   actions: {
+    getAccountTradeHistory({commit, state, getters}) {
+      return Trade.getAccountTradeHistory({
+        limit: 20,
+        offset: 0,
+        currency: getters.quoteCurrency,
+        baseCurrency: getters.baseCurrency,
+      }
+    ).then((res) => {
+        // console.log('getAccountTradeHistory ', res.data.result.orders);
+        commit('setAccountTradeHistory', res.data.result.orders);
+      });
+    },
     getPlaceMarket({commit, state}, {amount, base_cur_amount, side}) {
       return Trade.getPlaceMarket(
       state.pair,

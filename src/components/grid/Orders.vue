@@ -33,24 +33,6 @@ import {mapState, mapActions} from 'vuex';
 import Icon from '../Icon';
 
 export default {
-  // data() {
-  //   return {
-  //     items: [
-  //       {
-  //         buy: true,
-  //         eth: 7.000,
-  //         atl: 7.272,
-  //         date: '12.12.2017',
-  //       },
-  //       {
-  //         buy: false,
-  //         eth: 0.526,
-  //         atl: 1.500,
-  //         date: '31.11.2017',
-  //       },
-  //     ],
-  //   };
-  // },
   computed: {
     ...mapState('trade', {
       items: 'orders',

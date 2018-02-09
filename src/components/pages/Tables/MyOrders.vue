@@ -1,5 +1,5 @@
 <template lang="pug">
-TablePage(title="My orders", :data="data")
+TablePage(title="My orders", :data="accountTradeHistory")
   .myOrders.table
     table.table__body
       thead
@@ -7,6 +7,7 @@ TablePage(title="My orders", :data="data")
           th
           th ID
           th Timestamp
+          th Status
           th Type
           th Action
           th Pair
@@ -14,88 +15,63 @@ TablePage(title="My orders", :data="data")
           th Price
           th Total
       tbody
-        tr(v-for="(item, index) in data")
+        tr(v-for="(item, index) in accountTradeHistory")
           td.myOrders__checkboxContainer
             Checkbox.myOrders__checkbox(:key="item.id" v-model="item.checked")
           td {{item.id}}
-          td {{item.timestamp}}
-          td {{item.type}}
-          td.myOrders__action(:class="'myOrders__action--' + item.action.toLowerCase()") {{item.action}}
-          td {{item.pair}}
-          td {{item.amount}}
-          td {{item.price}} USD
-          td {{item.total}} USD
+          td {{getDate(item.openDate)}} - {{getDate(item.closeDate)}}
+          td {{status[item.status]}}
+          td {{type[item.type]}}
+          td.myOrders__action(:class="'myOrders__action--' + (item.side ? 'sell' : 'buy')") {{item.side ? 'Sell' : 'Buy'}}
+          td {{fixCurrencyPair(item.pair)}}
+          td {{setFixNumber(item.cashOrderQty)}} {{item.derivedCurrency}}
+          td {{setFixNumber(item.price)}} {{item.baseCurrency}}
+          td {{setFixNumber(item.cashOrderQty * item.price)}} {{item.baseCurrency}}
 </template>
 
 <script>
+import {mapState, mapActions} from 'vuex';
 import Checkbox from 'components/Checkbox';
+import {ticksToMilliseconds} from 'services/misc';
 import Icon from '../../Icon';
 import TablePage from './TablePage';
 
 export default {
   data() {
     return {
-      data: [],
+      status: [
+        'Accepted',
+        'Partially filled',
+        'Filled',
+        'Cancelled',
+      ],
+      type: [
+        'Limit',
+        'Market',
+      ],
     };
   },
+  computed: {
+    ...mapState('trade', {
+      accountTradeHistory: 'accountTradeHistory',
+    }),
+    ...mapActions('trade', {
+      getAccountTradeHistory: 'getAccountTradeHistory',
+    }),
+  },
+  methods: {
+    setFixNumber(num, fixedTo = 4) {
+      return num.toFixed(fixedTo);
+    },
+    getDate(tick) {
+      return tick ? new Date(ticksToMilliseconds(tick)).toLocaleString() : 'Not closed';
+    },
+    fixCurrencyPair(pair) {
+      return pair.replace('_', '/');
+    },
+  },
   created() {
-    this.data = [
-      {
-        id: 48436400,
-        timestamp: '01.08.2017 21:15',
-        type: 'Market',
-        action: 'Sell',
-        pair: 'BTC/USD',
-        amount: '0.0150 BTC',
-        price: 1500.00,
-        total: 22.50,
-        checked: false,
-      },
-      {
-        id: 38622643,
-        timestamp: '31.07.2017 16:21',
-        type: 'Limit',
-        action: 'Buy',
-        pair: 'ETH/USD',
-        amount: '1.0000 ETH',
-        price: 199.59,
-        total: 199.59,
-        checked: false,
-      },
-      {
-        id: 35195753,
-        timestamp: '24.07.2017 4:13',
-        type: 'Limit',
-        action: 'Buy',
-        pair: 'EMC/USD',
-        amount: '5.0000 EMC',
-        price: 0.60,
-        total: 3.00,
-        checked: false,
-      },
-      {
-        id: 31229014,
-        timestamp: '18.07.2017 2:01',
-        type: 'Limit',
-        action: 'Sell',
-        pair: 'BTC/USD',
-        amount: '0.0150 BTC',
-        price: 1500.00,
-        total: 22.50,
-        checked: false,
-      },
-      {
-        id: 24311784,
-        timestamp: '22.06.2017 16:31',
-        type: 'Market',
-        action: 'Buy',
-        pair: 'BTC/USD',
-        amount: '0.0150 BTC',
-        price: 1500.00,
-        total: 22.50,
-        checked: false,
-      },
-    ];
+    this.getAccountTradeHistory;
   },
   components: {
     TablePage,

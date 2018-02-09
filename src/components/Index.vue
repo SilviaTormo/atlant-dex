@@ -74,6 +74,9 @@ export default {
     ...mapState('trade', {
       pair: 'pair',
     }),
+    ...mapState('membership', {
+      token: 'token',
+    }),
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
@@ -102,13 +105,7 @@ export default {
     }),
     ...mapMutations('trade', {
       setPair: 'setPair',
-      setLastPrice: 'setLastPrice',
-      setHighPrice: 'setHighPrice',
-      setLowPrice: 'setLowPrice',
-      setVolumePrice: 'setVolumePrice',
-      setChangePrice: 'setChangePrice',
-      setBidPrice: 'setBidPrice',
-      setAskPrice: 'setAskPrice',
+      setDesktopData: 'setDesktopData',
       setPairs: 'setPairs',
       setBook: 'setBook',
       setOHLC: 'setOHLC',
@@ -167,6 +164,19 @@ export default {
 
     this.$hub.start().then(() => {
       this.$hub.proxy.invoke('setCandleSize', defCandleSize);
+      this.$hub.proxy.invoke('setCandleSize', defCandleSize);
+    });
+
+    Trade.getDesktop({
+      limit: 23,
+      pair: this.pair,
+    }).then((res) => {
+      this.setDesktopData(res.data.result);
+      this.setTradeHistory(res.data.result.trades);
+      this.setPair(res.data.result.pair);
+      this.setBook(res.data.result);
+      this.setOHLC(res.data.result);
+      this.setStats(res.data.result);
     });
 
     window.addEventListener('resize', () => {
@@ -179,28 +189,20 @@ export default {
     if (showWelcome) {
       this.openModal('welcome');
     }
+    if (!Boolean(this.token)) {
+      this.openModal({name: 'signIn'});
+    }
     this.updateOverflow();
     Trade.getDesktop({
       limit: 23,
       pair: this.pair,
     }).then((res) => {
-      this.setPair(res.data.result.pair);
-      this.setLastPrice(res.data.result.last);
-      this.setHighPrice(res.data.result.high);
-      this.setLowPrice(res.data.result.low);
-      this.setVolumePrice(res.data.result.volume);
-      this.setChangePrice(res.data.result.change);
-      this.setPairs(res.data.result.pairs);
-      this.setBidPrice(res.data.result.bid);
-      this.setAskPrice(res.data.result.ask);
+      this.setDesktopData(res.data.result);
       this.setTradeHistory(res.data.result.trades);
+      this.setPair(res.data.result.pair);
       this.setBook(res.data.result);
       this.setOHLC(res.data.result);
       this.setStats(res.data.result);
-    });
-    Trade.getOrderList(this.pair).then((res) => {
-      console.log(res.data.result.orders);
-      this.setOrderList(res);
     });
   },
   directives: {

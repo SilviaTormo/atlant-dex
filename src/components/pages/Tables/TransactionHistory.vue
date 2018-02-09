@@ -35,34 +35,34 @@ export default {
     };
   },
   created() {
-    this.data = [
-      {
-        id: 484,
-        date: '01.08.2017 21:15',
-        amount: -15.00,
-        description: 'Transfer to belpoker',
-        status: 'Completed',
-        checked: false,
-      },
-      {
-        id: 485,
-        date: '01.08.2017 21:14',
-        amount: 562.00,
-        description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
-        crypto: true,
-        status: 'Pending',
-        checked: false,
-      },
-      {
-        id: 486,
-        date: '01.08.2017 21:14',
-        amount: -5.00,
-        crypto: true,
-        description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
-        status: 'Error',
-        checked: false,
-      },
-    ];
+    // this.data = [
+    //   {
+    //     id: 484,
+    //     date: '01.08.2017 21:15',
+    //     amount: -15.00,
+    //     description: 'Transfer to belpoker',
+    //     status: 'Completed',
+    //     checked: false,
+    //   },
+    //   {
+    //     id: 485,
+    //     date: '01.08.2017 21:14',
+    //     amount: 562.00,
+    //     description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
+    //     crypto: true,
+    //     status: 'Pending',
+    //     checked: false,
+    //   },
+    //   {
+    //     id: 486,
+    //     date: '01.08.2017 21:14',
+    //     amount: -5.00,
+    //     crypto: true,
+    //     description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
+    //     status: 'Error',
+    //     checked: false,
+    //   },
+    // ];
   },
   components: {
     TablePage,
