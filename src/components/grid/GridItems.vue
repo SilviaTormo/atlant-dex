@@ -29,7 +29,7 @@
       .gridItem__tileContent--ordersTop
         TileHeader.gridItem__tileHeader.gridItem__tileHeader--orders(title='Open orders')
         .gridItem__containerWitchOverflow(v-scrollbar="")
-          Orders
+          Orders(isActive)
       .gridItem__ordersSep
       .gridItem__tileContent--ordersBottom
         TileHeader.gridItem__tileHeader.gridItem__tileHeader--orders(title='Completed orders')

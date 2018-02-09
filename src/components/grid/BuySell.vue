@@ -38,6 +38,7 @@ export default {
     ...mapState('trade', {
       bid: 'bid',
       ask: 'ask',
+      fee: (state) => state.tradeInfo.makerFee,
     }),
   },
   methods: {
@@ -52,9 +53,12 @@ export default {
       } else {
         total = this.amount * this.price;
       };
-      this.total = total;
+      this.total = total + (total/100)*this.fee;
     },
     getOrder() {
+      if (this.amount <= 0) {
+        return console.log('amount is zero');
+      };
       if ('market' === this.type) {
         this.getPlaceMarket({
           amount: this.amount,

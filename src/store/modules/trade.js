@@ -29,11 +29,23 @@ export default {
       low: 0,
       change: 0,
     },
-    orders: {
-      openOrders: [],
-      completedOrders: [],
-    },
     accountTradeHistory: [],
+    tradeInfo: {
+      availableFunds: 0,
+      blockedFunds: 0,
+      derivedAvailableFunds: 0,
+      derivedBlockedFunds: 0,
+      equity: 0,
+      freeMargin: 0,
+      levelFL: 0,
+      levelMC: 0,
+      makerFee: 0,
+      margin: 0,
+      marginCall: 0,
+      marginLevel: 0,
+      maxLeverage: 0,
+      orders: [],
+    },
   },
   getters: {
     baseCurrency(state) {
@@ -47,6 +59,16 @@ export default {
     },
     isCurrentPeriod: (state) => (period) => {
       return state.chart.period === period;
+    },
+    getActiveOrders(state) {
+      return state.tradeInfo.orders.filter((order) => {
+        return order[7] == 0;
+      });
+    },
+    getClosedOrders(state) {
+      return state.tradeInfo.orders.filter((order) => {
+        return order[7] !== 0;
+      });
     },
   },
   mutations: {
@@ -125,6 +147,28 @@ export default {
     setAccountTradeHistory(state, list) {
       state.accountTradeHistory = list;
     },
+    addActiveOrder(state, array) {
+      state.tradeInfo.orders.unshift(array);
+    },
+    setCancelActiveOrder(state, id) {
+      state.tradeInfo.orders.forEach((item, i, arr) => {
+        (item[0] == id) ? item[7] = 3 : '';
+      });
+    },
+    setFilledActiveOrder(state, id) {
+      state.tradeInfo.orders.forEach((item, i, arr) => {
+        (item[0] == id) ? item[7] = 2 : '';
+      });
+    },
+    setTradeInfo(state, date) {
+      state.tradeInfo = date;
+    },
+    addNewPrices(state, prices) {
+      state.volume = prices[0];
+      state.change = prices[1];
+      state.bid = prices[2];
+      state.ask = prices[3];
+    },
   },
   actions: {
     getAccountTradeHistory({commit, state, getters}) {
@@ -187,6 +231,13 @@ export default {
         id
       ).then((res) => {
         console.log('Order canceled: ', id);
+      });
+    },
+    getTradeInfo(state) {
+      return Trade.getTradeInfo({
+        pair: state.pair,
+      }).then((res) => {
+        console.log('getTradeInfo: ', res);
       });
     },
   },

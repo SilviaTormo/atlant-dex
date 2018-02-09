@@ -6,6 +6,8 @@ export const getTradeHistory = ({limit, offset, currency, baseCurrency}) => api.
 
 export const getAccountTradeHistory = ({limit, offset, currency, baseCurrency}) => api.get('/account/tradeHistory?', {params: {limit, offset, currency, baseCurrency}});
 
+export const getTradeInfo = ({pair}) => api.get('/trade/getTraderInfo?', {params: {pair}});
+
 export const getPlaceMarket = (pair, {amount, base_cur_amount, side}) => api.post(`/trade/${pair}/placeMarket`, {amount, base_cur_amount, side});
 export const getPlaceLimit = (pair, {amount, price, side}) => api.post(`/trade/${pair}/placeLimit`, {amount, price, side});
 

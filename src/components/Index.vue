@@ -115,6 +115,12 @@ export default {
       setOrdersBids: 'setOrdersBids',
       setTradeHistory: 'setTradeHistory',
       setOrderList: 'setOrderList',
+      setTradeInfo: 'setTradeInfo',
+      addActiveOrder: 'addActiveOrder',
+      setCancelActiveOrder: 'setCancelActiveOrder',
+      setFilledActiveOrder: 'setFilledActiveOrder',
+      addNewPrices: 'addNewPrices',
+      addNewAccountOrder: 'addNewAccountOrder',
     }),
     ...mapActions('localization', {
       setLang: 'setLang',
@@ -125,6 +131,18 @@ export default {
     hubSubscribe() {
       this.$hub.proxy.on('newCandle', (res) => {
         this.addNewCandle(res);
+      });
+      this.$hub.proxy.on('newDesktop', (res) => {
+        this.addNewPrices(res);
+      });
+      this.$hub.proxy.on('newOrder', (res) => {
+        this.addActiveOrder(res);
+      });
+      this.$hub.proxy.on('newOrderMatch', (res) => {
+        this.setFilledActiveOrder(res[0]);
+      });
+      this.$hub.proxy.on('newOrderCancel', (res) => {
+        this.setCancelActiveOrder(res[0]);
       });
       this.$hub.proxy.on('newOrderBookTop', ([currency, side, orders, volume]) => {
         if (side) {
@@ -164,21 +182,9 @@ export default {
 
     this.$hub.start().then(() => {
       this.$hub.proxy.invoke('setCandleSize', defCandleSize);
-      this.$hub.proxy.invoke('setCandleSize', defCandleSize);
-    });
 
-    Trade.getDesktop({
-      limit: 23,
-      pair: this.pair,
-    }).then((res) => {
-      this.setDesktopData(res.data.result);
-      this.setTradeHistory(res.data.result.trades);
-      this.setPair(res.data.result.pair);
-      this.setBook(res.data.result);
-      this.setOHLC(res.data.result);
-      this.setStats(res.data.result);
+      this.$hub.setToken(this.token);
     });
-
     window.addEventListener('resize', () => {
       setTimeout(() => {
         this.updateScreenType();
@@ -203,6 +209,11 @@ export default {
       this.setBook(res.data.result);
       this.setOHLC(res.data.result);
       this.setStats(res.data.result);
+    });
+    Trade.getTradeInfo({
+      pair: this.pair,
+    }).then((res) => {
+      this.setTradeInfo(res.data.result);
     });
   },
   directives: {

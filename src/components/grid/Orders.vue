@@ -1,21 +1,19 @@
 <template lang='pug'>
 table.orders
   tbody.orders__body
-    tr.orders__row(v-for="item in items")
+    tr.orders__row(v-for="order in (isActive ? getActiveOrders : getClosedOrders)", :key="order[0]")
       td.orders__cell
         .orders__typeWrapper
-          .orders__square(:class="'orders__square--' + (!item[2] ? 'buy' : 'sell')")
-          .orders__type {{!item[2] ? 'Buy' : 'Sell'}}
-      td.orders__cell(v-show="item[7]") Filled
-      td.orders__cell(v-show="!item[7]") Accepted
-      td.orders__cell {{ item[5] }}
-      td.orders__cell {{ item[3] }}
-      td.orders__cell {{ item[4] }}
-      td.orders__cell(v-show="item[8]") Market
-      td.orders__cell(v-show="!item[8]") Limit
-      td.orders__cell {{ setDate(item[10]) }}
+          .orders__square(:class="'orders__square--' + (order[2] ? 'sell' : 'buy')")
+          .orders__type {{order[2] ? 'Sell' : 'Buy'}}
+      td.orders__cell {{type[order[8]]}}
+      td.orders__cell {{ order[5] }}
+      td.orders__cell {{ order[3] }}
+      td.orders__cell {{ order[4] }}
+      td.orders__cell {{status[order[7]]}}
+      td.orders__cell {{ setDate(order[10]) }}
       td.orders__cell
-        Icon.orders__trash(id='trash' @click="deleteOrder(item[0])")
+        Icon.orders__trash(id='trash' @click="deleteOrder(order[0])")
   tfoot.orders__header
     tr
       th.orders__title Side
@@ -29,27 +27,50 @@ table.orders
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex';
+import {mapState, mapGetters, mapActions} from 'vuex';
 import Icon from '../Icon';
 
 export default {
+  data() {
+    return {
+      type: [
+        'Limit',
+        'Market',
+      ],
+      status: [
+        'Accepted',
+        'Partially filled',
+        'Filled',
+        'Cancelled',
+      ],
+    };
+  },
   computed: {
     ...mapState('trade', {
-      items: 'orders',
+      accountOrders: (state) => state.tradeInfo.orders,
+    }),
+    ...mapGetters('trade', {
+      getActiveOrders: 'getActiveOrders',
+      getClosedOrders: 'getClosedOrders',
     }),
   },
   methods: {
     ...mapActions('trade', {
+      getTradeInfo: 'getTradeInfo',
       getCancelOrder: 'getCancelOrder',
     }),
-    getItem(index) {
-      return this.items[index % 2];
-    },
     setDate(tick) {
       return new Date((tick - 621355968000000000) / 10000).toLocaleDateString(); // C# ticks to local date
     },
     deleteOrder(id) {
       this.getCancelOrder(id);
+    },
+  },
+  props: {
+    isActive: {
+      type: Boolean,
+      default: false,
+      required: false,
     },
   },
   components: {
