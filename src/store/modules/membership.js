@@ -38,6 +38,7 @@ export default {
     logout({commit}) {
       return Membership.logout().then(() => {
         commit('dropUser');
+        commit('trade/clearOrders', null, {root: true});
       });
     },
     signup({state}, {email, login, agree}) {

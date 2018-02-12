@@ -181,6 +181,9 @@ export default {
       state.bid = prices[2];
       state.ask = prices[3];
     },
+    clearOrders(state) {
+      state.tradeInfo.orders = [];
+    },
   },
   actions: {
     getAccountTradeHistory({commit, state, getters}) {
