@@ -103,9 +103,6 @@ export default {
     ...mapMutations('stats', {
       setStats: 'setStats',
     }),
-    ...mapMutations('membership', {
-      dropUser: 'dropUser',
-    }),
     ...mapMutations('trade', {
       setPair: 'setPair',
       setDesktopData: 'setDesktopData',
@@ -124,6 +121,9 @@ export default {
       setFilledActiveOrder: 'setFilledActiveOrder',
       addNewPrices: 'addNewPrices',
       addNewAccountOrder: 'addNewAccountOrder',
+    }),
+    ...mapActions('membership', {
+      dropUser: 'dropUser',
     }),
     ...mapActions('localization', {
       setLang: 'setLang',

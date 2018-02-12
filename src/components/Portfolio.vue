@@ -79,6 +79,9 @@ export default {
     ...mapState('user', {
       currencies: 'userCurrencies',
     }),
+    ...mapState('trade', {
+      wallet: 'wallet',
+    }),
   },
   methods: {
     openCur(cur) {

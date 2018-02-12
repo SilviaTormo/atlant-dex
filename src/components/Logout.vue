@@ -1,17 +1,17 @@
 <template lang="pug">
 .logout(@click="membershipAction")
   Icon.logout__icon(id="logout")
-  .logout__text {{ userId ? 'Logout' : 'Login' }}
+  .logout__text {{ isLoggedIn ? 'Logout' : 'Login' }}
 </template>
 
 <script>
-import {mapState, mapMutations, mapActions} from 'vuex';
+import {mapGetters, mapMutations, mapActions} from 'vuex';
 import Icon from './Icon';
 
 export default {
   computed: {
-    ...mapState('membership', {
-      userId: 'userId',
+    ...mapGetters('membership', {
+      isLoggedIn: 'isLoggedIn',
     }),
   },
   methods: {
@@ -22,7 +22,7 @@ export default {
       logout: 'logout',
     }),
     membershipAction() {
-      this.userId ? this.logout() : this.openModal({name: 'signIn'});
+      this.isLoggedIn ? this.logout() : this.openModal({name: 'signIn'});
     },
   },
   components: {

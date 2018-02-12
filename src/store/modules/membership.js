@@ -3,7 +3,7 @@ import * as Membership from 'services/api/membership';
 export default {
   state: {
     token: '',
-    userId: undefined,
+    userId: '',
     login: '',
     email: 'user@mail.com',
   },
@@ -14,9 +14,9 @@ export default {
       state.login = login;
       state.email = email;
     },
-    dropUser(state) {
+    flushUser(state) {
       state.token = '';
-      state.userId = undefined;
+      state.userId = '';
       state.login = '';
       state.email = '';
     },
@@ -35,11 +35,14 @@ export default {
         commit('createUser', response.data.result);
       });
     },
-    logout({commit}) {
+    logout({dispatch}) {
       return Membership.logout().then(() => {
-        commit('dropUser');
-        commit('trade/clearOrders', null, {root: true});
+        dispatch('dropUser');
       });
+    },
+    dropUser({commit}) {
+      commit('flushUser');
+      commit('trade/clearOrders', null, {root: true});
     },
     signup({state}, {email, login, agree}) {
       Membership.signup({email, login, agree});

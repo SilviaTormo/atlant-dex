@@ -46,6 +46,7 @@ export default {
       maxLeverage: 0,
       orders: [],
     },
+    wallet: [],
   },
   getters: {
     baseCurrency(state) {
@@ -184,6 +185,9 @@ export default {
     clearOrders(state) {
       state.tradeInfo.orders = [];
     },
+    setWallet(state, data) {
+      state.wallet = data;
+    },
   },
   actions: {
     getAccountTradeHistory({commit, state, getters}) {
@@ -253,6 +257,11 @@ export default {
         pair: state.pair,
       }).then((res) => {
         console.log('getTradeInfo: ', res);
+      });
+    },
+   getTraderWallet({commit}) {
+      return Trade.getTraderWallet().then((res) => {
+        commit('setWallet', res.data.result['BTC']);
       });
     },
   },

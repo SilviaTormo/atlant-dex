@@ -23,8 +23,7 @@
 </template>
 
 <script>
-import {importAddress} from 'services/api/contract-api';
-import {mapMutations, mapState, mapGetters} from 'vuex';
+import {mapMutations, mapState, mapGetters, mapActions} from 'vuex';
 import Icon from './Icon';
 import Portfolio from './Portfolio';
 import Alerts from './Alerts';
@@ -71,6 +70,9 @@ export default {
     ...mapMutations('page', {
       openPage: 'open',
     }),
+    ...mapActions('trade', {
+      getTraderWallet: 'getTraderWallet',
+    }),
     getOpenPage() {
       this.openPage({
         name: '',
@@ -82,12 +84,12 @@ export default {
       }
       account.isActive = true;
     },
-    importAddr() {
-      importAddress('010D4423A7A24AE95DBC7F39DF1A2F8B046AAF444DEF560D6020516886D4D337');
-    },
     openCur(cur) {
       this.selectedCur = cur;
     },
+  },
+  created() {
+    this.getTraderWallet();
   },
   components: {
     Icon,
