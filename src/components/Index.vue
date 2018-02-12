@@ -80,6 +80,9 @@ export default {
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
+    ...mapGetters('membership', {
+      isLoggedIn: 'isLoggedIn',
+    }),
     ...mapGetters('modal', {
       isModalOpened: 'isOpened',
     }),
@@ -139,7 +142,7 @@ export default {
         this.addActiveOrder(res);
       });
       this.$hub.proxy.on('newOrderMatch', (res) => {
-        this.setFilledActiveOrder(res[0]);
+        this.setFilledActiveOrder(res);
       });
       this.$hub.proxy.on('newOrderCancel', (res) => {
         this.setCancelActiveOrder(res[0]);
@@ -182,7 +185,6 @@ export default {
 
     this.$hub.start().then(() => {
       this.$hub.proxy.invoke('setCandleSize', defCandleSize);
-
       this.$hub.setToken(this.token);
     });
     window.addEventListener('resize', () => {
@@ -195,7 +197,7 @@ export default {
     if (showWelcome) {
       this.openModal('welcome');
     }
-    if (!Boolean(this.token)) {
+    if (!this.isLoggedIn) {
       this.openModal({name: 'signIn'});
     }
     this.updateOverflow();

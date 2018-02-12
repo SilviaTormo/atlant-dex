@@ -1,5 +1,5 @@
 <template lang='pug'>
-.buySell
+form.buySell
   .buySell__header
     Icon.buySell__flag(id="flag")
     .buySell__tab(@click="isBuy = true", :class="{'buySell__tab--active': isBuy}") Buy
@@ -14,12 +14,12 @@
     input.buySell__input(type="number" placeholder="0.0000" step="0.0001" min="0.0000" max="10000.0000" v-show="type === 'limit'", v-model="price")
     .buySell__label Total
     input.buySell__input(:placeholder="total" disabled)
-    BButton.buySell__button(color="yellow" full caps @click="getOrder") Place order
+    BButton.buySell__button(color="yellow" full caps @click="getOrder" type="submit") Place order
     div.buySell__note Do not forget to top up the trade balance
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex';
+import {mapState, mapActions, mapGetters, mapMutations} from 'vuex';
 import Icon from '../Icon';
 import Radio from '../Radio';
 import BButton from '../BButton';
@@ -46,6 +46,12 @@ export default {
       getPlaceMarket: 'getPlaceMarket',
       getPlaceLimit: 'getPlaceLimit',
     }),
+    ...mapGetters('membership', {
+      isLoggedIn: 'isLoggedIn',
+    }),
+    ...mapMutations('modal', {
+      openModal: 'open',
+    }),
     getTotal() {
       let total = 0;
       if (this.type === 'market') {
@@ -56,6 +62,10 @@ export default {
       this.total = total + (total/100)*this.fee;
     },
     getOrder() {
+      if (!this.isLoggedIn) {
+        this.openModal({name: 'signIn'});
+        return false;
+      };
       if (this.amount <= 0) {
         return console.log('amount is zero');
       };
@@ -72,6 +82,10 @@ export default {
           side: !this.isBuy,
         });
       }
+      this.amount = 0;
+      this.price = 0;
+      this.total = 0;
+      return true;
     },
   },
   watch: {

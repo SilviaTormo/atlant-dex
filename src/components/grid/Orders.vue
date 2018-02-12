@@ -1,7 +1,7 @@
 <template lang='pug'>
 table.orders
   tbody.orders__body
-    tr.orders__row(v-for="order in (isActive ? getActiveOrders : getClosedOrders)", :key="order[0]")
+    tr.orders__row(v-for="order in (isActive ? getActiveOrders : getClosedOrders)")
       td.orders__cell
         .orders__typeWrapper
           .orders__square(:class="'orders__square--' + (order[2] ? 'sell' : 'buy')")

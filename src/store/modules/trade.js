@@ -62,12 +62,12 @@ export default {
     },
     getActiveOrders(state) {
       return state.tradeInfo.orders.filter((order) => {
-        return order[7] == 0;
+        return order[7] == 0 || order[7] == 1;
       });
     },
     getClosedOrders(state) {
       return state.tradeInfo.orders.filter((order) => {
-        return order[7] !== 0;
+        return order[7] !== 0 && order[7] !== 1;
       });
     },
   },
@@ -148,16 +148,28 @@ export default {
       state.accountTradeHistory = list;
     },
     addActiveOrder(state, array) {
-      state.tradeInfo.orders.unshift(array);
+      state.tradeInfo.orders.push(array);
     },
     setCancelActiveOrder(state, id) {
+      let array = [];
       state.tradeInfo.orders.forEach((item, i, arr) => {
-        (item[0] == id) ? item[7] = 3 : '';
+        if (item[0] == id) {
+          array = item;
+          delete state.tradeInfo.orders[i];
+          array[7] = 3;
+          state.tradeInfo.orders.push(array);
+        };
       });
     },
-    setFilledActiveOrder(state, id) {
+    setFilledActiveOrder(state, data) {
+      let array = [];
       state.tradeInfo.orders.forEach((item, i, arr) => {
-        (item[0] == id) ? item[7] = 2 : '';
+        if (item[0] == data[0]) {
+          array = item;
+          delete state.tradeInfo.orders[i];
+          array[7] = data[3];
+          state.tradeInfo.orders.push(array);
+        };
       });
     },
     setTradeInfo(state, date) {
@@ -192,7 +204,7 @@ export default {
         side: side,
       }
     ).then((res) => {
-        console.log('getPlaceMarket ok! Amount: ', res);
+        // console.log('getPlaceMarket ok! Amount: ', res);
       });
     },
     getPlaceLimit({commit, state}, {amount, price, side}) {
@@ -203,7 +215,7 @@ export default {
           price,
           side,
       }).then((res) => {
-        console.log('getPlaceLimit ok! Amount: ', res);
+        // console.log('getPlaceLimit ok! Amount: ', res);
       });
     },
     loadChart({commit, state}) {
