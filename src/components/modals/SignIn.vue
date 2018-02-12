@@ -7,7 +7,7 @@ Modal
         .singIn__title Sign in
         .singIn__other(v-if="!isMobile", @click="openSignUp") Sign up
       .singIn__inputs
-        IInput.singIn__input(label="Email", v-model="email")
+        IInput.singIn__input(label="Email", v-model="email", type="email")
         IInput.singIn__input(label="Password", v-model="password", type="password")
       .singIn__checkboxContainer
         Checkbox.singIn__checkbox(name="remember", :value="true", v-model="remember")

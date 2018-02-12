@@ -128,6 +128,9 @@ export default {
     ...mapActions('localization', {
       setLang: 'setLang',
     }),
+    ...mapActions('user', {
+      getTokens: 'getTokens',
+    }),
     updateOverflow() {
       document.querySelector('#app').style.overflow = (this.showSidebar && this.isMobile) ? 'hidden' : null;
     },
@@ -177,6 +180,21 @@ export default {
     modalOpenedDesktop() {
       this.modalChangeStyleforBody();
     },
+    isLoggedIn(isTrue) {
+      if (isTrue) {
+        this.$hub.setToken(this.token);
+
+        Trade.getTradeInfo({
+          pair: this.pair,
+        }).then((res) => {
+          this.setTradeInfo(res.data.result);
+        });
+      } else {
+        this.openModal({name: 'signIn'});
+
+        console.log('Noty');
+      }
+    },
   },
   created() {
     this.setLang();
@@ -185,7 +203,6 @@ export default {
 
     this.$hub.start().then(() => {
       this.$hub.proxy.invoke('setCandleSize', defCandleSize);
-      this.$hub.setToken(this.token);
     });
     window.addEventListener('resize', () => {
       setTimeout(() => {
@@ -196,9 +213,6 @@ export default {
   mounted() {
     if (showWelcome) {
       this.openModal('welcome');
-    }
-    if (!this.isLoggedIn) {
-      this.openModal({name: 'signIn'});
     }
     this.updateOverflow();
     Trade.getDesktop({
@@ -211,11 +225,6 @@ export default {
       this.setBook(res.data.result);
       this.setOHLC(res.data.result);
       this.setStats(res.data.result);
-    });
-    Trade.getTradeInfo({
-      pair: this.pair,
-    }).then((res) => {
-      this.setTradeInfo(res.data.result);
     });
   },
   directives: {

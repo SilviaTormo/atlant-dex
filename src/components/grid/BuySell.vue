@@ -1,5 +1,5 @@
 <template lang='pug'>
-form.buySell
+.buySell
   .buySell__header
     Icon.buySell__flag(id="flag")
     .buySell__tab(@click="isBuy = true", :class="{'buySell__tab--active': isBuy}") Buy
@@ -8,13 +8,13 @@ form.buySell
     .buySell__types
       Radio(:name="`type${_uid}`", value="market", label="Market", v-model="type", checked)
       Radio(:name="`type${_uid}`", value="limit", label="Limit", v-model="type")
-    .buySell__label Amount to buy
+    .buySell__label Amount to {{isBuy ? 'buy' : 'sell'}}
     input.buySell__input(type="number" placeholder="0.0000" step="0.0001" min="0.0000" max="10000.0000", v-model="amount")
     .buySell__label(v-show="type === 'limit'") Price
     input.buySell__input(type="number" placeholder="0.0000" step="0.0001" min="0.0000" max="10000.0000" v-show="type === 'limit'", v-model="price")
     .buySell__label Total
     input.buySell__input(:placeholder="total" disabled)
-    BButton.buySell__button(color="yellow" full caps @click="getOrder" type="submit") Place order
+    BButton.buySell__button(color="yellow" full caps @click="getOrder") Place order
     div.buySell__note Do not forget to top up the trade balance
 </template>
 
@@ -90,7 +90,7 @@ export default {
   },
   watch: {
     amount() {
-      this.getTotal();
+    this.getTotal();
     },
     price() {
       this.getTotal();
