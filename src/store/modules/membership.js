@@ -43,6 +43,7 @@ export default {
     dropUser({commit}) {
       commit('flushUser');
       commit('trade/clearOrders', null, {root: true});
+      commit('trade/emptyWallet', null, {root: true});
     },
     signup({state}, {email, login, agree}) {
       Membership.signup({email, login, agree});
