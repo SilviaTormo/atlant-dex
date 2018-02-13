@@ -1,3 +1,31 @@
+.noty{
+  &_close_button {
+    color: #ffc600;
+    top: 7px;
+    right: 25px;
+    width: 0;
+    height: 0;
+    font-size: 18px;
+    font-weight: 300;
+  }
+  &_layout {
+    top: 88px !important;
+  }
+  &_type {
+    &__info {
+      min-width: 201px;
+      box-shadow: 0 7px 10px rgba(0, 0, 0, 0.24);
+      border-radius: 3px;
+      background-color: #02334d;
+      padding: 11px 33px 9px 21px;
+      margin: 10px;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 25px;
+    }
+  }
+}
 .gm-style-cc {
   display: none;
 }

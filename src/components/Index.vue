@@ -144,16 +144,24 @@ export default {
       });
       this.$hub.proxy.on('newOrder', (res) => {
         this.addActiveOrder(res);
-        // notification({
-        //   text: 'New Order',
-        //   type: 'success',
-        // });
+        notification({
+          title: `Order #${res[0]}: `,
+          text: 'created',
+        });
       });
       this.$hub.proxy.on('newOrderMatch', (res) => {
         this.setFilledActiveOrder(res);
+        notification({
+          title: `Order #${res[0]}: `,
+          text: (res[3] == 2) ? 'filled' : 'partially filled',
+        });
       });
       this.$hub.proxy.on('newOrderCancel', (res) => {
         this.setCancelActiveOrder(res[0]);
+        notification({
+          title: `Order #${res[0]}: `,
+          text: 'canceled.',
+        });
       });
       this.$hub.proxy.on('newOrderBookTop', ([currency, side, orders, volume]) => {
         if (side) {
@@ -187,6 +195,7 @@ export default {
     },
     isLoggedIn(isTrue) {
       if (isTrue) {
+        console.log('Send token from watch');
         this.$hub.setToken(this.token);
 
         Trade.getTradeInfo({
@@ -210,6 +219,7 @@ export default {
     this.$hub.start().then(() => {
       this.$hub.proxy.invoke('setCandleSize', defCandleSize);
       if (this.isLoggedIn) {
+        console.log('Send token from created');
         this.$hub.setToken(this.token);
       }
     });
@@ -279,16 +289,17 @@ export default {
 </script>
 
 <style lang='scss'>
+@import '~noty/lib/noty';
 @import '~normalize.css/normalize';
 @import '~sass/defaults';
 @import '~sass/fonts';
 @import '~sass/global';
+@import '~sass/overrides';
 @import '~variables';
 @import '~sass/bootstrap/flex';
 @import '~sass/bootstrap/media';
 @import '~perfect-scrollbar/dist/css/perfect-scrollbar';
 @import '~bootstrap/scss/utilities/sizing';
-@import '~noty/lib/noty';
 
 .main {
   min-height: 100%;
