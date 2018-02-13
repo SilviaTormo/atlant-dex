@@ -14,24 +14,22 @@
     .portfolio__headerLine
       .portfolio__header Coins:
       Icon.portfolio__icon(id="refresh")
-    BalanceItem(v-for="bal in balances", v-if="bal.isCrypto && bal.balance", :key="bal.name",
-      :currency="bal.name", :balance="bal.balance", :balanceEq="bal.balanceUSD",
-      :isActive="bal.name == selectedCur", isCrypto, @click.native="openCur(bal.name)")
-    BalanceItem(v-for="bal in balances", v-if="bal.isCrypto && !bal.balance && showAll", :key="bal.name",
-      :currency="bal.name", :balance="bal.balance", :balanceEq="bal.balanceUSD",
-      :isActive="bal.name == selectedCur", isCrypto, @click.native="openCur(bal.name)")
+    BalanceItem(v-for="bal in balances", v-if="!isFiatCurrency(bal.currency) & bal.availableFunds > 0", :key="bal.currency",
+      :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="!isFiatCurrency(bal.currency)", @click.native="openCur(bal.currency)")
+    BalanceItem(v-for="bal in balances", v-if="!isFiatCurrency(bal.currency) && bal.availableFunds == 0 && showAll", :key="bal.currency",
+      :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="!isFiatCurrency(bal.currency)", @click.native="openCur(bal.currency)")
     Icon.portfolio__EllipsisIcon(v-if="!showAll" id="ellipsis" @click="toggleShowAll()")
   .portfolio__item
     .portfolio__headerLine
       .portfolio__header Fiat:
       Icon.portfolio__icon(id="refresh")
-    BalanceItem(v-for="bal in balances", v-if="!bal.isCrypto", :key="bal.name",
-      :currency="bal.name", :balance="bal.balance", :balanceEq="bal.balanceUSD",
-      :isActive="bal.name == selectedCur", @click.native="openCur(bal.name)")
+    BalanceItem(v-for="bal in balances", v-if="isFiatCurrency(bal.currency)", :key="bal.currency",
+      :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="!isFiatCurrency(bal.currency)", @click.native="openCur(bal.currency)")
 </template>
 
 <script>
 import {mapState} from 'vuex';
+import {isFiat} from 'services/misc';
 import Icon from './Icon';
 import Dropdown from './Dropdown';
 import BalanceItem from './BalanceItem';
@@ -41,38 +39,38 @@ export default {
     return {
       showAll: false,
       selected: '',
-      selectedCur: 'btc',
+      selectedCur: 'BTC',
       percChng: 2.73,
-      balances: [
-        {
-          name: 'btc',
-          balance: 0.00714512,
-          balanceUSD: '$25 695,94',
-          isCrypto: true,
-        },
-        {
-          name: 'eth',
-          balance: 6.02981032,
-          balanceUSD: '$3 773,11',
-          isCrypto: true,
-        },
-        {
-          name: 'tether',
-          isCrypto: true,
-        },
-        {
-          name: 'usd',
-          balance: '4 960.02',
-          balanceUSD: '$32 415,10',
-          isCrypto: false,
-        },
-        {
-          name: 'eur',
-          balance: '27 230.00',
-          balanceUSD: '$3 773,11',
-          isCrypto: false,
-        },
-      ],
+      // balances: [
+      //   {
+      //     name: 'btc',
+      //     balance: 0.00714512,
+      //     balanceUSD: '$25 695,94',
+      //     isCrypto: true,
+      //   },
+      //   {
+      //     name: 'eth',
+      //     balance: 6.02981032,
+      //     balanceUSD: '$3 773,11',
+      //     isCrypto: true,
+      //   },
+      //   {
+      //     name: 'tether',
+      //     isCrypto: true,
+      //   },
+      //   {
+      //     name: 'usd',
+      //     balance: '4 960.02',
+      //     balanceUSD: '$32 415,10',
+      //     isCrypto: false,
+      //   },
+      //   {
+      //     name: 'eur',
+      //     balance: '27 230.00',
+      //     balanceUSD: '$3 773,11',
+      //     isCrypto: false,
+      //   },
+      // ],
     };
   },
   computed: {
@@ -80,7 +78,7 @@ export default {
       currencies: 'userCurrencies',
     }),
     ...mapState('trade', {
-      wallet: 'wallet',
+      balances: 'wallet',
     }),
   },
   methods: {
@@ -89,6 +87,10 @@ export default {
     },
     toggleShowAll() {
       this.showAll = true;
+    },
+    isFiatCurrency(cur) {
+      console.log(cur, 'is', isFiat(cur));
+      return isFiat(cur);
     },
   },
   components: {
