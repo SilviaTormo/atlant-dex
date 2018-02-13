@@ -1,13 +1,14 @@
 import Noty from 'noty';
-import {serverCodes, notificationTimeout} from 'config';
+import {serverCodes} from 'config';
 import store from 'store';
 
-export const notification = ({text, type = 'info'}) => new Noty({
-  text,
+export const notification = ({title = '', text, type = 'info'}) => new Noty({
+  text: `<b>${title}</b> ${text}`,
   type,
   layout: 'topRight',
+  closeWith: ['click', 'button'],
   progressBar: false,
-  timeout: notificationTimeout,
+  timeout: 3000,
 }).show();
 
 export const serverNotification = (response) => {

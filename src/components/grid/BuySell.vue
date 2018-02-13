@@ -69,8 +69,9 @@ export default {
       };
       if (this.amount <= 0) {
         notification({
-          text: 'Negative or zero value. Please correct the value provided.',
-          type: 'error',
+          title: 'Negative or zero value:',
+          text: 'Please correct the value provided.',
+          type: 'info',
         });
         return false;
       };
