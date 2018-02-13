@@ -188,6 +188,9 @@ export default {
     setWallet(state, data) {
       state.wallet = data;
     },
+    emptyWallet(state) {
+      state.wallet = [];
+    },
   },
   actions: {
     getAccountTradeHistory({commit, state, getters}) {
