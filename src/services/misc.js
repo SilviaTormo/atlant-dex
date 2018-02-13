@@ -14,6 +14,10 @@ export const getCryptoName = (short) => {
   }
 };
 
+export const isFiat = (short) => {
+  return ['USD', 'EUR'].includes(short);
+};
+
 export const getScreenType = () =>
   window.matchMedia(`(max-width: ${mobileBreakpoint}px)`)
   .matches ? 'mobile' : 'desktop';

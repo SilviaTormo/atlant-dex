@@ -1,13 +1,13 @@
 <template lang='pug'>
-.balance(:class="{'balance--zero': balance === '0.00'}")
-  Icon.balance__currencyIcon(:class="{'balance__currencyIcon--zero': balance === 0}", :id="'cur_'+ currency")
+.balance(:class="{'balance--zero': data.availableFunds == 0}")
+  Icon.balance__currencyIcon(:class="{'balance__currencyIcon--zero': data.availableFunds == 0}", :id="logoId")
   .balance__currencyContainer
     .balance__main
-      .balance__currencyName(:class="activeClass") {{currency}}
+      .balance__currencyName(:class="activeClass") {{data.currency}}
       //Icon.balance__icon.balance__icon--qr(id="qr")
       .balance__amount
-        .balance__currencyBalance {{balance}}
-        .balance__equivBalance {{balanceEq}}
+        .balance__currencyBalance {{data.availableFunds}}
+        .balance__equivBalance {{data.availableFunds}}
     .balance__additional(v-if="isActive")
       div &#8212;
       .balance__deposit
@@ -32,7 +32,10 @@ export default {
   },
   computed: {
     activeClass() {
-      return (this.isActive) ? 'balance__currencyName--active' : '';
+      return (this.data.isActive) ? 'balance__currencyName--active' : '';
+    },
+    logoId() {
+      return 'cur_'+ this.data.currency.toLowerCase();
     },
   },
   methods: {
@@ -44,7 +47,7 @@ export default {
         name: 'fiat',
         data: {
           isDeposit,
-          currency: this.currency,
+          currency: this.data.currency,
         },
       });
     },
@@ -52,25 +55,17 @@ export default {
       this.openModal({
         name,
         data: {
-          currency: this.currency,
+          currency: this.data.currency,
         },
       });
     },
   },
   props: {
-    currency: {
-      type: String,
-      required: true,
-    },
-    balance: {
-      type: [Number, String],
-      default: '0.00',
-      required: false,
-    },
-    balanceEq: {
-      type: [Number, String],
-      default: '$0.00',
-      required: false,
+    data: {
+      type: Object,
+      validator: (value) => {
+        return value.currency !== '';
+      },
     },
     isActive: {
       type: Boolean,
@@ -78,9 +73,8 @@ export default {
       required: false,
     },
     isCrypto: {
-      type: [Boolean, String],
-      default: false,
-      required: false,
+      type: Boolean,
+      required: true,
     },
   },
   components: {
