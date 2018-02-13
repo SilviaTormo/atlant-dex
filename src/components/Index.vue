@@ -222,6 +222,11 @@ export default {
         console.log('Send token from created');
         this.$hub.setToken(this.token);
       }
+    }).catch(() => {
+      notification({
+        text: this,
+        type: 'error',
+      });
     });
 
     if (this.isLoggedIn) {
