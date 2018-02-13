@@ -20,6 +20,7 @@
 
 <script>
 import {mapState, mapActions, mapGetters, mapMutations} from 'vuex';
+import {notification} from 'services/notification';
 import Icon from '../Icon';
 import Radio from '../Radio';
 import BButton from '../BButton';
@@ -67,7 +68,11 @@ export default {
         return false;
       };
       if (this.amount <= 0) {
-        return console.log('amount is zero');
+        notification({
+          text: 'Negative or zero value. Please correct the value provided.',
+          type: 'error',
+        });
+        return false;
       };
       if ('market' === this.type) {
         this.getPlaceMarket({
