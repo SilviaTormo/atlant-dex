@@ -5,6 +5,7 @@ import store from 'store';
 export const notification = ({text, type = 'info'}) => new Noty({
   text,
   type,
+  layout: 'topRight',
   progressBar: false,
   timeout: notificationTimeout,
 }).show();
@@ -16,7 +17,7 @@ export const serverNotification = (response) => {
 
   if (status === 401) {
     alias = 'sessionTimedOut';
-    type = 'error';
+    type = 'alert';
   } else {
     const message = serverCodes[code];
     alias = (message) ? message.name : 'ServerError';

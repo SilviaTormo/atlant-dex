@@ -36,6 +36,7 @@
 
 <script>
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import {notification} from 'services/notification';
 import * as Trade from 'services/api/trade';
 import {defCandleSize, showWelcome} from 'config';
 import {scrollbar} from 'directives';
@@ -143,6 +144,10 @@ export default {
       });
       this.$hub.proxy.on('newOrder', (res) => {
         this.addActiveOrder(res);
+        // notification({
+        //   text: 'New Order',
+        //   type: 'success',
+        // });
       });
       this.$hub.proxy.on('newOrderMatch', (res) => {
         this.setFilledActiveOrder(res);
@@ -191,8 +196,9 @@ export default {
         });
       } else {
         this.openModal({name: 'signIn'});
-
-        console.log('Noty');
+        notification({
+          text: 'Log Out',
+        });
       }
     },
   },
@@ -203,7 +209,19 @@ export default {
 
     this.$hub.start().then(() => {
       this.$hub.proxy.invoke('setCandleSize', defCandleSize);
+      if (this.isLoggedIn) {
+        this.$hub.setToken(this.token);
+      }
     });
+
+    if (this.isLoggedIn) {
+      Trade.getTradeInfo({
+        pair: this.pair,
+      }).then((res) => {
+        this.setTradeInfo(res.data.result);
+      });
+    };
+
     window.addEventListener('resize', () => {
       setTimeout(() => {
         this.updateScreenType();
@@ -270,6 +288,7 @@ export default {
 @import '~sass/bootstrap/media';
 @import '~perfect-scrollbar/dist/css/perfect-scrollbar';
 @import '~bootstrap/scss/utilities/sizing';
+@import '~noty/lib/noty';
 
 .main {
   min-height: 100%;
