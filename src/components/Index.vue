@@ -132,6 +132,9 @@ export default {
     ...mapActions('user', {
       getTokens: 'getTokens',
     }),
+    ...mapActions('trade', {
+      getTraderWallet: 'getTraderWallet',
+    }),
     updateOverflow() {
       document.querySelector('#app').style.overflow = (this.showSidebar && this.isMobile) ? 'hidden' : null;
     },
@@ -203,6 +206,7 @@ export default {
         }).then((res) => {
           this.setTradeInfo(res.data.result);
         });
+        this.getTraderWallet();
       } else {
         this.openModal({name: 'signIn'});
         notification({
