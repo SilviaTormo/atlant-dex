@@ -11,9 +11,9 @@
     .buySell__label Amount to {{isBuy ? 'buy' : 'sell'}}
     input.buySell__input(type="number" placeholder="0.0000" step="0.0001" min="0.0000" max="10000.0000", v-model="amount")
     .buySell__label(v-show="type === 'limit'") Price
-    input.buySell__input(type="number" placeholder="0.0000" step="0.0001" min="0.0000" max="10000.0000" v-show="type === 'limit'", v-model="price")
+    input.buySell__input(type="number", v-show="type === 'limit'", v-model="price")
     .buySell__label Total
-    input.buySell__input(:placeholder="total" disabled)
+    input.buySell__input(:placeholder="getTotal" disabled)
     BButton.buySell__button(color="yellow" full caps @click="getOrder") Place order
     div.buySell__note Do not forget to top up the trade balance
 </template>
@@ -41,6 +41,15 @@ export default {
       ask: 'ask',
       fee: (state) => state.tradeInfo.makerFee,
     }),
+    getTotal() {
+      let total = 0;
+      if (this.type === 'market') {
+        total = this.isBuy ? this.ask * this.amount : this.bid * this.amount;
+      } else {
+        total = this.amount * this.price;
+      };
+      return this.isBuy ? total + (total / 100) * this.fee : total - (total / 100) * this.fee;
+    },
   },
   methods: {
     ...mapActions('trade', {
@@ -53,15 +62,6 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
-    getTotal() {
-      let total = 0;
-      if (this.type === 'market') {
-        total = this.isBuy ? this.ask * this.amount : this.bid * this.amount;
-      } else {
-        total = this.amount * this.price;
-      };
-      this.total = total + (total/100)*this.fee;
-    },
     getOrder() {
       if (!this.isLoggedIn) {
         this.openModal({name: 'signIn'});
@@ -92,14 +92,6 @@ export default {
       this.price = 0;
       this.total = 0;
       return true;
-    },
-  },
-  watch: {
-    amount() {
-    this.getTotal();
-    },
-    price() {
-      this.getTotal();
     },
   },
   components: {
