@@ -106,8 +106,9 @@ export default {
     display: flex;
     justify-content: center;
     align-content: center;
+    min-height: 52px;
     height: 52px;
-    top: calc(100% - 52px);
+    bottom: 0;
     left: 0;
     right: 0;
     padding: 0;
@@ -120,8 +121,9 @@ export default {
       #03324c 60px
     );
     z-index: 1.5;
-
-
+    &__backToDashboard {
+      padding-right: 0;
+    }
   }
 }
 </style>
