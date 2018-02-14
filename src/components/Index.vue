@@ -97,6 +97,7 @@ export default {
   methods: {
     ...mapMutations('misc', {
       updateScreenType: 'updateScreenType',
+      setSidebar: 'setSidebar',
     }),
     ...mapMutations('modal', {
       openModal: 'open',
@@ -196,6 +197,7 @@ export default {
       this.updateOverflow();
     },
     isMobile() {
+      this.setSidebar(false);
       this.updateOverflow();
     },
     modalOpenedDesktop() {
