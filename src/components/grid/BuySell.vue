@@ -71,7 +71,7 @@ export default {
         notification({
           title: 'Negative or zero value:',
           text: 'Please correct the value provided.',
-          type: 'info',
+          type: 'error',
         });
         return false;
       };

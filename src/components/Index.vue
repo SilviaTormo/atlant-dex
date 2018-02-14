@@ -132,6 +132,9 @@ export default {
     ...mapActions('user', {
       getTokens: 'getTokens',
     }),
+    ...mapActions('trade', {
+      getTradeInfo: 'getTradeInfo',
+    }),
     updateOverflow() {
       document.querySelector('#app').style.overflow = (this.showSidebar && this.isMobile) ? 'hidden' : null;
     },
@@ -139,16 +142,19 @@ export default {
       this.$hub.proxy.on('newCandle', (res) => {
         this.addNewCandle(res);
       });
+
       this.$hub.proxy.on('newDesktop', (res) => {
         this.addNewPrices(res);
       });
+
       this.$hub.proxy.on('newOrder', (res) => {
         this.addActiveOrder(res);
         notification({
-          title: `Order #${res[0]}: `,
-          text: 'created',
+          title: `Order #${res[0]} `,
+          text: `created: ${res[2]? 'Sell': 'Buy'} ${res[4]} ${res[1].split('_')[0]} for ${res[5]} ${res[1].split('_')[1]}`,
         });
       });
+
       this.$hub.proxy.on('newOrderMatch', (res) => {
         this.setFilledActiveOrder(res);
         notification({
@@ -156,6 +162,7 @@ export default {
           text: (res[3] == 2) ? 'filled' : 'partially filled',
         });
       });
+
       this.$hub.proxy.on('newOrderCancel', (res) => {
         this.setCancelActiveOrder(res[0]);
         notification({
@@ -163,6 +170,7 @@ export default {
           text: 'canceled.',
         });
       });
+
       this.$hub.proxy.on('newOrderBookTop', ([currency, side, orders, volume]) => {
         if (side) {
           this.setOrdersAsks(orders);
@@ -195,14 +203,8 @@ export default {
     },
     isLoggedIn(isTrue) {
       if (isTrue) {
-        console.log('Send token from watch');
         this.$hub.setToken(this.token);
-
-        Trade.getTradeInfo({
-          pair: this.pair,
-        }).then((res) => {
-          this.setTradeInfo(res.data.result);
-        });
+        this.getTradeInfo;
       } else {
         this.openModal({name: 'signIn'});
         notification({
@@ -219,24 +221,12 @@ export default {
     this.$hub.start().then(() => {
       this.$hub.proxy.invoke('setCandleSize', defCandleSize);
       if (this.isLoggedIn) {
-        console.log('Send token from created');
         this.$hub.setToken(this.token);
       }
-    }).catch(() => {
-      notification({
-        text: this,
-        type: 'error',
-      });
     });
-
     if (this.isLoggedIn) {
-      Trade.getTradeInfo({
-        pair: this.pair,
-      }).then((res) => {
-        this.setTradeInfo(res.data.result);
-      });
+      this.getTradeInfo();
     };
-
     window.addEventListener('resize', () => {
       setTimeout(() => {
         this.updateScreenType();

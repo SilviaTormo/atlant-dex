@@ -1,4 +1,5 @@
 import * as Membership from 'services/api/membership';
+import {serverNotification} from 'services/notification';
 
 export default {
   state: {
@@ -33,11 +34,15 @@ export default {
         password,
       }).then((response) => {
         commit('createUser', response.data.result);
+      }).catch((res) => {
+        serverNotification(res);
       });
     },
     logout({dispatch}) {
       return Membership.logout().then(() => {
         dispatch('dropUser');
+      }).catch((res) => {
+        serverNotification(res);
       });
     },
     dropUser({commit}) {
@@ -46,10 +51,18 @@ export default {
       commit('trade/emptyWallet', null, {root: true});
     },
     signup({state}, {email, login, agree}) {
-      Membership.signup({email, login, agree});
+      Membership.signup({
+        email,
+        login,
+        agree,
+      }).catch((res) => {
+        serverNotification(res);
+      });
     },
     resetPassword({state}, email) {
-      return Membership.requestPasswordRestore(email);
+      return Membership.requestPasswordRestore(email).catch((res) => {
+        serverNotification(res);
+      });
     },
   },
   namespaced: true,

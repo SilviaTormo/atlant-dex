@@ -1,6 +1,5 @@
 import Noty from 'noty';
 import {serverCodes} from 'config';
-import store from 'store';
 
 export const notification = ({title = '', text, type = 'info'}) => new Noty({
   text: `<b>${title}</b> ${text}`,
@@ -17,16 +16,17 @@ export const serverNotification = (response) => {
   let type = '';
 
   if (status === 401) {
-    alias = 'sessionTimedOut';
-    type = 'alert';
+    alias = 'Session Timed Out';
+    type = 'error';
   } else {
     const message = serverCodes[code];
-    alias = (message) ? message.name : 'ServerError';
+    alias = (message) ? message.name : ``;
     type = (message) ? message.type : 'error';
   }
 
   notification({
-    text: store.getters['localization/getMessage'](alias),
+    title: `Code #${code}: `,
+    text: alias,
     type,
   });
 };

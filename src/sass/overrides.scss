@@ -5,24 +5,32 @@
     right: 25px;
     width: 0;
     height: 0;
-    font-size: 18px;
+    font-size: 18px !important;
     font-weight: 300;
   }
   &_layout {
     top: 88px !important;
   }
   &_type {
+    &__info, &__error, &__success {
+      min-width: 201px !important;
+      box-shadow: 0 7px 10px rgba(0, 0, 0, 0.24) !important;
+      border-radius: 3px !important;
+      padding: 11px 33px 9px 21px !important;
+      margin: 10px !important;
+      color: #ffffff !important;
+      font-size: 14px !important;
+      font-weight: 400 !important;
+      line-height: 25px !important;
+    }
     &__info {
-      min-width: 201px;
-      box-shadow: 0 7px 10px rgba(0, 0, 0, 0.24);
-      border-radius: 3px;
-      background-color: #02334d;
-      padding: 11px 33px 9px 21px;
-      margin: 10px;
-      color: #ffffff;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 25px;
+      background-color: #02334d !important;
+    }
+    &__error {
+      background-color: #d6331e !important;
+    }
+    &__success {
+      background-color: #00a86b !important;
     }
   }
 }

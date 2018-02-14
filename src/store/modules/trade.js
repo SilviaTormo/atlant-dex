@@ -1,4 +1,5 @@
 import * as Trade from 'services/api/trade';
+import {serverNotification} from 'services/notification';
 import {defPeriod} from 'config';
 
 export default {
@@ -213,8 +214,8 @@ export default {
         base_cur_amount: base_cur_amount,
         side: side,
       }
-    ).then((res) => {
-        // console.log('getPlaceMarket ok! Amount: ', res);
+    ).catch((res) => {
+        serverNotification(res);
       });
     },
     getPlaceLimit({commit, state}, {amount, price, side}) {
@@ -224,8 +225,8 @@ export default {
           amount,
           price,
           side,
-      }).then((res) => {
-        // console.log('getPlaceLimit ok! Amount: ', res);
+      }).catch((res) => {
+        serverNotification(res);
       });
     },
     loadChart({commit, state}) {
@@ -252,14 +253,14 @@ export default {
         state.pair,
         id
       ).then((res) => {
-        console.log('Order canceled: ', id);
+        // console.log('Order canceled: ', id);
       });
     },
-    getTradeInfo(state) {
+    getTradeInfo({commit, state}) {
       return Trade.getTradeInfo({
         pair: state.pair,
       }).then((res) => {
-        console.log('getTradeInfo: ', res);
+        commit('setTradeInfo', res.data.result);
       });
     },
    getTraderWallet({commit}) {
