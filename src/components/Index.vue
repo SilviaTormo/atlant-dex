@@ -207,8 +207,8 @@ export default {
     isLoggedIn(isTrue) {
       if (isTrue) {
         this.$hub.setToken(this.token);
-        this.getTradeInfo();
-        this.getTraderWallet();
+        // this.getTradeInfo();
+        // this.getTraderWallet();
       } else {
         this.openModal({name: 'signIn'});
         notification({

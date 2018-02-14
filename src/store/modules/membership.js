@@ -4,6 +4,7 @@ import {serverNotification} from 'services/notification';
 export default {
   state: {
     token: '',
+    refreshToken: '',
     userId: '',
     email: '',
   },
@@ -13,15 +14,13 @@ export default {
     },
   },
   mutations: {
-    createUser(state, {token, userId, email}) {
-      state.token = token;
-      state.userId = userId;
-      state.email = email;
+    createUser(state, data) {
+      state.token = data.accessToken;
+      state.refreshToken = data.refreshTokenCode;
     },
     flushUser(state) {
       state.token = '';
-      state.userId = '';
-      state.email = '';
+      state.refreshToken = '';
     },
   },
   actions: {
@@ -30,13 +29,13 @@ export default {
         email,
         password,
       }).then((response) => {
-        commit('createUser', response.data.result);
+        commit('createUser', response.data);
       }).catch((res) => {
         serverNotification(res);
       });
     },
-    logout({dispatch}) {
-      return Membership.logout().then(() => {
+    logout({dispatch, state}) {
+      return Membership.logout(state.refreshToken).then(() => {
         dispatch('dropUser');
       }).catch((res) => {
         serverNotification(res);
