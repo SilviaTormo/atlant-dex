@@ -2,7 +2,7 @@
 Modal
   .singIn
     Icon.singIn__icon(id="signin")
-    .singIn__content(v-if="step == 0")
+    form.singIn__content(v-if="step == 0" @submit.prevent="signIn()")
       .singIn__headerContent
         .singIn__title Sign in
         .singIn__other(v-if="!isMobile", @click="openSignUp") Sign up
@@ -12,7 +12,7 @@ Modal
       .singIn__checkboxContainer
         Checkbox.singIn__checkbox(name="remember", :value="true", v-model="remember")
           .singIn__checkboxLabel Remember me
-      BButton.singIn__button(color="malachite" rounded @click.native="signIn()") Let me in
+      BButton.singIn__button(color="malachite" rounded type="submit") Let me in
       .singIn__forgot #[a.link(href="#" @click="openModal({name: 'reset'})") Forgot password?]
     .singIn__other(v-if="isMobile", @click="openSignUp") Sign up
     Status.singIn__status(v-if="step == 1", :isSuccess="isSuccess")

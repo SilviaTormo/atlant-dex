@@ -58,6 +58,8 @@ export default {
 
 
 <style lang="scss">
+@import "~sass/bootstrap/media";
+
 .accountInfo {
   display: flex;
   max-width: 550px;
@@ -118,6 +120,23 @@ export default {
   }
   &__rating {
     margin-left: 5px;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .accountInfo {
+    &__iconMain {
+      display: none;
+    }
+    &__value {
+      &--fullWidth {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+    &__registration {
+      margin-top: 42px;
+    }
   }
 }
 </style>

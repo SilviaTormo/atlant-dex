@@ -2,7 +2,7 @@
 Modal
   .singUp
     Icon.singUp__icon(id="signup")
-    .singUp__content(v-if="step == 0")
+    form.singUp__content(v-if="step == 0" @submit.prevent="signUpUser")
       .singUp__headerContent
         .singUp__title Sign up
         .singUp__other(v-if="!isMobile", @click="openSignIn") Sign in
@@ -14,7 +14,7 @@ Modal
         .singUp__block
           Checkbox.singUp__checkbox(name="acknowledged", :value="true", v-model="iAgree")
             span.singUp__iAgree I certify that I am 18 years of age or older, and I agree to the #[a.link(href="#") User Agreement] and #[a.link(href="#") Privacy Policy].
-          BButton.singUp__button(color="malachite" rounded @click.native="signUpUser") Create account
+          BButton.singUp__button(color="malachite" rounded type="submit") Create account
       .singUp__other(v-if="isMobile", @click="openSignIn") Sign in
     Status.singUp__status(v-if="step == 1" isSuccess)
       .singUp__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
@@ -60,8 +60,8 @@ export default {
     signUpUser() {
       this.signup({
         email: this.email,
-        login: this.email.split('@')[0],
-        agree: this.iAgree,
+        password: this.password,
+        termsaccepted: this.iAgree,
       });
     },
   },

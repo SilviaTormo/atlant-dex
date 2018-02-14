@@ -198,7 +198,6 @@ export default {
     },
     isLoggedIn(isTrue) {
       if (isTrue) {
-        console.log('Send token from watch');
         this.$hub.setToken(this.token);
 
         Trade.getTradeInfo({

@@ -45,8 +45,8 @@ export default {
       commit('trade/clearOrders', null, {root: true});
       commit('trade/emptyWallet', null, {root: true});
     },
-    signup({state}, {email, login, agree}) {
-      Membership.signup({email, login, agree});
+    signup({state}, {email, termsaccepted, password}) {
+      Membership.signup({email, termsaccepted, password});
     },
     resetPassword({state}, email) {
       return Membership.requestPasswordRestore(email);

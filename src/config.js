@@ -1,9 +1,9 @@
-export const baseURL = 'https://apiex.atlant.io';
+export const baseURL = 'http://apiv2.atlant.io/';
+export const baseURLOld = 'https://apiex.atlant.io';
 export const timeout = 30000;
-export const hubURL = `${baseURL}/signalr/hubs`;
+export const hubURL = `${baseURLOld}/signalr/hubs`;
 export const hubName = 'notificationHub';
 export const mobileBreakpoint = 992;
-export const googleMapsKey = 'AIzaSyBZrLwDh6l5AW1F5Em3pPlABhQ3fmp__AM';
 export const showWelcome = false;
 export const periods = {
   '1h': '1m',
