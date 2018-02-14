@@ -6,7 +6,6 @@ export const logout = () => apiOld.get('member/Logout');
 export const signup = ({email, termsaccepted, password, lang}) => {
   return api.post(`account`, {email, termsaccepted, password, lang});
 };
-export const regCheck = (confirmationCode) => api.put(`member/RegCheck/${confirmationCode}`);
-export const regFinish = ({confirmationCode, password}) => api.post(`member/RegFinish/${confirmationCode}`, {password});
+export const regFinish = (сode) => api.put(`account/email/confirmation/${сode}`);
 export const requestPasswordRestore = (email) => apiOld.post('Member/RequestPasswordRestore', {email});
 export const restoreCheck = (confirmationCode) => apiOld.post(`member/PasswordRestoreCheck/${confirmationCode}`);

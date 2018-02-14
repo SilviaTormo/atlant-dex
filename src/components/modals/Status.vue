@@ -1,6 +1,6 @@
 <template lang="pug">
 .status
-  Icon.status__icon(v-bind:id="(isSuccess == true) ? 'statusSucceed' : 'statusFailed'")
+  Icon.status__icon(id="statusSucceed")
   slot
 </template>
 

@@ -5,26 +5,23 @@ export default {
   state: {
     token: '',
     userId: '',
-    login: '',
-    email: 'user@mail.com',
+    email: '',
+  },
+  getters: {
+    isLoggedIn: (state) => {
+      return state.token !== '';
+    },
   },
   mutations: {
-    createUser(state, {token, userId, login, email}) {
+    createUser(state, {token, userId, email}) {
       state.token = token;
       state.userId = userId;
-      state.login = login;
       state.email = email;
     },
     flushUser(state) {
       state.token = '';
       state.userId = '';
-      state.login = '';
       state.email = '';
-    },
-  },
-  getters: {
-    isLoggedIn: (state) => {
-      return state.token !== '';
     },
   },
   actions: {
@@ -50,13 +47,9 @@ export default {
       commit('trade/clearOrders', null, {root: true});
       commit('trade/emptyWallet', null, {root: true});
     },
-    signup({state}, {email, termsaccepted, password}) {
-      Membership.signup({
-        email,
-        termsaccepted,
-        password,
-      }).catch((res) => {
-        serverNotification(res);
+    regFinish({state}, code) {
+      return Membership.regFinish(code).then((res) => {
+        // state.token = res.data.accessToken;
       });
     },
     resetPassword({state}, email) {

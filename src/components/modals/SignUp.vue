@@ -16,12 +16,14 @@ Modal
             span.singUp__iAgree I certify that I am 18 years of age or older, and I agree to the #[a.link(href="#") User Agreement] and #[a.link(href="#") Privacy Policy].
           BButton.singUp__button(color="malachite" rounded type="submit") Create account
       .singUp__other(v-if="isMobile", @click="openSignIn") Sign in
-    Status.singUp__status(v-if="step == 1" isSuccess)
-      .singUp__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
+    Status.singUp__status(v-if="step == 1")
+      .singUp__statusMsg Completed
 </template>
 
 <script>
-import {mapGetters, mapMutations, mapActions} from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
+import {serverNotification} from 'services/notification';
+import * as Membership from 'services/api/membership';
 import Icon from 'components/Icon';
 import Checkbox from 'components/Checkbox';
 import BButton from 'components/BButton';
@@ -37,7 +39,6 @@ export default {
       passwordRepeat: '',
       iAgree: false,
       step: 0,
-      isSuccess: false,
     };
   },
   computed: {
@@ -49,19 +50,20 @@ export default {
     ...mapMutations('modal', {
       open: 'open',
     }),
-    ...mapActions('membership', [
-      'signup',
-    ]),
     openSignIn() {
       this.open({
         name: 'signIn',
       });
     },
     signUpUser() {
-      this.signup({
+      Membership.signup({
         email: this.email,
         password: this.password,
         termsaccepted: this.iAgree,
+      }).then((res) => {
+        this.step++;
+      }).catch((error) => {
+        serverNotification(error);
       });
     },
   },
