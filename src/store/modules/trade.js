@@ -197,13 +197,27 @@ export default {
     getAccountTradeHistory({commit, state, getters}) {
       return Trade.getAccountTradeHistory({
         limit: 20,
-        offset: 0,
+        offset: 2,
         currency: getters.quoteCurrency,
         baseCurrency: getters.baseCurrency,
       }
     ).then((res) => {
         // console.log('getAccountTradeHistory ', res.data.result.orders);
         commit('setAccountTradeHistory', res.data.result.orders);
+      }).catch((res) => {
+        serverNotification(res);
+      });
+    },
+    getAccountTransactions({commit, state, getters}) {
+      return Trade.getAccountTransactions({
+        limit: 20,
+        offset: 0,
+      }
+    ).then((res) => {
+        console.log('getAccountTransactions ', res);
+        // commit('setAccountTradeHistory', res.data.result.orders);
+      }).catch((res) => {
+        serverNotification(res);
       });
     },
     getPlaceMarket({commit, state}, {amount, base_cur_amount, side}) {

@@ -24,6 +24,7 @@ TablePage(title="Transaction history", :data="data")
 </template>
 
 <script>
+import {mapActions} from 'vuex';
 import Checkbox from 'components/Checkbox';
 import Icon from '../../Icon';
 import TablePage from './TablePage';
@@ -34,35 +35,13 @@ export default {
       data: [],
     };
   },
+  computed: {
+    ...mapActions('trade', {
+      getAccountTransactions: 'getAccountTransactions',
+    }),
+  },
   created() {
-    // this.data = [
-    //   {
-    //     id: 484,
-    //     date: '01.08.2017 21:15',
-    //     amount: -15.00,
-    //     description: 'Transfer to belpoker',
-    //     status: 'Completed',
-    //     checked: false,
-    //   },
-    //   {
-    //     id: 485,
-    //     date: '01.08.2017 21:14',
-    //     amount: 562.00,
-    //     description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
-    //     crypto: true,
-    //     status: 'Pending',
-    //     checked: false,
-    //   },
-    //   {
-    //     id: 486,
-    //     date: '01.08.2017 21:14',
-    //     amount: -5.00,
-    //     crypto: true,
-    //     description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
-    //     status: 'Error',
-    //     checked: false,
-    //   },
-    // ];
+    this.getAccountTransactions;
   },
   components: {
     TablePage,
