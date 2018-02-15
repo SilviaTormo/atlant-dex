@@ -5,7 +5,7 @@ export const getDesktop = ({limit, pair}) => api.get('/trade/getDesktop?', {para
 export const getTradeHistory = ({limit, offset, currency, baseCurrency}) => api.get('/trade/tradeHistory?', {params: {limit, offset, currency, baseCurrency}});
 
 export const getAccountTradeHistory = ({limit, offset, currency, baseCurrency}) => api.get('/account/tradeHistory?', {params: {limit, offset, currency, baseCurrency}});
-export const getAccountTransactions = ({limit, offset}) => api.get('/account/transactions?', {params: {limit, offset}});
+export const getAccountTransactionHistory = ({limit, offset, status, baseCurrency, currency}) => api.get('/account/transactionList?', {params: {limit, offset, status, baseCurrency, currency}});
 
 export const getTradeInfo = ({pair}) => api.get('/trade/getTraderInfo?', {params: {pair}});
 export const getTraderWallet = () => api.get('/trade/traderWallets');

@@ -16,15 +16,15 @@ TablePage(title="Transaction history", :data="data")
             Checkbox.tHistory__checkbox(:key="item.id" v-model="item.checked")
           td {{item.id}}
           td.tHistory__date {{item.date}}
-          td.tHistory__amount(:class="'tHistory__amount--' + (item.amount >= 0 ? 'positive' : 'negative')") {{item.amount}} USD
+          td.tHistory__amount(:class="'tHistory__amount--' + (item.type == 'in' ? 'positive' : 'negative')") {{item.amount}} {{item.currency}}
           td.tHistory__description
             Icon(id='icon-qr', :class="{'tHistory__icon--visible': item.crypto}").tHistory__icon
             | {{item.description}}
-          td.tHistory__status(:class="'tHistory__status--' + item.status.toLowerCase()") {{item.status}}
+          td.tHistory__status(:class="'tHistory__status--' + status[item.status].toLowerCase()") {{status[item.status]}}
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import {mapState, mapActions} from 'vuex';
 import Checkbox from 'components/Checkbox';
 import Icon from '../../Icon';
 import TablePage from './TablePage';
@@ -32,16 +32,28 @@ import TablePage from './TablePage';
 export default {
   data() {
     return {
-      data: [],
+      status: [
+        'Pending',
+        'Processing',
+        'Completed',
+        'Cancelled',
+        'Declined',
+        'Authorizing',
+        'Wallet',
+      ],
     };
   },
   computed: {
+    ...mapState('trade', {
+      total: (state) => state.accountTransactionHistory.total,
+      data: (state) => state.accountTransactionHistory.items,
+    }),
     ...mapActions('trade', {
-      getAccountTransactions: 'getAccountTransactions',
+      getAccountTransactionHistory: 'getAccountTransactionHistory',
     }),
   },
   created() {
-    this.getAccountTransactions;
+    this.getAccountTransactionHistory;
   },
   components: {
     TablePage,
@@ -67,9 +79,15 @@ export default {
   &__amount {
     &--positive {
       color: #7ed321;
+      &:before {
+        content: "+ ",
+      }
     }
     &--negative {
       color: #f33a3a;
+      &:before {
+        content: "- ",
+      }
     }
   }
   &__icon {

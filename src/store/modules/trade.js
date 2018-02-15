@@ -30,7 +30,16 @@ export default {
       low: 0,
       change: 0,
     },
-    accountTradeHistory: [],
+    accountTradeHistory: {
+      total: '',
+      items: [],
+      page: 0,
+    },
+    accountTransactionHistory: {
+      total: '',
+      items: [],
+      page: 0,
+    },
     tradeInfo: {
       availableFunds: 0,
       blockedFunds: 0,
@@ -147,7 +156,12 @@ export default {
       state.orders = list.data.result.orders;
     },
     setAccountTradeHistory(state, list) {
-      state.accountTradeHistory = list;
+      state.accountTradeHistory.total = list.count;
+      state.accountTradeHistory.items = list.orders;
+    },
+    setAccountTransactionHistory(state, list) {
+      state.accountTransactionHistory.total = list.total;
+      state.accountTransactionHistory.items = list.items;
     },
     addActiveOrder(state, array) {
       state.tradeInfo.orders.push(array);
@@ -196,26 +210,28 @@ export default {
   actions: {
     getAccountTradeHistory({commit, state, getters}) {
       return Trade.getAccountTradeHistory({
-        limit: 20,
-        offset: 2,
+        limit: state.limit,
+        offset: state.accountTradeHistory.page,
         currency: getters.quoteCurrency,
         baseCurrency: getters.baseCurrency,
       }
     ).then((res) => {
-        // console.log('getAccountTradeHistory ', res.data.result.orders);
-        commit('setAccountTradeHistory', res.data.result.orders);
+        commit('setAccountTradeHistory', res.data.result);
       }).catch((res) => {
         serverNotification(res);
       });
     },
-    getAccountTransactions({commit, state, getters}) {
-      return Trade.getAccountTransactions({
-        limit: 20,
-        offset: 0,
+    getAccountTransactionHistory({commit, state, getters}) {
+      return Trade.getAccountTransactionHistory({
+        limit: state.limit,
+        offset: state.accountTransactionHistory.page,
+        status: 'all',
+        baseCurrency: getters.baseCurrency,
+        currency: getters.quoteCurrency,
       }
     ).then((res) => {
         console.log('getAccountTransactions ', res);
-        // commit('setAccountTradeHistory', res.data.result.orders);
+        commit('setAccountTransactionHistory', res.data.result);
       }).catch((res) => {
         serverNotification(res);
       });
