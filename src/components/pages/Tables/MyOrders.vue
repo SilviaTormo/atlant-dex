@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     ...mapState('trade', {
-      accountTradeHistory: 'accountTradeHistory',
+      accountTradeHistory: (state) => state.accountTradeHistory.items,
     }),
     ...mapActions('trade', {
       getAccountTradeHistory: 'getAccountTradeHistory',

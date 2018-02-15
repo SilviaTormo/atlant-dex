@@ -16,14 +16,15 @@ TablePage(title="Transaction history", :data="data")
             Checkbox.tHistory__checkbox(:key="item.id" v-model="item.checked")
           td {{item.id}}
           td.tHistory__date {{item.date}}
-          td.tHistory__amount(:class="'tHistory__amount--' + (item.amount >= 0 ? 'positive' : 'negative')") {{item.amount}} USD
+          td.tHistory__amount(:class="'tHistory__amount--' + (item.type == 'in' ? 'positive' : 'negative')") {{item.amount}} {{item.currency}}
           td.tHistory__description
             Icon(id='icon-qr', :class="{'tHistory__icon--visible': item.crypto}").tHistory__icon
             | {{item.description}}
-          td.tHistory__status(:class="'tHistory__status--' + item.status.toLowerCase()") {{item.status}}
+          td.tHistory__status(:class="'tHistory__status--' + status[item.status].toLowerCase()") {{status[item.status]}}
 </template>
 
 <script>
+import {mapState, mapActions} from 'vuex';
 import Checkbox from 'components/Checkbox';
 import Icon from '../../Icon';
 import TablePage from './TablePage';
@@ -31,38 +32,28 @@ import TablePage from './TablePage';
 export default {
   data() {
     return {
-      data: [],
+      status: [
+        'Pending',
+        'Processing',
+        'Completed',
+        'Cancelled',
+        'Declined',
+        'Authorizing',
+        'Wallet',
+      ],
     };
   },
+  computed: {
+    ...mapState('trade', {
+      total: (state) => state.accountTransactionHistory.total,
+      data: (state) => state.accountTransactionHistory.items,
+    }),
+    ...mapActions('trade', {
+      getAccountTransactionHistory: 'getAccountTransactionHistory',
+    }),
+  },
   created() {
-    // this.data = [
-    //   {
-    //     id: 484,
-    //     date: '01.08.2017 21:15',
-    //     amount: -15.00,
-    //     description: 'Transfer to belpoker',
-    //     status: 'Completed',
-    //     checked: false,
-    //   },
-    //   {
-    //     id: 485,
-    //     date: '01.08.2017 21:14',
-    //     amount: 562.00,
-    //     description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
-    //     crypto: true,
-    //     status: 'Pending',
-    //     checked: false,
-    //   },
-    //   {
-    //     id: 486,
-    //     date: '01.08.2017 21:14',
-    //     amount: -5.00,
-    //     crypto: true,
-    //     description: '0xA457D7b0b1d8AC284C0cEE02aE7dFFC38A33aCF8',
-    //     status: 'Error',
-    //     checked: false,
-    //   },
-    // ];
+    this.getAccountTransactionHistory;
   },
   components: {
     TablePage,
@@ -88,9 +79,15 @@ export default {
   &__amount {
     &--positive {
       color: #7ed321;
+      &:before {
+        content: "+ ",
+      }
     }
     &--negative {
       color: #f33a3a;
+      &:before {
+        content: "- ",
+      }
     }
   }
   &__icon {
