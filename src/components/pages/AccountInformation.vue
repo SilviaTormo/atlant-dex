@@ -1,32 +1,50 @@
 <template lang="pug">
-Page(title="Account", title2="account information", :sidebar="true")
+Page(title="Account information", title2="", :sidebar="true")
   .accountInfo
-    Icon.accountInfo__iconMain(id="account")
-    .accountInfo__main
-      .accountInfo__item
-        .accountInfo__param Account ID:
-        .accountInfo__value.accountInfo__value--fullWidth {{id}} #[span.accountInfo__registration Registration date: {{regdate}}]
-      .accountInfo__item
-        .accountInfo__param Full name:
-        .accountInfo__value.accountInfo__value--verifiable {{name.value}} #[Icon.accountInfo__icon(v-if="name.verified" id="verified")]
-      .accountInfo__item
-        .accountInfo__param Verification status:
-        .accountInfo__value.accountInfo__value--verifiable
-          Icon.accountInfo__star(id="star" v-for="(index) in 5", :class="{'accountInfo__star--verified' : index <= rating }", :key="index")
-          .accountInfo__rating {{rating}}/5
-          .accountInfo__action Finish process
-      .accountInfo__item
-        .accountInfo__param Email:
-        .accountInfo__value.accountInfo__value--verifiable {{email.value}} #[Icon.accountInfo__icon(v-if="email.verified" id="verified")]
-          .accountInfo__action Change
-      .accountInfo__item
-        .accountInfo__param Phone number:
-        .accountInfo__value.accountInfo__value--verifiable {{phone.value}} #[Icon.accountInfo__icon(v-if="phone.verified" id="verified")]
-          .accountInfo__action Change
+    .accountInfo__title General information
+    .accountInfo__content
+      Icon.accountInfo__iconMain(id="account")
+      .accountInfo__main
+        .accountInfo__item
+          .accountInfo__param Account ID:
+          .accountInfo__value.accountInfo__value--fullWidth
+            .accountInfo__value.accountInfo__value--half {{id}}
+            span.accountInfo__registration Registration date: {{regdate}}
+        .accountInfo__item
+          .accountInfo__param Full name:
+          .accountInfo__value.accountInfo__value--verifiable {{name.value}} #[Icon.accountInfo__icon(v-if="name.verified" id="verified")]
+        .accountInfo__item
+          .accountInfo__param Verification status:
+          .accountInfo__value.accountInfo__value--verifiable
+            Icon.accountInfo__star(id="star" v-for="(index) in 5", :class="{'accountInfo__star--verified' : index <= rating }", :key="index")
+            .accountInfo__rating {{rating}}/5
+            .accountInfo__action Finish process
+        .accountInfo__item
+          .accountInfo__param Email:
+          .accountInfo__value.accountInfo__value--verifiable {{email.value}} #[Icon.accountInfo__icon(v-if="email.verified" id="verified")]
+            .accountInfo__action Change
+        .accountInfo__item
+          .accountInfo__param Phone number:
+          .accountInfo__value.accountInfo__value--verifiable {{phone.value}} #[Icon.accountInfo__icon(v-if="phone.verified" id="verified")]
+            .accountInfo__action Change
+        .accountInfo__title Other
+        .accountInfo__other
+          .accountInfo__item.accountInfo__item--other
+            .accountInfo__param I would like to receive:
+            Checkbox.accountInfo__checkbox(v-model="subscribe.newsletter") #[.accountInfo__text Email newsletter]
+            Checkbox.accountInfo__checkbox(v-model="subscribe.email") #[.accountInfo__text Email notification]
+            Checkbox.accountInfo__checkbox(v-model="subscribe.sms") #[.accountInfo__text SMS notification]
+          .accountInfo__item.accountInfo__item--other
+            .accountInfo__param Preferred currency:
+            Dropdown.accountInfo__value.accountInfo__dropdown(:options="currencies" v-model="currency")
+        BButton.accountInfo__button(color="malachite" rounded) Save
 </template>
 
 <script>
 import Icon from 'components/Icon';
+import Checkbox from 'components/Checkbox';
+import BButton from 'components/BButton';
+import Dropdown from 'components/Dropdown';
 import Page from './Page';
 
 export default {
@@ -46,12 +64,22 @@ export default {
         value: '+7 965 296 36 36',
         verified: true,
       },
+      subscribe: {
+        newsletter: false,
+        email: false,
+        sms: false,
+      },
       rating: 3,
+      currency: 'USD',
+      currencies: ['USD', 'EUR'],
     };
   },
   components: {
     Page,
     Icon,
+    Checkbox,
+    BButton,
+    Dropdown,
   },
 };
 </script>
@@ -61,8 +89,17 @@ export default {
 @import "~sass/bootstrap/media";
 
 .accountInfo {
-  display: flex;
-  max-width: 550px;
+  max-width: 600px;
+  &__title {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 25px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  &__content {
+    display: flex;
+  }
   &__main {
     width: 100%;
   }
@@ -70,6 +107,9 @@ export default {
     font-size: 14px;
     line-height: 19px;
     margin-bottom: 43px;
+    &--other {
+      width: 50%;
+    }
   }
   &__param {
     font-weight: 700;
@@ -84,7 +124,9 @@ export default {
     &--fullWidth {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+    }
+    &--half{
+      width: 50%;
     }
   }
   &__registration {
@@ -121,6 +163,26 @@ export default {
   &__rating {
     margin-left: 5px;
   }
+  &__checkbox {
+    margin-top: 20px;
+  }
+  &__text {
+    margin-left: 15px;
+  }
+  &__other {
+    display: flex;
+    align-items: flex-start;
+  }
+  &__button {
+    padding: 8px 44px;
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-top: 20px;
+  }
+  &__dropdown {
+    width: 50px;
+  }
 }
 
 @include media-breakpoint-down(md) {
@@ -136,6 +198,14 @@ export default {
     }
     &__registration {
       margin-top: 42px;
+    }
+    &__item {
+      &--other {
+        width: 100%;
+      }
+    }
+    &__other {
+      flex-direction: column;
     }
   }
 }
