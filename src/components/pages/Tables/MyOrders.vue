@@ -97,7 +97,6 @@ export default {
       this.getAccountTradeHistory;
     },
     dataType() {
-      console.log(this.dataType);
       this.getAccountTradeHistory;
     },
   },

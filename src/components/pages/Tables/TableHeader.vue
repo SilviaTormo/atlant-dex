@@ -31,6 +31,15 @@ export default {
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
+    typeOfNewStatus() {
+      switch (this.sortTypeForMyOrders) {
+        case 'Accepted': return 0;
+        case 'Partially filled': return 1;
+        case 'Filled': return 2;
+        case 'Cancelled': return 3;
+        default: return 'all';
+      };
+    },
   },
   methods: {
     ...mapMutations('page', {
@@ -50,15 +59,7 @@ export default {
   },
   watch: {
     sortTypeForMyOrders() {
-      this.setStatusForTradeHistory(() => {
-        switch (this.sortTypeForMyOrders) {
-          case 'All Orders': return 'all';
-          case 'Accepted': return 0;
-          case 'Partially filled': return 1;
-          case 'Filled': return 2;
-          case 'Cancelled': return 3;
-        };
-      });
+      this.setStatusForTradeHistory(this.typeOfNewStatus);
     },
   },
   props: {
