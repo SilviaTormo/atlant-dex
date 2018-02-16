@@ -5,6 +5,7 @@
     .tablePage__content
       slot
       EmptyPlaceholder(v-if="data.length == 0")
+      Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
       .tablePage__panel(:class="{'tablePage__panel--active': isCheckedArray, 'tablePage__panelScrollbarOpened' : showSidebar}")
         .tablePage__panelActions.panel__checkbox
           Checkbox.tHistory__checkbox(:value="isAllChecked" @change="toggleCheckboxes")
@@ -17,10 +18,16 @@
 <script>
 import {mapState} from 'vuex';
 import Checkbox from 'components/Checkbox';
+import Icon from '../../Icon';
+import Pagination from '../Pagination';
 import TableHeader from './TableHeader';
 import EmptyPlaceholder from './EmptyPlaceholder';
 
 export default {
+  data() {
+    return {
+    };
+  },
   computed: {
     ...mapState('misc', {
       showSidebar: 'showSidebar',
@@ -63,11 +70,25 @@ export default {
       type: Array,
       required: true,
     },
+    page: {
+      type: [Number, String],
+      required: false,
+    },
+    pageCount: {
+      type: [Number, String],
+      required: false,
+    },
+    changeActivePage: {
+      type: Function,
+      required: false,
+    },
   },
   components: {
     TableHeader,
     EmptyPlaceholder,
     Checkbox,
+    Icon,
+    Pagination,
   },
 };
 </script>
@@ -134,6 +155,52 @@ export default {
     &__content {
       padding: 10px;
     }
+  }
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 46px 0;
+
+  &__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__number {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0 8px;
+    cursor: pointer;
+    &-active {
+      color: #ffc600;
+      font-weight: 700;
+      cursor: default;
+    }
+  }
+
+  &__arrow {
+    height: 8px;
+    fill: #ffffff;
+    opacity: 0.5;
+    margin: 0 18.5px;
+    &-active {
+      opacity: 1;
+      cursor: pointer;
+    }
+    &-first {
+      transform: rotate(180deg);
+    }
+    &-before {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__space {
+    margin: 0 3px;
+    cursor: default;
   }
 }
 </style>

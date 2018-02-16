@@ -31,14 +31,16 @@ export default {
       change: 0,
     },
     accountTradeHistory: {
-      total: '',
+      total: 0,
       items: [],
-      page: 0,
+      offset: 0,
+      status: 'all',
     },
     accountTransactionHistory: {
-      total: '',
+      total: 0,
       items: [],
-      page: 0,
+      offset: 0,
+      status: 'all',
     },
     tradeInfo: {
       availableFunds: 0,
@@ -156,12 +158,21 @@ export default {
       state.orders = list.data.result.orders;
     },
     setAccountTradeHistory(state, list) {
-      state.accountTradeHistory.total = list.count;
+      state.accountTradeHistory.total = list.total;
       state.accountTradeHistory.items = list.orders;
     },
+    setOffsetForTradeHistory(state, num) {
+      state.accountTradeHistory.offset = state.limit * (num - 1);
+    },
+    setStatusForTradeHistory(state, status) {
+      state.accountTradeHistory.status = status;
+    },
     setAccountTransactionHistory(state, list) {
-      state.accountTransactionHistory.total = list.total;
+      state.accountTransactionHistory.total = list.count;
       state.accountTransactionHistory.items = list.items;
+    },
+    setOffsetForTransactionHistory(state, num) {
+      state.accountTransactionHistory.offset = state.limit * (num - 1);
     },
     addActiveOrder(state, array) {
       state.tradeInfo.orders.push(array);
@@ -211,9 +222,10 @@ export default {
     getAccountTradeHistory({commit, state, getters}) {
       return Trade.getAccountTradeHistory({
         limit: state.limit,
-        offset: state.accountTradeHistory.page,
+        offset: state.accountTradeHistory.offset,
         currency: getters.quoteCurrency,
         baseCurrency: getters.baseCurrency,
+        status: state.accountTradeHistory.status,
       }
     ).then((res) => {
         commit('setAccountTradeHistory', res.data.result);
@@ -224,13 +236,12 @@ export default {
     getAccountTransactionHistory({commit, state, getters}) {
       return Trade.getAccountTransactionHistory({
         limit: state.limit,
-        offset: state.accountTransactionHistory.page,
-        status: 'all',
+        offset: state.accountTransactionHistory.offset,
+        status: state.accountTransactionHistory.status,
         baseCurrency: getters.baseCurrency,
         currency: getters.quoteCurrency,
       }
     ).then((res) => {
-        console.log('getAccountTransactions ', res);
         commit('setAccountTransactionHistory', res.data.result);
       }).catch((res) => {
         serverNotification(res);
