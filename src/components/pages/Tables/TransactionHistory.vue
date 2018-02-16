@@ -1,5 +1,11 @@
 <template lang="pug">
-TablePage(title="Transaction history", :data="data")
+TablePage(
+  title="Transaction history",
+  :data="data",
+  :pageCount='setPagesCount',
+  :page="setPageNum",
+  :changeActivePage="setOffsetForTransactionHistory"
+)
   .tHistory.table
     table.table__body
       thead
@@ -24,7 +30,7 @@ TablePage(title="Transaction history", :data="data")
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex';
+import {mapState, mapActions, mapMutations} from 'vuex';
 import Checkbox from 'components/Checkbox';
 import Icon from '../../Icon';
 import TablePage from './TablePage';
@@ -47,10 +53,30 @@ export default {
     ...mapState('trade', {
       total: (state) => state.accountTransactionHistory.total,
       data: (state) => state.accountTransactionHistory.items,
+      offset: (state) => state.accountTransactionHistory.offset,
+      itemsOnPage: 'limit',
     }),
     ...mapActions('trade', {
       getAccountTransactionHistory: 'getAccountTransactionHistory',
     }),
+    setPagesCount() {
+      return Math.ceil(this.total / this.itemsOnPage);
+    },
+    setPageNum() {
+      return Math.ceil((this.offset) / this.itemsOnPage) + 1;
+    },
+  }, methods: {
+    ...mapMutations('trade', {
+      setOffsetForTransactionHistory: 'setOffsetForTransactionHistory',
+    }),
+  },
+  watch: {
+    setPageNum() {
+      this.getAccountTransactionHistory;
+    },
+    setPagesCount() {
+      this.getAccountTransactionHistory;
+    },
   },
   created() {
     this.getAccountTransactionHistory;

@@ -1,5 +1,11 @@
 <template lang="pug">
-TablePage(title="My orders", :data="accountTradeHistory")
+TablePage(
+  title="My orders",
+  :data="data",
+  :pageCount='setPagesCount',
+  :page="setPageNum",
+  :changeActivePage="setOffsetForTradeHistory"
+)
   .myOrders.table
     table.table__body
       thead
@@ -15,7 +21,7 @@ TablePage(title="My orders", :data="accountTradeHistory")
           th Price
           th Total
       tbody
-        tr(v-for="(item, index) in accountTradeHistory")
+        tr(v-for="(item, index) in data")
           td.myOrders__checkboxContainer
             Checkbox.myOrders__checkbox(:key="item.id" v-model="item.checked")
           td {{item.id}}
@@ -30,7 +36,7 @@ TablePage(title="My orders", :data="accountTradeHistory")
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex';
+import {mapState, mapActions, mapMutations} from 'vuex';
 import Checkbox from 'components/Checkbox';
 import {ticksToMilliseconds} from 'services/misc';
 import Icon from '../../Icon';
@@ -53,13 +59,25 @@ export default {
   },
   computed: {
     ...mapState('trade', {
-      accountTradeHistory: (state) => state.accountTradeHistory.items,
+      data: (state) => state.accountTradeHistory.items,
+      allDataLength: (state) => state.accountTradeHistory.total,
+      offset: (state) => state.accountTradeHistory.offset,
+      itemsOnPage: 'limit',
     }),
     ...mapActions('trade', {
       getAccountTradeHistory: 'getAccountTradeHistory',
     }),
+    setPagesCount() {
+      return Math.ceil(this.allDataLength / this.itemsOnPage);
+    },
+    setPageNum() {
+      return Math.ceil((this.offset) / this.itemsOnPage) + 1;
+    },
   },
   methods: {
+    ...mapMutations('trade', {
+      setOffsetForTradeHistory: 'setOffsetForTradeHistory',
+    }),
     setFixNumber(num, fixedTo = 4) {
       return num.toFixed(fixedTo);
     },
@@ -68,6 +86,14 @@ export default {
     },
     fixCurrencyPair(pair) {
       return pair.replace('_', '/');
+    },
+  },
+  watch: {
+    setPageNum() {
+      this.getAccountTradeHistory;
+    },
+    setPagesCount() {
+      this.getAccountTradeHistory;
     },
   },
   created() {
