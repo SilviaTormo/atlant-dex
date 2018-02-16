@@ -62,6 +62,7 @@ export default {
       data: (state) => state.accountTradeHistory.items,
       allDataLength: (state) => state.accountTradeHistory.total,
       offset: (state) => state.accountTradeHistory.offset,
+      dataType: (state) => state.accountTradeHistory.status,
       itemsOnPage: 'limit',
     }),
     ...mapActions('trade', {
@@ -93,6 +94,10 @@ export default {
       this.getAccountTradeHistory;
     },
     setPagesCount() {
+      this.getAccountTradeHistory;
+    },
+    dataType() {
+      console.log(this.dataType);
       this.getAccountTradeHistory;
     },
   },

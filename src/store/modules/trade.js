@@ -34,11 +34,13 @@ export default {
       total: 0,
       items: [],
       offset: 0,
+      status: 'all',
     },
     accountTransactionHistory: {
       total: 0,
       items: [],
       offset: 0,
+      status: 'all',
     },
     tradeInfo: {
       availableFunds: 0,
@@ -162,6 +164,9 @@ export default {
     setOffsetForTradeHistory(state, num) {
       state.accountTradeHistory.offset = state.limit * (num - 1);
     },
+    setStatusForTradeHistory(state, status) {
+      state.accountTradeHistory.status = status;
+    },
     setAccountTransactionHistory(state, list) {
       state.accountTransactionHistory.total = list.count;
       state.accountTransactionHistory.items = list.items;
@@ -220,6 +225,7 @@ export default {
         offset: state.accountTradeHistory.offset,
         currency: getters.quoteCurrency,
         baseCurrency: getters.baseCurrency,
+        status: state.accountTradeHistory.status,
       }
     ).then((res) => {
         commit('setAccountTradeHistory', res.data.result);
@@ -231,7 +237,7 @@ export default {
       return Trade.getAccountTransactionHistory({
         limit: state.limit,
         offset: state.accountTransactionHistory.offset,
-        status: 'all',
+        status: state.accountTransactionHistory.status,
         baseCurrency: getters.baseCurrency,
         currency: getters.quoteCurrency,
       }
