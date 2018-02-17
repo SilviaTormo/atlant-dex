@@ -142,7 +142,7 @@ export default {
       if (state.chart.lastFlag == true) {
         state.chart.data.candles.push([open, high, low, close, volume]);
       } else {
-        if (!data[5]) {
+        if (!data[5] && state.chart.data.candles) {
           let oldArray = state.chart.data.candles;
           oldArray.splice(oldArray.length-1, 1);
           state.chart.data.candles = [
