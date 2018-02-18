@@ -4,16 +4,15 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
     .securitySettings__title Main
     .securitySettings__item
       .securitySettings__param Current Password:
-      .securitySettings__value.securitySettings__value--password.securitySettings__value--verifiable {{password}}
-        .securitySettings__action Change
-    .securitySettings__row
-      .securitySettings__item.securitySettings__item--row
+      .securitySettings__value.securitySettings__value--password.securitySettings__value--row {{password}} #[.securitySettings__action Change]
+    .securitySettings__desktopRow
+      .securitySettings__item.securitySettings__item--column
         .securitySettings__param Current Email:
-        .securitySettings__value.securitySettings__value--verifiable {{email.value}} #[Icon.securitySettings__icon(v-if="email.verified" id="verified")]
+        .securitySettings__value.securitySettings__value--row {{email.value}} #[Icon.securitySettings__icon(v-if="email.verified" id="verified")]
           .securitySettings__action Change
-      .securitySettings__item.securitySettings__item--row
+      .securitySettings__item.securitySettings__item--column
         .securitySettings__param Additional Email:
-        .securitySettings__value.securitySettings__value--verifiable {{additionalEmail.value}} #[Icon.securitySettings__icon(v-if="email.verified" id="verified")]
+        .securitySettings__value.securitySettings__value--row {{additionalEmail.value}} #[Icon.securitySettings__icon(v-if="email.verified" id="verified")]
           .securitySettings__action Change
     .securitySettings__title 2 factor authentication
     .securitySettings__tfa
@@ -22,30 +21,35 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
       .securitySettings__tfaDisable(:class="{'securitySettings__tfaDisable--disabled' : !tfaEnabled}" @click="tfaEnabled = false; tfaStep = 0;") {{tfaEnabled ? "Disable" : "Disabled"}}
     .securitySettings__item
       .securitySettings__param I would like to use:
-      .securitySettings__value.securitySettings__value--row
+      .securitySettings__value.securitySettings__value--row.securitySettings__desktopRow
         Radio.securitySettings__tfaOption(name="tFAMethod", value="telegram", v-model="tfaMethod", :checked="tfaMethod=='telegram'") #[.securitySettings__tfaOptionName Telegram]
         Radio.securitySettings__tfaOption(name="tFAMethod", value="sms", v-model="tfaMethod", :checked="tfaMethod=='sms'") #[.securitySettings__tfaOptionName SMS]
         Radio.securitySettings__tfaOption(name="tFAMethod", value="google", v-model="tfaMethod", :checked="tfaMethod=='google'") #[.securitySettings__tfaOptionName Google Auth]
     .securitySettings__item(v-if="tfaStep==1 && requiresNumber")
-      .securitySettings__value.securitySettings__value--row My phone number
-        Dropdown.securitySettings__dropdown(:options="countries" v-model="country")
-        input.securitySettings__input(placeholder="965 296 36 36" v-model="number")
-        .securitySettings__action(@click="tfaStep = 2") Save
+      .securitySettings__desktopRow
+        .securitySettings__value My phone number
+        .securitySettings__value.securitySettings__value--row
+          Dropdown.securitySettings__dropdown(:options="countries" v-model="country")
+          input.securitySettings__input(placeholder="965 296 36 36" v-model="number")
+          .securitySettings__action(@click="tfaStep = 2") Save
     .securitySettings__item(v-if="tfaStep==2 && requiresNumber")
       .securitySettings__value Confirmation code has been sent to enable 2FA
-      .securitySettings__value.securitySettings__value--row #[input.securitySettings__input(placeholder="965 296 36 36" v-model="number")] #[.securitySettings__action(@click="tfaStep=0") Confirm]
+      .securitySettings__value.securitySettings__value--row #[input.securitySettings__input(placeholder="1234" v-model="code")] #[.securitySettings__action(@click="tfaStep=0") Confirm]
       .securitySettings__value.securitySettings__value--row #[Icon.securitySettings__resendIcon(id="resend")] #[.securitySettings__action Resend] confirmation code
     .securitySettings__item(v-if="tfaStep==1 && tfaMethod == 'google'")
-      .securitySettings__value.securitySettings__value--row You don't have an authentication key #[.securitySettings__action(@click="tfaStep=2") Create key]
+      .securitySettings__value.securitySettings__desktopRow You don't have an authentication key #[.securitySettings__action.securitySettings__action--mobileLeft(@click="tfaStep=2") Create key]
       .securitySettings__param.securitySettings__param--margin ***
       .securitySettings__param Please install one of the following apps to generate key:
-      .securitySettings__value.securitySettings__value--row.securitySettings__value--os
-        Icon.securitySettings__osIcon(id="android")
-        .securitySettings__action Android
-        Icon.securitySettings__osIcon(id="ios")
-        .securitySettings__action iOS
-        Icon.securitySettings__osIcon(id="windows")
-        .securitySettings__action Windows phone
+      .securitySettings__item.securitySettings__desktopRow
+        .securitySettings__value.securitySettings__value--row.securitySettings__value--os
+          Icon.securitySettings__osIcon(id="android")
+          .securitySettings__action Android
+        .securitySettings__value.securitySettings__value--row.securitySettings__value--os
+          Icon.securitySettings__osIcon(id="ios")
+          .securitySettings__action iOS
+        .securitySettings__value.securitySettings__value--row.securitySettings__value--os
+          Icon.securitySettings__osIcon(id="windows")
+          .securitySettings__action Windows phone
       .securitySettings__instruction After installing the app add the key by scanning the QR code or entering it manually.
     .securitySettings__item(v-if="tfaStep==2 && tfaMethod == 'google'")
       .securitySettings__value Now scan QR-code below
@@ -53,7 +57,10 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
       .securitySettings__value And enter the one-time password from Google Auth
       .securitySettings__value.securitySettings__value--row #[input.securitySettings__input(v-model="number")] #[.securitySettings__action(@click="tfaStep=0") Confirm]
     .securitySettings__title Other
-    .securitySettings__item.securitySettings__sessions Terminate active sessions #[Icon.securitySettings__terminateIcon(id="terminate")] #[.securitySettings__action Terminate]
+    .securitySettings__item
+      .securitySettings__desktopRow
+        .securitySettings__row Terminate active sessions #[Icon.securitySettings__terminateIcon(id="terminate")]
+        .securitySettings__action.securitySettings__action--mobileLeft Terminate
     BButton.accountInfo__button(color="malachite" rounded) Save
 </template>
 
@@ -83,6 +90,7 @@ export default {
       country: 'RUS',
       countries: ['RUS', 'USA', 'GER'],
       tfaStep: 0,
+      code: '',
     };
   },
   computed: {
@@ -102,6 +110,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~sass/bootstrap/media";
+
 .securitySettings {
   max-width: 600px;
   &__title {
@@ -111,6 +121,10 @@ export default {
     text-transform: uppercase;
     margin-bottom: 40px;
   }
+  &__desktopRow {
+    display: flex;
+    align-items: center;
+  }
   &__row {
     display: flex;
   }
@@ -118,7 +132,7 @@ export default {
     font-size: 14px;
     line-height: 19px;
     margin-bottom: 43px;
-    &--row {
+    &--column {
       width: 50%;
     }
   }
@@ -134,16 +148,14 @@ export default {
     &--password {
       letter-spacing: 4px;
     }
-    &--verifiable {
-      display: flex;
-      align-items: center;
-    }
     &--row {
       display: flex;
       align-items: center;
     }
     &--os {
-      margin: 27px 0 39px;
+      &:not(:first-of-type) {
+        margin-left: 45px;
+      }
     }
   }
   &__action {
@@ -178,6 +190,7 @@ export default {
   }
   &__tfaMethod {
     margin-left: 5px;
+    font-weight: 700;
     color: #044161;
     text-decoration: none;
   }
@@ -208,9 +221,6 @@ export default {
     $size: 24px;
     height: $size;
     width: $size;
-    &:not(:first-of-type) {
-      margin-left: 45px;
-    }
   }
   &__instruction {
     font-size: 12px;
@@ -222,7 +232,7 @@ export default {
     margin-right: 10px;
   }
   &__input {
-    width: 130px;
+    width: 120px;
     padding: 7px;
     border-color: #044568;
     background-color: transparent;
@@ -231,16 +241,9 @@ export default {
       color: #044568;
     }
   }
-  &__resend {
-    display: flex;
-    align-items: center;
-  }
   &__resendIcon {
     height: 14px;
     width: 16px;
-  }
-  &__sessions {
-    display: flex;
   }
   &__terminateIcon {
     height: 19px;
@@ -253,6 +256,41 @@ export default {
     font-weight: 900;
     text-transform: uppercase;
     margin-top: 20px;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .securitySettings {
+    &__desktopRow {
+      display: block;
+    }
+    &__item {
+      &--column {
+        width: 100%;
+      }
+    }
+    &__value {
+      &--os {
+        &:not(:first-of-type) {
+          margin-left: 0;
+        }
+      }
+    }
+    &__tfaOption {
+      &:not(:first-of-type){
+        margin-left: 0;
+        margin-top: 20px;
+      }
+    }
+    &__action {
+      &--mobileLeft {
+        margin-left: 0;
+        margin-top: 17px;
+      }
+    }
+    &__dropdown {
+      margin-left: 0;
+    }
   }
 }
 </style>
