@@ -1,5 +1,5 @@
 import Noty from 'noty';
-import {serverCodes} from 'config';
+import {serverCodes} from './serverCodes';
 
 export const notification = ({title = '', text, type = 'info'}) => new Noty({
   text: `<b>${title}</b> ${text}`,
