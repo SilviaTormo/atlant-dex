@@ -36,7 +36,7 @@ Page(title="Account information", title2="", :sidebar="true")
             Checkbox.accountInfo__checkbox(v-model="subscribe.sms") #[.accountInfo__text SMS notification]
           .accountInfo__item.accountInfo__item--other
             .accountInfo__param Preferred currency:
-            Dropdown.accountInfo__value.accountInfo__dropdown(:options="currencies" v-model="currency")
+            FlagSwitch.accountInfo__value.accountInfo__dropdown(type="currency" v-model="currency")
         BButton.accountInfo__button(color="malachite" rounded) Save
 </template>
 
@@ -44,7 +44,7 @@ Page(title="Account information", title2="", :sidebar="true")
 import Icon from 'components/Icon';
 import Checkbox from 'components/Checkbox';
 import BButton from 'components/BButton';
-import Dropdown from 'components/Dropdown';
+import FlagSwitch from 'components/FlagSwitch';
 import Page from './Page';
 
 export default {
@@ -70,8 +70,7 @@ export default {
         sms: false,
       },
       rating: 3,
-      currency: 'USD',
-      currencies: ['USD', 'EUR'],
+      currency: 'us',
     };
   },
   components: {
@@ -79,7 +78,7 @@ export default {
     Icon,
     Checkbox,
     BButton,
-    Dropdown,
+    FlagSwitch,
   },
 };
 </script>
@@ -181,7 +180,7 @@ export default {
     margin-top: 20px;
   }
   &__dropdown {
-    width: 50px;
+    width: 75px;
   }
 }
 

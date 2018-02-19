@@ -25,13 +25,12 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
         Radio.securitySettings__tfaOption(name="tFAMethod", value="telegram", v-model="tfaMethod", :checked="tfaMethod=='telegram'") #[.securitySettings__tfaOptionName Telegram]
         Radio.securitySettings__tfaOption(name="tFAMethod", value="sms", v-model="tfaMethod", :checked="tfaMethod=='sms'") #[.securitySettings__tfaOptionName SMS]
         Radio.securitySettings__tfaOption(name="tFAMethod", value="google", v-model="tfaMethod", :checked="tfaMethod=='google'") #[.securitySettings__tfaOptionName Google Auth]
-    .securitySettings__item(v-if="tfaStep==1 && requiresNumber")
-      .securitySettings__desktopRow
-        .securitySettings__value My phone number
-        .securitySettings__value.securitySettings__value--row
-          Dropdown.securitySettings__dropdown(:options="countries" v-model="country")
-          input.securitySettings__input(placeholder="965 296 36 36" v-model="number")
-          .securitySettings__action(@click="tfaStep = 2") Save
+    .securitySettings__item.securitySettings__desktopRow(v-if="tfaStep==1 && requiresNumber")
+      .securitySettings__value My phone number
+      .securitySettings__value.securitySettings__value--row
+        FlagSwitch.securitySettings__dropdown(v-model="country")
+        input.securitySettings__input(placeholder="965 296 36 36" v-model="number")
+        .securitySettings__action(@click="tfaStep = 2") Save
     .securitySettings__item(v-if="tfaStep==2 && requiresNumber")
       .securitySettings__value Confirmation code has been sent to enable 2FA
       .securitySettings__value.securitySettings__value--row #[input.securitySettings__input(placeholder="1234" v-model="code")] #[.securitySettings__action(@click="tfaStep=0") Confirm]
@@ -57,10 +56,9 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
       .securitySettings__value And enter the one-time password from Google Auth
       .securitySettings__value.securitySettings__value--row #[input.securitySettings__input(v-model="number")] #[.securitySettings__action(@click="tfaStep=0") Confirm]
     .securitySettings__title Other
-    .securitySettings__item
-      .securitySettings__desktopRow
-        .securitySettings__row Terminate active sessions #[Icon.securitySettings__terminateIcon(id="terminate")]
-        .securitySettings__action.securitySettings__action--mobileLeft Terminate
+    .securitySettings__item.securitySettings__desktopRow
+      .securitySettings__row Terminate active sessions #[Icon.securitySettings__terminateIcon(id="terminate")]
+      .securitySettings__action.securitySettings__action--mobileLeft Terminate
     BButton.accountInfo__button(color="malachite" rounded) Save
 </template>
 
@@ -70,6 +68,7 @@ import BButton from 'components/BButton';
 import Dropdown from 'components/Dropdown';
 import Radio from 'components/Radio';
 import QR from 'components/QR';
+import FlagSwitch from 'components/FlagSwitch';
 import Page from './Page';
 
 export default {
@@ -87,8 +86,7 @@ export default {
       tfaEnabled: false,
       tfaMethod: 'telegram',
       number: '',
-      country: 'RUS',
-      countries: ['RUS', 'USA', 'GER'],
+      country: 'ru',
       tfaStep: 0,
       code: '',
     };
@@ -104,6 +102,7 @@ export default {
     BButton,
     Radio,
     Dropdown,
+    FlagSwitch,
     QR,
   },
 };
@@ -227,7 +226,7 @@ export default {
     line-height: 24px;
   }
   &__dropdown {
-    width: 50px;
+    width: 40px;
     margin-left: 28px;
     margin-right: 10px;
   }

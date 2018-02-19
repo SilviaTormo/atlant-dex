@@ -445,16 +445,6 @@ export const profileSections = [
     category: 'user info',
   },
   {
-    name: 'generalsettings',
-    label: 'General settings',
-    category: 'user info',
-  },
-  {
-    name: 'changePassword',
-    label: 'Password',
-    category: 'security',
-  },
-  {
     name: 'securitySettings',
     label: 'Security settings',
     category: 'security',
