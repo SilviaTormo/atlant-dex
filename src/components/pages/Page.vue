@@ -5,7 +5,6 @@
     .page__sidebar(v-if="sidebar")
       PageSidebar
     .page__content
-      .page__title {{title2}}
       slot
 </template>
 
@@ -16,11 +15,6 @@ import PageSidebar from './PageSidebar';
 export default {
   props: {
     title: {
-      type: String,
-      default: '',
-      required: false,
-    },
-    title2: {
       type: String,
       default: '',
       required: false,
@@ -52,13 +46,6 @@ export default {
     width: 100%;
     padding: 36px;
     border-top: 1px solid $color_tangaroa;
-  }
-  &__title {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 25px;
-    text-transform: uppercase;
-    margin-bottom: 41px;
   }
 }
 

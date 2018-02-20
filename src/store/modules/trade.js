@@ -30,7 +30,18 @@ export default {
       low: 0,
       change: 0,
     },
-    accountTradeHistory: [],
+    accountTradeHistory: {
+      total: 0,
+      items: [],
+      offset: 0,
+      status: 'all',
+    },
+    accountTransactionHistory: {
+      total: 0,
+      items: [],
+      offset: 0,
+      status: 'all',
+    },
     tradeInfo: {
       availableFunds: 0,
       blockedFunds: 0,
@@ -131,7 +142,7 @@ export default {
       if (state.chart.lastFlag == true) {
         state.chart.data.candles.push([open, high, low, close, volume]);
       } else {
-        if (!data[5]) {
+        if (!data[5] && state.chart.data.candles) {
           let oldArray = state.chart.data.candles;
           oldArray.splice(oldArray.length-1, 1);
           state.chart.data.candles = [
@@ -147,7 +158,21 @@ export default {
       state.orders = list.data.result.orders;
     },
     setAccountTradeHistory(state, list) {
-      state.accountTradeHistory = list;
+      state.accountTradeHistory.total = list.total;
+      state.accountTradeHistory.items = list.orders;
+    },
+    setOffsetForTradeHistory(state, num) {
+      state.accountTradeHistory.offset = state.limit * (num - 1);
+    },
+    setStatusForTradeHistory(state, status) {
+      state.accountTradeHistory.status = status;
+    },
+    setAccountTransactionHistory(state, list) {
+      state.accountTransactionHistory.total = list.count;
+      state.accountTransactionHistory.items = list.items;
+    },
+    setOffsetForTransactionHistory(state, num) {
+      state.accountTransactionHistory.offset = state.limit * (num - 1);
     },
     addActiveOrder(state, array) {
       state.tradeInfo.orders.push(array);
@@ -196,14 +221,30 @@ export default {
   actions: {
     getAccountTradeHistory({commit, state, getters}) {
       return Trade.getAccountTradeHistory({
-        limit: 20,
-        offset: 0,
+        limit: state.limit,
+        offset: state.accountTradeHistory.offset,
         currency: getters.quoteCurrency,
         baseCurrency: getters.baseCurrency,
+        status: state.accountTradeHistory.status,
       }
     ).then((res) => {
-        // console.log('getAccountTradeHistory ', res.data.result.orders);
-        commit('setAccountTradeHistory', res.data.result.orders);
+        commit('setAccountTradeHistory', res.data.result);
+      }).catch((res) => {
+        serverNotification(res);
+      });
+    },
+    getAccountTransactionHistory({commit, state, getters}) {
+      return Trade.getAccountTransactionHistory({
+        limit: state.limit,
+        offset: state.accountTransactionHistory.offset,
+        status: state.accountTransactionHistory.status,
+        baseCurrency: getters.baseCurrency,
+        currency: getters.quoteCurrency,
+      }
+    ).then((res) => {
+        commit('setAccountTransactionHistory', res.data.result);
+      }).catch((res) => {
+        serverNotification(res);
       });
     },
     getPlaceMarket({commit, state}, {amount, base_cur_amount, side}) {

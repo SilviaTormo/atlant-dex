@@ -114,16 +114,28 @@ export default {
       return this.rawCandles.map((item, i) => {
         const msec = ticksToMilliseconds(this.startTicks + (this.candleTicks * i));
         const date = new Date(msec).toISOString();
-        return DateTime.fromISO(date).toLocaleString({
-          hour: '2-digit',
-          minute: '2-digit',
-        });
+        console.log();
+        if (Boolean(this.candleSize == '1m' || this.candleSize == '5m')) {
+          return DateTime.fromISO(date).toLocaleString({hour: '2-digit', minute: '2-digit'});
+        } else {
+          return DateTime.fromISO(date).toLocaleString();
+        };
       });
     },
     volumeSeries() {
       return this.rawCandles.map((item) => {
         return item[4];
       });
+    },
+    startValueOfChart() {
+      console.log((100 * 100 / this.timeSeries.length).toFixed());
+      let result = (70 * 100 / this.timeSeries.length).toFixed();
+      return 100 - result;
+    },
+    setStartDataZoomOfChart() {
+      let howManyCandlesInTheScreen = 100;
+      let result = 100 - (howManyCandlesInTheScreen * 100 / this.timeSeries.length);
+      return result;
     },
   },
   methods: {
@@ -265,16 +277,16 @@ export default {
           {
             type: 'inside',
             xAxisIndex: [0, 1],
-            start: 85,
+            start: this.setStartDataZoomOfChart,
             end: 100,
-            throttle: 25,
+            throttle: false,
           },
           {
             type: 'inside',
             xAxisIndex: [0, 1],
-            start: 85,
+            start: this.setStartDataZoomOfChart,
             end: 100,
-            throttle: 25,
+            throttle: false,
           },
         ],
         animation: false,

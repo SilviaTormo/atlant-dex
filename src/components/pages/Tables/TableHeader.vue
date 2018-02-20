@@ -3,7 +3,7 @@
   BackToDashboard.tableHeader__backToDashboard
   .tableHeader__title(v-if="!isMobile" @click="getOpenPage('transactionHistory')", :class="(isThisPage('transactionHistory')) ? 'tableHeader__title--active' : ''") Transaction History
   .tableHeader__title(v-if="!isMobile" @click="getOpenPage('myOrders')", :class="(isThisPage('myOrders')) ? 'tableHeader__title--active' : ''") My Orders
-    Dropdown.tableHeader__dropdown(v-if="isThisPage('myOrders')", :options="sortTypes" v-model="sortType")
+    Dropdown.tableHeader__dropdown(v-if="isThisPage('myOrders')", :options="sortTypes" v-model="sortTypeForMyOrders")
 </template>
 
 <script>
@@ -14,7 +14,7 @@ import Dropdown from '../../Dropdown';
 export default {
   data() {
     return {
-      sortType: '',
+      sortTypeForMyOrders: '',
       sortTypes: [
         'All Orders',
         'Accepted',
@@ -31,10 +31,22 @@ export default {
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
+    typeOfNewStatus() {
+      switch (this.sortTypeForMyOrders) {
+        case 'Accepted': return 0;
+        case 'Partially filled': return 1;
+        case 'Filled': return 2;
+        case 'Cancelled': return 3;
+        default: return 'all';
+      };
+    },
   },
   methods: {
     ...mapMutations('page', {
       openPage: 'open',
+    }),
+    ...mapMutations('trade', {
+      setStatusForTradeHistory: 'setStatusForTradeHistory',
     }),
     getOpenPage(pageName) {
       this.openPage({
@@ -43,6 +55,11 @@ export default {
     },
     isThisPage(pageName) {
       return pageName == this.name;
+    },
+  },
+  watch: {
+    sortTypeForMyOrders() {
+      this.setStatusForTradeHistory(this.typeOfNewStatus);
     },
   },
   props: {
