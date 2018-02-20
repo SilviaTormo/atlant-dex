@@ -5,6 +5,7 @@ TablePage(
   :pageCount='setPagesCount',
   :page="setPageNum",
   :changeActivePage="setOffsetForTransactionHistory"
+  :checkedArray.sync="checkedArray",
 )
   .tHistory.table
     table.table__body
@@ -19,7 +20,7 @@ TablePage(
       tbody
         tr(v-for="(item, index) in data")
           td.tHistory__checkboxContainer
-            Checkbox.tHistory__checkbox(:key="item.id" v-model="item.checked")
+            Checkbox.tHistory__checkbox(:value="isChecked(item.id)", @change="setCheckedArray(item.id)", color="yellow")
           td {{item.id}}
           td.tHistory__date {{item.date}}
           td.tHistory__amount(:class="'tHistory__amount--' + (item.type == 'in' ? 'positive' : 'negative')") {{item.amount}} {{item.currency}}
@@ -38,6 +39,7 @@ import TablePage from './TablePage';
 export default {
   data() {
     return {
+      checkedArray: [],
       status: [
         'Pending',
         'Processing',
@@ -69,6 +71,12 @@ export default {
     ...mapMutations('trade', {
       setOffsetForTransactionHistory: 'setOffsetForTransactionHistory',
     }),
+    isChecked(id) {
+      return this.checkedArray.indexOf(id) > -1;
+    },
+    setCheckedArray(id) {
+      this.isChecked(id) ? this.checkedArray = this.checkedArray.filter((item) => item != id) : this.checkedArray.push(id);
+    },
   },
   watch: {
     setPageNum() {
@@ -91,7 +99,6 @@ export default {
 
 
 <style lang="scss" scoped>
-@import '~sass/bootstrap/media';
 
 .tHistory {
   &__header {

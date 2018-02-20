@@ -5,6 +5,7 @@ TablePage(
   :pageCount='setPagesCount',
   :page="setPageNum",
   :changeActivePage="setOffsetForTradeHistory"
+  :checkedArray.sync='checkedArray',
 )
   .myOrders.table
     table.table__body
@@ -23,7 +24,7 @@ TablePage(
       tbody
         tr(v-for="(item, index) in data")
           td.myOrders__checkboxContainer
-            Checkbox.myOrders__checkbox(:key="item.id" v-model="item.checked")
+            Checkbox(color="yellow", :value="isChecked(item.id)" @change="setCheckedArray(item.id)")
           td {{item.id}}
           td {{getDate(item.openDate)}} - {{getDate(item.closeDate)}}
           td {{status[item.status]}}
@@ -45,6 +46,7 @@ import TablePage from './TablePage';
 export default {
   data() {
     return {
+      checkedArray: [],
       status: [
         'Accepted',
         'Partially filled',
@@ -79,6 +81,12 @@ export default {
     ...mapMutations('trade', {
       setOffsetForTradeHistory: 'setOffsetForTradeHistory',
     }),
+    isChecked(id) {
+      return Boolean(this.checkedArray.indexOf(id) != -1);
+    },
+    setCheckedArray(id) {
+      this.isChecked(id) ? this.checkedArray = this.checkedArray.filter((item) => item != id) : this.checkedArray.push(id);
+    },
     setFixNumber(num, fixedTo = 4) {
       return num.toFixed(fixedTo);
     },
@@ -113,7 +121,6 @@ export default {
 
 
 <style lang="scss" scoped>
-@import '~sass/bootstrap/media';
 .myOrders {
   &__action {
     &--buy{
