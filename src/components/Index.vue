@@ -16,8 +16,6 @@
       TransactionHistory(v-if="isPageOpened('transactionHistory')")
       MyOrders(v-if="isPageOpened('myOrders')")
       Verification(v-if="isPageOpened('verification')")
-      GeneralSettings(v-if="isPageOpened('generalsettings')")
-      ChangePassword(v-if="isPageOpened('changePassword')")
       AccountInformation(v-if="isPageOpened('accountInformation')")
       SecuritySettings(v-if="isPageOpened('securitySettings')")
       SecurityLog(v-if="isPageOpened('securityLog')")
@@ -50,8 +48,6 @@ import PropertyMap from './PropertyMap';
 import TransactionHistory from './pages/Tables/TransactionHistory';
 import MyOrders from './pages/Tables/MyOrders';
 import Verification from './pages/Verification';
-import GeneralSettings from './pages/GeneralSettings';
-import ChangePassword from './pages/ChangePassword';
 import AccountInformation from './pages/AccountInformation';
 import SecuritySettings from './pages/SecuritySettings';
 import SecurityLog from './pages/SecurityLog';
@@ -274,8 +270,6 @@ export default {
     TransactionHistory,
     MyOrders,
     Verification,
-    GeneralSettings,
-    ChangePassword,
     AccountInformation,
     SecuritySettings,
     SecurityLog,

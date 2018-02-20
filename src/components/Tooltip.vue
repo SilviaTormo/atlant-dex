@@ -29,6 +29,7 @@ export default {
     position: absolute;
     // min-width: 256px;
     // padding: 20px 20px 13px 20px;
+    overflow: hidden;
     background-color: #fff;
     box-shadow: 0px 0px 15px 0px rgba(40, 75, 105, 0.15);
     &::after
