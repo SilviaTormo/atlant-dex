@@ -28,13 +28,11 @@
     .gridItem__tileContent.gridItem__tileContent--orders
       .gridItem__tileContent--ordersTop
         TileHeader.gridItem__tileHeader.gridItem__tileHeader--orders(title='Open orders')
-        .gridItem__containerWitchOverflow(v-scrollbar="")
-          Orders(:isActive="true")
+        Orders(:isActive="true")
       .gridItem__ordersSep
       .gridItem__tileContent--ordersBottom
         TileHeader.gridItem__tileHeader.gridItem__tileHeader--orders(title='Completed orders')
-        .gridItem__containerWitchOverflow(v-scrollbar="")
-          Orders
+        Orders
   Icon.gridItem__deleteTile(id="trash", @click="removeGridLayout(component)" v-show="isEdit")
 </template>
 

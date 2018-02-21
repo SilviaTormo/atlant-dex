@@ -1,33 +1,35 @@
 <template lang='pug'>
-table.orders
-  tbody.orders__body
-    tr.orders__row(v-for="order in (isActive ? getActiveOrders : getClosedOrders)")
-      td.orders__cell
-        .orders__typeWrapper
-          .orders__square(:class="'orders__square--' + (order[2] ? 'sell' : 'buy')")
-          .orders__type {{order[2] ? 'Sell' : 'Buy'}}
-      td.orders__cell {{type[order[8]]}}
-      td.orders__cell {{ order[5] }}
-      td.orders__cell {{ order[3] }}
-      td.orders__cell {{ order[4] }}
-      td.orders__cell {{status[order[7]]}}
-      td.orders__cell {{ setDate(order[10]) }}
-      td.orders__cell
-        Icon.orders__trash(id='trash' @click="isActive ? deleteOrder(order[0]) : ''" :class="'orders__trash--' + (isActive ? 'active' : 'disabled')")
-  tfoot.orders__header
-    tr
-      th.orders__title Side
-      th.orders__title Type
-      th.orders__title Price
-      th.orders__title Current
-      th.orders__title Initial
-      th.orders__title Status
-      th.orders__title Date
-      th
+.orders
+  .orders__container(v-scrollbar="")
+    table.orders__body
+      tr.orders__row(v-for="order in (isActive ? getActiveOrders : getClosedOrders)")
+        td.orders__cell.orders__cell--sell
+          .orders__typeWrapper
+            .orders__square(:class="'orders__square--' + (order[2] ? 'sell' : 'buy')")
+            .orders__type {{order[2] ? 'Sell' : 'Buy'}}
+        td.orders__cell.orders__cell--type {{type[order[8]]}}
+        td.orders__cell.orders__cell--number {{ order[5] }}
+        td.orders__cell.orders__cell--number {{ order[3] }}
+        td.orders__cell.orders__cell--number {{ order[4] }}
+        td.orders__cell.orders__cell--status {{status[order[7]]}}
+        td.orders__cell.orders__cell--date {{ setDate(order[10]) }}
+        td.orders__cell.orders__cell--trash
+          Icon.orders__trash(id='trash' @click="isActive ? deleteOrder(order[0]) : ''" :class="'orders__trash--' + (isActive ? 'active' : 'disabled')")
+  table.orders__body
+    tr.orders__title
+      td.orders__cell--sell Side
+      td.orders__cell--type Type
+      td.orders__cell--number Price
+      td.orders__cell--number Current
+      td.orders__cell--number Initial
+      td.orders__cell--status Status
+      td.orders__cell--date Date
+      td.orders__cell--trash
 </template>
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex';
+import {scrollbar} from 'directives';
 import Icon from '../Icon';
 
 export default {
@@ -73,6 +75,9 @@ export default {
       required: false,
     },
   },
+  directives: {
+    scrollbar,
+  },
   components: {
     Icon,
   },
@@ -81,11 +86,41 @@ export default {
 </script>
 
 <style lang='scss'>
+@import '~perfect-scrollbar/dist/css/perfect-scrollbar';
 @import "~variables";
 .orders {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  &__container {
+    position: relative;
+    display: flex;
+  }
+  &__body {
+    width: 100%;
+    padding-right: 15px;
+  }
   &__cell {
     padding-bottom: 4px;
+    &--sell {
+      width: 55px;
+    }
+    &--type {
+      width: 43px;
+    }
+    &--number {
+      width: 69px;
+    }
+    &--status {
+      width: 55px;
+    }
+    &--date {
+      width: 66px;
+    }
+    &--trash {
+      width: 12px;
+    }
   }
   &__title {
     text-align: left;
