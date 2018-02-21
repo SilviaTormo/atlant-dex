@@ -14,4 +14,4 @@ export const confirmPasswordRestore = (code) => api.post(`account/confirmPasswor
 export const finishPasswordRestore = ({newpassword, confirmedpassword, code}) => api.post(`account/finishPasswordReset`, {newpassword, confirmedpassword, code});
 
 export const requestPasswordChange = ({oldpassword, newpassword}) => api.put('account/changePassword', {oldpassword, newpassword});
-export const confirmPasswordChange = ({code, newpassword}) => api.put('account/changePassword', {code, newpassword});
+export const confirmPasswordChange = ({code, newpassword}) => api.put('account/finishPasswordChanging', {code, newpassword});

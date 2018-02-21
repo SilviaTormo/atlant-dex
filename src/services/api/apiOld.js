@@ -22,7 +22,7 @@ instance.interceptors.response.use((response) => {
 }, ({response}) => {
   const {status} = response;
   if (status === 401) {
-    store.dispatch('membership/dropUser');
+    // store.dispatch('membership/dropUser');
   }
   return Promise.reject(response);
 });

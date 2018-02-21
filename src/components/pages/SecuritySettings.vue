@@ -7,16 +7,16 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
       .securitySettings__value.securitySettings__value--password.securitySettings__value--row {{currentPassword}} #[.securitySettings__action(@click="password.step = 1") Change]
     .securitySettings__item(v-if="password.step == 1")
       .securitySettings__param Old password:
-      input.input.securitySettings__value.securitySettings__value--margins(v-model="password.old")
+      input.input.securitySettings__value.securitySettings__value--margins(v-model="password.old" type="password")
       .securitySettings__param New password:
-      input.input.securitySettings__value.securitySettings__value--margins(v-model="password.new")
+      input.input.securitySettings__value.securitySettings__value--margins(v-model="password.new" type="password")
       .securitySettings__param Repeat password:
       .securitySettings__value.securitySettings__desktopRow.securitySettings__value--margins
-        input.input(v-model="password.repeat")
-        .securitySettings__action.securitySettings__action--mobileLeft(@click="password.step = 2") Confirm
+        input.input(v-model="password.repeat" type="password")
+        .securitySettings__action.securitySettings__action--mobileLeft(@click="requestPasswordChange") Confirm
         .securitySettings__action.securitySettings__action--mobileLeft(@click="password.step = 0") Cancel
     .securitySettings__item(v-if="password.step == 2")
-      TFA(:onConfirm="doSmth")
+      TFA(:onConfirm="confirmPasswordChange")
     .securitySettings__desktopRow
       .securitySettings__item.securitySettings__item--column
         .securitySettings__param Current Email:
@@ -73,6 +73,7 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
 </template>
 
 <script>
+import * as Membership from 'services/api/membership';
 import Icon from 'components/Icon';
 import BButton from 'components/BButton';
 import Dropdown from 'components/Dropdown';
@@ -80,6 +81,7 @@ import Radio from 'components/Radio';
 import QR from 'components/QR';
 import FlagSwitch from 'components/FlagSwitch';
 import TFA from 'components/modals/TFA';
+import {serverNotification} from 'services/notification';
 import Page from './Page';
 
 export default {
@@ -113,8 +115,25 @@ export default {
     },
   },
   methods: {
-    doSmth() {
-      this.password.step = 0;
+    confirmPasswordChange(code) {
+      Membership.confirmPasswordChange({
+        code,
+        newpassword: this.password.new,
+      }).then(() => {
+        this.password.step = 0;
+      }).catch((err) => {
+        serverNotification(err);
+      });
+    },
+    requestPasswordChange() {
+      Membership.requestPasswordChange({
+        oldpassword: this.password.old,
+        newpassword: this.password.new,
+      }).then(() => {
+        this.password.step = 2;
+      }).catch((err) => {
+        serverNotification(err);
+      });
     },
   },
   components: {
