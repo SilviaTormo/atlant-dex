@@ -6,9 +6,9 @@
       slot
       EmptyPlaceholder(v-if="data.length == 0")
       Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
-      .tablePage__panel(:class="{'tablePage__panel--active': isCheckedArray, 'tablePage__panelScrollbarOpened' : showSidebar}")
+      .tablePage__panel(:class="{'tablePage__panel--active': isShowPanelInMobileVersion, 'tablePage__panelScrollbarOpened' : showSidebar}")
         .tablePage__panelActions.panel__checkbox
-          Checkbox.tHistory__checkbox(:value="isAllChecked" @change="toggleCheckboxes")
+          Checkbox.tHistory__checkbox(color="yellow", :value="isAllChecked" @change="toggleCheckboxes")
         .tablePage__panelActions Repeat
         .tablePage__panelActions Undo
         .tablePage__panelActions Delete
@@ -32,24 +32,16 @@ export default {
     ...mapState('misc', {
       showSidebar: 'showSidebar',
     }),
-    checkboxCount() {
-      return this.data.length;
-    },
-    checkedCount() {
-      return this.data.filter((item) => item.checked).length;
-    },
-    isCheckedArray() {
-      return Boolean(this.checkedCount);
-    },
     isAllChecked() {
-      return this.checkboxCount === this.checkedCount;
+      return this.checkedArray.length === this.data.length;
+    },
+    isShowPanelInMobileVersion() {
+      return Boolean(this.checkedArray.length);
     },
   },
   methods: {
     switchAllCheckboxes(val) {
-      for (let i of this.data) {
-        i.checked = val;
-      }
+      this.$emit('update:checkedArray', val ? this.data.map((item) => item.id) : []);
     },
     toggleCheckboxes() {
       this.isAllChecked ? this.switchAllCheckboxes(false) : this.switchAllCheckboxes(true);
@@ -67,6 +59,10 @@ export default {
       required: false,
     },
     data: {
+      type: Array,
+      required: true,
+    },
+    checkedArray: {
       type: Array,
       required: true,
     },
@@ -96,6 +92,8 @@ export default {
 <style lang="scss">
 @import "~variables";
 @import "~sass/bootstrap/media";
+
+$panelHeight: 58px;
 .tablePage {
   position: relative;
   &__body {
@@ -108,7 +106,6 @@ export default {
     border-top: 1px solid $color_tangaroa;
   }
   &__panel {
-    $panelHeight: 58px;
     z-index: 1.6;
     position: fixed;
     display: flex;
@@ -117,7 +114,7 @@ export default {
     height: $panelHeight;
     left: 55px;
     right: 0;
-    bottom: -$panelHeight;
+    bottom: 0;
     overflow: hidden;
     background-image: repeating-linear-gradient(
       135deg,
@@ -127,10 +124,7 @@ export default {
       #03324c 60px
     );
     transition: bottom .5s, left .15s;
-  &--active {
-    transition: bottom .5s;
-    bottom: 0px;
-  }
+
   }
   &__panelActions {
     cursor: pointer;
@@ -155,52 +149,16 @@ export default {
     &__content {
       padding: 10px;
     }
-  }
-}
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin: 46px 0;
-
-  &__container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  &__number {
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 400;
-    margin: 0 8px;
-    cursor: pointer;
-    &-active {
-      color: #ffc600;
-      font-weight: 700;
-      cursor: default;
+    &__panel {
+      bottom: -$panelHeight;
+      &--active {
+        transition: bottom .5s;
+        bottom: 0px;
+      }
     }
-  }
-
-  &__arrow {
-    height: 8px;
-    fill: #ffffff;
-    opacity: 0.5;
-    margin: 0 18.5px;
-    &-active {
-      opacity: 1;
-      cursor: pointer;
+    &__panelActions {
+      margin-right: 16px;
     }
-    &-first {
-      transform: rotate(180deg);
-    }
-    &-before {
-      transform: rotate(180deg);
-    }
-  }
-
-  &__space {
-    margin: 0 3px;
-    cursor: default;
   }
 }
 </style>

@@ -1,16 +1,17 @@
 <template lang="pug">
 .tfa
-  // Icon.tfa__icon(id="2fa")
-  form.tfa__content(v-if="tfaStep == 0" @submit.prevent="onConfirm(secureCode)")
+  form.tfa__content(v-if="isModal" @submit.prevent="onConfirm(secureCode)")
     .tfa__title confirmation
     .tfa__text {{text}}
-    IInput.tfa__input(placeholder="Enter secure code", v-model="secureCode", center)
+    IInput.tfa__input(placeholder="Enter security code", v-model="secureCode", center)
     BButton.tfa__button(color="malachite" rounded) Confirm
     .tfa__repeat
       .tfa__repeatText(v-if="!isLinkAviable") The new code will be available in #[span.tfa__repeatTimer {{timer}} seconds]
       a.link(v-else @click="getCountDown()") Send new code
-  //- Status.tfa__status(v-if="tfaStep == 1" isSuccess)
-  //-   .tfa__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
+  form(v-else)
+    .tfa__row {{text}}
+    .tfa__row #[input.input(placeholder="Enter security code" v-model="secureCode")] #[.link.tfa__link(@click="onConfirm(secureCode)") Confirm]
+    .tfa__row #[Icon(id="resend")] #[.link.tfa__link Resend] confirmation code
 </template>
 
 <script>
@@ -24,7 +25,6 @@ export default {
   data() {
     return {
       secureCode: '',
-      tfaStep: 0,
       timer: 5,
       isLinkAviable: false,
       isSuccess: false,
@@ -66,6 +66,11 @@ export default {
       type: Function,
       required: true,
     },
+    isModal: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   components: {
     Icon,
@@ -81,11 +86,13 @@ export default {
 @import "~sass/bootstrap/media";
 
 .tfa {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 520px;
-  justify-content: space-between;
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 520px;
+    justify-content: space-between;
+  }
   &__icon {
     $size: 77px;
     width: $size;
@@ -137,6 +144,14 @@ export default {
   &__repeatTimer {
     color: #ffc000;
     font-weight: 700;
+  }
+  &__row {
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+  }
+  &__link {
+    margin: 0 5px 0 19px;
   }
 }
 

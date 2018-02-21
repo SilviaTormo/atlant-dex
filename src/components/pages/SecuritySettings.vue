@@ -2,9 +2,21 @@
 Page(title="Security settings", title2="Security settings" :sidebar="true")
   .securitySettings
     .securitySettings__title Main
-    .securitySettings__item
+    .securitySettings__item(v-if="password.step == 0")
       .securitySettings__param Current Password:
-      .securitySettings__value.securitySettings__value--password.securitySettings__value--row {{password}} #[.securitySettings__action Change]
+      .securitySettings__value.securitySettings__value--password.securitySettings__value--row {{currentPassword}} #[.securitySettings__action(@click="password.step = 1") Change]
+    .securitySettings__item(v-if="password.step == 1")
+      .securitySettings__param Old password:
+      input.input.securitySettings__value.securitySettings__value--margins(v-model="password.old")
+      .securitySettings__param New password:
+      input.input.securitySettings__value.securitySettings__value--margins(v-model="password.new")
+      .securitySettings__param Repeat password:
+      .securitySettings__value.securitySettings__desktopRow.securitySettings__value--margins
+        input.input(v-model="password.repeat")
+        .securitySettings__action.securitySettings__action--mobileLeft(@click="password.step = 2") Confirm
+        .securitySettings__action.securitySettings__action--mobileLeft(@click="password.step = 0") Cancel
+    .securitySettings__item(v-if="password.step == 2")
+      TFA(:onConfirm="doSmth")
     .securitySettings__desktopRow
       .securitySettings__item.securitySettings__item--column
         .securitySettings__param Current Email:
@@ -32,9 +44,7 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
         input.securitySettings__input(placeholder="965 296 36 36" v-model="number")
         .securitySettings__action(@click="tfaStep = 2") Save
     .securitySettings__item(v-if="tfaStep==2 && requiresNumber")
-      .securitySettings__value Confirmation code has been sent to enable 2FA
-      .securitySettings__value.securitySettings__value--row #[input.securitySettings__input(placeholder="1234" v-model="code")] #[.securitySettings__action(@click="tfaStep=0") Confirm]
-      .securitySettings__value.securitySettings__value--row #[Icon.securitySettings__resendIcon(id="resend")] #[.securitySettings__action Resend] confirmation code
+      TFA(:onConfirm="doSmth" text="Confirmation code has been sent to enable 2FA")
     .securitySettings__item(v-if="tfaStep==1 && tfaMethod == 'google'")
       .securitySettings__value.securitySettings__desktopRow You don't have an authentication key #[.securitySettings__action.securitySettings__action--mobileLeft(@click="tfaStep=2") Create key]
       .securitySettings__param.securitySettings__param--margin ***
@@ -69,12 +79,13 @@ import Dropdown from 'components/Dropdown';
 import Radio from 'components/Radio';
 import QR from 'components/QR';
 import FlagSwitch from 'components/FlagSwitch';
+import TFA from 'components/modals/TFA';
 import Page from './Page';
 
 export default {
   data() {
     return {
-      password: '**********',
+      currentPassword: '**********',
       email: {
         value: '****ize@atlant.io',
         verified: true,
@@ -87,13 +98,23 @@ export default {
       tfaMethod: 'telegram',
       number: '',
       country: 'ru',
+      password: {
+        step: 0,
+        old: '',
+        new: '',
+        repeat: '',
+      },
       tfaStep: 0,
-      code: '',
     };
   },
   computed: {
     requiresNumber() {
       return ['telegram', 'sms'].includes(this.tfaMethod);
+    },
+  },
+  methods: {
+    doSmth() {
+      this.password.step = 0;
     },
   },
   components: {
@@ -104,6 +125,7 @@ export default {
     Dropdown,
     FlagSwitch,
     QR,
+    TFA,
   },
 };
 </script>
@@ -155,6 +177,9 @@ export default {
       &:not(:first-of-type) {
         margin-left: 45px;
       }
+    }
+    &--margins {
+      margin: 10px 0 10px;
     }
   }
   &__action {
@@ -239,10 +264,6 @@ export default {
     &::placeholder{
       color: #044568;
     }
-  }
-  &__resendIcon {
-    height: 14px;
-    width: 16px;
   }
   &__terminateIcon {
     height: 19px;
