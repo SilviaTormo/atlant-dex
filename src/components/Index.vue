@@ -23,6 +23,7 @@
   //- Modals
   InDemo(v-if="isModalOpened('inDemo')")
   Reset(v-else-if="isModalOpened('reset')")
+  NewPassword(v-else-if="isModalOpened('newPassword')")
   SignUp(v-else-if="isModalOpened('signUp')")
   SignIn(v-else-if="isModalOpened('signIn')")
   CryptoDeposit(v-else-if="isModalOpened('cryptoDeposit')")
@@ -54,6 +55,7 @@ import SecurityLog from './pages/SecurityLog';
 import FAQ from './pages/FAQ';
 import InDemo from './modals/InDemo';
 import Reset from './modals/Reset';
+import NewPassword from './modals/NewPassword';
 import SignUp from './modals/SignUp';
 import SignIn from './modals/SignIn';
 import CryptoDeposit from './modals/CryptoDeposit';
@@ -263,6 +265,7 @@ export default {
     PropertyMap,
     InDemo,
     Reset,
+    NewPassword,
     SignUp,
     SignIn,
     CryptoDeposit,

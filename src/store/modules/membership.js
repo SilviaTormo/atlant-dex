@@ -48,12 +48,7 @@ export default {
     },
     regFinish({state}, code) {
       return Membership.regFinish(code).then((res) => {
-        // state.token = res.data.accessToken;
-      });
-    },
-    resetPassword({state}, email) {
-      return Membership.requestPasswordRestore(email).catch((res) => {
-        serverNotification(res);
+        commit('createUser', response.data);
       });
     },
   },

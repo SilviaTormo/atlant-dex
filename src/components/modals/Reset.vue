@@ -12,18 +12,22 @@ Modal
           .reset__checkboxText I acknowledge that my account will be locked for a minimum of 24 hours.
       BButton.reset__button(color="malachite" rounded @click.native="reset()") Reset now
     .reset__other(v-if="isMobile", href="#" @click="openModal({name: 'signIn'})") Sign in
-    Status.reset__status(v-if="step == 1" isSuccess)
-      .reset__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
+    TFA(v-if="step == 1", :onConfirm="confirmReset")
+    Status.reset__status(v-if="step == 2")
+      .reset__statusMsg Completed
 </template>
 
 <script>
-import {mapGetters, mapMutations, mapActions} from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
+import * as Membership from 'services/api/membership';
 import Icon from 'components/Icon';
 import Checkbox from 'components/Checkbox';
 import BButton from 'components/BButton';
 import Modal from 'components/modals/Modal';
 import IInput from 'components/IInput';
+import TFA from 'components/modals/TFA';
 import Status from 'components/modals/Status.vue';
+import {serverNotification} from 'services/notification';
 
 export default {
   data() {
@@ -43,11 +47,19 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
-    ...mapActions('membership', {
-      resetPassword: 'resetPassword',
-    }),
     reset() {
-      this.resetPassword(this.email);
+      Membership.requestPasswordRestore(this.email).then(() => {
+        this.step = 1;
+      }).catch((res) => {
+        serverNotification(res);
+      });
+    },
+    confirmReset(code) {
+      Membership.validatePasswordRestore({code: code, email: this.email}).then(() => {
+        this.step = 2;
+      }).catch((res) => {
+        serverNotification(res);
+      });
     },
   },
   components: {
@@ -56,6 +68,7 @@ export default {
     Modal,
     BButton,
     IInput,
+    TFA,
     Status,
   },
 };

@@ -32,7 +32,7 @@ const store = new Vuex.Store({
       'grid.gridData',
       'membership.token',
       'membership.userId',
-      'membership.login',
+      'membership.refreshToken',
       'membership.email',
     ],
   })],

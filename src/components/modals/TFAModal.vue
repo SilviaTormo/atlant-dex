@@ -1,8 +1,8 @@
 <template lang="pug">
 Modal.tfaModal
   TFA(v-if="!success", :onConfirm="confirm")
-  Status(v-if="success", :isSuccess="success")
-    .tfaModal__statusMsg {{ success ? 'Completed' : 'Failed' }}
+  Status(v-if="success")
+    .tfaModal__statusMsg Completed
 </template>
 
 <script>

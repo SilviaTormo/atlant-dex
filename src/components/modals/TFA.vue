@@ -1,6 +1,6 @@
 <template lang="pug">
 .tfa
-  Icon.tfa__icon(id="2fa")
+  // Icon.tfa__icon(id="2fa")
   form.tfa__content(v-if="tfaStep == 0" @submit.prevent="onConfirm(secureCode)")
     .tfa__title confirmation
     .tfa__text {{text}}
