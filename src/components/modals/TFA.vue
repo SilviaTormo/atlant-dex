@@ -7,11 +7,16 @@
     BButton.tfa__button(color="malachite" rounded) Confirm
     .tfa__repeat
       .tfa__repeatText(v-if="!isLinkAviable") The new code will be available in #[span.tfa__repeatTimer {{timer}} seconds]
-      a.link(v-else @click="getCountDown()") Send new code
+      a.link(v-else @click="getCountDown(); onResend()") Send new code
+    a.link(@click="onCancel()") Cancel
   form(v-else)
     .tfa__row {{text}}
-    .tfa__row #[input.input(placeholder="Enter security code" v-model="secureCode")] #[.link.tfa__link(@click="onConfirm(secureCode)") Confirm]
-    .tfa__row #[Icon(id="resend")] #[.link.tfa__link Resend] confirmation code
+    .tfa__row.tfa__row--desktop
+      input.input(placeholder="Enter security code" v-model="secureCode")
+      .tfa__row.tfa__row--mobileMargin
+        .link.tfa__link(@click="onConfirm(secureCode)") Confirm
+        .link.tfa__link(@click="onCancel()") Cancel
+    .tfa__row #[Icon(id="resend")] #[.link.tfa__link(@click="onResend()") Resend] confirmation code
 </template>
 
 <script>
@@ -63,6 +68,14 @@ export default {
       required: false,
     },
     onConfirm: {
+      type: Function,
+      required: true,
+    },
+    onCancel: {
+      type: Function,
+      required: true,
+    },
+    onResend: {
       type: Function,
       required: true,
     },
@@ -132,7 +145,7 @@ export default {
     font-size: 16px;
     font-weight: 900px;
     text-transform: uppercase;
-    margin-bottom: 38px;
+    margin-bottom: 30px;
   }
   &__repeat {
     color: #ffffff;
@@ -140,6 +153,7 @@ export default {
     font-weight: 400;
     line-height: 20px;
     text-align: center;
+    margin-bottom: 20px;
   }
   &__repeatTimer {
     color: #ffc000;
@@ -149,6 +163,9 @@ export default {
     margin-top: 18px;
     display: flex;
     align-items: center;
+    &--mobileMargin {
+      margin: 0;
+    }
   }
   &__link {
     margin: 0 5px 0 19px;
@@ -161,6 +178,20 @@ export default {
     margin: auto;
     &__icon {
       display: none;
+    }
+    &__row {
+      &--desktop {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      &--mobileMargin {
+        margin-top: 18px;
+      }
+    }
+    &__link {
+      &:first-child {
+        margin-left: 0;
+      }
     }
   }
 }
