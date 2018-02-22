@@ -12,7 +12,7 @@ Modal
           .reset__checkboxText I acknowledge that my account will be locked for a minimum of 24 hours.
       BButton.reset__button(color="malachite" rounded @click.native="reset()") Reset now
     .reset__other(v-if="isMobile", href="#" @click="openModal({name: 'signIn'})") Sign in
-    TFA(v-if="step == 1", :onConfirm="confirmReset")
+    TFA(v-if="step == 1", :onConfirm="confirmReset", :onResend="reset", :onCancel="cancelReset", :isModal="true")
     Status.reset__status(v-if="step == 2")
       .reset__statusMsg Completed
 </template>
@@ -53,6 +53,9 @@ export default {
       }).catch((res) => {
         serverNotification(res);
       });
+    },
+    cancelReset() {
+      this.step = 0;
     },
     confirmReset(code) {
       Membership.validatePasswordRestore({code: code, email: this.email}).then(() => {

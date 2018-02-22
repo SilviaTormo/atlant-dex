@@ -14,9 +14,9 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
       .securitySettings__value.securitySettings__desktopRow.securitySettings__value--margins
         input.input(v-model="password.repeat" type="password")
         .securitySettings__action.securitySettings__action--mobileLeft(@click="requestPasswordChange") Confirm
-        .securitySettings__action.securitySettings__action--mobileLeft(@click="password.step = 0") Cancel
+        .securitySettings__action.securitySettings__action--mobileLeft(@click="cancelPasswordChange") Cancel
     .securitySettings__item(v-if="password.step == 2")
-      TFA(:onConfirm="confirmPasswordChange")
+      TFA(:onConfirm="confirmPasswordChange", :onCancel="cancelPasswordChange", :onResend="requestPasswordChange")
     .securitySettings__desktopRow
       .securitySettings__item.securitySettings__item--column
         .securitySettings__param Current Email:
@@ -118,6 +118,7 @@ export default {
     confirmPasswordChange(code) {
       Membership.confirmPasswordChange({
         code,
+        oldpassword: this.password.old,
         newpassword: this.password.new,
       }).then(() => {
         this.password.step = 0;
@@ -134,6 +135,9 @@ export default {
       }).catch((err) => {
         serverNotification(err);
       });
+    },
+    cancelPasswordChange() {
+      this.password.step = 0;
     },
   },
   components: {
