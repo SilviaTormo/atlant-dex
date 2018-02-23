@@ -163,6 +163,7 @@ export default {
   }
   &__row {
     margin-top: 18px;
+    min-height: 25px;
     display: flex;
     align-items: center;
     &--mobileMargin {
