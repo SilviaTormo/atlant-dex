@@ -16,7 +16,9 @@
       .tfa__row.tfa__row--mobileMargin
         .link.tfa__link(@click="onConfirm(secureCode)") Confirm
         .link.tfa__link(@click="onCancel()") Cancel
-    .tfa__row #[Icon(id="resend")] #[.link.tfa__link(@click="onResend()") Resend] confirmation code
+    .tfa__row(v-if="isLinkAviable") #[Icon(id="resend")] #[.link.tfa__link(@click="onResend()") Resend] confirmation code
+    .tfa__row(v-else)
+      .tfa__repeatText The new code will be available in #[span.tfa__repeatTimer {{timer}} seconds]
 </template>
 
 <script>
@@ -156,7 +158,7 @@ export default {
     margin-bottom: 20px;
   }
   &__repeatTimer {
-    color: #ffc000;
+    color: $color_yellow;
     font-weight: 700;
   }
   &__row {

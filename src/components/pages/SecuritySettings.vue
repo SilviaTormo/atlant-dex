@@ -7,12 +7,12 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
       .securitySettings__value.securitySettings__value--password.securitySettings__value--row {{currentPassword}} #[.securitySettings__action(@click="password.step = 1") Change]
     .securitySettings__item(v-if="password.step == 1")
       .securitySettings__param Old password:
-      input.input.securitySettings__value.securitySettings__value--margins(v-model="password.old")
+      input.input.securitySettings__value.securitySettings__value--margins(v-model="password.old" type="password")
       .securitySettings__param New password:
-      input.input.securitySettings__value.securitySettings__value--margins(v-model="password.new")
+      input.input.securitySettings__value.securitySettings__value--margins(v-model="password.new" type="password")
       .securitySettings__param Repeat password:
       .securitySettings__value.securitySettings__desktopRow.securitySettings__value--margins
-        input.input(v-model="password.repeat")
+        input.input(v-model="password.repeat" type="password")
         .securitySettings__action.securitySettings__action--mobileLeft(@click="password.step = 2") Confirm
         .securitySettings__action.securitySettings__action--mobileLeft(@click="password.step = 0") Cancel
     .securitySettings__item(v-if="password.step == 2")
@@ -41,7 +41,7 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
       .securitySettings__value My phone number
       .securitySettings__value.securitySettings__value--row
         FlagSwitch.securitySettings__dropdown(v-model="country")
-        input.securitySettings__input(placeholder="965 296 36 36" v-model="number")
+        input.input.securitySettings__input(placeholder="965 296 36 36" v-model="number")
         .securitySettings__action(@click="tfaStep = 2") Save
     .securitySettings__item(v-if="tfaStep==2 && requiresNumber")
       TFA(:onConfirm="doSmth" text="Confirmation code has been sent to enable 2FA")
@@ -257,13 +257,6 @@ export default {
   }
   &__input {
     width: 120px;
-    padding: 7px;
-    border-color: #044568;
-    background-color: transparent;
-    color: #044568;
-    &::placeholder{
-      color: #044568;
-    }
   }
   &__terminateIcon {
     height: 19px;
