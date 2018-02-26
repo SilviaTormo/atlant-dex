@@ -33,9 +33,16 @@
   padding: 7px;
   border-color: #044568;
   background-color: transparent;
-  color: #044568;
+  color: $color_summersky;
   &::placeholder{
     color: #044568;
+  }
+  &:hover, &:focus{
+    border-color: $color_summersky;
+    color: $color_summersky;
+  }
+  &[type="password"]{
+    letter-spacing: 4px;
   }
 }
 
