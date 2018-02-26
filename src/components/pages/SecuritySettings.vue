@@ -61,10 +61,7 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
           .securitySettings__action Windows phone
       .securitySettings__instruction After installing the app add the key by scanning the QR code or entering it manually.
     .securitySettings__item(v-if="tfaStep==2 && tfaMethod == 'google'")
-      .securitySettings__value Now scan QR-code below
-      QR.securitySettings__qr(text='Yeah0*/-+' size='114')
-      .securitySettings__value And enter the one-time password from Google Auth
-      .securitySettings__value.securitySettings__value--row #[input.securitySettings__input(v-model="number")] #[.securitySettings__action(@click="tfaStep=0") Confirm]
+      TFA(:onConfirm="finish2FA", :onCancel="cancel2FA" text="Now scan QR-code below and enter the one-time password from Google Auth", :method="3")
     .securitySettings__title Other
     .securitySettings__item.securitySettings__desktopRow
       .securitySettings__row Terminate active sessions #[Icon.securitySettings__terminateIcon(id="terminate")]
@@ -77,7 +74,6 @@ import Icon from 'components/Icon';
 import BButton from 'components/BButton';
 import Dropdown from 'components/Dropdown';
 import Radio from 'components/Radio';
-import QR from 'components/QR';
 import FlagSwitch from 'components/FlagSwitch';
 import TFA from 'components/modals/TFA';
 import Page from './Page';
@@ -116,6 +112,14 @@ export default {
     doSmth() {
       this.password.step = 0;
     },
+    cancel2FA() {
+      this.tfaStep = 0;
+      this.tfaEnabled = false;
+    },
+    finish2FA() {
+      this.tfaStep = 0;
+      this.tfaEnabled = true;
+    },
   },
   components: {
     Page,
@@ -124,7 +128,6 @@ export default {
     Radio,
     Dropdown,
     FlagSwitch,
-    QR,
     TFA,
   },
 };
@@ -238,9 +241,6 @@ export default {
   &__tfaOptionName {
     margin-left: 18px;
   }
-  &__qr {
-    margin-top: 36px;
-  }
   &__osIcon {
     $size: 24px;
     height: $size;
@@ -269,6 +269,9 @@ export default {
     font-weight: 900;
     text-transform: uppercase;
     margin-top: 20px;
+  }
+  &__qr {
+    margin-top: 36px;
   }
 }
 

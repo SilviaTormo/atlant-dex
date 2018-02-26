@@ -3,21 +3,23 @@
   form.tfa__content(v-if="isModal" @submit.prevent="onConfirm(secureCode)")
     .tfa__title confirmation
     .tfa__text {{text}}
+    QR.tfa__modalQR(v-if="method === 3" text='Yeah0*/-+' size='148')
     IInput.tfa__input(placeholder="Enter security code", v-model="secureCode", center)
     BButton.tfa__button(color="malachite" rounded) Confirm
     .tfa__repeat
-      .tfa__repeatText(v-if="!isLinkAviable") The new code will be available in #[span.tfa__repeatTimer {{timer}} seconds]
-      a.link(v-else @click="getCountDown(); onResend()") Send new code
+      .tfa__repeatText(v-if="isLinkAviable && method != 3") The new code will be available in #[span.tfa__repeatTimer {{timer}} seconds]
+      a.link(v-if="!isLinkAviable && method != 3" @click="getCountDown(); onResend()") Send new code
     a.link(@click="onCancel()") Cancel
   form(v-else)
     .tfa__row {{text}}
+    QR.tfa__qr(v-if="method === 3" text='Yeah0*/-+' size='114')
     .tfa__row.tfa__row--desktop
       input.input(placeholder="Enter security code" v-model="secureCode")
       .tfa__row.tfa__row--mobileMargin
         .link.tfa__link(@click="onConfirm(secureCode)") Confirm
         .link.tfa__link(@click="onCancel()") Cancel
-    .tfa__row(v-if="isLinkAviable") #[Icon(id="resend")] #[.link.tfa__link(@click="onResend()") Resend] confirmation code
-    .tfa__row(v-else)
+    .tfa__row(v-if="isLinkAviable && method != 3") #[Icon(id="resend")] #[.link.tfa__link(@click="onResend()") Resend] confirmation code
+    .tfa__row(v-if="!isLinkAviable && method != 3")
       .tfa__repeatText The new code will be available in #[span.tfa__repeatTimer {{timer}} seconds]
 </template>
 
@@ -27,6 +29,7 @@ import Icon from 'components/Icon';
 import BButton from 'components/BButton';
 import IInput from 'components/IInput';
 import Status from 'components/modals/Status.vue';
+import QR from 'components/QR';
 
 export default {
   data() {
@@ -79,12 +82,16 @@ export default {
     },
     onResend: {
       type: Function,
-      required: true,
+      required: false,
     },
     isModal: {
       type: Boolean,
       required: false,
       default: false,
+    },
+    method: {
+      type: Number,
+      required: true,
     },
   },
   components: {
@@ -92,6 +99,7 @@ export default {
     BButton,
     IInput,
     Status,
+    QR,
   },
 };
 </script>
@@ -105,7 +113,6 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 520px;
     justify-content: space-between;
   }
   &__icon {
@@ -172,6 +179,12 @@ export default {
   }
   &__link {
     margin: 0 5px 0 19px;
+  }
+  &__qr {
+    margin-top: 36px;
+  }
+  &__modalQR {
+    margin-bottom: 36px;
   }
 }
 

@@ -10,7 +10,7 @@ Modal
       .cryptoWithdraw__amount {{netAmount}}
       BButton.cryptoWithdraw__button(color="malachite" rounded  @click.native="step++") Withdraw
       .cryptoWithdraw__fee Withdrawal fee: #[span.cryptoWithdraw__feeAmt {{fee}}] #[span.cryptoWithdraw__currency {{data.currency}}]
-    TFA(v-if="step == 1", :onConfirm="tryConfirmation" text="Enter 2FA code to confirm withdrawal", :isModal="true")
+    TFA(v-if="step == 1", :onConfirm="tryConfirmation", :onCancel="cancelConfirmation" text="Enter 2FA code to confirm withdrawal", :isModal="true", :method="3")
     Status.cryptoWithdraw__status(v-if="step == 2", :isSuccess="isSuccess")
       .fiat__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
@@ -50,6 +50,9 @@ export default {
         this.step += 1;
         this.isSuccess = true;
       }
+    },
+    cancelConfirmation() {
+      this.step = 0;
     },
   },
   components: {
