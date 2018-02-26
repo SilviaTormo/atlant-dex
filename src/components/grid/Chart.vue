@@ -7,7 +7,7 @@
       .chart__buttonTxt(v-for="tech in technicalIndicators", :class="[techClass(tech.name), colorClass(tech.name)]", @click="toggleIndicator(tech.name)") {{tech.name}}
     .chart__buttons
       Icon.chart__buttonIcon(:id="type + 'Chart'" v-for="type in types", :key="type", :class="{'chart__buttonIcon--active' : isCurrentChart(type)}", @click="setChartType(type)")
-  IEcharts(:option="chart", :loading="false", :resizable="true")
+  IEcharts(:option="chart", :loading="false", :resizable="true")#chart
 </template>
 
 <script>
@@ -133,7 +133,9 @@ export default {
       return 100 - result;
     },
     setStartDataZoomOfChart() {
-      let howManyCandlesInTheScreen = 100;
+      let containerWidth = document.getElementById('chart').clientWidth;
+      console.log(containerWidth);
+      let howManyCandlesInTheScreen = containerWidth / 10;
       let result = 100 - (howManyCandlesInTheScreen * 100 / this.timeSeries.length);
       return result;
     },
@@ -215,19 +217,19 @@ export default {
             },
           },
           {
+            show: false,
             gridIndex: 1,
             type: 'category',
             data: this.volumeSeries,
-            position: 'bottom',
-            silent: true,
-            scale: true,
+            scale: false,
+            boundaryGap: true, // don't touch this!
+            axisTick: {show: false},
+            splitLine: {show: false},
+            axisLabel: {show: false},
             axisLine: {
               lineStyle: {
                 color: '#376691',
               },
-            },
-            axisLabel: {
-              show: false,
             },
           },
         ],
@@ -235,7 +237,7 @@ export default {
           {
             scale: true,
             position: 'right',
-            offset: 5,
+            offset: false,
             width: 100,
             splitArea: {
               show: false,
@@ -257,20 +259,13 @@ export default {
             },
           },
           {
-            show: false,
-            scale: true,
-            silent: true,
-            position: 'left',
+            scale: false,
             gridIndex: 1,
-            splitLine: {
-              show: false,
-            },
-            axisLine: {
-              show: false,
-            },
-            axisLabel: {
-              show: false,
-            },
+            splitNumber: 5,
+            axisLabel: {show: false},
+            axisLine: {show: false},
+            axisTick: {show: false},
+            splitLine: {show: false},
           },
         ],
         dataZoom: [
@@ -294,7 +289,6 @@ export default {
           {
             name: 'Price',
             type: this.currentChart,
-            barMinWidth: 6,
             data: this.priceSeries,
             itemStyle: {
               normal: {
@@ -364,7 +358,6 @@ export default {
             type: 'bar',
             xAxisIndex: 1,
             yAxisIndex: 1,
-            barMinWidth: 6,
             data: this.volumeSeries,
             itemStyle: {
               normal: {
@@ -399,6 +392,9 @@ export default {
     rawCandles() {
       this.technical('EMA');
       this.createChart();
+    },
+    getContainerWidth() {
+      console.log(this.getContainerWidth);
     },
   },
   created() {

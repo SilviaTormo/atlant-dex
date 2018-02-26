@@ -34,6 +34,7 @@ const store = new Vuex.Store({
       'membership.userId',
       'membership.login',
       'membership.email',
+      'trade.pair',
     ],
   })],
 });
