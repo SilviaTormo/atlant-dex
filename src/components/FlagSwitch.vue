@@ -60,6 +60,11 @@ export default {
       return require('assets/images/flags/flag_' + flag + '.png');
     },
   },
+  watch: {
+    value() {
+      this.currentFlag = this.value;
+    },
+  },
   created() {
     this.currentFlag = this.value;
     this.flags = (this.type == 'currency') ? Object.keys(countryCurrencies) : Object.keys(countryNames);

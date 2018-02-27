@@ -1,3 +1,7 @@
+export const getKeyByValue = (object, value) => {
+  return Object.keys(object).find((key) => object[key] === value);
+};
+
 export const countryNames = {
   by: 'Belarus',
   cn: 'China',
@@ -24,4 +28,9 @@ export const getCountryName = (countryCode) => {
 
 export const getCountryCurrency = (countryCode) => {
   return countryCurrencies[countryCode];
+};
+
+export const getCountryByCurrency = (currency) => {
+  let country = getKeyByValue(countryCurrencies, currency);
+  return country ? country : 'us';
 };

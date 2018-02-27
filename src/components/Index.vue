@@ -140,7 +140,7 @@ export default {
     },
     hubSubscribe() {
       this.$hub.proxy.on('newCandle', (res) => {
-        this.addNewCandle(res);
+        // this.addNewCandle(res);
       });
 
       this.$hub.proxy.on('newDesktop', (res) => {

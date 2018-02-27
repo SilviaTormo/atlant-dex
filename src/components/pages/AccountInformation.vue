@@ -8,7 +8,7 @@ Page(title="Account information", title2="", :sidebar="true")
         .accountInfo__item
           .accountInfo__param Account ID:
           .accountInfo__value.accountInfo__value--fullWidth
-            .accountInfo__value.accountInfo__value--half {{id}}
+            .accountInfo__value--half {{account.id}}
             span.accountInfo__registration Registration date: {{regdate}}
         .accountInfo__item
           .accountInfo__param Full name:
@@ -16,12 +16,12 @@ Page(title="Account information", title2="", :sidebar="true")
         .accountInfo__item
           .accountInfo__param Verification status:
           .accountInfo__value.accountInfo__value--verifiable
-            Icon.accountInfo__star(id="star" v-for="(index) in 5", :class="{'accountInfo__star--verified' : index <= rating }", :key="index")
-            .accountInfo__rating {{rating}}/5
+            Icon.accountInfo__star(id="star" v-for="(index) in 5", :class="{'accountInfo__star--verified' : index <= account.verificationRating }", :key="index")
+            .accountInfo__rating {{account.verificationRating}}/5
             .accountInfo__action Finish process
         .accountInfo__item
           .accountInfo__param Email:
-          .accountInfo__value.accountInfo__value--verifiable {{email.value}} #[Icon.accountInfo__icon(v-if="email.verified" id="verified")]
+          .accountInfo__value.accountInfo__value--verifiable {{account.email}} #[Icon.accountInfo__icon(v-if="account.isEmailConfirmed" id="verified")]
             .accountInfo__action Change
         .accountInfo__item
           .accountInfo__param Phone number:
@@ -31,16 +31,19 @@ Page(title="Account information", title2="", :sidebar="true")
         .accountInfo__other
           .accountInfo__item.accountInfo__item--other
             .accountInfo__param I would like to receive:
-            Checkbox.accountInfo__checkbox(v-model="subscribe.newsletter") #[.accountInfo__text Email newsletter]
-            Checkbox.accountInfo__checkbox(v-model="subscribe.email") #[.accountInfo__text Email notification]
-            Checkbox.accountInfo__checkbox(v-model="subscribe.sms") #[.accountInfo__text SMS notification]
+            Checkbox.accountInfo__checkbox(v-model="settings.receiveEmailNewsletter") #[.accountInfo__text Email newsletter]
+            Checkbox.accountInfo__checkbox(v-model="settings.receiveEmailNotifications") #[.accountInfo__text Email notification]
+            Checkbox.accountInfo__checkbox(v-model="settings.receiveSmsNotifications") #[.accountInfo__text SMS notification]
           .accountInfo__item.accountInfo__item--other
             .accountInfo__param Preferred currency:
-            FlagSwitch.accountInfo__value.accountInfo__dropdown(type="currency" v-model="currency")
+            FlagSwitch.accountInfo__value.accountInfo__dropdown(type="currency", :value="getCurrencyCountry", @change="val => { setPrefCurrencyFromFlag(val) }")
         BButton.accountInfo__button(color="malachite" rounded) Save
 </template>
 
 <script>
+import {mapState, mapMutations, mapActions} from 'vuex';
+import {DateTime} from 'luxon';
+import {getCountryByCurrency, getCountryCurrency} from 'services/countries';
 import Icon from 'components/Icon';
 import Checkbox from 'components/Checkbox';
 import BButton from 'components/BButton';
@@ -50,28 +53,42 @@ import Page from './Page';
 export default {
   data() {
     return {
-      id: '15354422#565s888',
-      regdate: '17.02.2026',
       name: {
         value: 'Julian Denisovich Oekenov',
-        verified: true,
-      },
-      email: {
-        value: '****ize@atlant.io',
         verified: true,
       },
       phone: {
         value: '+7 965 296 36 36',
         verified: true,
       },
-      subscribe: {
-        newsletter: false,
-        email: false,
-        sms: false,
-      },
-      rating: 3,
-      currency: 'us',
+      // currency: 'us',
     };
+  },
+  computed: {
+    ...mapState('user', {
+      settings: 'settings',
+      account: 'account',
+    }),
+    regdate() {
+      return DateTime.fromISO(this.account.regDate).toFormat('dd.LL.yyyy');
+    },
+    getCurrencyCountry() {
+      return getCountryByCurrency(this.settings.prefferedCurrency);
+    },
+  },
+  methods: {
+    ...mapMutations('user', {
+      setPrefCurrency: 'setPrefCurrency',
+    }),
+    ...mapActions('user', {
+      getProfileData: 'getProfileData',
+    }),
+    setPrefCurrencyFromFlag(value) {
+      this.setPrefCurrency(getCountryCurrency(value));
+    },
+  },
+  created() {
+    this.getProfileData();
   },
   components: {
     Page,
