@@ -127,14 +127,8 @@ export default {
         return item[4];
       });
     },
-    startValueOfChart() {
-      console.log((100 * 100 / this.timeSeries.length).toFixed());
-      let result = (70 * 100 / this.timeSeries.length).toFixed();
-      return 100 - result;
-    },
     setStartDataZoomOfChart() {
       let containerWidth = document.getElementById('chart').clientWidth;
-      console.log(containerWidth);
       let howManyCandlesInTheScreen = containerWidth / 10;
       let result = 100 - (howManyCandlesInTheScreen * 100 / this.timeSeries.length);
       return result;
