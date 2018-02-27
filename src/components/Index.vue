@@ -304,7 +304,7 @@ export default {
   overflow-y: hidden;
   &__body {
     display: flex;
-    min-width: 1250px;
+    // min-width: 1250px;
     min-height: 100vh;
     margin-left: auto;
     margin-right: auto;
