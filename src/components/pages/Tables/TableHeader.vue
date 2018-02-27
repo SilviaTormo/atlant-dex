@@ -1,12 +1,12 @@
 <template lang="pug">
 .tableHeader
   BackToDashboard.tableHeader__backToDashboard
-  .tableHeader__container(v-if="isTradeTables")
+  .tableHeader__container(v-show="isTradeTables")
     .tableHeader__title(v-if="!isMobile" @click="getOpenPage('transactionHistory')", :class="(isThisPage('transactionHistory')) ? 'tableHeader__title--active' : ''") Transaction History
     .tableHeader__title(v-if="!isMobile" @click="getOpenPage('myOrders')", :class="(isThisPage('myOrders')) ? 'tableHeader__title--active' : ''") My Orders
       Dropdown.tableHeader__dropdown(v-if="isThisPage('myOrders')", :options="sortTypes" v-model="sortTypeForMyOrders")
-  .tableHeader__container(v-if="isNotifications")
-    .tableHeader__title(v-if="!isMobile" @click="getOpenPage('notificationHistory')", :class="(isThisPage('notificationHistory')) ? 'tableHeader__title--active' : ''") Notifications
+  .tableHeader__container(v-show="isNotifications")
+    .tableHeader__title(v-if="!isMobile" :class="(isThisPage('notificationHistory')) ? 'tableHeader__title--active' : ''") Notification History
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template lang="pug">
 TablePage(
-  title="NOTIFICATION HISTORY",
+  title="NOTIFICATION_HISTORY",
   :data="data",
   :pageCount='setPagesCount',
   :page="setPageNum",
