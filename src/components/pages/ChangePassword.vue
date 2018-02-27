@@ -1,40 +1,72 @@
 <template lang="pug">
-Page(title="Password", title2="Change password", :sidebar="true")
-  .changePassword
-    .changePassword__main
-      .changePassword__block
-        IInput.changePassword__input(v-if="showSymbols" placeholder="Old password" label="Old password" v-model="passwordOld")
-        IInput.changePassword__input(v-else placeholder="Old password" label="Old password" v-model="passwordOld" type="password")
-        IInput.changePassword__input(v-if="showSymbols" placeholder="New password" label="New password" v-model="passwordNew")
-        IInput.changePassword__input(v-else placeholder="New password" label="New password" v-model="passwordNew" type="password")
-        IInput.changePassword__input(v-if="showSymbols" placeholder="Repeat password" label="Repeat password" v-model="passwordRepeat")
-        IInput.changePassword__input(v-else placeholder="Repeat password" label="Repeat password" v-model="passwordRepeat" type="password")
-      .changePassword__block
-        Checkbox.changePassword__checkbox(v-model="showSymbols")
-          .changePassword__text Display symbols
-    BButton.changePassword__button(color="malachite" rounded @click.native="signIn") Save
+.changePassword
+  .changePassword__item(v-if="password.step == 0")
+    .changePassword__param Current Password:
+    .link.changePassword__value(@click="password.step = 1") Change
+  .changePassword__item(v-if="password.step == 1")
+    .changePassword__param Old password:
+    input.input.changePassword__value(v-model="password.old" type="password")
+    .changePassword__param New password:
+    input.input.changePassword__value(v-model="password.new" type="password")
+    .changePassword__param Repeat password:
+    .changePassword__value.changePassword__desktopRow
+      input.input(v-model="password.repeat" type="password")
+      .link.changePassword__action(@click="requestPasswordChange") Confirm
+      .link.changePassword__action(@click="cancelPasswordChange") Cancel
+  .changePassword__item(v-if="password.step == 2")
+    TFA(:onConfirm="confirmPasswordChange", :onCancel="cancelPasswordChange", :onResend="requestPasswordChange", :method="settings.twoFactorAuthenticationMethod")
 </template>
 
 <script>
-import Checkbox from 'components/Checkbox';
-import IInput from 'components/IInput';
-import BButton from 'components/BButton';
-import Page from './Page';
+import * as Membership from 'services/api/membership';
+import {mapState} from 'vuex';
+import TFA from 'components/modals/TFA';
+import {serverNotification} from 'services/notification';
 
 export default {
   data() {
     return {
-      passwordOld: '',
-      passwordNew: '',
-      passwordRepeat: '',
-      showSymbols: false,
+      password: {
+        step: 0,
+        old: '',
+        new: '',
+        repeat: '',
+      },
     };
   },
+  computed: {
+    ...mapState('user', {
+      settings: 'settings',
+    }),
+  },
+  methods: {
+    confirmPasswordChange(code) {
+      Membership.confirmPasswordChange({
+        code,
+        oldpassword: this.password.old,
+        newpassword: this.password.new,
+      }).then(() => {
+        this.password.step = 0;
+      }).catch((err) => {
+        serverNotification(err);
+      });
+    },
+    requestPasswordChange() {
+      Membership.requestPasswordChange({
+        oldpassword: this.password.old,
+        newpassword: this.password.new,
+      }).then(() => {
+        this.password.step = 2;
+      }).catch((err) => {
+        serverNotification(err);
+      });
+    },
+    cancelPasswordChange() {
+      this.password.step = 0;
+    },
+  },
   components: {
-    Page,
-    Checkbox,
-    IInput,
-    BButton,
+    TFA,
   },
 };
 </script>
@@ -44,52 +76,31 @@ export default {
 @import "~sass/bootstrap/media";
 
 .changePassword {
-  &__main {
+  &__desktopRow {
     display: flex;
-    margin-top: 43px;
+    align-items: center;
   }
-  &__block {
-    width: 211px;
-    &:not(:last-of-type) {
-      margin-right: 58px;
-    }
+  &__param {
+    font-weight: 700;
   }
-  &__input {
-    font-size: 14px;
-    margin-bottom: 35px;
-  }
-  &__checkbox {
-    padding-top: 10px;
-  }
-  &__text {
-    font-size: 14px;
+  &__value {
     font-weight: 400;
-    line-height: 19px;
-    margin-left: 20px;
+    margin: 10px 0 10px;
   }
-  &__button {
-    padding: 8px 44px;
-    font-size: 16px;
-    font-weight: 900;
-    text-transform: uppercase;
+  &__action {
+    margin: 0 5px 0 19px;
   }
 }
 
 @include media-breakpoint-down(md) {
   .changePassword {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    &__main {
+    &__desktopRow {
       flex-direction: column;
-      align-items: center;
-      margin-top: 0;
-      margin-bottom: 43px;
+      align-items: flex-start;
     }
-    &__block {
-      &:not(:last-of-type) {
-        margin: 0;
-      }
+    &__action {
+      margin-left: 0;
+      margin-top: 17px;
     }
   }
 }

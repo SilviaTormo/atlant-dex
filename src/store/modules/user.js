@@ -17,6 +17,10 @@ export default {
     setPrefCurrency(state, data) {
       state.settings.prefferedCurrency = data;
     },
+    setTFAMethod(state, data) {
+      state.settings.twoFactorAuthenticationMethod = data.method;
+      state.settings.twoFactorAuthenticationContact = data.contact;
+    },
   },
   actions: {
     getProfileData({commit}) {

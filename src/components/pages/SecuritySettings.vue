@@ -2,21 +2,8 @@
 Page(title="Security settings", title2="Security settings" :sidebar="true")
   .securitySettings
     .securitySettings__title Main
-    .securitySettings__item(v-if="password.step == 0")
-      .securitySettings__param Current Password:
-      .link.securitySettings__value(@click="password.step = 1") Change
-    .securitySettings__item(v-if="password.step == 1")
-      .securitySettings__param Old password:
-      input.input.securitySettings__value.securitySettings__value--margins(v-model="password.old" type="password")
-      .securitySettings__param New password:
-      input.input.securitySettings__value.securitySettings__value--margins(v-model="password.new" type="password")
-      .securitySettings__param Repeat password:
-      .securitySettings__value.securitySettings__desktopRow.securitySettings__value--margins
-        input.input(v-model="password.repeat" type="password")
-        .securitySettings__action.securitySettings__action--mobileLeft(@click="requestPasswordChange") Confirm
-        .securitySettings__action.securitySettings__action--mobileLeft(@click="cancelPasswordChange") Cancel
-    .securitySettings__item(v-if="password.step == 2")
-      TFA(:onConfirm="confirmPasswordChange", :onCancel="cancelPasswordChange", :onResend="requestPasswordChange")
+    .securitySettings__item
+      ChangePassword
     .securitySettings__desktopRow
       .securitySettings__item.securitySettings__item--column
         .securitySettings__param Current Email:
@@ -30,38 +17,41 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
     .securitySettings__tfa
       .securitySettings__tfaEnable(:class="{'securitySettings__tfaEnable--enabled' : settings.twoFactorAuthenticationMethod}" @click="tfaStep = 1;") {{settings.twoFactorAuthenticationMethod ? "Enabled" : "Enable"}}
       .securitySettings__tfaMethod(v-if="settings.twoFactorAuthenticationMethod") via {{settings.twoFactorAuthenticationMethod}}
-      .securitySettings__tfaDisable(:class="{'securitySettings__tfaDisable--disabled' : !settings.twoFactorAuthenticationMethod}" @click="tfaStep = 0;") {{settings.twoFactorAuthenticationMethod ? "Disable" : "Disabled"}}
-    .securitySettings__item
-      .securitySettings__param I would like to use:
-      .securitySettings__value.securitySettings__value--row.securitySettings__desktopRow
-        Radio.securitySettings__tfaOption(name="tFAMethod", :value="2", v-model="tfaMethod", :checked="tfaMethod==2", @change="chooseTFAMethod()") #[.securitySettings__tfaOptionName Telegram]
-        Radio.securitySettings__tfaOption(name="tFAMethod", :value="1", v-model="tfaMethod", :checked="tfaMethod==1", @change="chooseTFAMethod()") #[.securitySettings__tfaOptionName SMS]
-        Radio.securitySettings__tfaOption(name="tFAMethod", :value="3", v-model="tfaMethod", :checked="tfaMethod==3", @change="chooseTFAMethod()") #[.securitySettings__tfaOptionName Google Auth]
-    .securitySettings__item.securitySettings__desktopRow(v-if="tfaStep==1 && requiresNumber")
-      .securitySettings__value My phone number
-      .securitySettings__value.securitySettings__value--row
-        FlagSwitch.securitySettings__dropdown(v-model="country")
-        input.input.securitySettings__input(placeholder="965 296 36 36" v-model="number")
-        .securitySettings__action(@click="tfaStep = 2") Save
-    .securitySettings__item(v-if="tfaStep==2 && requiresNumber")
-      TFA(:onConfirm="finish2FA", :onCancel="cancel2FA" text="Confirmation code has been sent to enable 2FA", :method="1")
-    .securitySettings__item(v-if="tfaStep==1 && tfaMethod === 3")
-      .securitySettings__value.securitySettings__desktopRow You don't have an authentication key #[.securitySettings__action.securitySettings__action--mobileLeft(@click="tfaStep=2") Create key]
-      .securitySettings__param.securitySettings__param--margin ***
-      .securitySettings__param Please install one of the following apps to generate key:
-      .securitySettings__item.securitySettings__desktopRow
-        .securitySettings__value.securitySettings__value--row.securitySettings__value--os
-          Icon.securitySettings__osIcon(id="android")
-          .securitySettings__action Android
-        .securitySettings__value.securitySettings__value--row.securitySettings__value--os
-          Icon.securitySettings__osIcon(id="ios")
-          .securitySettings__action iOS
-        .securitySettings__value.securitySettings__value--row.securitySettings__value--os
-          Icon.securitySettings__osIcon(id="windows")
-          .securitySettings__action Windows phone
-      .securitySettings__instruction After installing the app add the key by scanning the QR code or entering it manually.
-    .securitySettings__item(v-if="tfaStep==2 && tfaMethod === 3")
-      TFA(:onConfirm="finish2FA", :onCancel="cancel2FA" text="Now scan QR-code below and enter the one-time password from Google Auth", :method="3")
+      .securitySettings__tfaDisable(:class="{'securitySettings__tfaDisable--disabled' : !settings.twoFactorAuthenticationMethod}" @click="requestTFAChange(false)") {{settings.twoFactorAuthenticationMethod ? "Disable" : "Disabled"}}
+    .securitySettings__item(v-if="tfaStep === 2 && tfaMethod === 0")
+      TFA(:onConfirm="finish2FADisable", text="Confirmation code has been sent to enable 2FA", :method="settings.twoFactorAuthenticationMethod")
+    div(v-if="!settings.twoFactorAuthenticationMethod")
+      .securitySettings__item
+        .securitySettings__param I would like to use:
+        .securitySettings__value.securitySettings__value--row.securitySettings__desktopRow
+          Radio.securitySettings__tfaOption(name="tFAMethod", :value="3", v-model="tfaMethod", :checked="tfaMethod==3") #[.securitySettings__tfaOptionName Telegram]
+          Radio.securitySettings__tfaOption(name="tFAMethod", :value="1", v-model="tfaMethod", :checked="tfaMethod==1") #[.securitySettings__tfaOptionName SMS]
+          Radio.securitySettings__tfaOption(name="tFAMethod", :value="2", v-model="tfaMethod", :checked="tfaMethod==2") #[.securitySettings__tfaOptionName Google Auth]
+      .securitySettings__item.securitySettings__desktopRow(v-if="tfaStep==1 && requiresNumber")
+        .securitySettings__value My phone number
+        .securitySettings__value.securitySettings__value--row
+          FlagSwitch.securitySettings__dropdown(v-model="country")
+          input.input.securitySettings__input(placeholder="965 296 36 36" v-model="number")
+          .securitySettings__action(@click="requestTFAChange(true)") Save
+      .securitySettings__item(v-if="tfaStep==2 && requiresNumber")
+        TFA(:onConfirm="finish2FA", :onCancel="cancel2FA" text="Confirmation code has been sent to enable 2FA", :method="tfaMethod")
+      .securitySettings__item(v-if="tfaStep==1 && tfaMethod === 2")
+        .securitySettings__value.securitySettings__desktopRow You don't have an authentication key #[.securitySettings__action.securitySettings__action--mobileLeft(@click="tfaStep=2") Create key]
+        .securitySettings__param.securitySettings__param--margin ***
+        .securitySettings__param Please install one of the following apps to generate key:
+        .securitySettings__item.securitySettings__desktopRow
+          .securitySettings__value.securitySettings__value--row.securitySettings__value--os
+            Icon.securitySettings__osIcon(id="android")
+            .securitySettings__action Android
+          .securitySettings__value.securitySettings__value--row.securitySettings__value--os
+            Icon.securitySettings__osIcon(id="ios")
+            .securitySettings__action iOS
+          .securitySettings__value.securitySettings__value--row.securitySettings__value--os
+            Icon.securitySettings__osIcon(id="windows")
+            .securitySettings__action Windows phone
+        .securitySettings__instruction After installing the app add the key by scanning the QR code or entering it manually.
+      .securitySettings__item(v-if="tfaStep==2 && tfaMethod === 2")
+        TFA(:onConfirm="finish2FA", :onCancel="cancel2FA" text="Now scan QR-code below and enter the one-time password from Google Auth", :method="tfaMethod")
     .securitySettings__title Other
     .securitySettings__item.securitySettings__desktopRow
       .securitySettings__row Terminate active sessions #[Icon.securitySettings__terminateIcon(id="terminate")]
@@ -70,15 +60,16 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
 </template>
 
 <script>
-import * as Membership from 'services/api/membership';
-import {mapState, mapActions} from 'vuex';
+import * as User from 'services/api/user';
+import {mapState, mapMutations, mapActions} from 'vuex';
 import Icon from 'components/Icon';
 import BButton from 'components/BButton';
 import Dropdown from 'components/Dropdown';
 import Radio from 'components/Radio';
 import FlagSwitch from 'components/FlagSwitch';
 import TFA from 'components/modals/TFA';
-import {serverNotification} from 'services/notification';
+import ChangePassword from 'components/pages/ChangePassword';
+// import {serverNotification} from 'services/notification';
 import Page from './Page';
 
 export default {
@@ -92,15 +83,9 @@ export default {
         value: '****ize@gmail.com',
         verified: false,
       },
-      tfaMethod: 2,
+      tfaMethod: 3,
       number: '',
       country: 'ru',
-      password: {
-        step: 0,
-        old: '',
-        new: '',
-        repeat: '',
-      },
       tfaStep: 0,
     };
   },
@@ -109,45 +94,56 @@ export default {
       settings: 'settings',
     }),
     requiresNumber() {
-      return this.tfaMethod < 3;
+      return this.tfaMethod != 2;
     },
   },
   methods: {
-    confirmPasswordChange(code) {
-      Membership.confirmPasswordChange({
-        code,
-        oldpassword: this.password.old,
-        newpassword: this.password.new,
-      }).then(() => {
-        this.password.step = 0;
-      }).catch((err) => {
-        serverNotification(err);
-      });
-    },
-    requestPasswordChange() {
-      Membership.requestPasswordChange({
-        oldpassword: this.password.old,
-        newpassword: this.password.new,
-      }).then(() => {
-        this.password.step = 2;
-      }).catch((err) => {
-        serverNotification(err);
-      });
-    },
-    cancelPasswordChange() {
-      this.password.step = 0;
-    },
-    cancel2FA() {
-      this.tfaStep = 0;
-    },
-    finish2FA() {
-      this.tfaStep = 0;
-    },
+    ...mapMutations('user', {
+      setTFAMethod: 'setTFAMethod',
+    }),
     ...mapActions('user', {
       getProfileData: 'getProfileData',
     }),
-    chooseTFAMethod() {
-      this.tfaStep = 1;
+    cancel2FA() {
+      this.tfaStep = 0;
+    },
+    finish2FA(code) {
+      User.finishTFAChange({
+        method: this.tfaMethod,
+        contact: this.number,
+        code,
+      }).then(() => {
+        this.setTFAMethod({
+          method: this.tfaMethod,
+          contact: this.number,
+        });
+        this.tfaStep = 0;
+      });
+    },
+    finish2FADisable(code) {
+      User.finishTFAChange({
+        code,
+      }).then(() => {
+        this.setTFAMethod({
+          method: this.tfaMethod,
+          contact: this.number,
+        });
+        this.tfaStep = 0;
+      });
+    },
+    requestTFAChange(enable) {
+      let data = {};
+      if (enable) {
+        data = {
+          method: this.tfaMethod,
+          contact: this.number,
+        };
+      } else {
+        this.tfaMethod = 0;
+      };
+      User.requestTFAChange(data).then(() => {
+        this.tfaStep = 2;
+      });
     },
   },
   created() {
@@ -161,6 +157,7 @@ export default {
     Dropdown,
     FlagSwitch,
     TFA,
+    ChangePassword,
   },
 };
 </script>
