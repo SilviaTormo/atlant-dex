@@ -1,7 +1,10 @@
 <template lang="pug">
 .dropdown
-  select.dropdown__select(@change="select($event.target.value)", :class="{'dropdown__select--withBorder': border}")
-    option.dropdown__option(v-for="option in options", :value="option") {{option}}
+  select.dropdown__select(@change="select($event.target.value)", :class="{'dropdown__select--withBorder': border}" )
+    option.dropdown__option(v-for="option in options",
+                              :value="option",
+                              :selected="option == selectDefault",
+                            ) {{option}}
   Icon.dropdown__triangle(id="triangle2", :class="{'dropdown__triangle--withPadding': border}")
 </template>
 
@@ -31,6 +34,11 @@ export default {
       default: false,
       required: false,
     },
+    selectDefault: {
+      type: [String, Boolean],
+      default: '',
+      required: false,
+    },
   },
   components: {
     Icon,
@@ -39,6 +47,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~variables";
 .dropdown {
   display: flex;
   align-items: center;
@@ -46,13 +55,13 @@ export default {
   width: 100%;
   &__select {
     width: 100%;
-    color: #fff;
+    color: $color_white;
     // font-size: 16px;
     font-weight: bold;
     appearance: none;
     background-color: transparent;
     &--withBorder {
-      border: 1px solid #ffffff;
+      border: 1px solid $color_white;
       border-radius: 4px;
       background: transparent;
       padding: 10px;
@@ -60,12 +69,12 @@ export default {
     }
   }
   &__option {
-    color: #000;
+    color: $color_black;
   }
   &__triangle {
     width: 12px;
     height: 6px;
-    fill: #fff;
+    fill: $color_white;
     position: absolute;
     right: 0;
     pointer-events: none;
