@@ -47,8 +47,8 @@ import 'echarts/lib/component/dataZoom';
 // import 'echarts/lib/component/timeline';
 // import 'echarts/lib/component/toolbox';
 // import 'zrender/lib/vml/vml';
-import {simpleMovingAverageArray} from 'binary-indicators/lib/simpleMovingAverage';
-import {exponentialMovingAverageArray} from 'binary-indicators/lib/exponentialMovingAverage';
+// import {simpleMovingAverageArray} from 'binary-indicators/lib/simpleMovingAverage';
+// import {exponentialMovingAverageArray} from 'binary-indicators/lib/exponentialMovingAverage';
 // import {macdArray} from 'binary-indicators/lib/macd';
 import {DateTime} from 'luxon';
 import {mapState, mapGetters, mapActions} from 'vuex';
@@ -67,13 +67,13 @@ export default {
         'candlestick',
       ],
       technicalIndicators: {
-        'MA': {
-          name: 'MA',
+        'MA10': {
+          name: 'MA10',
           enabled: false,
           color: '#42B6F6',
         },
-        'EMA': {
-          name: 'EMA',
+        'EMA10': {
+          name: 'EMA10',
           enabled: false,
           color: 'orange',
         },
@@ -294,37 +294,37 @@ export default {
             },
           },
           {
-            name: 'MA',
+            name: 'MA10',
             type: 'line',
-            data: this.technical('MA'),
+            data: this.calculateMA(10),
             itemStyle: {
               normal: {
-                color: this.technicalIndicators['MA'].color,
-                opacity: this.technicalIndicators['MA'].enabled,
+                color: this.technicalIndicators['MA10'].color,
+                opacity: this.technicalIndicators['MA10'].enabled,
               },
             },
             lineStyle: {
               normal: {
-                color: this.technicalIndicators['MA'].color,
-                opacity: this.technicalIndicators['MA'].enabled,
+                color: this.technicalIndicators['MA10'].color,
+                opacity: this.technicalIndicators['MA10'].enabled,
               },
             },
             zlevel: 1,
           },
           {
-            name: 'EMA',
+            name: 'EMA10',
             type: 'line',
-            data: this.technical('EMA'),
+            data: this.calculateEMA(10),
             itemStyle: {
               normal: {
-                color: this.technicalIndicators['EMA'].color,
-                opacity: this.technicalIndicators['EMA'].enabled,
+                color: this.technicalIndicators['EMA10'].color,
+                opacity: this.technicalIndicators['EMA10'].enabled,
               },
             },
             lineStyle: {
               normal: {
-                color: this.technicalIndicators['EMA'].color,
-                opacity: this.technicalIndicators['EMA'].enabled,
+                color: this.technicalIndicators['EMA10'].color,
+                opacity: this.technicalIndicators['EMA10'].enabled,
               },
             },
             zlevel: 1,
@@ -363,13 +363,32 @@ export default {
         ],
       };
     },
-    technical(indicator) {
-      const data = this.rawCandles.map((item) => item[3]);
-      if (indicator == 'MA') {
-        return Array(9).fill(0).concat(simpleMovingAverageArray(data, {periods: 10, pipSize: 6}));
-      } else if (indicator == 'EMA') {
-        return Array(9).fill(0).concat(exponentialMovingAverageArray(data, {periods: 10, pipSize: 6}));
+    calculateMA(count = 10) {
+      let result = [];
+
+      for (let i = 0, len = this.rawCandles.length; i < len; i++) {
+        if (i < count) {
+            result.push('');
+            continue;
+        };
+        let sum = 0;
+        for (let j = 0; j < count; j++) {
+            sum += this.rawCandles[i - j][1];
+        };
+        result.push(sum / count);
       }
+      // console.table(result);
+      return result;
+    },
+    calculateEMA(count = 10) {
+      let result = [];
+      let k = 2/(count + 1);
+
+      result = [this.rawCandles[0][1]];
+      for (let i = 1; i < this.rawCandles.length; i++) {
+        result.push(this.rawCandles[i][1] * k + result[i - 1] * (1 - k));
+      };
+      return result;
     },
     techClass(indicator) {
       return (this.technicalIndicators[indicator].enabled) ? 'chart__buttonTxt--activeBox' : '';
@@ -384,11 +403,9 @@ export default {
   },
   watch: {
     rawCandles() {
-      this.technical('EMA');
+      this.calculateMA(10);
+      this.calculateEMA(10);
       this.createChart();
-    },
-    getContainerWidth() {
-      console.log(this.getContainerWidth);
     },
   },
   created() {
@@ -443,10 +460,10 @@ export default {
       color: #02334d;
       font-weight: bold;
     }
-    &--MA {
+    &--MA10 {
       background-color: $color_summersky;
     }
-    &--EMA {
+    &--EMA10 {
       background-color: orange;
     }
     &--MACD {
