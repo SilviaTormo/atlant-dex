@@ -1,11 +1,12 @@
 <template lang="pug">
-.modal(v-scrollbar="")
-  .modal__overlay(@click="closeModal()")
-  .modal__main
-    .modal__body(:class="[`modal__body--${screenType}`]")
-      Icon.modal__closeIcon(id="close"  @click="closeModal()")
-      .modal__content
-        slot
+transition(name="modal__anim")
+  .modal(v-scrollbar="")
+    .modal__overlay(@click="closeModal()")
+    .modal__main
+      .modal__body(:class="[`modal__body--${screenType}`]")
+        Icon.modal__closeIcon(id="close"  @click="closeModal()")
+        .modal__content
+          slot
 </template>
 
 <script>
@@ -107,6 +108,15 @@ $padding: 40px;
   &__cross {
     display: none;
   }
+  &__anim-enter,
+&__anim-leave-active {
+opacity: 0;
+}
+
+&__anim-enter-active,
+&__anim-leave-active {
+transition: opacity .4s ease;
+}
 }
 
 @include media-breakpoint-down(md) {
@@ -127,7 +137,7 @@ $padding: 40px;
       $size: 24px;
       width: $size;
       height: $size;
-      fill: #fff;
+      fill: $color_white;
       display: block;
       cursor: pointer;
       margin-left: auto;
