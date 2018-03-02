@@ -50,3 +50,33 @@ export const profileSections = [
     label: 'My orders',
   },
 ];
+
+export const operatingSystems = [
+  {
+    id: 'android',
+    name: 'Android',
+  },
+  {
+    id: 'ios',
+    name: 'iOS',
+  },
+  {
+    id: 'windows',
+    name: 'Windows phone',
+  },
+];
+
+export const tfaMethods = [
+  {
+    id: 3,
+    name: 'Telegram',
+  },
+  {
+    id: 1,
+    name: 'SMS',
+  },
+  {
+    id: 2,
+    name: 'Google Auth',
+  },
+];

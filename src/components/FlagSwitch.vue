@@ -1,6 +1,5 @@
 <template lang="pug">
 div.flagSwitch(@click.stop="toggleList()")
-  div.flagSwitch__text(v-if="type == 'currency'") {{getCountryCurrency(currentFlag)}}
   img.flagSwitch__flag(:src="flagPath(currentFlag)")
   Icon.flagSwitch__triangle(id="triangle2")
   Tooltip.flagSwitch__tooltip(v-show="isOpened", :bottom="isMobile", :middle="true", v-scrollbar="")
@@ -16,7 +15,7 @@ import Tooltip from 'components/Tooltip';
 import Icon from 'components/Icon';
 import {scrollbar} from 'directives';
 import {mapGetters} from 'vuex';
-import {countryNames, countryCurrencies, getCountryName, getCountryCurrency} from 'services/countries';
+import {countryData, countryCurrencies, getCountryName, getCountryCurrency} from 'services/countries';
 
 export default {
   data() {
@@ -50,11 +49,14 @@ export default {
       document.removeEventListener('click', outClick);
       document.addEventListener('click', outClick);
     },
-    getCountryName(code) {
-      return getCountryName(code);
+    getCountryName(country) {
+      return getCountryName(country);
     },
-    getCountryCurrency(code) {
-      return getCountryCurrency(code);
+    getCountryCode(country) {
+      return getCountryCode(country);
+    },
+    getCountryCurrency(country) {
+      return getCountryCurrency(country);
     },
     flagPath(flag = this.currentFlag) {
       return require('assets/images/flags/flag_' + flag + '.png');
@@ -67,7 +69,7 @@ export default {
   },
   created() {
     this.currentFlag = this.value;
-    this.flags = (this.type == 'currency') ? Object.keys(countryCurrencies) : Object.keys(countryNames);
+    this.flags = (this.type == 'currency') ? Object.keys(countryCurrencies) : Object.keys(countryData);
   },
   props: {
     value: {
@@ -140,11 +142,6 @@ export default {
     // margin-right: 9px;
     height: 24px;
     width: 24px;
-  }
-  &__text {
-    text-transform: uppercase;
-    color: #fff;
-    margin-right: 10px;
   }
   &__triangle {
     width: 8px;

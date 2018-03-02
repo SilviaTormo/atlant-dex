@@ -47,8 +47,12 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
+    ...mapMutations('user', {
+      setTFAMethod: 'setTFAMethod',
+    }),
     reset() {
-      Membership.requestPasswordRestore(this.email).then(() => {
+      Membership.requestPasswordRestore(this.email).then((response) => {
+        this.setTFAMethod({method: response.data.twoFactorAuthenticationMethod});
         this.step = 1;
       }).catch((res) => {
         serverNotification(res);

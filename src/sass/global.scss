@@ -24,10 +24,24 @@
   padding: 3px 0 2px;
   border-bottom: 1px solid transparent;
   transition: border .5s;
+  &:hover {
+    transition: border.5s;
+    border-color: $color_yellow;
+  }
+  &--green {
+    color: $color_green;
     &:hover {
       transition: border.5s;
-      border-color: $color_yellow;
+      border-color: $color_green;
     }
+  }
+  &--red {
+    color: $color_red;
+    &:hover {
+      transition: border.5s;
+      border-color: $color_red;
+    }
+  }
 }
 
 .input {

@@ -8,14 +8,13 @@ canvas#qr
   export default {
     methods: {
       createQR() {
-        let qr = new qrious({
+        new qrious({
           element: document.querySelector('#qr'),
           value: this.text,
           size: this.size,
-          backgroundAlpha: 0,
-          foreground: '#fff',
+          background: '#fff',
+          foreground: '#032537',
         });
-        console.log('qr is', qr);
       },
     },
     watch: {

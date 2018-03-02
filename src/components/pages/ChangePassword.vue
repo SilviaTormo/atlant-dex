@@ -14,12 +14,11 @@
       .link.changePassword__action(@click="requestPasswordChange") Confirm
       .link.changePassword__action(@click="cancelPasswordChange") Cancel
   .changePassword__item(v-if="password.step == 2")
-    TFA(:onConfirm="confirmPasswordChange", :onCancel="cancelPasswordChange", :onResend="requestPasswordChange", :method="settings.twoFactorAuthenticationMethod")
+    TFA(:onConfirm="confirmPasswordChange", :onCancel="cancelPasswordChange", :onResend="requestPasswordChange")
 </template>
 
 <script>
 import * as Membership from 'services/api/membership';
-import {mapState} from 'vuex';
 import TFA from 'components/modals/TFA';
 import {serverNotification} from 'services/notification';
 
@@ -33,11 +32,6 @@ export default {
         repeat: '',
       },
     };
-  },
-  computed: {
-    ...mapState('user', {
-      settings: 'settings',
-    }),
   },
   methods: {
     confirmPasswordChange(code) {

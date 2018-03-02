@@ -3,28 +3,26 @@
   form.tfa__content(v-if="isModal" @submit.prevent="onConfirm(secureCode)")
     .tfa__title confirmation
     .tfa__text {{text}}
-    QR.tfa__modalQR(v-if="method === 2" text='Yeah0*/-+' size='148')
     IInput.tfa__input(placeholder="Enter security code", v-model="secureCode", center)
     BButton.tfa__button(color="malachite" rounded) Confirm
     .tfa__repeat
-      .tfa__repeatText(v-if="isLinkAviable && method != 2") The new code will be available in #[span.tfa__repeatTimer {{timer}} seconds]
-      a.link(v-if="!isLinkAviable && method != 2" @click="getCountDown(); onResend()") Send new code
+      .tfa__repeatText(v-if="!isLinkAviable && security.tfa.method != 2") The new code will be available in #[span.tfa__repeatTimer {{timer}} seconds]
+      a.link(v-if="isLinkAviable && security.tfa.method != 2" @click="getCountDown(); onResend()") Send new code
     a.link(@click="onCancel()") Cancel
   form(v-else)
     .tfa__row {{text}}
-    QR.tfa__qr(v-if="method === 2" text='Yeah0*/-+' size='114')
     .tfa__row.tfa__row--desktop
       input.input(placeholder="Enter security code" v-model="secureCode")
       .tfa__row.tfa__row--mobileMargin
         .link.tfa__link(@click="onConfirm(secureCode)") Confirm
         .link.tfa__link(@click="onCancel()") Cancel
-    .tfa__row(v-if="isLinkAviable && method != 2") #[Icon(id="resend")] #[.link.tfa__link(@click="onResend()") Resend] confirmation code
-    .tfa__row(v-if="!isLinkAviable && method != 2")
+    .tfa__row(v-if="isLinkAviable && security.tfa.method != 2") #[Icon(id="resend")] #[.link.tfa__link(@click="getCountDown(); onResend()") Resend] confirmation code
+    .tfa__row(v-if="!isLinkAviable && security.tfa.method != 2")
       .tfa__repeatText The new code will be available in #[span.tfa__repeatTimer {{timer}} seconds]
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex';
+import {mapState, mapGetters, mapMutations} from 'vuex';
 import Icon from 'components/Icon';
 import BButton from 'components/BButton';
 import IInput from 'components/IInput';
@@ -41,6 +39,9 @@ export default {
     };
   },
   computed: {
+    ...mapState('user', {
+      security: 'security',
+    }),
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
@@ -88,10 +89,6 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-    },
-    method: {
-      type: Number,
-      required: true,
     },
   },
   components: {
@@ -179,9 +176,6 @@ export default {
   }
   &__link {
     margin: 0 5px 0 19px;
-  }
-  &__qr {
-    margin-top: 36px;
   }
   &__modalQR {
     margin-bottom: 36px;

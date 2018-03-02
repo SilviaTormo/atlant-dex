@@ -4,22 +4,45 @@ export default {
   state: {
     balance: 317,
     userCurrencies: ['USD', 'BTC', 'ETH', 'ATL'],
-    account: {},
-    settings: {},
+    account: {
+      email: {
+        value: '',
+      },
+      fullName: {
+        verified: false,
+      },
+      phone: {
+        verified: false,
+      },
+      subscribe: {
+        newsletter: false,
+        email: false,
+        sms: false,
+      },
+    },
+    security: {
+      additionalEmail: {
+        verified: false,
+      },
+      tfa: {
+        method: '',
+      },
+    },
   },
   getters: {
   },
   mutations: {
     setProfile(state, data) {
       state.account = data.account;
-      state.settings = data.settings;
+      state.security = data.security;
     },
     setPrefCurrency(state, data) {
-      state.settings.prefferedCurrency = data;
+      state.account.currency = data;
     },
     setTFAMethod(state, data) {
-      state.settings.twoFactorAuthenticationMethod = data.method;
-      state.settings.twoFactorAuthenticationContact = data.contact;
+      state.security.tfa.enabled = data.enabled;
+      state.security.tfa.method = data.method;
+      state.security.tfa.phoneNumber = data.contact;
     },
   },
   actions: {
