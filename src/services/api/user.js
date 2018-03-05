@@ -11,3 +11,5 @@ export const changePhone = ({countryCode, phone}) => api.put(`profile/fields/pho
 export const verifyPhone = (code) => api.put(`/profile/fields/verify/phone/${code}`);
 export const changeAdditionalEmail = (email) => api.put(`profile/fields/additionalEmail/${email}`);
 export const verifyAdditionalEmail = (confirmationCode) => api.put(`profile/fields/verify/additionalEmail/${confirmationCode}`);
+
+export const getSecurityLog= ({page, limit}) => api.get('logs/security', {params: {page, limit}});

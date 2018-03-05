@@ -10,57 +10,29 @@ Page(title="Security log", title2="Authorization sheet", :sidebar="true")
             th Type
         tbody
           tr(v-for="(item, index) in data")
-            td {{ item.ip }}
-            td {{ item.date }}
-            td {{ item.type }}
+            td {{item.ipAddress}} ({{item.country}})
+            td {{item.dateTime}}
+            td {{item.description}}
 </template>
 
 <script>
+import * as User from 'services/api/user';
 import Page from './Page';
 
 export default {
   data() {
     return {
-      data: [
-        {
-          ip: '46.8.48.99',
-          date: '18.12.2017 5:52',
-          type: 'System login',
-        },
-        {
-          ip: '90.154.64.234',
-          date: '17.12.2017 22:38',
-          type: 'System login',
-        },
-        {
-          ip: '46.8.48.99',
-          date: '17.12.2017 1:33',
-          type: 'System login',
-        },
-        {
-          ip: '46.8.48.99',
-          date: '16.12.2017 22:37',
-          type: 'System login',
-        },
-        {
-          ip: '90.154.64.234',
-          date: '16.12.2017 15:52',
-          type: 'System login',
-        },
-        {
-          ip: '90.154.64.234',
-          date: '16.12.2017 15:52',
-          type: 'System login',
-        },
-        {
-          ip: '90.154.64.234',
-          date: '12.12.2017 23:39',
-          type: 'System login',
-        },
-      ],
+      data: [],
     };
   },
-
+  created() {
+    User.getSecurityLog({
+      page: 1,
+      limit: 20,
+    }).then((response) => {
+      this.data = response.data.logs;
+    });
+  },
   components: {
     Page,
   },
