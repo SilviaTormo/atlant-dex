@@ -9,9 +9,11 @@ export default {
         value: '',
       },
       fullName: {
+        value: null,
         verified: false,
       },
       phone: {
+        value: null,
         verified: false,
       },
       subscribe: {
@@ -44,11 +46,34 @@ export default {
       state.security.tfa.method = data.method;
       state.security.tfa.phoneNumber = data.contact;
     },
+    setPhoneNumber(state, data) {
+      state.account.phone.value = data.phone;
+      state.account.phone.countryCode = data.countryCode;
+    },
+    setPhoneVerified(state, isVerified) {
+      state.account.phone.verified = isVerified;
+    },
   },
   actions: {
     getProfileData({commit}) {
       User.getProfile().then((res) => {
         commit('setProfile', res.data);
+      });
+    },
+    setFullName({state}, data) {
+      return new Promise((resolve, reject) => {
+        User.changeName(data).then(() => {
+          state.account.fullName.value = data;
+          return resolve();
+        });
+      });
+    },
+    setPhone({commit}, data) {
+      return new Promise((resolve, reject) => {
+        User.changePhone(data).then(() => {
+          commit('setPhoneNumber', data);
+          return resolve();
+        });
       });
     },
   },

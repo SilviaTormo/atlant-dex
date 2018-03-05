@@ -11,8 +11,7 @@ Page(title="Account information", title2="", :sidebar="true")
             .accountInfo__value--half {{account.id}}
             span.accountInfo__registration Registration date: {{regdate}}
         .accountInfo__item
-          .accountInfo__param Full name:
-          .accountInfo__value.accountInfo__value--verifiable {{name}} #[Icon.accountInfo__icon(v-if="account.fullName.verified" id="verified")]
+          ChangeName
         .accountInfo__item
           .accountInfo__param Verification status:
           .accountInfo__value.accountInfo__value--verifiable
@@ -24,9 +23,8 @@ Page(title="Account information", title2="", :sidebar="true")
           .accountInfo__value.accountInfo__value--verifiable {{account.email.value}} #[Icon.accountInfo__icon(v-if="account.email.verified" id="verified")]
             .link.accountInfo__action Change
         .accountInfo__item
-          .accountInfo__param Phone number:
-          .accountInfo__value.accountInfo__value--verifiable {{phone}} #[Icon.accountInfo__icon(v-if="account.phone.verified" id="verified")]
-            .link.accountInfo__action Change
+          ChangePhone
+          //- .accountInfo__value.accountInfo__value--verifiable {{phone}} #[Icon.accountInfo__icon(v-if="account.phone.verified" id="verified")]
         .accountInfo__title Other
         .accountInfo__other
           .accountInfo__item.accountInfo__item--other
@@ -49,13 +47,13 @@ import Icon from 'components/Icon';
 import Checkbox from 'components/Checkbox';
 import BButton from 'components/BButton';
 import FlagSwitch from 'components/FlagSwitch';
+import ChangeName from './ChangeName';
+import ChangePhone from './ChangePhone';
 import Page from './Page';
 
 export default {
   data() {
     return {
-      name: 'Julian Denisovich Oekenov',
-      phone: '+79031235678',
     };
   },
   computed: {
@@ -92,6 +90,8 @@ export default {
     Checkbox,
     BButton,
     FlagSwitch,
+    ChangeName,
+    ChangePhone,
   },
 };
 </script>
