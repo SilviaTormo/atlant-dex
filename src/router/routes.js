@@ -46,4 +46,18 @@ export default [
       });
     },
   },
+  {
+    path: '/verify-email',
+    component: Index,
+    props: (route) => ({
+      code: route.query.code,
+    }),
+    beforeEnter(to, from, next) {
+      store.dispatch('user/verifyAdditionalEmail', to.query.code).then((data) => {
+        next('/');
+      }).catch(() => {
+        next(true);
+      });
+    },
+  },
 ];

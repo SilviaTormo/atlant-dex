@@ -2,14 +2,13 @@
 .changePhone
   .changePhone__param Contact phone:
   .changePhone__row(v-if="step === 0")
-    .changePhone__value {{this.account.phone.value}}
-    Icon.changePhone__icon(v-if="account.phone.verified" id="verified")
+    .changePhone__value {{this.account.phone.value}} #[Icon.changePhone__icon(v-if="account.phone.verified" id="verified")]
     .link.changePhone__action(:class="{'changePhone__action--empty' : isEmpty}" @click="changePhone") Change
     .link.changePhone__action(v-if="account.phone.value && !account.phone.verified" @click="verifyPhone") Verify
   .changePhone__row(v-if="step === 1")
-    .changePhone__code {{getCountryCode}}
-    FlagSwitch.changePhone__dropdown(v-model="country")
-    input.input(v-model="phone")
+    .changePhone__value {{getCountryCode}}
+      FlagSwitch.changePhone__dropdown(v-model="country")
+      input.input.changePhone__input(v-model="phone")
     .link.changePhone__action(@click="setPhoneNumber") Save
     .link.changePhone__action(@click="setStep(0)") Cancel
   TFA(v-if="step === 2", :onCancel="cancelVerification", :onConfirm="finishVerification", :onResend="verifyPhone")
@@ -107,6 +106,10 @@ export default {
   &__param {
     font-weight: 700;
   }
+  &__value {
+    display: flex;
+    align-items: center;
+  }
   &__action {
     margin: 0 5px 0 19px;
     &--empty {
@@ -117,6 +120,9 @@ export default {
     width: 40px;
     margin-right: 10px;
     margin-left: 10px;
+  }
+  &__input {
+    width: 120px;
   }
   &__icon{
     $size: 13px;

@@ -4,15 +4,16 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
     .securitySettings__title Main
     .securitySettings__item
       ChangePassword
-    .securitySettings__desktopRow
-      .securitySettings__item.securitySettings__item--column
-        .securitySettings__param Current Email:
-        .securitySettings__value.securitySettings__value--row {{email.value}} #[Icon.securitySettings__icon(v-if="email.verified" id="verified")]
-          .link.securitySettings__action Change
-      .securitySettings__item.securitySettings__item--column
-        .securitySettings__param Additional Email:
-        .securitySettings__value.securitySettings__value--row {{additionalEmail.value}} #[Icon.securitySettings__icon(v-if="security.additionalEmail.verified" id="verified")]
-          .link.securitySettings__action Change
+    // .securitySettings__desktopRow
+    .securitySettings__item
+      ChangeEmail
+      //-   .securitySettings__param Current Email:
+      //-   .securitySettings__value.securitySettings__value--row {{email.value}} #[Icon.securitySettings__icon(v-if="email.verified" id="verified")]
+      //-     .link.securitySettings__action Change
+      //- .securitySettings__item.securitySettings__item--column
+      //-   .securitySettings__param Additional Email:
+      //-   .securitySettings__value.securitySettings__value--row {{additionalEmail.value}} #[Icon.securitySettings__icon(v-if="security.additionalEmail.verified" id="verified")]
+      //-     .link.securitySettings__action Change
     .securitySettings__title 2 factor authentication
     TFASettings
     .securitySettings__title Other
@@ -27,6 +28,7 @@ import {mapState, mapActions} from 'vuex';
 import Icon from 'components/Icon';
 import BButton from 'components/BButton';
 import ChangePassword from 'components/pages/ChangePassword';
+import ChangeEmail from 'components/pages/ChangeEmail';
 import TFASettings from 'components/pages/TFASettings';
 // import {serverNotification} from 'services/notification';
 import Page from './Page';
@@ -62,6 +64,7 @@ export default {
     Icon,
     BButton,
     ChangePassword,
+    ChangeEmail,
     TFASettings,
   },
 };

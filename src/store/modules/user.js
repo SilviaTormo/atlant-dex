@@ -24,6 +24,7 @@ export default {
     },
     security: {
       additionalEmail: {
+        value: null,
         verified: false,
       },
       tfa: {
@@ -72,6 +73,22 @@ export default {
       return new Promise((resolve, reject) => {
         User.changePhone(data).then(() => {
           commit('setPhoneNumber', data);
+          return resolve();
+        });
+      });
+    },
+    setAdditionalEmail({state}, data) {
+      return new Promise((resolve, reject) => {
+        User.changeAdditionalEmail(data).then(() => {
+          state.security.additionalEmail.value = data;
+          return resolve();
+        });
+      });
+    },
+    verifyAdditionalEmail({state}, data) {
+      return new Promise((resolve, reject) => {
+        User.verifyAdditionalEmail(data).then(() => {
+          state.security.additionalEmail.verified = true;
           return resolve();
         });
       });

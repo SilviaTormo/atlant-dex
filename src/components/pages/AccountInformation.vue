@@ -14,17 +14,16 @@ Page(title="Account information", title2="", :sidebar="true")
           ChangeName
         .accountInfo__item
           .accountInfo__param Verification status:
-          .accountInfo__value.accountInfo__value--verifiable
+          .accountInfo__value.accountInfo__value--inline
             Icon.accountInfo__star(id="star" v-for="(index) in 5", :class="{'accountInfo__star--verified' : index <= account.verificationRating }", :key="index")
             .accountInfo__rating {{account.verificationRating}}/5
             .link.accountInfo__action Finish process
         .accountInfo__item
           .accountInfo__param Email:
-          .accountInfo__value.accountInfo__value--verifiable {{account.email.value}} #[Icon.accountInfo__icon(v-if="account.email.verified" id="verified")]
-            .link.accountInfo__action Change
+          .accountInfo__value.accountInfo__value--inline {{account.email.value}} #[Icon.accountInfo__icon(v-if="account.email.verified" id="verified")]
         .accountInfo__item
           ChangePhone
-          //- .accountInfo__value.accountInfo__value--verifiable {{phone}} #[Icon.accountInfo__icon(v-if="account.phone.verified" id="verified")]
+          //- .accountInfo__value.accountInfo__value--inline {{phone}} #[Icon.accountInfo__icon(v-if="account.phone.verified" id="verified")]
         .accountInfo__title Other
         .accountInfo__other
           .accountInfo__item.accountInfo__item--other
@@ -34,7 +33,7 @@ Page(title="Account information", title2="", :sidebar="true")
             Checkbox.accountInfo__checkbox(v-model="account.subscribe.sms") #[.accountInfo__text SMS notification]
           .accountInfo__item.accountInfo__item--other
             .accountInfo__param Preferred currency:
-            .accountInfo__value.accountInfo__value--fullWidth {{getCountryCurrency}}
+            .accountInfo__value.accountInfo__value--inline {{getCountryCurrency}}
               FlagSwitch.accountInfo__dropdown(type="currency", :value="getCurrencyCountry", @change="val => { setPrefCurrencyFromFlag(val) }")
         BButton.accountInfo__button(color="malachite" rounded) Save
 </template>
@@ -129,7 +128,7 @@ export default {
   &__value {
     margin-top: 18px;
     font-weight: 400;
-    &--verifiable {
+    &--inline {
       display: flex;
       align-items: center;
     }
