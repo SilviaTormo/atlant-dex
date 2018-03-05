@@ -11,12 +11,13 @@ Page(title="Security log", title2="Authorization sheet", :sidebar="true")
         tbody
           tr(v-for="(item, index) in data")
             td {{item.ipAddress}} ({{item.country}})
-            td {{item.dateTime}}
+            td {{getLogTime(item.dateTime)}}
             td {{item.description}}
 </template>
 
 <script>
 import * as User from 'services/api/user';
+import {DateTime} from 'luxon';
 import Page from './Page';
 
 export default {
@@ -25,10 +26,15 @@ export default {
       data: [],
     };
   },
+  methods: {
+    getLogTime(isoTime) {
+      return DateTime.fromISO(isoTime).toFormat('dd.LL.yyyy HH:mm');
+    },
+  },
   created() {
     User.getSecurityLog({
       page: 1,
-      limit: 20,
+      limit: 100,
     }).then((response) => {
       this.data = response.data.logs;
     });
