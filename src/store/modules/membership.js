@@ -24,12 +24,13 @@ export default {
     },
   },
   actions: {
-    login({commit}, {email, password}) {
+    login({commit, dispatch}, {email, password}) {
       return Membership.login({
         email,
         password,
       }).then((response) => {
         commit('createUser', response.data);
+        dispatch('refreshToken');
       }).catch((res) => {
         serverNotification(res);
       });
@@ -50,6 +51,18 @@ export default {
       return Membership.regFinish(code).then((res) => {
         commit('createUser', response.data);
       });
+    },
+    refreshToken({state, commit, dispatch}) {
+      setTimeout(() => {
+        return Membership.refreshToken({
+          grantType: 'RefreshToken',
+          refreshToken: state.refreshToken,
+          email: state.email,
+        }).then((response) => {
+          commit('createUser', response.data);
+          dispatch('refreshToken');
+        });
+      }, 55000);
     },
   },
   namespaced: true,

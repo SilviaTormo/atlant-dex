@@ -1,4 +1,4 @@
-export const baseURL = 'http://apiv2.atlant.io/';
+export const baseURL = 'https://apiv2.atlant.io/';
 export const baseURLOld = 'https://apiex.atlant.io';
 export const timeout = 30000;
 export const hubURL = `${baseURLOld}/signalr/hubs`;
