@@ -33,7 +33,6 @@ export default {
     accountTradeHistory: {
       total: 0,
       items: [],
-      offset: 0,
       status: 'all',
     },
     accountTransactionHistory: {
@@ -307,6 +306,11 @@ export default {
    getTraderWallet({commit}) {
       return Trade.getTraderWallet().then((res) => {
         commit('setWallet', res.data.result['BTC']);
+      });
+    },
+    getTradeHistory({commit}, {page, limit, pair}) {
+      return Trade.getTradeHistory({page, limit, pair}).then((res) => {
+        commit('setTradeHistory', res);
       });
     },
   },

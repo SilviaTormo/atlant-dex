@@ -58,9 +58,6 @@ export default {
       offset: (state) => state.accountTransactionHistory.offset,
       itemsOnPage: 'limit',
     }),
-    ...mapActions('trade', {
-      getAccountTransactionHistory: 'getAccountTransactionHistory',
-    }),
     setPagesCount() {
       return Math.ceil(this.total / this.itemsOnPage);
     },
@@ -71,6 +68,9 @@ export default {
     ...mapMutations('trade', {
       setOffsetForTransactionHistory: 'setOffsetForTransactionHistory',
     }),
+    ...mapActions('trade', {
+      getAccountTransactionHistory: 'getAccountTransactionHistory',
+    }),
     isChecked(id) {
       return this.checkedArray.indexOf(id) > -1;
     },
@@ -80,14 +80,14 @@ export default {
   },
   watch: {
     setPageNum() {
-      this.getAccountTransactionHistory;
+      this.getAccountTransactionHistory();
     },
     setPagesCount() {
       this.getAccountTransactionHistory;
     },
   },
   created() {
-    this.getAccountTransactionHistory;
+    this.getAccountTransactionHistory();
   },
   components: {
     TablePage,

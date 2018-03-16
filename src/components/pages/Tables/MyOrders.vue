@@ -109,7 +109,7 @@ export default {
     },
   },
   created() {
-    this.getAccountTradeHistory;
+    // this.getAccountTradeHistory;
   },
   components: {
     TablePage,

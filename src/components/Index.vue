@@ -113,7 +113,6 @@ export default {
       addLastTrade: 'addLastTrade',
       setOrdersAsks: 'setOrdersAsks',
       setOrdersBids: 'setOrdersBids',
-      setTradeHistory: 'setTradeHistory',
       setOrderList: 'setOrderList',
       setTradeInfo: 'setTradeInfo',
       addActiveOrder: 'addActiveOrder',
@@ -134,6 +133,7 @@ export default {
     ...mapActions('trade', {
       getTradeInfo: 'getTradeInfo',
       getTraderWallet: 'getTraderWallet',
+      getTradeHistory: 'getTradeHistory',
     }),
     updateOverflow() {
       document.querySelector('#app').style.overflow = (this.showSidebar && this.isMobile) ? 'hidden' : null;
@@ -245,11 +245,16 @@ export default {
       pair: this.pair,
     }).then((res) => {
       this.setDesktopData(res.data.result);
-      this.setTradeHistory(res.data.result.trades);
+      // this.setTradeHistory(res.data.result.trades);
       this.setPair(res.data.result.pair);
       this.setBook(res.data.result);
       this.setOHLC(res.data.result);
       this.setStats(res.data.result);
+    });
+    this.getTradeHistory({
+      page: 1,
+      limit: 20,
+      pair: 'BTC_ATL',
     });
   },
   directives: {
