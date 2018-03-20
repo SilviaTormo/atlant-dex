@@ -6,6 +6,10 @@ TablePage(
   :page="setPageNum",
   :changeActivePage="setOffsetForTransactionHistory"
   :checkedArray.sync="checkedArray",
+  :getRepeat="true",
+  :getUndo="true",
+  :getDelete="true",
+  :getExport="true",
 )
   .tHistory.table
     table.table__body
@@ -99,7 +103,7 @@ export default {
 
 
 <style lang="scss" scoped>
-
+@import "~variables";
 .tHistory {
   &__header {
     &--description {
@@ -111,13 +115,13 @@ export default {
   }
   &__amount {
     &--positive {
-      color: #7ed321;
+      color: $color_malachite;
       &:before {
         content: "+ ",
       }
     }
     &--negative {
-      color: #f33a3a;
+      color: $color_red;
       &:before {
         content: "- ",
       }
@@ -129,19 +133,19 @@ export default {
     margin-right: 14px;
     width: 12px;
     height: 12px;
-    fill: white;
+    fill: $color_white;
     visibility: hidden;
     &--visible {
       visibility: visible;
     }
   }
   &__status {
-    color: #a1a1a1;
+    color: $color_grey;
     &--completed {
-      color: #7ed321;
+      color: $color_green;
     }
     &--error {
-      color: #f33a3a;
+      color: $color_red;
     }
   }
   &__checkboxContainer {

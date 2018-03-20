@@ -6,6 +6,10 @@ TablePage(
   :page="setPageNum",
   :changeActivePage="setOffsetForTradeHistory"
   :checkedArray.sync='checkedArray',
+  :getRepeat="true",
+  :getUndo="true",
+  :getDelete="true",
+  :getExport="true",
 )
   .myOrders.table
     table.table__body
@@ -111,13 +115,14 @@ export default {
 
 
 <style lang="scss" scoped>
+@import '~variables';
 .myOrders {
   &__action {
-    &--Buy{
-      color: #7ed321;
+    &--Buy {
+      color: $color_green;
     }
     &--Sell {
-      color: #f33a3a;
+      color: $color_red;
     }
   }
   &__checkboxContainer {

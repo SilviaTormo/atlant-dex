@@ -20,6 +20,7 @@
       SecuritySettings(v-if="isPageOpened('securitySettings')")
       SecurityLog(v-if="isPageOpened('securityLog')")
       FAQ(v-if="isPageOpened('faq')")
+      NotificationHistory(v-if="isPageOpened('notificationHistory')")
   //- Modals
   InDemo(v-if="isModalOpened('inDemo')")
   Reset(v-else-if="isModalOpened('reset')")
@@ -48,6 +49,7 @@ import Grid from './grid/Grid';
 import PropertyMap from './PropertyMap';
 import TransactionHistory from './pages/Tables/TransactionHistory';
 import MyOrders from './pages/Tables/MyOrders';
+import NotificationHistory from './pages/Tables/NotificationHistory';
 import Verification from './pages/Verification';
 import AccountInformation from './pages/AccountInformation';
 import SecuritySettings from './pages/SecuritySettings';
@@ -277,6 +279,7 @@ export default {
     CryptoWithdraw,
     TransactionHistory,
     MyOrders,
+    NotificationHistory,
     Verification,
     AccountInformation,
     SecuritySettings,
@@ -309,7 +312,7 @@ export default {
   overflow-y: hidden;
   &__body {
     display: flex;
-    min-width: 1250px;
+    // min-width: 1250px;
     min-height: 100vh;
     margin-left: auto;
     margin-right: auto;

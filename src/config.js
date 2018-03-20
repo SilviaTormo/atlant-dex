@@ -49,6 +49,10 @@ export const profileSections = [
     name: 'myOrders',
     label: 'My orders',
   },
+  {
+    name: 'notificationHistory',
+    label: 'Notification History',
+  },
 ];
 
 export const operatingSystems = [

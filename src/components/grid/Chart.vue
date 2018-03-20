@@ -7,7 +7,7 @@
       .chart__buttonTxt(v-for="tech in technicalIndicators", :class="[techClass(tech.name), colorClass(tech.name)]", @click="toggleIndicator(tech.name)") {{tech.name}}
     .chart__buttons
       Icon.chart__buttonIcon(:id="type + 'Chart'" v-for="type in types", :key="type", :class="{'chart__buttonIcon--active' : isCurrentChart(type)}", @click="setChartType(type)")
-  IEcharts(:option="chart", :loading="false", :resizable="true")
+  IEcharts(:option="chart", :loading="false", :resizable="true")#chart
 </template>
 
 <script>
@@ -47,8 +47,8 @@ import 'echarts/lib/component/dataZoom';
 // import 'echarts/lib/component/timeline';
 // import 'echarts/lib/component/toolbox';
 // import 'zrender/lib/vml/vml';
-import {simpleMovingAverageArray} from 'binary-indicators/lib/simpleMovingAverage';
-import {exponentialMovingAverageArray} from 'binary-indicators/lib/exponentialMovingAverage';
+// import {simpleMovingAverageArray} from 'binary-indicators/lib/simpleMovingAverage';
+// import {exponentialMovingAverageArray} from 'binary-indicators/lib/exponentialMovingAverage';
 // import {macdArray} from 'binary-indicators/lib/macd';
 import {DateTime} from 'luxon';
 import {mapState, mapGetters, mapActions} from 'vuex';
@@ -67,13 +67,13 @@ export default {
         'candlestick',
       ],
       technicalIndicators: {
-        'MA': {
-          name: 'MA',
+        'MA10': {
+          name: 'MA10',
           enabled: false,
           color: '#42B6F6',
         },
-        'EMA': {
-          name: 'EMA',
+        'EMA10': {
+          name: 'EMA10',
           enabled: false,
           color: 'orange',
         },
@@ -127,13 +127,9 @@ export default {
         return item[4];
       });
     },
-    startValueOfChart() {
-      console.log((100 * 100 / this.timeSeries.length).toFixed());
-      let result = (70 * 100 / this.timeSeries.length).toFixed();
-      return 100 - result;
-    },
     setStartDataZoomOfChart() {
-      let howManyCandlesInTheScreen = 100;
+      let containerWidth = document.getElementById('chart').clientWidth;
+      let howManyCandlesInTheScreen = containerWidth / 10;
       let result = 100 - (howManyCandlesInTheScreen * 100 / this.timeSeries.length);
       return result;
     },
@@ -215,19 +211,19 @@ export default {
             },
           },
           {
+            show: false,
             gridIndex: 1,
             type: 'category',
             data: this.volumeSeries,
-            position: 'bottom',
-            silent: true,
-            scale: true,
+            scale: false,
+            boundaryGap: true, // don't touch this!
+            axisTick: {show: false},
+            splitLine: {show: false},
+            axisLabel: {show: false},
             axisLine: {
               lineStyle: {
                 color: '#376691',
               },
-            },
-            axisLabel: {
-              show: false,
             },
           },
         ],
@@ -235,7 +231,7 @@ export default {
           {
             scale: true,
             position: 'right',
-            offset: 5,
+            offset: false,
             width: 100,
             splitArea: {
               show: false,
@@ -257,20 +253,13 @@ export default {
             },
           },
           {
-            show: false,
-            scale: true,
-            silent: true,
-            position: 'left',
+            scale: false,
             gridIndex: 1,
-            splitLine: {
-              show: false,
-            },
-            axisLine: {
-              show: false,
-            },
-            axisLabel: {
-              show: false,
-            },
+            splitNumber: 5,
+            axisLabel: {show: false},
+            axisLine: {show: false},
+            axisTick: {show: false},
+            splitLine: {show: false},
           },
         ],
         dataZoom: [
@@ -294,7 +283,6 @@ export default {
           {
             name: 'Price',
             type: this.currentChart,
-            barMinWidth: 6,
             data: this.priceSeries,
             itemStyle: {
               normal: {
@@ -306,37 +294,37 @@ export default {
             },
           },
           {
-            name: 'MA',
+            name: 'MA10',
             type: 'line',
-            data: this.technical('MA'),
+            data: this.calculateMA(10),
             itemStyle: {
               normal: {
-                color: this.technicalIndicators['MA'].color,
-                opacity: this.technicalIndicators['MA'].enabled,
+                color: this.technicalIndicators['MA10'].color,
+                opacity: this.technicalIndicators['MA10'].enabled,
               },
             },
             lineStyle: {
               normal: {
-                color: this.technicalIndicators['MA'].color,
-                opacity: this.technicalIndicators['MA'].enabled,
+                color: this.technicalIndicators['MA10'].color,
+                opacity: this.technicalIndicators['MA10'].enabled,
               },
             },
             zlevel: 1,
           },
           {
-            name: 'EMA',
+            name: 'EMA10',
             type: 'line',
-            data: this.technical('EMA'),
+            data: this.calculateEMA(10),
             itemStyle: {
               normal: {
-                color: this.technicalIndicators['EMA'].color,
-                opacity: this.technicalIndicators['EMA'].enabled,
+                color: this.technicalIndicators['EMA10'].color,
+                opacity: this.technicalIndicators['EMA10'].enabled,
               },
             },
             lineStyle: {
               normal: {
-                color: this.technicalIndicators['EMA'].color,
-                opacity: this.technicalIndicators['EMA'].enabled,
+                color: this.technicalIndicators['EMA10'].color,
+                opacity: this.technicalIndicators['EMA10'].enabled,
               },
             },
             zlevel: 1,
@@ -364,7 +352,6 @@ export default {
             type: 'bar',
             xAxisIndex: 1,
             yAxisIndex: 1,
-            barMinWidth: 6,
             data: this.volumeSeries,
             itemStyle: {
               normal: {
@@ -376,13 +363,32 @@ export default {
         ],
       };
     },
-    technical(indicator) {
-      const data = this.rawCandles.map((item) => item[3]);
-      if (indicator == 'MA') {
-        return Array(9).fill(0).concat(simpleMovingAverageArray(data, {periods: 10, pipSize: 6}));
-      } else if (indicator == 'EMA') {
-        return Array(9).fill(0).concat(exponentialMovingAverageArray(data, {periods: 10, pipSize: 6}));
+    calculateMA(count = 10) {
+      let result = [];
+
+      for (let i = 0, len = this.rawCandles.length; i < len; i++) {
+        if (i < count) {
+            result.push('');
+            continue;
+        };
+        let sum = 0;
+        for (let j = 0; j < count; j++) {
+            sum += this.rawCandles[i - j][1];
+        };
+        result.push(sum / count);
       }
+      // console.table(result);
+      return result;
+    },
+    calculateEMA(count = 10) {
+      let result = [];
+      let k = 2/(count + 1);
+
+      result = [this.rawCandles[0][1]];
+      for (let i = 1; i < this.rawCandles.length; i++) {
+        result.push(this.rawCandles[i][1] * k + result[i - 1] * (1 - k));
+      };
+      return result;
     },
     techClass(indicator) {
       return (this.technicalIndicators[indicator].enabled) ? 'chart__buttonTxt--activeBox' : '';
@@ -397,7 +403,8 @@ export default {
   },
   watch: {
     rawCandles() {
-      this.technical('EMA');
+      this.calculateMA(10);
+      this.calculateEMA(10);
       this.createChart();
     },
   },
@@ -453,10 +460,10 @@ export default {
       color: #02334d;
       font-weight: bold;
     }
-    &--MA {
+    &--MA10 {
       background-color: $color_summersky;
     }
-    &--EMA {
+    &--EMA10 {
       background-color: orange;
     }
     &--MACD {

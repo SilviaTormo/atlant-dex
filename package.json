@@ -11,11 +11,9 @@
   "author": "ATLANT-team",
   "dependencies": {
     "axios": "0.16.2",
-    "babel-polyfill": "6.26.0",
     "bootstrap": "4.0.0-beta.2",
     "clipboard": "1.7.1",
     "echarts": "4.0.2",
-    "js-cookie": "2.1.4",
     "luxon": "0.2.6",
     "normalize.css": "7.0.0",
     "noty": "3.2.0-beta",
@@ -30,11 +28,13 @@
     "vue-i18n": "7.3.1",
     "vue-router": "3.0.1",
     "vuelidate": "0.6.1",
-    "vuex": "3.0.1"
+    "vuex": "3.0.1",
+    "vuex-persistedstate": "2.0.0"
   },
   "devDependencies": {
     "autoprefixer": "7.1.5",
     "babel-core": "6.26.0",
+    "babel-polyfill": "6.26.0",
     "babel-loader": "7.1.2",
     "babel-plugin-transform-async-to-generator": "6.24.1",
     "babel-preset-env": "1.6.0",
@@ -68,7 +68,6 @@
     "uglifyjs-webpack-plugin": "1.1.0",
     "vue-loader": "13.6.1",
     "vue-template-compiler": "2.5.13",
-    "vuex-persistedstate": "2.0.0",
     "webpack": "3.8.1",
     "webpack-bundle-analyzer": "2.9.1",
     "webpack-dev-server": "2.9.4",

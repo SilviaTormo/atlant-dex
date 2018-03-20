@@ -1,9 +1,12 @@
 <template lang="pug">
 .tableHeader
   BackToDashboard.tableHeader__backToDashboard
-  .tableHeader__title(v-if="!isMobile" @click="getOpenPage('transactionHistory')", :class="(isThisPage('transactionHistory')) ? 'tableHeader__title--active' : ''") Transaction History
-  .tableHeader__title(v-if="!isMobile" @click="getOpenPage('myOrders')", :class="(isThisPage('myOrders')) ? 'tableHeader__title--active' : ''") My Orders
-    Dropdown.tableHeader__dropdown(v-if="isThisPage('myOrders')", :options="sortTypes" v-model="sortTypeForMyOrders")
+  .tableHeader__container(v-show="isTradeTables")
+    .tableHeader__title(v-if="!isMobile" @click="getOpenPage('transactionHistory')", :class="(isThisPage('transactionHistory')) ? 'tableHeader__title--active' : ''") Transaction History
+    .tableHeader__title(v-if="!isMobile" @click="getOpenPage('myOrders')", :class="(isThisPage('myOrders')) ? 'tableHeader__title--active' : ''") My Orders
+      Dropdown.tableHeader__dropdown(v-if="isThisPage('myOrders')", :options="sortTypes" v-model="sortTypeForMyOrders")
+  .tableHeader__container(v-show="isNotifications")
+    .tableHeader__title(v-if="!isMobile" :class="(isThisPage('notificationHistory')) ? 'tableHeader__title--active' : ''") Notification History
 </template>
 
 <script>
@@ -39,6 +42,12 @@ export default {
         case 'Cancelled': return 3;
         default: return '';
       };
+    },
+    isTradeTables() {
+      return this.name === 'transactionHistory' || this.name === 'myOrders';
+    },
+    isNotifications() {
+      return this.name === 'notificationHistory';
     },
   },
   methods: {
@@ -88,6 +97,9 @@ export default {
   &__backToDashboard {
     padding-right: 43px;
   }
+  &__container {
+    display: flex;
+  }
   &__title {
     display: flex;
     align-items: center;
@@ -97,7 +109,7 @@ export default {
     vertical-align: baseline;
     white-space: nowrap;
     &--active {
-      color: #31edd7;
+      color: $color_turquoise--light;
       font-size: 16px;
       font-weight: 700;
       border-left: 1px solid $color_tangaroa;
@@ -110,7 +122,7 @@ export default {
   &__dropdown {
     margin-left: 24px;
     padding-right: 20px;
-    color: #ffffff;
+    color: $color_white;
     font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;

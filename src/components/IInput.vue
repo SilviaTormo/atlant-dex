@@ -59,7 +59,7 @@ export default {
 .inputField {
   position: relative;
   &__label {
-    color: #ffffff;
+    color: $color_white;
     white-space: nowrap;
     font-size: inherit;
     font-weight: normal;
@@ -76,7 +76,7 @@ export default {
     display: block;
     width: 100%;
     border: none;
-    border-bottom: 1px solid #ffffff;
+    border-bottom: 1px solid $color_white;
     background: none;
     &--center {
       text-align: center;
@@ -93,7 +93,7 @@ export default {
       height: 2px;
       width: 0;
       bottom: 0;
-      background: #ffffff;
+      background: $color_white;
       transition: 0.2s ease all;
     }
     &:before {
@@ -113,7 +113,7 @@ export default {
   &__input:valid ~ &__label {
     top: -20px;
     font-size: 14px;
-    color: #ffffff;
+    color: $color_white;
 }
 }
 </style>
