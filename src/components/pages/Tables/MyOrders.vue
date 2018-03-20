@@ -1,7 +1,7 @@
 <template lang="pug">
 TablePage(
   title="My orders",
-  :data="data",
+  :data="orders",
   :pageCount='setPagesCount',
   :page="setPageNum",
   :changeActivePage="setOffsetForTradeHistory"
@@ -22,24 +22,24 @@ TablePage(
           th Price
           th Total
       tbody
-        tr(v-for="(item, index) in data")
+        tr(v-for="(item, index) in orders")
           td.myOrders__checkboxContainer
             Checkbox(color="yellow", :value="isChecked(item.id)" @change="setCheckedArray(item.id)")
           td {{item.id}}
-          td {{getDate(item.openDate)}} - {{getDate(item.closeDate)}}
-          td {{status[item.status]}}
-          td {{type[item.type]}}
-          td.myOrders__action(:class="'myOrders__action--' + (item.side ? 'sell' : 'buy')") {{item.side ? 'Sell' : 'Buy'}}
+          td {{setDate(item.creationDate)}}
+          td {{item.status}}
+          td {{item.type}}
+          td.myOrders__action(:class="'myOrders__action--' + (item.action)") {{item.action}}
           td {{fixCurrencyPair(item.pair)}}
-          td {{setFixNumber(item.cashOrderQty)}} {{item.derivedCurrency}}
+          td {{setFixNumber(item.amount)}} {{item.quoteCurrency}}
           td {{setFixNumber(item.price)}} {{item.baseCurrency}}
-          td {{setFixNumber(item.cashOrderQty * item.price)}} {{item.baseCurrency}}
+          td {{setFixNumber(item.amount * item.price)}} {{item.baseCurrency}}
 </template>
 
 <script>
 import {mapState, mapActions, mapMutations} from 'vuex';
+import {DateTime} from 'luxon';
 import Checkbox from 'components/Checkbox';
-import {ticksToMilliseconds} from 'services/misc';
 import Icon from '../../Icon';
 import TablePage from './TablePage';
 
@@ -47,28 +47,12 @@ export default {
   data() {
     return {
       checkedArray: [],
-      status: [
-        'Accepted',
-        'Partially filled',
-        'Filled',
-        'Cancelled',
-      ],
-      type: [
-        'Limit',
-        'Market',
-      ],
     };
   },
   computed: {
     ...mapState('trade', {
-      data: (state) => state.accountTradeHistory.items,
-      allDataLength: (state) => state.accountTradeHistory.total,
-      offset: (state) => state.accountTradeHistory.offset,
-      dataType: (state) => state.accountTradeHistory.status,
-      itemsOnPage: 'limit',
-    }),
-    ...mapActions('trade', {
-      getAccountTradeHistory: 'getAccountTradeHistory',
+      orders: (state) => state.accountOrders.orders,
+      orderFilter: (state) => state.orderFilter,
     }),
     setPagesCount() {
       return Math.ceil(this.allDataLength / this.itemsOnPage);
@@ -81,6 +65,9 @@ export default {
     ...mapMutations('trade', {
       setOffsetForTradeHistory: 'setOffsetForTradeHistory',
     }),
+    ...mapActions('trade', {
+      getAccountOrders: 'getAccountOrders',
+    }),
     isChecked(id) {
       return Boolean(this.checkedArray.indexOf(id) != -1);
     },
@@ -90,14 +77,17 @@ export default {
     setFixNumber(num, fixedTo = 4) {
       return num.toFixed(fixedTo);
     },
-    getDate(tick) {
-      return tick ? new Date(ticksToMilliseconds(tick)).toLocaleString() : 'Not closed';
+    setDate(isoTime) {
+      return DateTime.fromISO(isoTime).toFormat('dd.LL.yyyy HH:mm');
     },
     fixCurrencyPair(pair) {
       return pair.replace('_', '/');
     },
   },
   watch: {
+    orderFilter() {
+      this.getAccountOrders(this.orderFilter);
+    },
     setPageNum() {
       this.getAccountTradeHistory;
     },
@@ -109,7 +99,7 @@ export default {
     },
   },
   created() {
-    // this.getAccountTradeHistory;
+    this.getAccountOrders();
   },
   components: {
     TablePage,
@@ -123,10 +113,10 @@ export default {
 <style lang="scss" scoped>
 .myOrders {
   &__action {
-    &--buy{
+    &--Buy{
       color: #7ed321;
     }
-    &--sell {
+    &--Sell {
       color: #f33a3a;
     }
   }

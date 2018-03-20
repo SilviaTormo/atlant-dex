@@ -33,14 +33,16 @@ export default {
     accountTradeHistory: {
       total: 0,
       items: [],
-      status: 'all',
     },
     accountTransactionHistory: {
       total: 0,
       items: [],
       offset: 0,
-      status: 'all',
     },
+    accountOrders: {
+      orders: [],
+    },
+    orderFilter: '',
     tradeInfo: {
       availableFunds: 0,
       blockedFunds: 0,
@@ -58,6 +60,7 @@ export default {
       orders: [],
     },
     wallet: [],
+    orders: [],
   },
   getters: {
     baseCurrency(state) {
@@ -73,13 +76,13 @@ export default {
       return state.chart.period === period;
     },
     getActiveOrders(state) {
-      return state.tradeInfo.orders.filter((order) => {
-        return order[7] == 0 || order[7] == 1;
+      return state.orders.filter((order) => {
+        return order.status === 'Open' || order.status === 'Partially Filled';
       });
     },
     getClosedOrders(state) {
-      return state.tradeInfo.orders.filter((order) => {
-        return order[7] !== 0 && order[7] !== 1;
+      return state.orders.filter((order) => {
+        return order.status === 'Filled' || order.status === 'Cancelled';
       });
     },
   },
@@ -119,8 +122,8 @@ export default {
     setPeriod(state, period) {
       state.chart.period = period;
     },
-    setTradeHistory(state, trades) {
-      state.trades = trades;
+    setTradeHistory(state, data) {
+      state.trades = data.trades;
     },
     setBook(state, data) {
       state.book.asks = data.asks;
@@ -156,15 +159,21 @@ export default {
     setOrderList(state, list) {
       state.orders = list.data.result.orders;
     },
+    setAccountOrders(state, data) {
+      state.accountOrders = data;
+    },
+    setOrderFilter(state, status) {
+      state.orderFilter = status;
+    },
+    setOrders(state, data) {
+      state.orders = data;
+    },
     setAccountTradeHistory(state, list) {
       state.accountTradeHistory.total = list.total;
       state.accountTradeHistory.items = list.orders;
     },
-    setOffsetForTradeHistory(state, num) {
-      state.accountTradeHistory.offset = state.limit * (num - 1);
-    },
-    setStatusForTradeHistory(state, status) {
-      state.accountTradeHistory.status = status;
+    setCancelledOrder(state, id) {
+      state.orders.find((item) => item.id === id).status = 'Cancelled';
     },
     setAccountTransactionHistory(state, list) {
       state.accountTransactionHistory.total = list.count;
@@ -207,9 +216,6 @@ export default {
       state.bid = prices[2];
       state.ask = prices[3];
     },
-    clearOrders(state) {
-      state.tradeInfo.orders = [];
-    },
     setWallet(state, data) {
       state.wallet = data;
     },
@@ -242,29 +248,6 @@ export default {
       }
     ).then((res) => {
         commit('setAccountTransactionHistory', res.data.result);
-      }).catch((res) => {
-        serverNotification(res);
-      });
-    },
-    getPlaceMarket({commit, state}, {amount, base_cur_amount, side}) {
-      return Trade.getPlaceMarket(
-      state.pair,
-      {
-        amount: amount,
-        base_cur_amount: base_cur_amount,
-        side: side,
-      }
-    ).catch((res) => {
-        serverNotification(res);
-      });
-    },
-    getPlaceLimit({commit, state}, {amount, price, side}) {
-      return Trade.getPlaceLimit(
-        state.pair,
-        {
-          amount,
-          price,
-          side,
       }).catch((res) => {
         serverNotification(res);
       });
@@ -309,8 +292,42 @@ export default {
       });
     },
     getTradeHistory({commit}, {page, limit, pair}) {
-      return Trade.getTradeHistory({page, limit, pair}).then((res) => {
-        commit('setTradeHistory', res);
+      return Trade.getTradeHistory({page, limit, pair}).then((response) => {
+        commit('setTradeHistory', response.data);
+      });
+    },
+    getAccountOrders({commit}, status) {
+      return Trade.getOrders({
+        page: 1,
+        limit: 20,
+        status,
+      }).then((response) => {
+        commit('setAccountOrders', response.data);
+      });
+    },
+    getOrders({commit}) {
+      return Trade.getOrders().then((response) => {
+        commit('setOrders', response.data.orders);
+      });
+    },
+    placeOrder({commit, dispatch}, {isMarketOrder, isSellOrder, baseCurrency, quoteCurrency, price, quantity, isQuantityInBaseCurrency}) {
+      return new Promise((resolve, reject) => {
+        Trade.placeOrder({
+          isMarketOrder,
+          isSellOrder,
+          baseCurrency,
+          quoteCurrency,
+          price,
+          quantity,
+          isQuantityInBaseCurrency,
+        }).then((response) => {
+          return resolve();
+        });
+      });
+    },
+    cancelOrder({commit}, orderId) {
+      return Trade.cancelOrder({orderId}).then((res) => {
+        commit('setCancelledOrder', orderId);
       });
     },
   },

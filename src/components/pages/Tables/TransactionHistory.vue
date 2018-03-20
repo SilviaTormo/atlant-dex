@@ -87,7 +87,7 @@ export default {
     },
   },
   created() {
-    this.getAccountTransactionHistory();
+    // this.getAccountTransactionHistory();
   },
   components: {
     TablePage,

@@ -44,7 +44,7 @@ export default {
     },
     dropUser({commit}) {
       commit('flushUser');
-      commit('trade/clearOrders', null, {root: true});
+      // commit('trade/clearOrders', null, {root: true});
       commit('trade/emptyWallet', null, {root: true});
     },
     regFinish({state}, code) {
@@ -62,7 +62,7 @@ export default {
           commit('createUser', response.data);
           dispatch('refreshToken');
         });
-      }, 55000);
+      }, 1500000);
     },
   },
   namespaced: true,

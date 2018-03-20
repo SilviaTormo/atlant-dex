@@ -179,9 +179,9 @@ export default {
         };
       });
 
-      this.$hub.proxy.on('newTrade', (data) => {
-        this.addLastTrade(data);
-      });
+      // this.$hub.proxy.on('newTrade', (data) => {
+      //   this.addLastTrade(data);
+      // });
 
       this.$hub.proxy.on('tokenExpired', () => {
         this.dropUser();

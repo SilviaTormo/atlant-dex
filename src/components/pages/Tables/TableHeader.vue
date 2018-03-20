@@ -17,7 +17,7 @@ export default {
       sortTypeForMyOrders: '',
       sortTypes: [
         'All Orders',
-        'Accepted',
+        'Open',
         'Partially filled',
         'Filled',
         'Cancelled',
@@ -33,11 +33,11 @@ export default {
     }),
     typeOfNewStatus() {
       switch (this.sortTypeForMyOrders) {
-        case 'Accepted': return 0;
+        case 'Open': return 0;
         case 'Partially filled': return 1;
         case 'Filled': return 2;
         case 'Cancelled': return 3;
-        default: return 'all';
+        default: return '';
       };
     },
   },
@@ -46,7 +46,7 @@ export default {
       openPage: 'open',
     }),
     ...mapMutations('trade', {
-      setStatusForTradeHistory: 'setStatusForTradeHistory',
+      setOrderFilter: 'setOrderFilter',
     }),
     getOpenPage(pageName) {
       this.openPage({
@@ -59,7 +59,7 @@ export default {
   },
   watch: {
     sortTypeForMyOrders() {
-      this.setStatusForTradeHistory(this.typeOfNewStatus);
+      this.setOrderFilter(this.typeOfNewStatus);
     },
   },
   props: {
