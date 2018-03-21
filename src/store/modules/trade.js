@@ -19,7 +19,7 @@ export default {
       period: defPeriod,
       lastFlag: false,
     },
-    trades: [],
+    // trades: [],
     book: {
       bids: [],
       asks: [],
@@ -30,10 +30,10 @@ export default {
       low: 0,
       change: 0,
     },
-    accountTradeHistory: {
-      total: 0,
-      items: [],
-    },
+    // accountTradeHistory: {
+    //   total: 0,
+    //   items: [],
+    // },
     accountTransactionHistory: {
       total: 0,
       items: [],
@@ -59,7 +59,7 @@ export default {
       maxLeverage: 0,
       orders: [],
     },
-    wallet: [],
+    // wallet: [],
     orders: [],
   },
   getters: {
@@ -100,14 +100,14 @@ export default {
     setChartData(state, data) {
       state.chart.data = data;
     },
-    addLastTrade(state, lastTrade) {
-      const lastTrades = [
-        [lastTrade[8], lastTrade[7], lastTrade[11], lastTrade[6]],
-        ...state.trades,
-      ];
-      lastTrades.pop(); // delete last trade in history
-      state.trades = lastTrades;
-    },
+    // addLastTrade(state, lastTrade) {
+    //   const lastTrades = [
+    //     [lastTrade[8], lastTrade[7], lastTrade[11], lastTrade[6]],
+    //     ...state.trades,
+    //   ];
+    //   lastTrades.pop(); // delete last trade in history
+    //   state.trades = lastTrades;
+    // },
     setOrdersAsks(state, data) {
       const asks = data;
       state.book.asks = asks;
@@ -135,30 +135,30 @@ export default {
       state.ohlc.close = data.last;
       state.ohlc.change = data.change;
     },
-    addNewCandle(state, data) {
-      const open = data[0];
-      const high = data[1];
-      const low = data[2];
-      const close = data[3];
-      const volume = data[4];
-      if (state.chart.lastFlag == true) {
-        state.chart.data.candles.push([open, high, low, close, volume]);
-      } else {
-        if (!data[5] && state.chart.data.candles) {
-          let oldArray = state.chart.data.candles;
-          oldArray.splice(oldArray.length-1, 1);
-          state.chart.data.candles = [
-            ...oldArray,
-            [open, high, low, close, volume],
-          ];
-        }
-      }
-
-      state.chart.lastFlag = data[5];
-    },
-    setOrderList(state, list) {
-      state.orders = list.data.result.orders;
-    },
+    // addNewCandle(state, data) {
+    //   const open = data[0];
+    //   const high = data[1];
+    //   const low = data[2];
+    //   const close = data[3];
+    //   const volume = data[4];
+    //   if (state.chart.lastFlag == true) {
+    //     state.chart.data.candles.push([open, high, low, close, volume]);
+    //   } else {
+    //     if (!data[5] && state.chart.data.candles) {
+    //       let oldArray = state.chart.data.candles;
+    //       oldArray.splice(oldArray.length-1, 1);
+    //       state.chart.data.candles = [
+    //         ...oldArray,
+    //         [open, high, low, close, volume],
+    //       ];
+    //     }
+    //   }
+    //
+    //   state.chart.lastFlag = data[5];
+    // },
+    // setOrderList(state, list) {
+    //   state.orders = list.data.result.orders;
+    // },
     setAccountOrders(state, data) {
       state.accountOrders = data;
     },
@@ -168,10 +168,10 @@ export default {
     setOrders(state, data) {
       state.orders = data;
     },
-    setAccountTradeHistory(state, list) {
-      state.accountTradeHistory.total = list.total;
-      state.accountTradeHistory.items = list.orders;
-    },
+    // setAccountTradeHistory(state, list) {
+    //   state.accountTradeHistory.total = list.total;
+    //   state.accountTradeHistory.items = list.orders;
+    // },
     setCancelledOrder(state, id) {
       state.orders.find((item) => item.id === id).status = 'Cancelled';
     },
@@ -207,37 +207,37 @@ export default {
         };
       });
     },
-    setTradeInfo(state, date) {
-      state.tradeInfo = date;
-    },
+    // setTradeInfo(state, date) {
+    //   state.tradeInfo = date;
+    // },
     addNewPrices(state, prices) {
       state.volume = prices[0];
       state.change = prices[1];
       state.bid = prices[2];
       state.ask = prices[3];
     },
-    setWallet(state, data) {
-      state.wallet = data;
-    },
+    // setWallet(state, data) {
+    //   state.wallet = data;
+    // },
     emptyWallet(state) {
       state.wallet = [];
     },
   },
   actions: {
-    getAccountTradeHistory({commit, state, getters}) {
-      return Trade.getAccountTradeHistory({
-        limit: state.limit,
-        offset: state.accountTradeHistory.offset,
-        currency: getters.quoteCurrency,
-        baseCurrency: getters.baseCurrency,
-        status: state.accountTradeHistory.status,
-      }
-    ).then((res) => {
-        commit('setAccountTradeHistory', res.data.result);
-      }).catch((res) => {
-        serverNotification(res);
-      });
-    },
+    // getAccountTradeHistory({commit, state, getters}) {
+    //   return Trade.getAccountTradeHistory({
+    //     limit: state.limit,
+    //     offset: state.accountTradeHistory.offset,
+    //     currency: getters.quoteCurrency,
+    //     baseCurrency: getters.baseCurrency,
+    //     status: state.accountTradeHistory.status,
+    //   }
+    // ).then((res) => {
+    //     commit('setAccountTradeHistory', res.data.result);
+    //   }).catch((res) => {
+    //     serverNotification(res);
+    //   });
+    // },
     getAccountTransactionHistory({commit, state, getters}) {
       return Trade.getAccountTransactionHistory({
         limit: state.limit,
@@ -271,26 +271,26 @@ export default {
       commit('setPeriod', period);
       return dispatch('loadChart');
     },
-    getCancelOrder({commit, state}, id) {
-      return Trade.getCancelOrder(
-        state.pair,
-        id
-      ).then((res) => {
-        // console.log('Order canceled: ', id);
-      });
-    },
-    getTradeInfo({commit, state}) {
-      return Trade.getTradeInfo({
-        pair: state.pair,
-      }).then((res) => {
-        commit('setTradeInfo', res.data.result);
-      });
-    },
-   getTraderWallet({commit}) {
-      return Trade.getTraderWallet().then((res) => {
-        commit('setWallet', res.data.result['BTC']);
-      });
-    },
+    // getCancelOrder({commit, state}, id) {
+    //   return Trade.getCancelOrder(
+    //     state.pair,
+    //     id
+    //   ).then((res) => {
+    //     // console.log('Order canceled: ', id);
+    //   });
+    // },
+    // getTradeInfo({commit, state}) {
+    //   return Trade.getTradeInfo({
+    //     pair: state.pair,
+    //   }).then((res) => {
+    //     commit('setTradeInfo', res.data.result);
+    //   });
+    // },
+   // getTraderWallet({commit}) {
+   //    return Trade.getTraderWallet().then((res) => {
+   //      commit('setWallet', res.data.result['BTC']);
+   //    });
+   //  },
     getTradeHistory({commit}, {page, limit, pair}) {
       return Trade.getTradeHistory({page, limit, pair}).then((response) => {
         commit('setTradeHistory', response.data);
