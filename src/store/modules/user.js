@@ -93,6 +93,11 @@ export default {
         });
       });
     },
+    deposit({state}, {currency, amount}) {
+      return User.deposit({currency, amount}).then(() => {
+        console.log('successfully deposited', amount, currency);
+      });
+    },
   },
   namespaced: true,
   strict: process.env.NODE_ENV !== 'production',

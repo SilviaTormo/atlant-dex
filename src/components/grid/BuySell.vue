@@ -41,6 +41,13 @@ export default {
       ask: 'ask',
       fee: (state) => state.tradeInfo.makerFee,
     }),
+    ...mapGetters('membership', {
+      isLoggedIn: 'isLoggedIn',
+    }),
+    ...mapGetters('trade', {
+      baseCurrency: 'baseCurrency',
+      quoteCurrency: 'quoteCurrency',
+    }),
     getTotal() {
       let total = 0;
       if (this.type === 'market') {
@@ -53,11 +60,7 @@ export default {
   },
   methods: {
     ...mapActions('trade', {
-      getPlaceMarket: 'getPlaceMarket',
-      getPlaceLimit: 'getPlaceLimit',
-    }),
-    ...mapGetters('membership', {
-      isLoggedIn: 'isLoggedIn',
+      placeOrder: 'placeOrder',
     }),
     ...mapMutations('modal', {
       openModal: 'open',
@@ -75,23 +78,19 @@ export default {
         });
         return false;
       };
-      if ('market' === this.type) {
-        this.getPlaceMarket({
-          amount: this.amount,
-          base_cur_amount: false,
-          side: !this.isBuy,
-        });
-      } else {
-        this.getPlaceLimit({
-          amount: this.amount,
-          price: this.price,
-          side: !this.isBuy,
-        });
-      }
-      this.amount = 0;
-      this.price = 0;
-      this.total = 0;
-      return true;
+      this.placeOrder({
+        isMarketOrder: this.type === 'market',
+        isSellOrder: !this.isBuy,
+        baseCurrency: this.baseCurrency,
+        quoteCurrency: this.quoteCurrency,
+        price: this.price,
+        quantity: this.amount,
+        isQuantityInBaseCurrency: true,
+      }).then(() => {
+        this.amount = 0;
+        this.price = 0;
+        this.total = 0;
+      });
     },
   },
   components: {

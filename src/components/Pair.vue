@@ -4,7 +4,7 @@
   .pair__currency(v-text="baseCurrency")
   Icon.pair__exchange(id="exchange")
   Icon.pair__icon(:id="('cur_' + quoteCurrency).toLocaleLowerCase()")
-  Dropdown.pair__dropdown(:options="pairs[baseCurrency]" v-model="selected")
+  Dropdown.pair__dropdown(:options="pairs[baseCurrency]" :selectDefault="quoteCurrency" v-model="selected")
 </template>
 
 <script>
@@ -48,12 +48,13 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~variables";
 .pair {
   display: flex;
   align-items: center;
   &__icon {
     $size: 25px;
-    fill: #fff;
+    fill: $color_white;
     width: $size;
     height: $size;
     margin-right: 10px;
@@ -73,7 +74,7 @@ export default {
     width: $size;
     transform: rotate(90deg);
     margin: 0 10px;
-    fill: #e9bd24;
+    fill: $color_yellow;
   }
 }
 </style>

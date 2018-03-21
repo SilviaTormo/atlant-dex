@@ -5,16 +5,16 @@
       tr.orders__row(v-for="order in (isActive ? getActiveOrders : getClosedOrders)")
         td.orders__cell.orders__cell--sell
           .orders__typeWrapper
-            .orders__square(:class="'orders__square--' + (order[2] ? 'sell' : 'buy')")
-            .orders__type {{order[2] ? 'Sell' : 'Buy'}}
-        td.orders__cell.orders__cell--type {{type[order[8]]}}
-        td.orders__cell.orders__cell--number {{ order[5] }}
-        td.orders__cell.orders__cell--number {{ order[3] }}
-        td.orders__cell.orders__cell--number {{ order[4] }}
-        td.orders__cell.orders__cell--status {{status[order[7]]}}
-        td.orders__cell.orders__cell--date {{ setDate(order[10]) }}
+            .orders__square(:class="'orders__square--' + order.action")
+            .orders__type {{order.action}}
+        td.orders__cell.orders__cell--type {{order.type}}
+        td.orders__cell.orders__cell--number {{order.price}}
+        td.orders__cell.orders__cell--number {{order.amount}}
+        td.orders__cell.orders__cell--number {{order.total}}
+        td.orders__cell.orders__cell--status {{order.status}}
+        td.orders__cell.orders__cell--date {{setDate(order.creationDate)}}
         td.orders__cell.orders__cell--trash
-          Icon.orders__trash(id='trash' @click="isActive ? deleteOrder(order[0]) : ''" :class="'orders__trash--' + (isActive ? 'active' : 'disabled')")
+          Icon.orders__trash(id='trash' @click="isActive ? deleteOrder(order.id) : ''", :class="'orders__trash--' + (isActive ? 'active' : 'disabled')")
   table.orders__body
     tr.orders__title
       td.orders__cell--sell Side
@@ -29,27 +29,18 @@
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex';
+import {DateTime} from 'luxon';
 import {scrollbar} from 'directives';
 import Icon from '../Icon';
 
 export default {
   data() {
     return {
-      type: [
-        'Limit',
-        'Market',
-      ],
-      status: [
-        'Accepted',
-        'Partially filled',
-        'Filled',
-        'Cancelled',
-      ],
     };
   },
   computed: {
     ...mapState('trade', {
-      accountOrders: (state) => state.tradeInfo.orders,
+      orders: (state) => state.orders,
     }),
     ...mapGetters('trade', {
       getActiveOrders: 'getActiveOrders',
@@ -58,15 +49,18 @@ export default {
   },
   methods: {
     ...mapActions('trade', {
-      getTradeInfo: 'getTradeInfo',
-      getCancelOrder: 'getCancelOrder',
+      getOrders: 'getOrders',
+      cancelOrder: 'cancelOrder',
     }),
-    setDate(tick) {
-      return new Date((tick - 621355968000000000) / 10000).toLocaleDateString(); // C# ticks to local date
+    setDate(isoTime) {
+      return DateTime.fromISO(isoTime).toFormat('dd.LL.yyyy HH:mm');
     },
     deleteOrder(id) {
-      this.getCancelOrder(id);
+      this.cancelOrder(id);
     },
+  },
+  created() {
+    this.getOrders();
   },
   props: {
     isActive: {
@@ -140,10 +134,10 @@ export default {
     height: $size;
     border-radius: 1px;
     margin-right: 16px;
-    &--buy {
+    &--Buy {
       background-color: #7ed321;
     }
-    &--sell {
+    &--Sell {
       background-color: #f33a3a;
     }
   }

@@ -41,36 +41,42 @@ export default {
       selected: '',
       selectedCur: 'BTC',
       percChng: 2.73,
-      // balances: [
-      //   {
-      //     name: 'btc',
-      //     balance: 0.00714512,
-      //     balanceUSD: '$25 695,94',
-      //     isCrypto: true,
-      //   },
-      //   {
-      //     name: 'eth',
-      //     balance: 6.02981032,
-      //     balanceUSD: '$3 773,11',
-      //     isCrypto: true,
-      //   },
-      //   {
-      //     name: 'tether',
-      //     isCrypto: true,
-      //   },
-      //   {
-      //     name: 'usd',
-      //     balance: '4 960.02',
-      //     balanceUSD: '$32 415,10',
-      //     isCrypto: false,
-      //   },
-      //   {
-      //     name: 'eur',
-      //     balance: '27 230.00',
-      //     balanceUSD: '$3 773,11',
-      //     isCrypto: false,
-      //   },
-      // ],
+      balances: [
+        {
+          currency: 'BTC',
+          availableFunds: 0.00714512,
+          balanceUSD: '$25 695,94',
+          isCrypto: true,
+        },
+        {
+          currency: 'ETH',
+          availableFunds: 6.02981032,
+          balanceUSD: '$3 773,11',
+          isCrypto: true,
+        },
+        {
+          currency: 'ATL',
+          availableFunds: 6.02981032,
+          balanceUSD: '$3 773,11',
+          isCrypto: true,
+        },
+        // {
+        //   name: 'tether',
+        //   isCrypto: true,
+        // },
+        // {
+        //   name: 'usd',
+        //   balance: '4 960.02',
+        //   balanceUSD: '$32 415,10',
+        //   isCrypto: false,
+        // },
+        // {
+        //   name: 'eur',
+        //   balance: '27 230.00',
+        //   balanceUSD: '$3 773,11',
+        //   isCrypto: false,
+        // },
+      ],
     };
   },
   computed: {
@@ -78,7 +84,7 @@ export default {
       currencies: 'userCurrencies',
     }),
     ...mapState('trade', {
-      balances: 'wallet',
+      // balances: 'wallet',
     }),
   },
   methods: {
@@ -89,7 +95,6 @@ export default {
       this.showAll = true;
     },
     isFiatCurrency(cur) {
-      console.log(cur, 'is', isFiat(cur));
       return isFiat(cur);
     },
   },

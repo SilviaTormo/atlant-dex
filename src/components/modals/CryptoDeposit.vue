@@ -5,12 +5,12 @@ Modal
     QR.cryptoDeposit__qr(:text='address' size='148')
     .cryptoDeposit__addressText Your deposit address:
     .cryptoDeposit__address {{address}}
-    BButton.cryptoDeposit__button(color="malachite" rounded  v-clipboard='address') Copy
+    BButton.cryptoDeposit__button(color="malachite" rounded v-clipboard='address' @click="makeDeposit()") Copy
     .cryptoDeposit__confirmations Funds will be deposited automatically after 3 confirmations
 </template>
 
 <script>
-import {mapState, mapMutations} from 'vuex';
+import {mapState, mapMutations, mapActions} from 'vuex';
 import clipboard from 'directives/clipboard';
 import BButton from 'components/BButton';
 import QR from 'components/QR';
@@ -31,6 +31,15 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
+    ...mapActions('user', {
+      deposit: 'deposit',
+    }),
+    makeDeposit() {
+      this.deposit({
+        currency: this.data.currency,
+        amount: 1000,
+      });
+    },
   },
   directives: {
     clipboard,

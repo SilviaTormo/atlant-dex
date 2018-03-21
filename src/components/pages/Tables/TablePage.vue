@@ -9,10 +9,10 @@
       .tablePage__panel(:class="{'tablePage__panel--active': isShowPanelInMobileVersion, 'tablePage__panelScrollbarOpened' : showSidebar}")
         .tablePage__panelActions.panel__checkbox
           Checkbox.tHistory__checkbox(color="yellow", :value="isAllChecked" @change="toggleCheckboxes")
-        .tablePage__panelActions Repeat
-        .tablePage__panelActions Undo
-        .tablePage__panelActions Delete
-        .tablePage__panelActions Export
+        .tablePage__panelActions(v-if="getRepeat") Repeat
+        .tablePage__panelActions(v-if="getUndo") Undo
+        .tablePage__panelActions(v-if="getDelete") Delete
+        .tablePage__panelActions(v-if="getExport") Export
 </template>
 
 <script>
@@ -78,6 +78,26 @@ export default {
       type: Function,
       required: false,
     },
+    getRepeat: {
+      type: [Function, Boolean],
+      default: false,
+      required: false,
+    },
+    getUndo: {
+      type: [Function, Boolean],
+      default: false,
+      required: false,
+    },
+    getDelete: {
+      type: [Function, Boolean],
+      default: false,
+      required: false,
+    },
+    getExport: {
+      type: [Function, Boolean],
+      default: false,
+      required: false,
+    },
   },
   components: {
     TableHeader,
@@ -129,7 +149,7 @@ $panelHeight: 58px;
   &__panelActions {
     cursor: pointer;
     margin-right: 40px;
-    color: #ffffff;
+    color: $color_white;
     font-family: Roboto;
     font-size: 12px;
     font-weight: 700;
