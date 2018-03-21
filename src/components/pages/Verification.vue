@@ -26,14 +26,30 @@ Page(title="Verification", title2="Please upload the following files in order to
         li Document confirming the CEO's appointment
         li Documents confirming the CEO's identity and place of residence (please see document list for private individuals)
       p.verification__note Please make sure that all document scans are of a high quality and the text is fully readable.
-    .verification__form
-      //.verification__formText Drag your files here to upload
+    form.verification__form(name="tierOne")
+      .verification__label First name #[input.input(name="firstName", :value="verification.firstName" type="text")]
+      .verification__label Last name #[input.input(name="lastName", :value="verification.lastName" type="text")]
+      .verification__label Country #[input.input(name="country", :value="verification.country" type="text")]
+      .verification__label City #[input.input(name="city", :value="verification.city" type="text")]
+      .verification__label Address #[input.input(name="address", :value="verification.address" type="text")]
+      .verification__label Post code #[input.input(name="postCode", :value="verification.postcode" type="text")]
+      .verification__label Phone number #[input.input(name="phoneNumber", :value="verification.phoneNumber" type="text")]
+      .verification__label Date of birth #[input.input(name="dateOfBirth", :value="verification.dateOfBirth" type="text")]
+      .verification__label Passport number #[input.input(name="passportId", :value="verification.passportId" type="text")]
+      .verification__label Passport scan #[input.input(name="passportScan" type="file")]
+      .verification__label Selfie #[input.input(name="selfie" type="file")]
+      .verification__label Proof of residence #[input.input(name="proofOfResidenceScan" type="file")]
+    BButton.verification__button(color="malachite" rounded @click="upload()") Submit
+    // .verification__form
+      .verification__formText Drag your files here to upload
 </template>
 
 <script>
-import Uppy from 'uppy/lib/core';
-import Dashboard from 'uppy/lib/plugins/Dashboard';
-import Tus from 'uppy/lib/plugins/Tus';
+// import Uppy from 'uppy/lib/core';
+// import Dashboard from 'uppy/lib/plugins/Dashboard';
+// import Tus from 'uppy/lib/plugins/Tus';
+import {mapState, mapActions} from 'vuex';
+import BButton from 'components/BButton';
 import Page from './Page';
 
 export default {
@@ -41,26 +57,43 @@ export default {
     return {
     };
   },
+  computed: {
+    ...mapState('verify', {
+      verification: 'lastVerification',
+    }),
+  },
+  methods: {
+    ...mapActions('verify', {
+      verifyTierOne: 'verifyTierOne',
+      getLastVerification: 'getLastVerification',
+    }),
+    upload() {
+      let formData = new FormData(document.forms.tierOne);
+      this.verifyTierOne(formData);
+    },
+  },
   mounted() {
-    const uppy = Uppy({autoProceed: false})
-      .use(Dashboard, {
-        target: '.verification__form',
-        inline: true,
-        locale: {
-          strings: {
-            dropPaste: 'Drag your files here to upload',
-          },
-        },
-      })
-      .use(Tus, {endpoint: '//master.tus.io/files/'})
-      .run();
-
-    uppy.on('complete', (result) => {
-      console.log(`Upload complete! We’ve uploaded these files: ${result.successful}`);
-    });
+    this.getLastVerification();
+    // const uppy = Uppy({autoProceed: false})
+    //   .use(Dashboard, {
+    //     target: '.verification__form',
+    //     inline: true,
+    //     locale: {
+    //       strings: {
+    //         dropPaste: 'Drag your files here to upload',
+    //       },
+    //     },
+    //   })
+    //   .use(Tus, {endpoint: '//master.tus.io/files/'})
+    //   .run();
+    //
+    // uppy.on('complete', (result) => {
+    //   console.log(`Upload complete! We’ve uploaded these files: ${result.successful}`);
+    // });
   },
   components: {
     Page,
+    BButton,
   },
 };
 </script>
@@ -107,10 +140,15 @@ export default {
     margin-bottom: 53px;
   }
   &__form {
-    //min-height: 142px;
-    border-radius: 4px;
-    border: 1px dashed #ffffff;
-    opacity: 0.5;
+    display: flex;
+    flex-direction: column;
+    & > * {
+      margin-bottom: 10px;
+    }
+    // min-height: 142px;
+    // border-radius: 4px;
+    // border: 1px dashed #ffffff;
+    // opacity: 0.5;
     // display: flex;
   }
   // &__formText {
@@ -119,6 +157,11 @@ export default {
   //   font-weight: 300;
   //   margin: auto;
   // }
+  &__label {
+    & * {
+      margin-left: 10px;
+    }
+  }
 }
 @include media-breakpoint-down(md) {
   .verification {

@@ -8,6 +8,7 @@ import loader from './modules/loader';
 import modal from './modules/modal';
 import page from './modules/page';
 import user from './modules/user';
+import verify from './modules/verify';
 import stats from './modules/stats';
 import membership from './modules/membership';
 import grid from './modules/grid';
@@ -23,6 +24,7 @@ const store = new Vuex.Store({
     modal,
     page,
     user,
+    verify,
     stats,
     membership,
     grid,
