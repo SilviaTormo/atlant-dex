@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import {mapMutations, mapState, mapGetters, mapActions} from 'vuex';
+import {mapMutations, mapState, mapGetters} from 'vuex';
 import Icon from './Icon';
 import Portfolio from './Portfolio';
 import Alerts from './Alerts';
@@ -70,9 +70,9 @@ export default {
     ...mapMutations('page', {
       openPage: 'open',
     }),
-    ...mapActions('trade', {
-      getTraderWallet: 'getTraderWallet',
-    }),
+//    ...mapActions('trade', {
+//      getTraderWallet: 'getTraderWallet',
+//    }),
     getOpenPage() {
       this.openPage({
         name: '',
@@ -89,7 +89,7 @@ export default {
     },
   },
   created() {
-    this.getTraderWallet();
+//    this.getTraderWallet();
   },
   components: {
     Icon,

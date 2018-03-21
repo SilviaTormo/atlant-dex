@@ -13,13 +13,14 @@
     .quotes__headerLine
       .quotes__header Coins:
       Icon.quotes__icon(id="refresh")
-    QuoteItem(v-for="q in quotes", :key="q.currency", v-if="isSearched(q.currency)",
+    QuoteItem(v-for="q in filteredQuotes", :key="q.currency",
     :currency="q.currency", :price="q.price", :priceChng="q.priceChng", :cap="q.cap", :volume="q.volume",
     :isActive="activeCur == q.currency", @click.native="openQuote(q.currency)")
 </template>
 
 <script>
 import {mapState} from 'vuex';
+import {getCryptoName} from 'services/misc';
 import Icon from './Icon';
 import Dropdown from './Dropdown';
 import QuoteItem from './QuoteItem';
@@ -59,14 +60,25 @@ export default {
     ...mapState('user', {
       currencies: 'userCurrencies',
     }),
+    filteredQuotes() {
+      if (!this.search) return this.quotes;
+      return this.quotes.filter(({currency}) => {
+        const fullName = getCryptoName(currency.toUpperCase()) || '';
+        const searchLowerCased = this.search.toLowerCase();
+        return (
+            currency.toLowerCase().includes(searchLowerCased)
+            || fullName.toLowerCase().includes(searchLowerCased)
+        );
+      });
+    },
   },
   methods: {
     openQuote(cur) {
       this.activeCur = cur;
     },
-    isSearched(cur) {
-      return cur.includes(this.search);
-    },
+//    isSearched(cur) {
+//      return cur.includes(this.search);
+//    },
   },
   components: {
     Icon,

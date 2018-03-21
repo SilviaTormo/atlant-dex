@@ -108,17 +108,17 @@ export default {
     ...mapMutations('trade', {
       setPair: 'setPair',
       setDesktopData: 'setDesktopData',
-      setPairs: 'setPairs',
+      // setPairs: 'setPairs',
       setOHLC: 'setOHLC',
-      addNewCandle: 'addNewCandle',
-      addLastTrade: 'addLastTrade',
-      setOrderList: 'setOrderList',
-      setTradeInfo: 'setTradeInfo',
+      // addNewCandle: 'addNewCandle',
+      // addLastTrade: 'addLastTrade',
+      // setOrderList: 'setOrderList',
+      // setTradeInfo: 'setTradeInfo',
       addActiveOrder: 'addActiveOrder',
       setCancelActiveOrder: 'setCancelActiveOrder',
       setFilledActiveOrder: 'setFilledActiveOrder',
       addNewPrices: 'addNewPrices',
-      addNewAccountOrder: 'addNewAccountOrder',
+      // addNewAccountOrder: 'addNewAccountOrder',
     }),
     ...mapActions('membership', {
       dropUser: 'dropUser',
@@ -130,7 +130,7 @@ export default {
       getTokens: 'getTokens',
     }),
     ...mapActions('trade', {
-      getTradeInfo: 'getTradeInfo',
+      // getTradeInfo: 'getTradeInfo',
       getTraderWallet: 'getTraderWallet',
       getTradeHistory: 'getTradeHistory',
       getOrderBook: 'getOrderBook',
@@ -227,7 +227,7 @@ export default {
       }
     });
     if (this.isLoggedIn) {
-      this.getTradeInfo();
+//      this.getTradeInfo();
     };
     window.addEventListener('resize', () => {
       setTimeout(() => {

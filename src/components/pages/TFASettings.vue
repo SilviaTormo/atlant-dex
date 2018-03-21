@@ -10,7 +10,7 @@
     .tfaSettings__item
       .tfaSettings__param I would like to use:
       .tfaSettings__value.tfaSettings__value--row.tfaSettings__desktopRow
-        Radio.tfaSettings__tfaOption(v-for="tfa in tfaMethods" name="tFAMethod", :value="tfa.id", v-model="tfaMethod", :checked="tfaMethod === tfa.id") #[.tfaSettings__tfaOptionName {{tfa.name}}]
+        Radio.tfaSettings__tfaOption(v-for="(tfa, index) in tfaMethods", :key="index", name="tFAMethod", :value="tfa.id", v-model="tfaMethod", :checked="tfaMethod === tfa.id") #[.tfaSettings__tfaOptionName {{tfa.name}}]
     .tfaSettings__item.tfaSettings__desktopRow(v-if="tfaStep === 1 && requiresNumber")
       .tfaSettings__value My phone number
       .tfaSettings__value.tfaSettings__value--row
