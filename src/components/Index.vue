@@ -109,12 +109,9 @@ export default {
       setPair: 'setPair',
       setDesktopData: 'setDesktopData',
       setPairs: 'setPairs',
-      setBook: 'setBook',
       setOHLC: 'setOHLC',
       addNewCandle: 'addNewCandle',
       addLastTrade: 'addLastTrade',
-      setOrdersAsks: 'setOrdersAsks',
-      setOrdersBids: 'setOrdersBids',
       setOrderList: 'setOrderList',
       setTradeInfo: 'setTradeInfo',
       addActiveOrder: 'addActiveOrder',
@@ -136,6 +133,7 @@ export default {
       getTradeInfo: 'getTradeInfo',
       getTraderWallet: 'getTraderWallet',
       getTradeHistory: 'getTradeHistory',
+      getOrderBook: 'getOrderBook',
     }),
     updateOverflow() {
       document.querySelector('#app').style.overflow = (this.showSidebar && this.isMobile) ? 'hidden' : null;
@@ -173,13 +171,13 @@ export default {
         });
       });
 
-      this.$hub.proxy.on('newOrderBookTop', ([currency, side, orders, volume]) => {
-        if (side) {
-          this.setOrdersAsks(orders);
-        } else {
-          this.setOrdersBids(orders);
-        };
-      });
+      // this.$hub.proxy.on('newOrderBookTop', ([currency, side, orders, volume]) => {
+      //   if (side) {
+      //     this.setOrdersAsks(orders);
+      //   } else {
+      //     this.setOrdersBids(orders);
+      //   };
+      // });
 
       // this.$hub.proxy.on('newTrade', (data) => {
       //   this.addLastTrade(data);
@@ -247,9 +245,8 @@ export default {
       pair: this.pair,
     }).then((res) => {
       this.setDesktopData(res.data.result);
-      // this.setTradeHistory(res.data.result.trades);
       this.setPair(res.data.result.pair);
-      this.setBook(res.data.result);
+      this.getOrderBook({limit: 20});
       this.setOHLC(res.data.result);
       this.setStats(res.data.result);
     });

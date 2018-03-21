@@ -32,7 +32,7 @@ export default {
     },
     limit: {
       type: Number,
-      default: 19,
+      default: 20,
       required: false,
     },
   },

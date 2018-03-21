@@ -126,8 +126,7 @@ export default {
       state.trades = data.trades;
     },
     setBook(state, data) {
-      state.book.asks = data.asks;
-      state.book.bids = data.bids;
+      state.book = data;
     },
     setOHLC(state, data) {
       state.ohlc.high = data.high;
@@ -308,6 +307,15 @@ export default {
     getOrders({commit}) {
       return Trade.getOrders().then((response) => {
         commit('setOrders', response.data.orders);
+      });
+    },
+    getOrderBook({getters, commit}, {limit}) {
+      return Trade.getOrderBook({
+        baseCurrency: getters.baseCurrency,
+        quoteCurrency: getters.quoteCurrency,
+        limit,
+      }).then((response) => {
+        commit('setBook', response.data);
       });
     },
     placeOrder({commit, dispatch}, {isMarketOrder, isSellOrder, baseCurrency, quoteCurrency, price, quantity, isQuantityInBaseCurrency}) {
