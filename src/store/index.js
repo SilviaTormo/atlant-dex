@@ -37,6 +37,7 @@ const store = new Vuex.Store({
       'membership.refreshToken',
       'membership.email',
       'trade.pair',
+      'user.account.currency',
     ],
   })],
 });
