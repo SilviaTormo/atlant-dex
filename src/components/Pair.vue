@@ -1,10 +1,20 @@
 <template lang="pug">
 .pair
   Icon.pair__icon(:id="('cur_' + baseCurrency).toLocaleLowerCase()")
-  .pair__currency(v-text="baseCurrency")
+  Dropdown.pair__dropdown(
+    :options="baseCurrencyOptions",
+    :selectDefault="baseCurrency",
+    :value="baseCurrency",
+    @change="changeBaseCurrency",
+  )
   Icon.pair__exchange(id="exchange")
   Icon.pair__icon(:id="('cur_' + quoteCurrency).toLocaleLowerCase()")
-  Dropdown.pair__dropdown(:options="pairs[baseCurrency]" :selectDefault="quoteCurrency" v-model="selected")
+  Dropdown.pair__dropdown(
+    :options="quoteCurrencyOptions",
+    :selectDefault="quoteCurrency",
+    :value="quoteCurrency",
+    @change="changeQuoteCurrency",
+  )
 </template>
 
 <script>
@@ -13,32 +23,37 @@ import Icon from './Icon';
 import Dropdown from './Dropdown';
 
 export default {
-  data() {
-    return {
-      selected: '',
-    };
-  },
   computed: {
-    ...mapState('trade', {
-      pairs: 'pairs',
-    }),
-    ...mapGetters('trade', {
-      baseCurrency: 'baseCurrency',
-      quoteCurrency: 'quoteCurrency',
-    }),
-  },
-  methods: {
-    ...mapActions('trade', {
-      changeQuoteCurrency: 'changeQuoteCurrency',
-    }),
-  },
-  watch: {
-    selected() {
-      this.changeQuoteCurrency(this.selected);
+    ...mapState('trade', [
+      'pairs',
+    ]),
+    ...mapGetters('trade', [
+      'baseCurrency',
+      'quoteCurrency',
+    ]),
+    baseCurrencyOptions() {
+      return Object.keys(this.pairs);
+    },
+    quoteCurrencyOptions() {
+      return this.pairs[this.baseCurrency];
     },
   },
-  created() {
-    this.selected = this.quoteCurrency;
+  methods: {
+    ...mapActions('trade', [
+      'changeQuoteCurrency',
+      'changeBaseCurrency',
+    ]),
+    setQuoteAfterBaseChange(baseCurrency) {
+      // Do not change if current quote available for new base
+      if (this.pairs[baseCurrency].includes(this.quoteCurrency)) return;
+      // If not, change quote currency for first available
+      this.changeQuoteCurrency(this.pairs[baseCurrency][0]);
+    },
+  },
+  watch: {
+    baseCurrency(baseCurrency) {
+      this.setQuoteAfterBaseChange(baseCurrency);
+    },
   },
   components: {
     Icon,
