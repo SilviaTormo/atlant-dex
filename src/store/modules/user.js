@@ -5,6 +5,7 @@ export default {
     balance: 317,
     userCurrencies: ['USD', 'BTC', 'ETH', 'ATL'],
     account: {
+      currency: '',
       email: {
         value: '',
       },
@@ -83,6 +84,16 @@ export default {
           state.security.additionalEmail.value = data;
           return resolve();
         });
+      });
+    },
+    setPreferredCurrency({state, commit}, currencyCode) {
+      if (state.account.currency === currencyCode) return;
+      const backUpCurrency = state.account.currency;
+      commit('setPrefCurrency', currencyCode);
+      return User.changePreferredCurrency(currencyCode)
+      .catch((error) => {
+        commit('setPrefCurrency', backUpCurrency);
+        console.error(error);
       });
     },
     verifyAdditionalEmail({state}, data) {
