@@ -2,9 +2,9 @@
 table.book
   tbody.book__body
     tr.book__row(v-for="(order, index) in orderBook")
-      td.book__cell(:class="`book__cell--${(ask) ? 'ask' : 'bid'}`") {{order[0]}}
-      td.book__cell {{order[1].toFixed(4)}}
-      td.book__cell {{(order[0]*order[1]).toFixed(4)}}
+      td.book__cell(:class="`book__cell--${(ask) ? 'ask' : 'bid'}`") {{order.price}}
+      td.book__cell {{order.amount.toFixed(4)}}
+      td.book__cell {{(order.price * order.amount).toFixed(4)}}
 </template>
 
 <script>
@@ -20,8 +20,8 @@ export default {
       book: (state) => state.book,
     }),
     orderBook() {
-      const items = (this.ask) ? this.book.asks : this.book.bids;
-      return items.slice(0, this.limit);
+      const items = this.ask ? this.book.asks : this.book.bids;
+      return items; // .slice(0, this.limit);
     },
   },
   props: {

@@ -11,7 +11,7 @@ export const getAccountTransactionHistory = ({limit, offset, status, baseCurrenc
 export const getTradeInfo = ({pair}) => apiOld.get('/trade/getTraderInfo?', {params: {pair}});
 export const getTraderWallet = () => apiOld.get('/trade/traderWallets');
 
-export const placeOrder = ({isMarketOrder, isSellOrder, baseCurrency, quoteCurrency, price, quantity, isQuantityInBaseCurrency}) => api.post(`/orders`, {isMarketOrder, isSellOrder, baseCurrency, quoteCurrency, price, quantity, isQuantityInBaseCurrency});
+export const placeOrder = ({isMarketOrder, isSellOrder, baseCurrency, quoteCurrency, price, quantity, isQuantityInBaseCurrency}) => api.post(`/orders`, {isMarketOrder, isSellOrder, baseCurrency, quoteCurrency, price, quantity});
 export const cancelOrder = ({orderId, priority}) => api.put('/orders/cancel', {orderId, priority});
 
 export const getOrders = (param) => api.get('/orders/my', {params: param});
