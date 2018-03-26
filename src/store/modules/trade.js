@@ -1,6 +1,7 @@
 import * as Trade from 'services/api/trade';
 import {serverNotification} from 'services/notification';
 import {defPeriod} from 'config';
+import pairsMock from 'mocks/pairs';
 
 export default {
   state: {
@@ -13,7 +14,7 @@ export default {
     bid: 0,
     ask: 0,
     limit: 23,
-    pairs: {},
+    pairs: pairsMock,
     chart: {
       data: {},
       period: defPeriod,
@@ -95,7 +96,7 @@ export default {
       state.change = data.change;
       state.bid = data.bid;
       state.ask = data.ask;
-      state.pairs = data.pairs;
+      // state.pairs = data.pairs;
     },
     setChartData(state, data) {
       state.chart.data = data;
@@ -258,6 +259,12 @@ export default {
       }).then((res) => {
         commit('setChartData', res.data.result);
       });
+    },
+    changeBaseCurrency({commit, dispatch, getters}, currency) {
+      const pair = getters.getPairName({
+        base: currency,
+      });
+      commit('setPair', pair);
     },
     changeQuoteCurrency({commit, dispatch, getters}, currency) {
       const pair = getters.getPairName({

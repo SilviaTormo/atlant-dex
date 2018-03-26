@@ -34,12 +34,12 @@ Page(title="Account information", title2="", :sidebar="true")
           .accountInfo__item.accountInfo__item--other
             .accountInfo__param Preferred currency:
             .accountInfo__value.accountInfo__value--inline {{getCountryCurrency}}
-              FlagSwitch.accountInfo__dropdown(type="currency", :value="getCurrencyCountry", @change="val => { setPrefCurrencyFromFlag(val) }")
+              FlagSwitch.accountInfo__dropdown(type="currency", :value="getCurrencyCountry", @change="setPrefCurrencyFromFlag")
         BButton.accountInfo__button(color="malachite" rounded) Save
 </template>
 
 <script>
-import {mapState, mapMutations, mapActions} from 'vuex';
+import {mapState, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
 import {getCountryByCurrency, getCountryCurrency} from 'services/countries';
 import Icon from 'components/Icon';
@@ -70,14 +70,14 @@ export default {
     },
   },
   methods: {
-    ...mapMutations('user', {
-      setPrefCurrency: 'setPrefCurrency',
-    }),
+    ...mapActions('user', [
+      'setPreferredCurrency',
+    ]),
     ...mapActions('user', {
       getProfileData: 'getProfileData',
     }),
     setPrefCurrencyFromFlag(value) {
-      this.setPrefCurrency(getCountryCurrency(value));
+      this.setPreferredCurrency(getCountryCurrency(value));
     },
   },
   created() {
