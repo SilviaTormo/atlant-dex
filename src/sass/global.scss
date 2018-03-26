@@ -97,6 +97,16 @@
     border-collapse: collapse;
   }
 
+  &__sortable {
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+    &--active {
+      font-style: italic;
+    }
+  }
+
   thead {
     border-color: #032537;
     color: #a1a1a1;
