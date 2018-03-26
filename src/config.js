@@ -1,7 +1,7 @@
 export const baseURL = 'https://apiv2.atlant.io/';
 export const baseURLOld = 'https://apiex.atlant.io';
 export const timeout = 30000;
-export const hubURL = `${baseURLOld}/signalr/hubs`;
+export const hubURL = `${baseURL}main`;
 export const hubName = 'notificationHub';
 export const mobileBreakpoint = 992;
 export const showWelcome = false;

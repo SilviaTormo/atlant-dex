@@ -10,6 +10,7 @@
   "keywords": [],
   "author": "ATLANT-team",
   "dependencies": {
+    "@aspnet/signalr": "1.0.0-preview1-update1",
     "axios": "0.16.2",
     "bootstrap": "4.0.0-beta.2",
     "clipboard": "1.7.1",
