@@ -23,3 +23,13 @@ $sidebar_width: 280px;
 $sidebar_speed: 0.15s;
 $toolbar_width: 55px;
 $leftSide_width: $sidebar_width + $toolbar_width;
+
+$input-transition: border-color .3s;
+$input-border-color: #034468;
+$input-border: 1px solid $input-border-color;
+$input-padding: 7px 15px;
+$input-border-color-highlight: #42b6f6;
+$input-height: 32px;
+$input-placeholder-color: #044568;
+$input-success-color: #7dd320;
+
