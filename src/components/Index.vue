@@ -39,7 +39,7 @@
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import {notification} from 'services/notification';
 import * as Trade from 'services/api/trade';
-import {defCandleSize, showWelcome} from 'config';
+import {showWelcome} from 'config';
 import {scrollbar} from 'directives';
 import TheHeader from './TheHeader';
 import PairInfo from './PairInfo';
@@ -206,7 +206,7 @@ export default {
     },
     isLoggedIn(isTrue) {
       if (isTrue) {
-        this.$hub.setToken(this.token);
+        // this.$hub.setToken(this.token);
         // this.getTradeInfo();
         // this.getTraderWallet();
       } else {
@@ -222,12 +222,13 @@ export default {
     this.updateScreenType();
     this.hubSubscribe();
 
-    this.$hub.start().then(() => {
-      this.$hub.proxy.invoke('setCandleSize', defCandleSize);
-      if (this.isLoggedIn) {
-        this.$hub.setToken(this.token);
-      }
-    });
+    // this.$hub.start().then(() => {
+    //   this.$hub.proxy.invoke('setCandleSize', defCandleSize);
+    //   if (this.isLoggedIn) {
+    //     this.$hub.setToken(this.token);
+    //   }
+    // });
+
     if (this.isLoggedIn) {
 //      this.getTradeInfo();
     };

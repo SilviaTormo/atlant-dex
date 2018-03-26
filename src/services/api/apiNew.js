@@ -11,6 +11,7 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use((config) => {
+  store.dispatch('membership/rememberLastAction');
   const isLoggedIn = store.getters['membership/isLoggedIn'];
   const token = (isLoggedIn) ? store.state.membership.token : null;
   config.headers.Authorization = 'token ' + token;
@@ -21,8 +22,10 @@ instance.interceptors.response.use((response) => {
     return response;
 }, ({response}) => {
   const {status} = response;
+  console.log('status', status);
   if (status === 401) {
-    store.dispatch('membership/dropUser');
+    store.dispatch('membership/tryReconnect');
+    // store.dispatch('membership/dropUser');
   }
   return Promise.reject(response);
 });

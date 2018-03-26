@@ -32,10 +32,11 @@ const store = new Vuex.Store({
   plugins: [createPersistedState({
     paths: [
       'grid.gridData',
-      'membership.token',
+      // 'membership.token',
       'membership.userId',
       'membership.refreshToken',
       'membership.email',
+      'membership.lastAction',
       'trade.pair',
       'user.account.currency',
     ],
