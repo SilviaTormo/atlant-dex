@@ -23,8 +23,7 @@ TablePage(
             Checkbox(color="yellow", :value="isChecked(item.id)" @change="setCheckedArray(item.id)")
           td {{formatTime(item.dateTime)}}
           td.notificationHistory__capital(:class="{'notificationHistory__redText' : getNotificationType(item.level) === 'Warning' || getNotificationType(item.level) === 'Error'}") {{getNotificationType(item.level)}}
-          // Temporary placeholder for error localization
-          td {{item.type === 1 ? `Logged in (${item.arguments[0]})` : '' }}
+          td {{ $t(getStatus(item), item.arguments) }}
 </template>
 
 <script>
@@ -69,6 +68,13 @@ export default {
     },
     getNotificationType(level) {
       return notificationType(level);
+    },
+    getStatus(notification) {
+      switch (notification.type) {
+        case 1: return 'loggedIn';
+        case 2: return 'tfaEnabled';
+        case 3: return 'tfaDisabled';
+      };
     },
     getNotifications() {
       this.getNotificationHistory({
