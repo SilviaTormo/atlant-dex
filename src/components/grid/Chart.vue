@@ -141,7 +141,7 @@ export default {
     }),
     setChartPeriod(period) {
       this.changeChartPeriod(period).then(() => {
-        this.$hub.proxy.invoke('setCandleSize', this.candleSize);
+        // this.$hub.proxy.invoke('setCandleSize', this.candleSize);
         this.createChart();
       });
     },

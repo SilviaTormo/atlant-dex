@@ -39,7 +39,7 @@
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import {notification} from 'services/notification';
 import * as Trade from 'services/api/trade';
-import {defCandleSize, showWelcome} from 'config';
+import {showWelcome} from 'config';
 import {scrollbar} from 'directives';
 import TheHeader from './TheHeader';
 import PairInfo from './PairInfo';
@@ -141,52 +141,9 @@ export default {
       document.querySelector('#app').style.overflow = (this.showSidebar && this.isMobile) ? 'hidden' : null;
     },
     hubSubscribe() {
-      this.$hub.proxy.on('newCandle', (res) => {
-        // this.addNewCandle(res);
-      });
-
-      this.$hub.proxy.on('newDesktop', (res) => {
-        this.addNewPrices(res);
-      });
-
-      this.$hub.proxy.on('newOrder', (res) => {
-        this.addActiveOrder(res);
-        notification({
-          title: `Order #${res[0]} `,
-          text: `created: ${res[2]? 'Sell': 'Buy'} ${res[4]} ${res[1].split('_')[0]} for ${res[5]} ${res[1].split('_')[1]}`,
-        });
-      });
-
-      this.$hub.proxy.on('newOrderMatch', (res) => {
-        this.setFilledActiveOrder(res);
-        notification({
-          title: `Order #${res[0]}: `,
-          text: (res[3] == 2) ? 'filled' : 'partially filled',
-        });
-      });
-
-      this.$hub.proxy.on('newOrderCancel', (res) => {
-        this.setCancelActiveOrder(res[0]);
-        notification({
-          title: `Order #${res[0]}: `,
-          text: 'canceled.',
-        });
-      });
-
-      // this.$hub.proxy.on('newOrderBookTop', ([currency, side, orders, volume]) => {
-      //   if (side) {
-      //     this.setOrdersAsks(orders);
-      //   } else {
-      //     this.setOrdersBids(orders);
-      //   };
-      // });
-
-      // this.$hub.proxy.on('newTrade', (data) => {
-      //   this.addLastTrade(data);
-      // });
-
-      this.$hub.proxy.on('tokenExpired', () => {
-        this.dropUser();
+      // add signalR events here
+      this.$hub.on('newNotification', (data) => {
+        console.log('got new notification', data);
       });
     },
     modalChangeStyleforBody() {
@@ -205,11 +162,7 @@ export default {
       this.modalChangeStyleforBody();
     },
     isLoggedIn(isTrue) {
-      if (isTrue) {
-        this.$hub.setToken(this.token);
-        // this.getTradeInfo();
-        // this.getTraderWallet();
-      } else {
+      if (!isTrue) {
         this.openModal({name: 'signIn'});
         notification({
           text: 'Log Out',
@@ -223,14 +176,12 @@ export default {
     this.hubSubscribe();
 
     this.$hub.start().then(() => {
-      this.$hub.proxy.invoke('setCandleSize', defCandleSize);
-      if (this.isLoggedIn) {
-        this.$hub.setToken(this.token);
-      }
+      // this.$hub.invoke('newNotification', 'newMessage');
+      // if (this.isLoggedIn) {
+      //   this.$hub.setToken(this.token);
+      // }
     });
-    if (this.isLoggedIn) {
-//      this.getTradeInfo();
-    };
+
     window.addEventListener('resize', () => {
       setTimeout(() => {
         this.updateScreenType();
