@@ -13,6 +13,7 @@ export const verifyPhone = (code) => api.put(`/profile/fields/verify/phone/${cod
 export const changeAdditionalEmail = (email) => api.put(`profile/fields/additionalEmail/${email}`);
 export const verifyAdditionalEmail = (confirmationCode) => api.put(`profile/fields/verify/additionalEmail/${confirmationCode}`);
 
+export const getNotificationHistory = ({page, limit, sortBy, ascending}) => api.get('/notifications/history', {params: {page, limit, sortBy, ascending}});
 export const getSecurityLog = ({page, limit}) => api.get('logs/security', {params: {page, limit}});
 
 export const deposit = ({currency, amount}) => api.put('account/deposit', {currency, amount});

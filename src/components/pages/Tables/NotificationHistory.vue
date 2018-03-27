@@ -3,8 +3,8 @@ TablePage(
   title="NOTIFICATION_HISTORY",
   :data="data",
   :pageCount='setPagesCount',
-  :page="setPageNum",
-  :changeActivePage="() => false",
+  :page="page",
+  :changeActivePage="changeActivePage",
   :checkedArray.sync='checkedArray',
   :getDelete="true",
   :getExport="true",
@@ -14,19 +14,23 @@ TablePage(
       thead
         tr
           th
-          th Time & Date
-          th Type
+          th.table__sortable(:class="{'table__sortable--active': sortBy==='datetime'}" @click="sortNotifications('datetime')") Time & Date
+          th.table__sortable(:class="{'table__sortable--active': sortBy==='level'}" @click="sortNotifications('level')") Type
           th Description
       tbody
         tr(v-for="(item, index) in data")
           td
             Checkbox(color="yellow", :value="isChecked(item.id)" @change="setCheckedArray(item.id)")
-          td {{item.date}}
-          td(:class="{'notificationHistory__redText' : item.type === 'Warning' || item.type === 'Error'}") {{item.type}}
-          td {{item.description}}
+          td {{formatTime(item.dateTime)}}
+          td.notificationHistory__capital(:class="{'notificationHistory__redText' : getNotificationType(item.level) === 'Warning' || getNotificationType(item.level) === 'Error'}") {{getNotificationType(item.level)}}
+          // Temporary placeholder for error localization
+          td {{item.type === 1 ? `Logged in (${item.arguments[0]})` : '' }}
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex';
+import {DateTime} from 'luxon';
+import {notificationType} from 'services/notification';
 import Checkbox from 'components/Checkbox';
 import Icon from '../../Icon';
 import TablePage from './TablePage';
@@ -35,52 +39,60 @@ export default {
   data() {
     return {
       checkedArray: [],
-      data: [
-          {
-              id: 1,
-              date: '01.08.2017 21:15',
-              type: 'Error',
-              description: 'Order #1241512 partially filled: sold 1 ETH for 1,011 USD',
-          },
-          {
-              id: 2,
-              date: '01.08.2017 21:14',
-              type: 'Info',
-              description: 'Order #1241512 filled: sold 0.5 BTC for 5,309 USD',
-          },
-          {
-              id: 3,
-              date: '04.07.2017 14:5',
-              type: 'Warning',
-              description: 'ALERT Margin Call: deposit funds to increase margin level',
-          },
-      ],
+      page: 1,
+      sortBy: 'datetime',
+      asc: false,
     };
   },
   computed: {
-    allDataLength() {
-        return 70;
-    },
-    offset() {
-        return 23;
-    },
-    itemsOnPage() {
-        return 10;
-    },
+    ...mapGetters('user', {
+      data: 'getNotifications',
+      totalItems: 'getNotificationItems',
+      itemsOnPage: 'getNotificationsOnPage',
+    }),
     setPagesCount() {
-      return Math.ceil(this.allDataLength / this.itemsOnPage);
-    },
-    setPageNum() {
-      return Math.ceil((this.offset) / this.itemsOnPage) + 1;
+      return Math.ceil(this.totalItems / this.itemsOnPage);
     },
   },
   methods: {
+    ...mapActions('user', [
+      'getNotificationHistory',
+    ]),
     isChecked(id) {
       return Boolean(this.checkedArray.indexOf(id) != -1);
     },
     setCheckedArray(id) {
       this.isChecked(id) ? this.checkedArray = this.checkedArray.filter((item) => item != id) : this.checkedArray.push(id);
     },
+    formatTime(isoTime) {
+      return DateTime.fromISO(isoTime).toFormat('dd.LL.yyyy HH:mm');
+    },
+    getNotificationType(level) {
+      return notificationType(level);
+    },
+    getNotifications() {
+      this.getNotificationHistory({
+        page: this.page,
+        sortBy: this.sortBy,
+        ascending: this.asc,
+      });
+    },
+    sortNotifications(column) {
+      if (this.sortBy === column) {
+        this.asc = !this.asc;
+      } else {
+        this.sortBy = column;
+        this.asc = false;
+      };
+      this.getNotifications();
+    },
+    changeActivePage(num) {
+      this.page = num;
+      this.getNotifications();
+    },
+  },
+  created() {
+    this.getNotifications();
   },
   components: {
     TablePage,
@@ -96,6 +108,9 @@ export default {
 .notificationHistory {
     &__redText {
       color: $color_red;
+    }
+    &__capital {
+      text-transform: capitalize;
     }
 }
 </style>

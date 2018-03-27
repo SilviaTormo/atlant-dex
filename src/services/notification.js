@@ -30,3 +30,11 @@ export const serverNotification = (response) => {
     type,
   });
 };
+
+export const notificationType = (level) => {
+  switch (level) {
+    case 0: return 'info';
+    case 1: return 'warning';
+    case 2: return 'error';
+  }
+};

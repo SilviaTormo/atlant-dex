@@ -32,8 +32,22 @@ export default {
         method: '',
       },
     },
+    notifications: {
+      data: [],
+      totalItems: 0,
+    },
+    notificationsOnPage: 5,
   },
   getters: {
+    getNotifications(state) {
+      return state.notifications.data;
+    },
+    getNotificationItems(state) {
+      return state.notifications.totalItems;
+    },
+    getNotificationsOnPage(state) {
+      return state.notificationsOnPage;
+    },
   },
   mutations: {
     setProfile(state, data) {
@@ -54,6 +68,9 @@ export default {
     },
     setPhoneVerified(state, isVerified) {
       state.account.phone.verified = isVerified;
+    },
+    setNotifications(state, data) {
+      state.notifications = data;
     },
   },
   actions: {
@@ -107,6 +124,16 @@ export default {
     deposit({state}, {currency, amount}) {
       return User.deposit({currency, amount}).then(() => {
         console.log('successfully deposited', amount, currency);
+      });
+    },
+    getNotificationHistory({state, commit}, {page, sortBy, ascending}) {
+      return User.getNotificationHistory({
+        page,
+        limit: state.notificationsOnPage,
+        sortBy,
+        ascending,
+      }).then((response) => {
+        commit('setNotifications', response.data);
       });
     },
   },
