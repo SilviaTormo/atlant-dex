@@ -1,5 +1,4 @@
 import * as Membership from 'services/api/membership';
-import {serverNotification} from 'services/notification';
 
 export default {
   state: {
@@ -31,15 +30,11 @@ export default {
       }).then((response) => {
         commit('createUser', response.data);
         dispatch('refreshToken');
-      }).catch((res) => {
-        serverNotification(res);
       });
     },
     logout({dispatch, state}) {
       return Membership.logout(state.refreshToken).then(() => {
         dispatch('dropUser');
-      }).catch((res) => {
-        serverNotification(res);
       });
     },
     dropUser({commit}) {
