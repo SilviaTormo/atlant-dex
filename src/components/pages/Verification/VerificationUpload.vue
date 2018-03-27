@@ -1,21 +1,27 @@
 <template lang="pug">
 .verificationUpload
-  .verificationUpload__row
-    VerificationUploadExamples
+  .verificationUpload__row.verificationUpload__row--examples
+    VerificationUploadExamples(:examplesShow="examplesShow")
   .verificationUpload__row
     .verificationUpload__item
       VerificationFormGroup(
         label="ID scan:",
       )
         VerificationUploadInput
-      .verificationUpload__helpIcon
+      .verificationUpload__helpIcon(
+        role="button",
+        @click="examplesShow = !examplesShow"
+      )
         Icon(id="help")
     .verificationUpload__item
       VerificationFormGroup(
         label="Selfie holding ID card & signed «Coin.gi» paper:",
       )
         VerificationUploadInput
-      .verificationUpload__helpIcon
+      .verificationUpload__helpIcon(
+        role="button",
+        @click="examplesShow = !examplesShow"
+      )
         Icon(id="help")
 </template>
 
@@ -27,6 +33,11 @@ import VerificationFormGroup from './VerificationFormGroup';
 
 export default {
   name: 'VerificationDropdown',
+  data() {
+    return {
+      examplesShow: false,
+    };
+  },
   components: {
     VerificationUploadInput,
     VerificationFormGroup,
@@ -42,6 +53,9 @@ export default {
   &__row {
     display: flex;
     flex-direction: row;
+    &--examples {
+      padding-bottom: 30px;
+    }
   }
   &__item {
     max-width: 280px;
@@ -51,6 +65,7 @@ export default {
     }
   }
   &__helpIcon {
+    cursor: pointer;
     fill: #ffc600;
     position: absolute;
     right: -25px;

@@ -1,67 +1,70 @@
 <template lang="pug">
-form.verification-form
-  verification-form-group(
+form.verificationForm
+  VerificationFormGroup(
     label="Foo Name:",
     validatable,
     valid,
   )
-    verification-input.verification-form__input
-  verification-form-group(
+    VerificationInput.verificationForm__input
+  VerificationFormGroup(
     label="Last Name:",
     validatable,
   )
-    verification-input.verification-form__input(
+    VerificationInput.verificationForm__input(
     )
-  verification-form-group(
+  VerificationFormGroup(
     label="Country:",
     validatable,
   )
-    verification-select.verification-form__input(
-    :options="['Foo', 'Bar']",
+    VerificationSelect.verificationForm__input(
+      :options="['Foo', 'Bar']",
     )
-  verification-form-group(
+  VerificationFormGroup(
     label="City:"
     validatable,
   )
-    verification-select.verification-form__input(
-    :options="['Foo', 'Bar', 'FooBar']",
+    VerificationSelect.verificationForm__input(
+      :options="['Foo', 'Bar', 'FooBar']",
     )
-  verification-form-group(
+  VerificationFormGroup(
     label="Street Address:"
     validatable,
   )
-    verification-input.verification-form__input(
+    VerificationInput.verificationForm__input(
     )
-  verification-form-group(
+  VerificationFormGroup(
     label="Postcode:"
     validatable,
   )
-    verification-input.verification-form__input(
+    VerificationInput.verificationForm__input(
     )
-  verification-form-group(
+  VerificationFormGroup(
     label="Phone Number:"
     validatable,
   )
-    verification-input.verification-form__input(
+    VerificationInput.verificationForm__input(
     )
-  verification-form-group(
+  VerificationFormGroup(
     label="Date of Birth:"
     validatable,
   )
-    verification-select.verification-form__input.verification-form__input--small(
-    placeholder="Day"
+    VerificationSelect.verificationForm__input.verificationForm__input--small(
+      placeholder="Day",
+      :options="['Foo', 'Bar']",
     )
-    verification-select.verification-form__input.verification-form__input--small(
-    placeholder="Month"
+    VerificationSelect.verificationForm__input.verificationForm__input--small(
+      placeholder="Month",
+      :options="['Foo', 'Bar']",
     )
-    verification-select.verification-form__input.verification-form__input--small(
-    placeholder="Year"
+    VerificationSelect.verificationForm__input.verificationForm__input--small(
+      placeholder="Year",
+      :options="['Foo', 'Bar']",
     )
-  verification-form-group(
+  VerificationFormGroup(
     label="ID or Passport #:"
     validatable,
   )
-    verification-input.verification-form__input(
+    VerificationInput.verificationForm__input(
     )
 </template>
 
@@ -81,7 +84,7 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  .verification-form {
+  .verificationForm {
     & &__input {
       width: 174px;
       &--small {
@@ -93,7 +96,7 @@ export default {
         margin-left: 25px;
       }
     }
-    /deep/ .verification-form-group__label-text {
+    /deep/ .verificationFormGroup__labelText {
       width: 121px;
     }
   }

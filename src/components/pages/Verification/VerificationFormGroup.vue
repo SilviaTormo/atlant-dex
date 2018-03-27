@@ -1,10 +1,10 @@
 <template lang="pug">
-.verification-form-group
-  label.verification-form-group__label
-    .verification-form-group__label-text {{label}}
-    .verification-form-group__input
+.verificationFormGroup
+  label.verificationFormGroup__label
+    .verificationFormGroup__labelText {{label}}
+    .verificationFormGroup__input
       slot
-  Icon.verification-form-group__icon(
+  Icon.verificationFormGroup__icon(
     v-if="validatable",
     :id="iconName",
     :class="iconClass"
@@ -24,7 +24,7 @@ export default {
       return 'circle-thick';
     },
     iconClass() {
-      let className = 'verification-form-group__icon';
+      let className = 'verificationFormGroup__icon';
       if (this.valid) {
         className += '--success';
       }
@@ -44,7 +44,7 @@ export default {
 
 <style lang="scss" rel="stylesheet/scss" scoped>
   @import "~sass/variables";
-  .verification-form-group {
+  .verificationFormGroup {
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -54,7 +54,7 @@ export default {
       display: flex;
       align-items: center;
     }
-    &__label-text {
+    &__labelText {
       display: inline-block;
       padding-right: 15px;
     }

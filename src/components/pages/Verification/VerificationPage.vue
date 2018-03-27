@@ -6,9 +6,13 @@ Page(
 )
   .verification
     .verification__title PERSONAL INFORMATION:
-    VerificationForm
+    .verification__form
+      VerificationForm
     .verification__title Please upload the following files in order to verify your account:
-    VerificationUpload
+    .verification__upload
+      VerificationUpload
+    .verification__button
+      BButton(color="malachite" rounded caps) Verify Me
 </template>
 
 <script>
@@ -78,71 +82,15 @@ export default {
     font-size: 16px;
     font-weight: 700;
     line-height: 25px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     text-transform: uppercase;
   }
-  /////////////////////////
-  ////////////////////////
-  ////////////////////////
-  /*&__main {*/
-    /*font-size: 14px;*/
-    /*font-weight: 400;*/
-    /*line-height: 19px;*/
-    /*& > * {*/
-      /*margin-bottom: 19px;*/
-    /*}*/
-  /*}*/
-  /*&__list {*/
-    /*counter-reset: item;*/
-  /*}*/
-  /*&__listHeader {*/
-    /*color: #31ecce;*/
-    /*font-weight: 700;*/
-    /*margin: 19px 0;*/
-    /*list-style: none;*/
-    /*&::before {*/
-      /*<!--margin-left: -24px;-->*/
-      /*margin-right: 10px;*/
-      /*counter-increment: item;*/
-      /*content: counter(item) ".";*/
-      /*color: #ffffff;*/
-      /*font-size: 16px;*/
-      /*font-weight: 700;*/
-      /*line-height: 25px;*/
-      /*text-transform: uppercase;*/
-    /*}*/
-  /*}*/
-  /*&__entityType {*/
-    /*font-weight: 700;*/
-  /*}*/
-  /*&__note {*/
-    /*font-size: 12px;*/
-    /*font-weight: 700;*/
-    /*margin-bottom: 53px;*/
-  /*}*/
-  /*&__form {*/
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*& > * {*/
-      /*margin-bottom: 10px;*/
-    /*}*/
-    // min-height: 142px;
-    // border-radius: 4px;
-    // border: 1px dashed #ffffff;
-    // opacity: 0.5;
-    // display: flex;
-  /*}*/
-  // &__formText {
-  //   opacity: 0.5;
-  //   font-size: 20px;
-  //   font-weight: 300;
-  //   margin: auto;
-  // }
-  /*&__label {*/
-    /*& * {*/
-      /*margin-left: 10px;*/
-    /*}*/
-  /*}*/
+  &__form {
+    padding: 15px 0 30px;
+  }
+  &__button {
+    margin-top: 50px;
+  }
 }
 @include media-breakpoint-down(md) {
   .verification {

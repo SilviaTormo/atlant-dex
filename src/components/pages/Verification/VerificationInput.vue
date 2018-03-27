@@ -1,5 +1,5 @@
 <template lang="pug">
-input.verification-input(
+input.verificationInput(
   type="text",
   :placeholder="placeholder",
 )
@@ -19,7 +19,7 @@ export default {
 
 <style lang="scss" rel="stylesheet/scss" scoped>
   @import "~sass/variables";
-  .verification-input {
+  .verificationInput {
     background-color: transparent;
     border-radius: 0;
     border: $input-border;

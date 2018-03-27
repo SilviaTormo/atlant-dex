@@ -1,12 +1,12 @@
 <template lang="pug">
-.verification-select
-  .verification-select__placeholder(v-if="!value") {{placeholder}}
-  Icon.verification-select__triangle(id="triangle2")
-  select.verification-select__select(
+.verificationSelect
+  .verificationSelect__placeholder(v-if="!value") {{placeholder}}
+  Icon.verificationSelect__triangle(id="triangle2")
+  select.verificationSelect__select(
     :value="value",
     @change="onChange",
   )
-    option.verification-select__option(
+    option.verificationSelect__option(
       v-for="(option, $index) in options",
       :key="$index",
       :value="option",
@@ -42,7 +42,7 @@ export default {
 
 <style lang="scss" rel="stylesheet/scss" scoped>
 @import "~variables";
-.verification-select {
+.verificationSelect {
   border: $input-border;
   position: relative;
   transition: $input-transition;
