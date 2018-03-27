@@ -63,3 +63,11 @@ export const notificationType = (level) => {
     case 2: return 'error';
   }
 };
+
+export const getSignalRNotification = (type) => {
+  switch (type) {
+    case 1: return 'loggedIn';
+    case 2: return 'tfaEnabled';
+    case 3: return 'tfaDisabled';
+  };
+};

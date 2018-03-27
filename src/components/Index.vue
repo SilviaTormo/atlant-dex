@@ -36,8 +36,9 @@
 </template>
 
 <script>
+import i18n from 'i18n';
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
-import {notification} from 'services/notification';
+import {notification, getSignalRNotification} from 'services/notification';
 import * as Trade from 'services/api/trade';
 import {showWelcome} from 'config';
 import {scrollbar} from 'directives';
@@ -110,29 +111,22 @@ export default {
     ...mapMutations('trade', {
       setPair: 'setPair',
       setDesktopData: 'setDesktopData',
-      // setPairs: 'setPairs',
       setOHLC: 'setOHLC',
-      // addNewCandle: 'addNewCandle',
-      // addLastTrade: 'addLastTrade',
-      // setOrderList: 'setOrderList',
-      // setTradeInfo: 'setTradeInfo',
       addActiveOrder: 'addActiveOrder',
       setCancelActiveOrder: 'setCancelActiveOrder',
       setFilledActiveOrder: 'setFilledActiveOrder',
       addNewPrices: 'addNewPrices',
-      // addNewAccountOrder: 'addNewAccountOrder',
     }),
     ...mapActions('membership', {
       dropUser: 'dropUser',
     }),
-    ...mapActions('localization', {
-      setLang: 'setLang',
-    }),
+    ...mapActions('localization', [
+      'setLang',
+    ]),
     ...mapActions('user', {
       getTokens: 'getTokens',
     }),
     ...mapActions('trade', {
-      // getTradeInfo: 'getTradeInfo',
       getTraderWallet: 'getTraderWallet',
       getTradeHistory: 'getTradeHistory',
       getOrderBook: 'getOrderBook',
@@ -143,7 +137,10 @@ export default {
     hubSubscribe() {
       // add signalR events here
       this.$hub.on('newNotification', (data) => {
-        console.log('got new notification', data);
+        notification({
+          text: i18n.t(getSignalRNotification(data.notificationType), i18n.locale, data.arguments),
+          type: 'success',
+        });
       });
     },
     modalChangeStyleforBody() {

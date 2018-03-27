@@ -29,7 +29,7 @@ TablePage(
 <script>
 import {mapGetters, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
-import {notificationType} from 'services/notification';
+import {notificationType, getSignalRNotification} from 'services/notification';
 import Checkbox from 'components/Checkbox';
 import Icon from '../../Icon';
 import TablePage from './TablePage';
@@ -70,11 +70,7 @@ export default {
       return notificationType(level);
     },
     getStatus(notification) {
-      switch (notification.type) {
-        case 1: return 'loggedIn';
-        case 2: return 'tfaEnabled';
-        case 3: return 'tfaDisabled';
-      };
+      return getSignalRNotification(notification.type);
     },
     getNotifications() {
       this.getNotificationHistory({
