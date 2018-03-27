@@ -1,9 +1,9 @@
 // import {hubConnection} from 'signalr-no-jquery';
 
 export default {
-  install(Vue, url) {
+  install(Vue, url, token) {
     const signalR = require('@aspnet/signalr');
-    let connection = new signalR.HubConnection(url);
+    let connection = new signalR.HubConnection(`${url}?token=${token}`);
     Vue.prototype.$hub = connection;
     // {
       // proxy: null,

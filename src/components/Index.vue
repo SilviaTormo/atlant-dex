@@ -142,6 +142,9 @@ export default {
     },
     hubSubscribe() {
       // add signalR events here
+      this.$hub.on('newNotification', (data) => {
+        console.log('got new notification', data);
+      });
     },
     modalChangeStyleforBody() {
       document.querySelector('body').style.overflow = (this.isModalOpened()) ? 'hidden' : 'auto';
@@ -170,12 +173,10 @@ export default {
   created() {
     this.setLang();
     this.updateScreenType();
-    // this.hubSubscribe();
-    this.$hub.on('newNotification', (data) => {
-      console.log(data);
-    });
+    this.hubSubscribe();
+
     this.$hub.start().then(() => {
-      this.$hub.invoke('newNotification', 'pidor');
+      // this.$hub.invoke('newNotification', 'newMessage');
       // if (this.isLoggedIn) {
       //   this.$hub.setToken(this.token);
       // }
