@@ -178,7 +178,6 @@ export default {
       //   this.$hub.setToken(this.token);
       // }
     });
-
     window.addEventListener('resize', () => {
       setTimeout(() => {
         this.updateScreenType();

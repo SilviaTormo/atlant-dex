@@ -6,10 +6,17 @@ export default {
     refreshToken: '',
     userId: '',
     email: '',
+    lastAction: '',
   },
   getters: {
     isLoggedIn: (state) => {
       return state.token !== '';
+    },
+    hasRefreshToken(state) {
+      return state.refreshToken != '';
+    },
+    getLastAction(state) {
+      return state.lastAction;
     },
   },
   mutations: {
@@ -21,6 +28,9 @@ export default {
       state.token = '';
       state.refreshToken = '';
     },
+    setLastActionTime(state) {
+      state.lastAction = Date.now();
+    },
   },
   actions: {
     login({commit, dispatch}, {email, password}) {
@@ -30,10 +40,21 @@ export default {
       }).then((response) => {
         commit('createUser', response.data);
         dispatch('refreshToken');
+        setTimeout(() => {
+          dispatch('refreshToken');
+        }, 1500000);
+      }).catch((res) => {
+        serverNotification(res);
       });
     },
     logout({dispatch, state}) {
       return Membership.logout(state.refreshToken).then(() => {
+        dispatch('dropUser');
+      });
+    },
+    tryReconnect({state, dispatch}) {
+      dispatch('refreshToken').then((res) => {
+      }).catch(() => {
         dispatch('dropUser');
       });
     },
@@ -48,16 +69,18 @@ export default {
       });
     },
     refreshToken({state, commit, dispatch}) {
-      setTimeout(() => {
-        return Membership.refreshToken({
-          grantType: 'RefreshToken',
-          refreshToken: state.refreshToken,
-          email: state.email,
-        }).then((response) => {
-          commit('createUser', response.data);
-          dispatch('refreshToken');
-        });
-      }, 1500000);
+      return Membership.refreshToken({
+        grantType: 'RefreshToken',
+        refreshToken: state.refreshToken,
+        email: state.email,
+      }).then((response) => {
+        commit('createUser', response.data);
+      }).catch((response) => {
+        console.log(response);
+      });
+    },
+    rememberLastAction({getters, commit}) {
+      if (getters.isLoggedIn) commit('setLastActionTime');
     },
   },
   namespaced: true,
