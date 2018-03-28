@@ -1,4 +1,5 @@
 import * as Membership from 'services/api/membership';
+import {serverNotification2} from 'services/notification';
 
 export default {
   state: {
@@ -39,12 +40,7 @@ export default {
         password,
       }).then((response) => {
         commit('createUser', response.data);
-        dispatch('refreshToken');
-        setTimeout(() => {
-          dispatch('refreshToken');
-        }, 1500000);
-      }).catch((res) => {
-        serverNotification(res);
+        dispatch('setRefreshTimeout');
       });
     },
     logout({dispatch, state}) {
@@ -52,15 +48,16 @@ export default {
         dispatch('dropUser');
       });
     },
-    tryReconnect({state, dispatch}) {
-      dispatch('refreshToken').then((res) => {
-      }).catch(() => {
+    tryReconnect({dispatch}, {response}) {
+      console.log('called tryReconnect');
+      dispatch('refreshToken').catch(() => {
+        serverNotification2(response);
         dispatch('dropUser');
+        reject();
       });
     },
     dropUser({commit}) {
       commit('flushUser');
-      // commit('trade/clearOrders', null, {root: true});
       commit('trade/emptyWallet', null, {root: true});
     },
     regFinish({state}, code) {
@@ -68,15 +65,36 @@ export default {
         commit('createUser', response.data);
       });
     },
+    setRefreshTimeout({state, commit, dispatch}) {
+      setTimeout(() => {
+        dispatch('refreshToken').then(() => {
+          dispatch('setRefreshTimeout');
+        });
+      }, 1800000);
+    },
     refreshToken({state, commit, dispatch}) {
-      return Membership.refreshToken({
-        grantType: 'RefreshToken',
-        refreshToken: state.refreshToken,
-        email: state.email,
-      }).then((response) => {
-        commit('createUser', response.data);
-      }).catch((response) => {
-        console.log(response);
+      return new Promise((resolve, reject) => {
+        let timeSinceLastAction = Date.now() - state.lastAction;
+        if (timeSinceLastAction > 86400000) {
+          console.log('inactive user');
+          console.log('time since last action', timeSinceLastAction);
+          reject();
+        } else {
+          Membership.refreshToken({
+            grantType: 'RefreshToken',
+            refreshToken: state.refreshToken,
+            email: state.email,
+          }).then((response) => {
+            commit('createUser', response.data);
+            console.log('successful reconnect');
+            console.log('time since last action', timeSinceLastAction);
+            return resolve(response);
+          }).catch((response) => {
+            console.log(response);
+            console.log('time since last action', timeSinceLastAction);
+            return reject(response);
+          });
+        };
       });
     },
     rememberLastAction({getters, commit}) {

@@ -12,7 +12,6 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use((config) => {
-  store.dispatch('membership/rememberLastAction');
   const isLoggedIn = store.getters['membership/isLoggedIn'];
   const token = (isLoggedIn) ? store.state.membership.token : null;
   config.headers.Authorization = 'token ' + token;
@@ -20,15 +19,14 @@ instance.interceptors.request.use((config) => {
 });
 
 instance.interceptors.response.use((response) => {
-    return response;
+  store.dispatch('membership/rememberLastAction');
+  return response;
 }, ({response}) => {
-  serverNotification2(response);
   const {status} = response;
-  const hasRefreshToken = store.getters['membership/hasRefreshToken'];
-  let timeSinceLastAction = Date.now() - store.getters['membership/getLastAction'];
-  if (status === 401 && timeSinceLastAction < 86400000 && hasRefreshToken) {
-    store.dispatch('membership/tryReconnect');
-    // store.dispatch('membership/dropUser');
+  if (status === 401) {
+    store.dispatch('membership/tryReconnect', {response});
+  } else {
+    serverNotification2(response);
   }
   return Promise.reject(response);
 });
