@@ -1,59 +1,95 @@
 <template lang='pug'>
 .toolbar
   .toolbar__group
-    Icon.toolbar__icon(:id="(showSidebar) ? 'cross' : 'hamburger'" @click='toggleSidebar')
-    Icon.toolbar__icon(v-for='sec in sections', :id="sec", :key="sec", :class="isActive(sec)", @click="setSection(sec)")
+    Icon.toolbar__icon(
+      :id="(showSidebar) ? 'cross' : 'hamburger'",
+      @click='toggleSidebar',
+    )
+    UserVisibility(
+      v-for="section in sidebarSections",
+      :key="section.name",
+      :hide-on-logout="!section.isShowOnLogout"
+    )
+      Icon.toolbar__icon(
+        :id="section.name",
+        :class="isActive(section.name)",
+        @click="setSection(section.name)",
+      )
   .toolbar__group
-    Icon.toolbar__icon(id='icon-notification' @click="getOpenPage('notificationHistory')")
-    Icon.toolbar__icon(id='user' @click="getOpenPage('accountInformation')")
-    Icon.toolbar__icon(id='settings' @click="getOpenPage('securitySettings')")
-    Icon.toolbar__icon(id='info' @click="getOpenPage('transactionHistory')")
+    UserVisibility(hide-on-logout)
+      Icon.toolbar__icon(
+        id='icon-notification',
+        @click="checkBeforeOpenPage('notificationHistory')",
+      )
+    UserVisibility(hide-on-logout)
+      Icon.toolbar__icon(
+        id='user',
+        @click="checkBeforeOpenPage('accountInformation')",
+      )
+    Icon.toolbar__icon(
+      id='settings',
+      @click="checkBeforeOpenPage('securitySettings')",
+    )
+    Icon.toolbar__icon(
+      id='info',
+      @click="getOpenPage('transactionHistory')"
+    )
 </template>
 
 <script>
 import {mapState, mapGetters, mapMutations} from 'vuex';
+import {sidebarSections} from 'config';
+import UserVisibility from './UserVisibility';
 import Icon from './Icon';
 
 export default {
   data() {
     return {
-      sections: [
-        'wallet',
-        'quotes',
-        'alert',
-      ],
+      sidebarSections,
     };
   },
   computed: {
-    ...mapState('misc', {
-      showSidebar: 'showSidebar',
-      section: 'section',
-    }),
-    ...mapGetters('misc', {
-      isMobile: 'isMobile',
-    }),
+    ...mapState('misc', [
+      'showSidebar',
+    ]),
+    ...mapGetters('misc', [
+      'isMobile',
+      'section',
+    ]),
+    ...mapGetters('membership', [
+      'isLoggedIn',
+    ]),
   },
   methods: {
-    ...mapMutations('misc', {
-      toggleSidebar: 'toggleSidebar',
-      setSidebar: 'setSidebar',
-      setSection: 'setSection',
-    }),
+    ...mapMutations('misc', [
+      'toggleSidebar',
+      'setSidebar',
+      'setSection',
+    ]),
     ...mapMutations('page', {
       openPage: 'open',
     }),
+    ...mapMutations('modal', {
+      openModal: 'open',
+    }),
     isActive(section) {
-      return (section == this.section) ? 'toolbar__icon--active' : '';
+      return (section === this.section) ? 'toolbar__icon--active' : '';
     },
-    getOpenPage(pageName) {
-      this.openPage({
-        name: pageName,
-      });
+    checkBeforeOpenPage(pageName) {
+      if (!this.isLoggedIn) {
+        this.openModal({name: 'signIn'});
+        return false;
+      }
+      this.getOpenPage(pageName);
+    },
+    getOpenPage(name) {
+      this.openPage({name});
       if (this.isMobile) this.setSidebar(false);
     },
   },
   components: {
     Icon,
+    UserVisibility,
   },
 };
 

@@ -60,6 +60,19 @@ export const profileSections = [
   },
 ];
 
+export const sidebarSections = [
+  {
+    name: 'wallet',
+  },
+  {
+    name: 'quotes',
+    isShowOnLogout: true,
+  },
+  {
+    name: 'alert',
+  },
+];
+
 export const operatingSystems = [
   {
     id: 'android',

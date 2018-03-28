@@ -56,15 +56,16 @@ export default {
     };
   },
   computed: {
-    ...mapState('misc', {
-      showSidebar: 'showSidebar',
-      section: 'section',
-    }),
-    ...mapGetters('misc', {
-      toggleSidebar: 'toggleSidebar',
-      isMobile: 'isMobile',
-      sidebarTitle: 'sidebarTitle',
-    }),
+    ...mapState('misc', [
+      'showSidebar',
+
+    ]),
+    ...mapGetters('misc', [
+      'toggleSidebar',
+      'isMobile',
+      'sidebarTitle',
+      'section',
+    ]),
   },
   methods: {
     ...mapMutations('page', {
