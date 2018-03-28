@@ -8,11 +8,13 @@ export default {
     userId: '',
     email: '',
     lastAction: '',
-    blockRefresh: false,
   },
   getters: {
     isLoggedIn: (state) => {
       return state.token !== '';
+    },
+    hasRefreshToken(state) {
+      return state.refreshToken != '';
     },
     getLastAction(state) {
       return state.lastAction;
@@ -53,9 +55,10 @@ export default {
         serverNotification(res);
       });
     },
-    tryReconnect({dispatch}) {
+    tryReconnect({state, dispatch}) {
       dispatch('refreshToken').then((res) => {
-        console.log(res);
+      }).catch(() => {
+        dispatch('dropUser');
       });
     },
     dropUser({commit}) {
@@ -69,13 +72,11 @@ export default {
       });
     },
     refreshToken({state, commit, dispatch}) {
-      console.log('called refresh token');
       return Membership.refreshToken({
         grantType: 'RefreshToken',
         refreshToken: state.refreshToken,
         email: state.email,
       }).then((response) => {
-        console.log('successful token refresh');
         commit('createUser', response.data);
       }).catch((response) => {
         console.log(response);

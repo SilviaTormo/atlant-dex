@@ -22,8 +22,9 @@ instance.interceptors.response.use((response) => {
     return response;
 }, ({response}) => {
   const {status} = response;
-  console.log('status', status);
-  if (status === 401) {
+  const hasRefreshToken = store.getters['membership/hasRefreshToken'];
+  let timeSinceLastAction = Date.now() - store.getters['membership/getLastAction'];
+  if (status === 401 && timeSinceLastAction < 86400000 && hasRefreshToken) {
     store.dispatch('membership/tryReconnect');
     // store.dispatch('membership/dropUser');
   }
