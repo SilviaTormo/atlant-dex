@@ -1,6 +1,6 @@
 <template lang="pug">
 .verificationFormGroup
-  label.verificationFormGroup__label
+  label.verificationFormGroup__label(:for="labelFor")
     .verificationFormGroup__labelText {{label}}
     .verificationFormGroup__input
       slot
@@ -35,6 +35,7 @@ export default {
     label: String,
     validatable: Boolean,
     valid: Boolean,
+    labelFor: String,
   },
   components: {
     Icon,

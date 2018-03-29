@@ -10,7 +10,7 @@ Page(
       VerificationForm
     .verification__title Please upload the following files in order to verify your account:
     .verification__upload
-      VerificationUpload
+      VerificationFiles
     .verification__button
       BButton(color="malachite" rounded caps) Verify Me
 </template>
@@ -20,7 +20,7 @@ import {mapState, mapActions} from 'vuex';
 import BButton from 'components/BButton';
 import Page from '../Page';
 import VerificationForm from './VerificationForm';
-import VerificationUpload from './VerificationUpload';
+import VerificationFiles from './VerificationFiles';
 
 export default {
   name: 'VerificationPage',
@@ -62,7 +62,7 @@ export default {
     Page,
     BButton,
     VerificationForm,
-    VerificationUpload,
+    VerificationFiles,
   },
 };
 </script>

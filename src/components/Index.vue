@@ -15,7 +15,7 @@
       //- Pages
       TransactionHistory(v-if="isPageOpened('transactionHistory')")
       MyOrders(v-if="isPageOpened('myOrders')")
-      Verification(v-if="isPageOpened('verification')")
+      VerificationPage(v-if="isPageOpened('verification')")
       VerificationAdmin(v-if="isPageOpened('verificationAdmin')")
       AccountInformation(v-if="isPageOpened('accountInformation')")
       SecuritySettings(v-if="isPageOpened('securitySettings')")
@@ -52,7 +52,7 @@ import PropertyMap from './PropertyMap';
 import TransactionHistory from './pages/Tables/TransactionHistory';
 import MyOrders from './pages/Tables/MyOrders';
 import NotificationHistory from './pages/Tables/NotificationHistory';
-import Verification from './pages/Verification';
+import VerificationPage from './pages/Verification/VerificationPage';
 import VerificationAdmin from './pages/VerificationAdmin';
 import AccountInformation from './pages/AccountInformation';
 import SecuritySettings from './pages/SecuritySettings';
@@ -226,7 +226,7 @@ export default {
     TransactionHistory,
     MyOrders,
     NotificationHistory,
-    Verification,
+    VerificationPage,
     VerificationAdmin,
     AccountInformation,
     SecuritySettings,
