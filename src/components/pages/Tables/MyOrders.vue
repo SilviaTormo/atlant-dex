@@ -18,30 +18,38 @@ TablePage(
           th
           th ID
           th Timestamp
-          th Status
-          th Type
+          th Fee
           th Action
           th Pair
           th Amount
           th Price
           th Total
-      tbody
-        tr(v-for="(item, index) in orders")
+      tbody(v-for="(item, index) in orders")
+        tr.myOrders__row(@click="getTrades(item.id)")
           td.myOrders__checkboxContainer
             Checkbox(color="yellow", :value="isChecked(item.id)" @change="setCheckedArray(item.id)")
           td {{item.id}}
           td {{setDate(item.creationDate)}}
-          td {{item.status}}
-          td {{item.type}}
+          td {{item.fee}}
           td.myOrders__action(:class="'myOrders__action--' + (item.action)") {{item.action}}
           td {{fixCurrencyPair(item.pair)}}
           td {{setFixNumber(item.amount)}} {{item.quoteCurrency}}
           td {{setFixNumber(item.price)}} {{item.baseCurrency}}
           td {{setFixNumber(item.amount * item.price)}} {{item.baseCurrency}}
+        tr.myOrders__row(v-if="isDetailedOrder(item)")
+          td
+          td
+          td
+          td {{currentOrder.fee}}
+          td.myOrders__action(:class="'myOrders__action--' + (currentOrder.action)") {{currentOrder.action}}
+          td {{fixCurrencyPair(currentOrder.pair)}}
+          td {{setFixNumber(currentOrder.amount)}} {{currentOrder.quoteCurrency}}
+          td {{setFixNumber(currentOrder.price)}} {{currentOrder.baseCurrency}}
+          td {{setFixNumber(currentOrder.amount * currentOrder.price)}} {{currentOrder.baseCurrency}}
 </template>
 
 <script>
-import {mapState, mapActions, mapMutations} from 'vuex';
+import {mapState, mapGetters, mapActions, mapMutations} from 'vuex';
 import {DateTime} from 'luxon';
 import Checkbox from 'components/Checkbox';
 import Icon from '../../Icon';
@@ -51,6 +59,7 @@ export default {
   data() {
     return {
       checkedArray: [],
+      currentOrderId: null,
     };
   },
   computed: {
@@ -58,20 +67,27 @@ export default {
       orders: (state) => state.accountOrders.orders,
       orderFilter: (state) => state.orderFilter,
     }),
+    ...mapGetters('trade', {
+      trades: 'getOrderTrades',
+    }),
     setPagesCount() {
       return Math.ceil(this.allDataLength / this.itemsOnPage);
     },
     setPageNum() {
       return Math.ceil((this.offset) / this.itemsOnPage) + 1;
     },
+    currentOrder() {
+      return (this.orders && this.currentOrderId) ? this.orders.find((item) => item.id === this.currentOrderId) : {};
+    },
   },
   methods: {
     ...mapMutations('trade', {
       setOffsetForTradeHistory: 'setOffsetForTradeHistory',
     }),
-    ...mapActions('trade', {
-      getAccountOrders: 'getAccountOrders',
-    }),
+    ...mapActions('trade', [
+      'getAccountOrders',
+      'getTradesForOrder',
+    ]),
     isChecked(id) {
       return Boolean(this.checkedArray.indexOf(id) != -1);
     },
@@ -79,13 +95,27 @@ export default {
       this.isChecked(id) ? this.checkedArray = this.checkedArray.filter((item) => item != id) : this.checkedArray.push(id);
     },
     setFixNumber(num, fixedTo = 4) {
-      return num.toFixed(fixedTo);
+      return num; // num.toFixed(fixedTo);
     },
     setDate(isoTime) {
       return DateTime.fromISO(isoTime).toFormat('dd.LL.yyyy HH:mm');
     },
     fixCurrencyPair(pair) {
       return pair.replace('_', '/');
+    },
+    setCurrentOrderId(orderId) {
+      if (this.currentOrderId === orderId) {
+        this.currentOrderId = null;
+      } else {
+        this.currentOrderId = orderId;
+      };
+    },
+    isDetailedOrder(order) {
+      return order.id === this.currentOrderId;
+    },
+    getTrades(orderId) {
+      this.setCurrentOrderId(orderId);
+      // this.getTradesForOrder(orderId);
     },
   },
   watch: {
@@ -103,7 +133,7 @@ export default {
     },
   },
   created() {
-    this.getAccountOrders();
+    // this.getAccountOrders();
   },
   components: {
     TablePage,
@@ -123,6 +153,12 @@ export default {
     }
     &--Sell {
       color: $color_red;
+    }
+  }
+  &__row {
+    cursor: pointer;
+    &:hover {
+      background-color: $color_yellow;
     }
   }
   &__checkboxContainer {

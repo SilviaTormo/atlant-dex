@@ -15,4 +15,5 @@ export const placeOrder = ({isMarketOrder, isSellOrder, baseCurrency, quoteCurre
 export const cancelOrder = ({orderId, priority}) => api.put('/orders/cancel', {orderId, priority});
 
 export const getOrders = (param) => api.get('/orders/my', {params: param});
+export const getTradesForOrder = (orderId) => api.get(`/trades/order/${orderId}`);
 export const getOrderBook = ({baseCurrency, quoteCurrency, limit}) => api.get('/orders/orderBook', {params: {baseCurrency, quoteCurrency, limit}});

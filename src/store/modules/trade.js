@@ -41,7 +41,50 @@ export default {
       offset: 0,
     },
     accountOrders: {
-      orders: [],
+      orders: [
+        {
+          id: 1,
+          creationDate: '2018-03-30T00:36:30+00:00',
+          fee: '0.01 BTC',
+          action: 'Sell',
+          pair: 'BTC/USD',
+          amount: 1,
+          price: 10000,
+          baseCurrency: 'USD',
+          quoteCurrency: 'BTC',
+          trades: [{
+            id: 1,
+            fee: '12.6 USD',
+            action: 'Buy',
+            pair: 'BTC/USD',
+            amount: 0.5,
+            price: 10000,
+            baseCurrency: 'USD',
+            quoteCurrency: 'BTC',
+          }],
+        },
+        {
+          id: 2,
+          creationDate: '2018-03-30T00:36:30+00:00',
+          fee: '0.01 BTC',
+          action: 'Sell',
+          pair: 'BTC/USD',
+          amount: 1,
+          price: 10000,
+          baseCurrency: 'USD',
+          quoteCurrency: 'BTC',
+          trades: [{
+            id: 1,
+            fee: '12.6 USD',
+            action: 'Buy',
+            pair: 'BTC/USD',
+            amount: 0.5,
+            price: 10000,
+            baseCurrency: 'USD',
+            quoteCurrency: 'BTC',
+          }],
+        },
+      ],
     },
     orderFilter: '',
     tradeInfo: {
@@ -62,6 +105,19 @@ export default {
     },
     // wallet: [],
     orders: [],
+    tradesForOrder: {
+      trades: [{
+        id: 1,
+        creationDate: '2018-03-30T00:36:30+00:00',
+        fee: '0.01 BTC',
+        action: 'Sell',
+        pair: 'BTC/USD',
+        amount: 1,
+        price: 10000,
+        baseCurrency: 'USD',
+        quoteCurrency: 'BTC',
+      }],
+    },
   },
   getters: {
     baseCurrency(state) {
@@ -85,6 +141,12 @@ export default {
       return state.orders.filter((order) => {
         return order.status === 'Filled' || order.status === 'Cancelled';
       });
+    },
+    getOrderTrades(state) {
+      return state.tradesForOrder.trades;
+    },
+    getOrderTradesLength(state) {
+      return state.tradesForOrder.totalItems;
     },
   },
   mutations: {
@@ -222,6 +284,9 @@ export default {
     emptyWallet(state) {
       state.wallet = [];
     },
+    setTradesForOrder(state, orders) {
+      state.tradesForOrder = orders;
+    },
   },
   actions: {
     // getAccountTradeHistory({commit, state, getters}) {
@@ -343,6 +408,11 @@ export default {
     cancelOrder({commit}, orderId) {
       return Trade.cancelOrder({orderId}).then((res) => {
         commit('setCancelledOrder', orderId);
+      });
+    },
+    getTradesForOrder({state, commit}, orderId) {
+      return Trade.getTradesForOrder(orderId).then((response) => {
+        commit('setTradesForOrder', response);
       });
     },
   },
