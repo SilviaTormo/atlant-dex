@@ -12,11 +12,12 @@ Modal
       .cryptoWithdraw__fee Withdrawal fee: #[span.cryptoWithdraw__feeAmt {{fee}}] #[span.cryptoWithdraw__currency {{data.currency}}]
     TFA(v-if="step == 1", :onConfirm="tryConfirmation", :onCancel="cancelConfirmation", :onResend="withdraw" text="Enter 2FA code to confirm withdrawal", :isModal="true")
     Status.cryptoWithdraw__status(v-if="step === 2", :isSuccess="isSuccess")
-      .fiat__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
+      .fiat__statusMsg Completed
 </template>
 
 <script>
 import {mapState, mapMutations} from 'vuex';
+// import * as User from 'services/api/user';
 import BButton from 'components/BButton';
 import IInput from 'components/IInput';
 import Modal from 'components/modals/Modal';
@@ -45,17 +46,32 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
+    setStep(step) {
+      this.step = step;
+    },
     withdraw() {
-      this.step = 1;
+      // User.withdraw({
+      //   currency: this.data.currency,
+      //   amount: this.amount,
+      // }).then(() => {
+        this.setStep(1);
+      // });
     },
     tryConfirmation(code) {
-      if (code) {
-        this.step += 1;
-        this.isSuccess = true;
-      }
+      // User.confirmWithdraw({
+      //   currency: this.data.currency,
+      //   amount: this.amount,
+      //   requestId: this.requestId,
+      // }).then(() => {
+        this.setStep(2);
+      // });
     },
     cancelConfirmation() {
-      this.step = 0;
+      // User.cancelWithdraw({
+        // requestId: this.requestId,
+      // }).then(() => {
+        this.setStep(0);
+      // });
     },
   },
   components: {
