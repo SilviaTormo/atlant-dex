@@ -3,13 +3,13 @@ export default {
     name: '',
     data: {
       isDeposit: false,
-      currency: 'EUR',
+      currency: '',
     },
   },
   mutations: {
     open(state, {name, data}) {
-      state.name = name;
       state.data = data;
+      state.name = name;
     },
     close(state) {
       state.name = '';

@@ -4,14 +4,14 @@ Modal
     .cryptoWithdraw__header
       .cryptoWithdraw__title Withdraw {{data.currency}}
     .cryptoWithdraw__content(v-if="step == 0")
-      IInput.cryptoWithdraw__input(placeholder="BTC wallet address", v-model="address")
-      IInput.cryptoWithdraw__input(placeholder="Withdrawal amount BTC", v-model="amount")
+      IInput.cryptoWithdraw__input(:placeholder="data.currency + ' wallet address'", v-model="address")
+      IInput.cryptoWithdraw__input(:placeholder="data.currency + ' withdrawal amount (e.g. 0.5)'", type="number", v-model="amount")
       .cryptoWithdraw__amountText Your will receive:
       .cryptoWithdraw__amount {{netAmount}}
-      BButton.cryptoWithdraw__button(color="malachite" rounded  @click.native="step++") Withdraw
+      BButton.cryptoWithdraw__button(color="malachite" rounded  @click.native="withdraw") Withdraw
       .cryptoWithdraw__fee Withdrawal fee: #[span.cryptoWithdraw__feeAmt {{fee}}] #[span.cryptoWithdraw__currency {{data.currency}}]
-    TFA(v-if="step == 1", :onConfirm="tryConfirmation", :onCancel="cancelConfirmation" text="Enter 2FA code to confirm withdrawal", :isModal="true")
-    Status.cryptoWithdraw__status(v-if="step == 2", :isSuccess="isSuccess")
+    TFA(v-if="step == 1", :onConfirm="tryConfirmation", :onCancel="cancelConfirmation", :onResend="withdraw" text="Enter 2FA code to confirm withdrawal", :isModal="true")
+    Status.cryptoWithdraw__status(v-if="step === 2", :isSuccess="isSuccess")
       .fiat__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
 
@@ -38,13 +38,16 @@ export default {
       data: 'data',
     }),
     netAmount() {
-      return Math.max(this.amount- this.fee, 0);
+      return Math.max(this.amount - this.fee, 0);
     },
   },
   methods: {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
+    withdraw() {
+      this.step = 1;
+    },
     tryConfirmation(code) {
       if (code) {
         this.step += 1;
