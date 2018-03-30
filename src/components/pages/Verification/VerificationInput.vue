@@ -2,17 +2,25 @@
 input.verificationInput(
   type="text",
   :placeholder="placeholder",
+  :value="value",
+  @input="onInput",
 )
 </template>
 
 <script>
 export default {
   name: 'VerificationInput',
+  methods: {
+    onInput(e) {
+      this.$emit('input', e.target.value);
+    },
+  },
   props: {
     placeholder: {
       default: '-',
       type: String,
     },
+    value: String,
   },
 };
 </script>

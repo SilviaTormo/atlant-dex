@@ -1,11 +1,11 @@
 <template lang="pug">
   VSelect.verificationSelect(
-    :options="options",
+    :options="$_options",
     placeholder="",
     :show-labels="false",
     :allow-empty="false",
-    :value="value",
-    :track-by="trackBy",
+    :value="$_value",
+    :track-by="$_trackBy",
     @input="onChange",
     v-bind="$attrs",
   )
@@ -19,9 +19,41 @@ import VSelect from 'vue-multiselect';
 
 export default {
   name: 'VerificationSelect',
+  computed: {
+    isOptionsObject() {
+      return this.options && typeof this.options === 'object' && !Array.isArray(this.options);
+    },
+    $_options() {
+      if (this.isOptionsObject) {
+        return Object.keys(this.options).map((key) => {
+          if (typeof this.options[key] === 'object') {
+            return {...this.options[key], keyValue: key};
+          } else {
+            return {label: this.options[key], keyValue: key};
+          }
+        });
+      }
+      return this.options;
+    },
+    $_value() {
+      if (this.isOptionsObject) {
+        return this.options[this.value];
+      }
+      return this.value;
+    },
+    $_trackBy() {
+      if (this.isOptionsObject) {
+        return 'keyValue';
+      }
+      return this.trackBy;
+    },
+  },
   methods: {
     onChange(val) {
-      const value = this.trackBy ? val[this.trackBy] : val;
+      let value = val;
+      if (this.isOptionsObject) {
+        value = val.keyValue;
+      }
       this.$emit('input', value);
     },
   },
@@ -34,7 +66,7 @@ export default {
       type: String,
       default: '-',
     },
-    options: Array,
+    options: [Array, Object],
     trackBy: String,
   },
   components: {

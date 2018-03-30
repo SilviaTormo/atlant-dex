@@ -2,89 +2,92 @@
 form.verificationForm
   VerificationFormGroup(
     label="First Name:",
-    validatable,
-    valid,
+    :validation="getFieldValidationStatus('firstName')"
   )
     VerificationInput.verificationForm__input(v-model="verification.firstName")
   VerificationFormGroup(
     label="Last Name:",
-    validatable,
+    :validation="getFieldValidationStatus('lastName')"
   )
     VerificationInput.verificationForm__input(v-model="verification.lastName")
   VerificationFormGroup(
     label="Country:",
-    validatable,
+    :validation="getFieldValidationStatus('country')",
     label-for="null",
   )
     VerificationSelect.verificationForm__input(
       :options="countryData",
-      trackBy="name",
       label="name",
       v-model="verification.country",
     )
   VerificationFormGroup(
     label="City:",
-    validatable,
+    :validation="getFieldValidationStatus('city')"
     label-for="null",
   )
     VerificationSelect.verificationForm__input(
       :options="['Foo', 'Bar', 'FooBar']",
+      v-model="verification.city",
     )
   VerificationFormGroup(
     label="Street Address:",
-    validatable,
+    :validation="getFieldValidationStatus('address')"
   )
-    VerificationInput.verificationForm__input(
-    )
+    VerificationInput.verificationForm__input(v-model="verification.address")
   VerificationFormGroup(
     label="Postcode:",
-    validatable,
+    :validation="getFieldValidationStatus('postCode')"
   )
-    VerificationInput.verificationForm__input(
-    )
+    VerificationInput.verificationForm__input(v-model="verification.postCode")
   VerificationFormGroup(
     label="Phone Number:",
-    validatable,
+    :validation="getFieldValidationStatus('phoneNumber')"
   )
-    VerificationInput.verificationForm__input(
-    )
+    VerificationInput.verificationForm__input(v-model="verification.phoneNumber")
   VerificationFormGroup(
     label="Date of Birth:",
-    validatable,
+    :validation="getFieldValidationStatus('birthday')"
     label-for="null",
   )
     VerificationSelect.verificationForm__input.verificationForm__input--small(
       placeholder="Day",
-      :options="['Foo', 'Bar']",
+      :options="birthdayDays",
+      v-model="verification.day",
     )
     VerificationSelect.verificationForm__input.verificationForm__input--small(
       placeholder="Month",
-      :options="['Foo', 'Bar']",
+      :options="birthdayMonths",
+      v-model="verification.month",
     )
     VerificationSelect.verificationForm__input.verificationForm__input--small(
       placeholder="Year",
-      :options="['Foo', 'Bar']",
+      :options="birthdayYears",
+      v-model="verification.year"
     )
   VerificationFormGroup(
-    label="ID or Passport #:"
-    validatable,
+    label="ID or Passport #:",
+    :validation="getFieldValidationStatus('passportId')"
   )
-    VerificationInput.verificationForm__input(
-    )
+    VerificationInput.verificationForm__input(v-model="verification.passportId")
 </template>
 
 <script>
 import {mapState} from 'vuex';
+import {required} from 'vuelidate/lib/validators';
 import {countryData} from 'services/countries';
+import {birthdayDays, birthdayYears, birthdayMonths} from 'services/birthday';
 import VerificationFormGroup from './VerificationFormGroup';
 import VerificationInput from './VerificationInput';
 import VerificationSelect from './VerificationSelect';
 
 export default {
-  name: 'VerificationDropdown',
+  name: 'VerificationForm',
   data() {
     return {
-      countryData: Object.values(countryData),
+      countryData,
+      birthdayDays,
+      birthdayYears,
+      birthdayMonths,
     };
   },
   computed: {
@@ -92,10 +95,55 @@ export default {
           'verification',
       ]),
   },
+  methods: {
+    getFieldValidationStatus(name) {
+      const $v = this.$v[name] ? this.$v : this.$v.verification;
+      if ($v[name].$error) return 'error';
+      return $v[name].$invalid ? 'invalid' : 'valid';
+    },
+  },
   components: {
     VerificationSelect,
     VerificationFormGroup,
     VerificationInput,
+  },
+  validations: {
+    verification: {
+      firstName: {
+        required,
+      },
+      lastName: {
+        required,
+      },
+      country: {
+        required,
+      },
+      city: {
+        required,
+      },
+      address: {
+        required,
+      },
+      postCode: {
+        required,
+      },
+      phoneNumber: {
+        required,
+      },
+      day: {
+        required,
+      },
+      month: {
+        required,
+      },
+      year: {
+        required,
+      },
+      passportId: {
+        required,
+      },
+    },
+    birthday: ['verification.day', 'verification.month', 'verification.year'],
   },
 };
 </script>
