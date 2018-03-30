@@ -20,7 +20,7 @@ export default {
       period: defPeriod,
       lastFlag: false,
     },
-    // trades: [],
+    trades: [],
     book: {
       bids: [],
       asks: [],
@@ -85,6 +85,9 @@ export default {
       return state.orders.filter((order) => {
         return order.status === 'Filled' || order.status === 'Cancelled';
       });
+    },
+    getLastTrades(state) {
+      return state.trades;
     },
   },
   mutations: {
