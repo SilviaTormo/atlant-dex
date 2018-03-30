@@ -1,7 +1,16 @@
 <template lang="pug">
-  .verificationUploadInput(:class="{'verificationUploadInput--help': isShowHelp}")
+  .verificationUploadInput(
+    :class="[{'verificationUploadInput--help': isShowHelp}, validationClass]"
+  )
     .verificationUploadInput__inputBlock
-      .verificationUploadInput__input
+      .verificationUploadInput__inputWrap
+        .verificationUploadInput__fileName(v-if="fileName") {{fileName}}
+        .verificationUploadInput__plus(v-else="fileName") +
+        input.verificationUploadInput__input(
+          type="file",
+          @change="onChange",
+          ref="input",
+        )
       .verificationUploadInput__helpIcon(
         @mouseenter="isShowHelp = true",
         @mouseleave="isShowHelp = false",
@@ -19,11 +28,30 @@ export default {
   name: 'VerificationUploadInput',
   data() {
     return {
+      file: null,
       isShowHelp: false,
     };
   },
+  computed: {
+    fileName() {
+      return this.file ? this.file.name : null;
+    },
+    validationClass() {
+      if (this.validation) {
+        return `verificationUploadInput--${this.validation}`;
+      }
+    },
+  },
+  methods: {
+    onChange() {
+      const newFile = this.$refs.input.files[0];
+      this.file = newFile ? newFile : this.file;
+      this.$emit('input', this.file);
+    },
+  },
   props: {
     imageSrc: String,
+    validation: [String, Boolean],
   },
   components: {
     Icon,
@@ -41,18 +69,36 @@ export default {
     &__inputBlock {
       position: relative;
     }
-    &__input {
-      display: flex;
+    &__inputWrap {
       align-items: center;
-      justify-content: center;
-      height: 96px;
-      width: 96px;
       border: 1px dashed $input-border-color;
-      &:before {
-        content: '+';
-        font-size: 30px;
-        font-weight: bold;
-      }
+      display: flex;
+      height: 96px;
+      justify-content: center;
+      position: relative;
+      width: 96px;
+    }
+    &__input {
+      cursor: pointer;
+      height: 100%;
+      left: 0;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+    &__fileName {
+      display: flex;
+      font-size: 9px;
+      line-height: 12px;
+      padding: 5px;
+      text-align: center;
+      white-space: normal;
+      word-break: break-all;
+    }
+    &__plus {
+      font-size: 30px;
+      font-weight: bold;
     }
     &__helpIcon {
       cursor: pointer;
@@ -74,6 +120,17 @@ export default {
       }
       &__helpIcon {
         fill: #034468;
+      }
+    }
+
+    &--valid & {
+      &__inputWrap {
+        border-color: $input-valid-color;
+      }
+    }
+    &--error & {
+      &__inputWrap {
+        border-color: $input-error-color;
       }
     }
   }

@@ -3,27 +3,37 @@
   .verificationFiles__item
     VerificationFormGroup(
       label="ID scan:",
+      label-for="null",
     )
       VerificationFileInput(
-        :image-src="idImage"
+        :image-src="idImage",
+        v-model="verification.passportScan",
+        :validation="getFieldValidationStatus('passportScan')"
       )
   .verificationFiles__item
     VerificationFormGroup(
       label="Selfie holding ID card & signed «Coin.gi» paper:",
+      label-for="null",
     )
       VerificationFileInput(
-        :image-src="passportImage"
+        :image-src="passportImage",
+        v-model="verification.selfie",
+        :validation="getFieldValidationStatus('selfie')",
       )
   .verificationFiles__item
     VerificationFormGroup(
       label="Proof of address:",
+      label-for="null",
     )
       VerificationFileInput(
-        :image-src="selfieImage"
+        :image-src="selfieImage",
+        v-model="verification.proofOfResidenceScan",
+        :validation="getFieldValidationStatus('proofOfResidenceScan')",
       )
 </template>
 
 <script>
+import {mapState} from 'vuex';
 import idImage from 'assets/images/example-id.png';
 import passportImage from 'assets/images/example-passport.png';
 import selfieImage from 'assets/images/example-selfie.png';
@@ -39,6 +49,21 @@ export default {
       selfieImage,
     };
   },
+  computed: {
+    ...mapState('verify', [
+      'verification',
+    ]),
+  },
+  methods: {
+    getFieldValidationStatus(name) {
+      const $v = this.validations[name] ? this.validations : this.validations.verification;
+      if ($v[name].$error) return 'error';
+      return $v[name].$invalid ? 'invalid' : 'valid';
+    },
+  },
+  props: {
+    validations: Object,
+  },
   components: {
     VerificationFormGroup,
     VerificationFileInput,
@@ -50,13 +75,6 @@ export default {
 .verificationFiles {
   align-items: center;
   padding: 10px 0;
-  /*&__row {*/
-    /*display: flex;*/
-    /*flex-direction: row;*/
-    /*&--examples {*/
-      /*padding-bottom: 30px;*/
-    /*}*/
-  /*}*/
   &__item {
     position: relative;
     padding-top: 15px;

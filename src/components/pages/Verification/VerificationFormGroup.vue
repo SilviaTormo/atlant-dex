@@ -61,11 +61,11 @@ export default {
       height: 13px;
       margin-left: 30px;
       &--error {
-        fill: #f33a3a;
+        fill: $input-error-color;
       }
       &--valid {
         stroke: none;
-        fill: $input-success-color;
+        fill: $input-valid-color;
       }
     }
   }

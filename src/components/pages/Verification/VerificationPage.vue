@@ -7,16 +7,22 @@ Page(
   .verification
     .verification__title PERSONAL INFORMATION:
     .verification__form
-      VerificationForm
+      VerificationForm(:validations="this.$v")
     .verification__title Please upload the following files in order to verify your account:
     .verification__upload
-      VerificationFiles
+      VerificationFiles(:validations="this.$v")
     .verification__button
-      BButton(color="malachite" rounded caps) Verify Me
+      BButton(
+        @click="upload"
+        color="malachite",
+        rounded,
+        caps,
+      ) Verify Me
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex';
+import {required} from 'vuelidate/lib/validators';
 import BButton from 'components/BButton';
 import Page from '../Page';
 import VerificationForm from './VerificationForm';
@@ -25,44 +31,85 @@ import VerificationFiles from './VerificationFiles';
 export default {
   name: 'VerificationPage',
   computed: {
-    ...mapState('verify', {
-      verification: 'lastVerification',
-    }),
+    ...mapState('verify', [
+      'verification',
+    ]),
   },
   methods: {
-    ...mapActions('verify', {
-      verifyTierOne: 'verifyTierOne',
-      getLastVerification: 'getLastVerification',
-    }),
+    ...mapActions('verify', [
+      'verifyTierOne',
+      'getLastVerification',
+    ]),
+    getFormData() {
+      const formData = new FormData();
+      Object.keys(this.verification).forEach((fieldName) => {
+        formData.append(fieldName, this.verification[fieldName]);
+      });
+      return formData;
+    },
     upload() {
-      let formData = new FormData(document.forms.tierOne);
-      this.verifyTierOne(formData);
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return;
+      }
+      this.verifyTierOne(this.getFormData());
     },
   },
   mounted() {
     this.getLastVerification();
-    // const uppy = Uppy({autoProceed: false})
-    //   .use(Dashboard, {
-    //     target: '.verification__form',
-    //     inline: true,
-    //     locale: {
-    //       strings: {
-    //         dropPaste: 'Drag your files here to upload',
-    //       },
-    //     },
-    //   })
-    //   .use(Tus, {endpoint: '//master.tus.io/files/'})
-    //   .run();
-    //
-    // uppy.on('complete', (result) => {
-    //   console.log(`Upload complete! We’ve uploaded these files: ${result.successful}`);
-    // });
   },
   components: {
     Page,
     BButton,
     VerificationForm,
     VerificationFiles,
+  },
+  validations: {
+    verification: {
+      firstName: {
+        required,
+      },
+      lastName: {
+        required,
+      },
+      country: {
+        required,
+      },
+      city: {
+        required,
+      },
+      address: {
+        required,
+      },
+      postCode: {
+        required,
+      },
+      phoneNumber: {
+        required,
+      },
+      day: {
+        required,
+      },
+      month: {
+        required,
+      },
+      year: {
+        required,
+      },
+      passportId: {
+        required,
+      },
+      passportScan: {
+        required,
+      },
+      selfie: {
+        required,
+      },
+      proofOfResidenceScan: {
+        required,
+      },
+    },
+    birthday: ['verification.day', 'verification.month', 'verification.year'],
   },
 };
 </script>

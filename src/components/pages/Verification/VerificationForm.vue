@@ -73,7 +73,6 @@ form.verificationForm
 
 <script>
 import {mapState} from 'vuex';
-import {required} from 'vuelidate/lib/validators';
 import {countryData} from 'services/countries';
 import {birthdayDays, birthdayYears, birthdayMonths} from 'services/birthday';
 import VerificationFormGroup from './VerificationFormGroup';
@@ -97,53 +96,18 @@ export default {
   },
   methods: {
     getFieldValidationStatus(name) {
-      const $v = this.$v[name] ? this.$v : this.$v.verification;
+      const $v = this.validations[name] ? this.validations : this.validations.verification;
       if ($v[name].$error) return 'error';
       return $v[name].$invalid ? 'invalid' : 'valid';
     },
+  },
+  props: {
+    validations: Object,
   },
   components: {
     VerificationSelect,
     VerificationFormGroup,
     VerificationInput,
-  },
-  validations: {
-    verification: {
-      firstName: {
-        required,
-      },
-      lastName: {
-        required,
-      },
-      country: {
-        required,
-      },
-      city: {
-        required,
-      },
-      address: {
-        required,
-      },
-      postCode: {
-        required,
-      },
-      phoneNumber: {
-        required,
-      },
-      day: {
-        required,
-      },
-      month: {
-        required,
-      },
-      year: {
-        required,
-      },
-      passportId: {
-        required,
-      },
-    },
-    birthday: ['verification.day', 'verification.month', 'verification.year'],
   },
 };
 </script>
