@@ -3,13 +3,18 @@
     :class="[{'verificationUploadInput--help': isShowHelp}, validationClass]"
   )
     .verificationUploadInput__inputBlock
-      .verificationUploadInput__inputWrap
+      .verificationUploadInput__inputWrap(
+        :class="{'verificationUploadInput__inputWrap--canDrop': canDrop}"
+      )
         .verificationUploadInput__fileName(v-if="fileName") {{fileName}}
         .verificationUploadInput__plus(v-else="fileName") +
         input.verificationUploadInput__input(
           type="file",
           @change="onChange",
           ref="input",
+          @dragenter="canDrop = true",
+          @dragleave="canDrop = false",
+          @drop="canDrop = false",
         )
       .verificationUploadInput__helpIcon(
         @mouseenter="isShowHelp = true",
@@ -30,6 +35,7 @@ export default {
     return {
       file: null,
       isShowHelp: false,
+      canDrop: false,
     };
   },
   computed: {
@@ -47,6 +53,12 @@ export default {
       const newFile = this.$refs.input.files[0];
       this.file = newFile ? newFile : this.file;
       this.$emit('input', this.file);
+    },
+    onDragEnter() {
+      this.isDragOn = true;
+    },
+    onDragLeave() {
+      this.isDragOn = false;
     },
   },
   props: {
@@ -77,6 +89,10 @@ export default {
       justify-content: center;
       position: relative;
       width: 96px;
+
+      &--canDrop {
+        background-color: rgba($input-valid-color, .3);
+      }
     }
     &__input {
       cursor: pointer;
