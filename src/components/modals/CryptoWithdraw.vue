@@ -4,19 +4,20 @@ Modal
     .cryptoWithdraw__header
       .cryptoWithdraw__title Withdraw {{data.currency}}
     .cryptoWithdraw__content(v-if="step == 0")
-      IInput.cryptoWithdraw__input(placeholder="BTC wallet address", v-model="address")
-      IInput.cryptoWithdraw__input(placeholder="Withdrawal amount BTC", v-model="amount")
+      IInput.cryptoWithdraw__input(:placeholder="data.currency + ' wallet address'", v-model="address")
+      IInput.cryptoWithdraw__input(:placeholder="data.currency + ' withdrawal amount (e.g. 0.5)'", type="number", v-model="amount")
       .cryptoWithdraw__amountText Your will receive:
       .cryptoWithdraw__amount {{netAmount}}
-      BButton.cryptoWithdraw__button(color="malachite" rounded  @click.native="step++") Withdraw
+      BButton.cryptoWithdraw__button(color="malachite" rounded  @click.native="withdraw") Withdraw
       .cryptoWithdraw__fee Withdrawal fee: #[span.cryptoWithdraw__feeAmt {{fee}}] #[span.cryptoWithdraw__currency {{data.currency}}]
-    TFA(v-if="step == 1", :onConfirm="tryConfirmation", :onCancel="cancelConfirmation" text="Enter 2FA code to confirm withdrawal", :isModal="true")
-    Status.cryptoWithdraw__status(v-if="step == 2", :isSuccess="isSuccess")
-      .fiat__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
+    TFA(v-if="step == 1", :onConfirm="tryConfirmation", :onCancel="cancelConfirmation", :onResend="withdraw" text="Enter 2FA code to confirm withdrawal", :isModal="true")
+    Status.cryptoWithdraw__status(v-if="step === 2")
+      .fiat__statusMsg Completed
 </template>
 
 <script>
 import {mapState, mapMutations} from 'vuex';
+import * as User from 'services/api/user';
 import BButton from 'components/BButton';
 import IInput from 'components/IInput';
 import Modal from 'components/modals/Modal';
@@ -30,7 +31,7 @@ export default {
       amount: '',
       step: 0,
       fee: 0.00017,
-      isSuccess: false,
+      transId: '',
     };
   },
   computed: {
@@ -38,21 +39,41 @@ export default {
       data: 'data',
     }),
     netAmount() {
-      return Math.max(this.amount- this.fee, 0);
+      return Math.max(this.amount - this.fee, 0);
     },
   },
   methods: {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
+    clearData() {
+      this.transId = '';
+    },
+    setStep(step) {
+      this.step = step;
+    },
+    withdraw() {
+      User.withdraw({
+        currency: this.data.currency,
+        amount: this.amount,
+        address: this.address,
+      }).then((response) => {
+        this.transId = response.data.transactionId;
+        this.setStep(1);
+      });
+    },
     tryConfirmation(code) {
-      if (code) {
-        this.step += 1;
-        this.isSuccess = true;
-      }
+      User.confirmWithdraw({
+        currency: this.data.currency,
+        transactionId: this.transId,
+        code,
+      }).then(() => {
+        this.setStep(2);
+      });
     },
     cancelConfirmation() {
-      this.step = 0;
+      this.setStep(0);
+      this.clearData();
     },
   },
   components: {
@@ -84,10 +105,11 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 80%;
   }
   &__input {
     margin-bottom: 30px;
-    width: 211px;
+    width: 100%;
   }
   &__amountText {
     height: 16px;
