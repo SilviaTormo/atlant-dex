@@ -40,19 +40,12 @@ export default {
       'verifyTierOne',
       'getLastVerification',
     ]),
-    getFormData() {
-      const formData = new FormData();
-      Object.keys(this.verification).forEach((fieldName) => {
-        formData.append(fieldName, this.verification[fieldName]);
-      });
-      return formData;
-    },
     upload() {
       if (this.$v.$invalid) {
         this.$v.$touch();
         return;
       }
-      this.verifyTierOne(this.getFormData());
+      this.verifyTierOne(this.verification.getFormData());
     },
   },
   mounted() {
