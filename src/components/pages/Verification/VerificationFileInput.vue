@@ -10,6 +10,7 @@
         .verificationUploadInput__plus(v-else="fileName") +
         input.verificationUploadInput__input(
           type="file",
+          :accept="acceptTypes",
           @change="onChange",
           ref="input",
           @dragenter="canDrop = true",
@@ -28,19 +29,23 @@
 
 <script>
 import Icon from 'components/Icon';
+import {notification} from 'services/notification';
+
+const acceptTypes = ['application/pdf', 'image/*'];
 
 export default {
   name: 'VerificationUploadInput',
   data() {
     return {
-      file: null,
+      // file: null,
       isShowHelp: false,
       canDrop: false,
+      acceptTypes: acceptTypes.join(','),
     };
   },
   computed: {
     fileName() {
-      return this.file ? this.file.name : null;
+      return this.value ? this.value.name : null;
     },
     validationClass() {
       if (this.validation) {
@@ -51,19 +56,24 @@ export default {
   methods: {
     onChange() {
       const newFile = this.$refs.input.files[0];
-      this.file = newFile ? newFile : this.file;
-      this.$emit('input', this.file);
+      if (this.isFileAcceptable(newFile)) {
+        this.$emit('input', newFile);
+      } else {
+        notification({
+          type: 'error',
+          text: 'This file type is not acceptable!',
+          title: 'Wrong file',
+        });
+      }
     },
-    onDragEnter() {
-      this.isDragOn = true;
-    },
-    onDragLeave() {
-      this.isDragOn = false;
+    isFileAcceptable(file) {
+      return (file && file.type.match(acceptTypes.join('|')));
     },
   },
   props: {
     imageSrc: String,
     validation: [String, Boolean],
+    value: [File, String],
   },
   components: {
     Icon,

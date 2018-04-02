@@ -42,8 +42,6 @@ export default class VerificationData {
     }
   }
   set dateOfBirth(dateOfBirth) {
-    console.log('set date of birth: ', dateOfBirth);
-    console.dir(new Date(Date.parse(dateOfBirth)));
     this._dateOfBirth = new Date(Date.parse(dateOfBirth));
   }
   set day(day) {
