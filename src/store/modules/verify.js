@@ -1,5 +1,6 @@
 import * as Verification from 'services/api/verify';
 import VerificationData from 'models/VerificationData';
+import {notification} from 'services/notification';
 
 export default {
   state: {
@@ -47,7 +48,14 @@ export default {
   },
   actions: {
     verifyTierOne({}, data) {
-      Verification.tierOneVerify(data);
+      Verification.tierOneVerify(data)
+      .then(() => {
+        notification({
+          title: 'Success:',
+          text: 'Data was successfully sent',
+          type: 'success',
+        });
+      });
     },
     getLastVerification({commit}) {
       Verification.getLastVerification().then((response) => {
