@@ -17,6 +17,5 @@ export const getNotificationHistory = ({page, limit, sortBy, ascending}) => api.
 export const getSecurityLog = ({page, limit}) => api.get('logs/security', {params: {page, limit}});
 
 export const deposit = ({currency, amount}) => api.put('account/deposit', {currency, amount});
-export const withdraw = ({currency, amount}) => api.put('account/withdraw', {currency, amount});
-export const confirmWithdraw = ({currency, amount, code, transID}) => api.put('account/withdrawConfirm', {currency, amount, code, transID});
-export const cancelWithdraw = ({transID}) => api.put('account/withdrawCancel', {transID});
+export const withdraw = ({currency, amount, address}) => api.post('crypto/withdraw/request', {currency, amount, address});
+export const confirmWithdraw = ({currency, code, transactionId}) => api.post('crypto/withdraw/finish', {currency, code, transactionId});

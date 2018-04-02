@@ -11,13 +11,13 @@ Modal
       BButton.cryptoWithdraw__button(color="malachite" rounded  @click.native="withdraw") Withdraw
       .cryptoWithdraw__fee Withdrawal fee: #[span.cryptoWithdraw__feeAmt {{fee}}] #[span.cryptoWithdraw__currency {{data.currency}}]
     TFA(v-if="step == 1", :onConfirm="tryConfirmation", :onCancel="cancelConfirmation", :onResend="withdraw" text="Enter 2FA code to confirm withdrawal", :isModal="true")
-    Status.cryptoWithdraw__status(v-if="step === 2", :isSuccess="isSuccess")
+    Status.cryptoWithdraw__status(v-if="step === 2")
       .fiat__statusMsg Completed
 </template>
 
 <script>
 import {mapState, mapMutations} from 'vuex';
-// import * as User from 'services/api/user';
+import * as User from 'services/api/user';
 import BButton from 'components/BButton';
 import IInput from 'components/IInput';
 import Modal from 'components/modals/Modal';
@@ -31,7 +31,7 @@ export default {
       amount: '',
       step: 0,
       fee: 0.00017,
-      isSuccess: false,
+      transId: '',
     };
   },
   computed: {
@@ -46,32 +46,34 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
+    clearData() {
+      this.transId = '';
+    },
     setStep(step) {
       this.step = step;
     },
     withdraw() {
-      // User.withdraw({
-      //   currency: this.data.currency,
-      //   amount: this.amount,
-      // }).then(() => {
+      User.withdraw({
+        currency: this.data.currency,
+        amount: this.amount,
+        address: this.address,
+      }).then((response) => {
+        this.transId = response.data.transactionId;
         this.setStep(1);
-      // });
+      });
     },
     tryConfirmation(code) {
-      // User.confirmWithdraw({
-      //   currency: this.data.currency,
-      //   amount: this.amount,
-      //   requestId: this.requestId,
-      // }).then(() => {
+      User.confirmWithdraw({
+        currency: this.data.currency,
+        transactionId: this.transId,
+        code,
+      }).then(() => {
         this.setStep(2);
-      // });
+      });
     },
     cancelConfirmation() {
-      // User.cancelWithdraw({
-        // requestId: this.requestId,
-      // }).then(() => {
-        this.setStep(0);
-      // });
+      this.setStep(0);
+      this.clearData();
     },
   },
   components: {
@@ -103,10 +105,11 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 80%;
   }
   &__input {
     margin-bottom: 30px;
-    width: 211px;
+    width: 100%;
   }
   &__amountText {
     height: 16px;
