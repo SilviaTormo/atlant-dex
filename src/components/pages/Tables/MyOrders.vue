@@ -32,20 +32,20 @@ TablePage(
           td {{setDate(item.creationDate)}}
           td {{item.fee}}
           td.myOrders__action(:class="'myOrders__action--' + (item.action)") {{item.action}}
-          td {{fixCurrencyPair(item.pair)}}
-          td {{setFixNumber(item.amount)}} {{item.quoteCurrency}}
-          td {{setFixNumber(item.price)}} {{item.baseCurrency}}
-          td {{setFixNumber(item.amount * item.price)}} {{item.baseCurrency}}
-        tr.myOrders__row(v-if="isDetailedOrder(item)")
+          td {{item.pair}}
+          td {{setFixNumber(item.total)}} {{getOrderBaseCurrency(item.pair)}}
+          td {{setFixNumber(item.price)}} {{getOrderQuoteCurrency(item.pair)}}
+          td {{setFixNumber(item.total * item.price)}} {{getOrderQuoteCurrency(item.pair)}}
+        tr.myOrders__row(v-for="trade in trades" v-show="item.id === currentOrderId")
           td
           td
           td
-          td {{currentOrder.fee}}
-          td.myOrders__action(:class="'myOrders__action--' + (currentOrder.action)") {{currentOrder.action}}
-          td {{fixCurrencyPair(currentOrder.pair)}}
-          td {{setFixNumber(currentOrder.amount)}} {{currentOrder.quoteCurrency}}
-          td {{setFixNumber(currentOrder.price)}} {{currentOrder.baseCurrency}}
-          td {{setFixNumber(currentOrder.amount * currentOrder.price)}} {{currentOrder.baseCurrency}}
+          td {{trade.buyerFee}} {{trade.quoteCurrency}}
+          td.myOrders__action(:class="'myOrders__action--' + (item.action)") {{item.action}}
+          td {{trade.baseCurrency}}/{{trade.quoteCurrency}}
+          td {{setFixNumber(trade.amount)}} {{trade.quoteCurrency}}
+          td {{setFixNumber(trade.price)}} {{trade.baseCurrency}}
+          td {{setFixNumber(trade.amount * trade.price)}} {{trade.baseCurrency}}
 </template>
 
 <script>
@@ -76,9 +76,6 @@ export default {
     setPageNum() {
       return Math.ceil((this.offset) / this.itemsOnPage) + 1;
     },
-    currentOrder() {
-      return (this.orders && this.currentOrderId) ? this.orders.find((item) => item.id === this.currentOrderId) : {};
-    },
   },
   methods: {
     ...mapMutations('trade', {
@@ -100,6 +97,12 @@ export default {
     setDate(isoTime) {
       return DateTime.fromISO(isoTime).toFormat('dd.LL.yyyy HH:mm');
     },
+    getOrderBaseCurrency(pair) {
+      return pair.split('/')[0];
+    },
+    getOrderQuoteCurrency(pair) {
+      return pair.split('/')[1];
+    },
     fixCurrencyPair(pair) {
       return pair.replace('_', '/');
     },
@@ -115,7 +118,7 @@ export default {
     },
     getTrades(orderId) {
       this.setCurrentOrderId(orderId);
-      // this.getTradesForOrder(orderId);
+      this.getTradesForOrder(orderId);
     },
   },
   watch: {
@@ -133,7 +136,7 @@ export default {
     },
   },
   created() {
-    // this.getAccountOrders();
+    this.getAccountOrders();
   },
   components: {
     TablePage,
