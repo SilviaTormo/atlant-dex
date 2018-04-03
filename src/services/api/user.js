@@ -9,6 +9,7 @@ export const finishTFAChange = ({method, contact, code}) => api.put('profile/fin
 export const changeName = (fullName) => api.put(`profile/fields/fullname/${fullName}`);
 export const changePhone = ({countryCode, phone}) => api.put(`profile/fields/phone`, {countryCode, phone});
 export const changePreferredCurrency = (currencyCode) => api.put(`profile/fields/prefferedCurrency/${currencyCode}`);
+export const changeNewsletterSubscription = (isEnable) => api.put(`profile/subscription/${isEnable}`);
 export const verifyPhone = (code) => api.put(`/profile/fields/verify/phone/${code}`);
 export const changeAdditionalEmail = (email) => api.put(`profile/fields/additionalEmail/${email}`);
 export const verifyAdditionalEmail = (confirmationCode) => api.put(`profile/fields/verify/additionalEmail/${confirmationCode}`);
