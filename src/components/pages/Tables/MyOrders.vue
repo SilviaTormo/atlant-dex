@@ -30,26 +30,30 @@ TablePage(
             Checkbox(color="yellow", :value="isChecked(item.id)" @change="setCheckedArray(item.id)")
           td {{item.id}}
           td {{setDate(item.creationDate)}}
+          // waiting for api
           td {{item.fee}}
           td.myOrders__action(:class="'myOrders__action--' + (item.action)") {{item.action}}
           td {{item.pair}}
           td {{setFixNumber(item.total)}} {{getOrderBaseCurrency(item.pair)}}
           td {{setFixNumber(item.price)}} {{getOrderQuoteCurrency(item.pair)}}
           td {{setFixNumber(item.total * item.price)}} {{getOrderQuoteCurrency(item.pair)}}
-        tr.myOrders__row(v-for="trade in trades" v-show="item.id === currentOrderId")
+        tr.myOrders__row(v-for="trade in item.trades" v-show="item.id === currentOrderId")
           td
           td
           td
+          // waiting for api
           td {{trade.buyerFee}} {{trade.quoteCurrency}}
+          // waiting for api
           td.myOrders__action(:class="'myOrders__action--' + (item.action)") {{item.action}}
           td {{trade.baseCurrency}}/{{trade.quoteCurrency}}
-          td {{setFixNumber(trade.amount)}} {{trade.quoteCurrency}}
-          td {{setFixNumber(trade.price)}} {{trade.baseCurrency}}
+          td {{setFixNumber(trade.amount)}} {{trade.baseCurrency}}
+          td {{setFixNumber(trade.price)}} {{trade.quoteCurrency}}
+          // waiting for api
           td {{setFixNumber(trade.amount * trade.price)}} {{trade.baseCurrency}}
 </template>
 
 <script>
-import {mapState, mapGetters, mapActions, mapMutations} from 'vuex';
+import {mapGetters, mapActions, mapMutations} from 'vuex';
 import {DateTime} from 'luxon';
 import Checkbox from 'components/Checkbox';
 import Icon from '../../Icon';
@@ -63,12 +67,9 @@ export default {
     };
   },
   computed: {
-    ...mapState('trade', {
-      orders: (state) => state.accountOrders.orders,
-      orderFilter: (state) => state.orderFilter,
-    }),
     ...mapGetters('trade', {
-      trades: 'getOrderTrades',
+      orders: 'getAccountOrders',
+      orderFilter: 'getAccountOrderFilter',
     }),
     setPagesCount() {
       return Math.ceil(this.allDataLength / this.itemsOnPage);
@@ -92,7 +93,7 @@ export default {
       this.isChecked(id) ? this.checkedArray = this.checkedArray.filter((item) => item != id) : this.checkedArray.push(id);
     },
     setFixNumber(num, fixedTo = 4) {
-      return num; // num.toFixed(fixedTo);
+      return num.toFixed(fixedTo);
     },
     setDate(isoTime) {
       return DateTime.fromISO(isoTime).toFormat('dd.LL.yyyy HH:mm');
@@ -134,6 +135,15 @@ export default {
     dataType() {
       this.getAccountTradeHistory;
     },
+    // orders: {
+    //   handler() {
+    //     console.log('orders changed');
+    //     if (this.orders.find((item) => item.id === this.currentOrderId)) {
+    //       console.log(this.orders.find((item) => item.id === this.currentOrderId).trades);
+    //     };
+    //   },
+    //   deep: true,
+    // },
   },
   created() {
     this.getAccountOrders();
@@ -160,6 +170,15 @@ export default {
   }
   &__row {
     cursor: pointer;
+    & > td {
+      width: 10%;
+      &:nth-child(3) {
+        width: 200px;
+      }
+      &:nth-child(4) {
+        width: 125px;
+      }
+    }
     &:hover {
       background-color: $color_yellow;
     }

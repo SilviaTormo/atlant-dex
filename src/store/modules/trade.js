@@ -62,9 +62,6 @@ export default {
     },
     // wallet: [],
     orders: [],
-    tradesForOrder: {
-      trades: [],
-    },
   },
   getters: {
     baseCurrency(state) {
@@ -89,11 +86,11 @@ export default {
         return order.status === 'Filled' || order.status === 'Cancelled';
       });
     },
-    getOrderTrades(state) {
-      return state.tradesForOrder.trades;
+    getAccountOrders(state) {
+      return state.accountOrders.orders;
     },
-    getOrderTradesLength(state) {
-      return state.tradesForOrder.totalItems;
+    getAccountOrderFilter(state) {
+      return state.orderFilter;
     },
   },
   mutations: {
@@ -105,7 +102,6 @@ export default {
       state.change = data.change;
       state.bid = data.bid;
       state.ask = data.ask;
-      // state.pairs = data.pairs;
     },
     setChartData(state, data) {
       state.chart.data = data;
@@ -169,6 +165,9 @@ export default {
     //   state.orders = list.data.result.orders;
     // },
     setAccountOrders(state, data) {
+      data.orders.forEach((e) => {
+        e.trades = {};
+      });
       state.accountOrders = data;
     },
     setOrderFilter(state, status) {
@@ -231,8 +230,10 @@ export default {
     emptyWallet(state) {
       state.wallet = [];
     },
-    setTradesForOrder(state, orders) {
-      state.tradesForOrder = orders;
+    setTradesForOrder(state, data) {
+      let arr = state.accountOrders.orders;
+      arr.find((item) => item.id === data.orderId).trades = data.trades.trades;
+      state.accountOrders.orders = arr;
     },
   },
   actions: {
@@ -289,21 +290,6 @@ export default {
       commit('setPeriod', period);
       return dispatch('loadChart');
     },
-    // getCancelOrder({commit, state}, id) {
-    //   return Trade.getCancelOrder(
-    //     state.pair,
-    //     id
-    //   ).then((res) => {
-    //     // console.log('Order canceled: ', id);
-    //   });
-    // },
-    // getTradeInfo({commit, state}) {
-    //   return Trade.getTradeInfo({
-    //     pair: state.pair,
-    //   }).then((res) => {
-    //     commit('setTradeInfo', res.data.result);
-    //   });
-    // },
    // getTraderWallet({commit}) {
    //    return Trade.getTraderWallet().then((res) => {
    //      commit('setWallet', res.data.result['BTC']);
@@ -359,7 +345,11 @@ export default {
     },
     getTradesForOrder({state, commit}, orderId) {
       return Trade.getTradesForOrder(orderId).then((response) => {
-        commit('setTradesForOrder', response.data);
+        let data = {
+          trades: response.data,
+          orderId,
+        };
+        commit('setTradesForOrder', data);
       });
     },
   },
