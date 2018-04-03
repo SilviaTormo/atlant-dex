@@ -43,7 +43,10 @@ form.verificationForm
     label="Phone Number:",
     :validation="getFieldValidationStatus('phoneNumber')"
   )
-    VerificationInput.verificationForm__input(v-model="verification.phoneNumber")
+    VerificationInput.verificationForm__input(
+      v-model="verification.phoneNumber",
+      :helper="phoneCode"
+    )
   VerificationFormGroup(
     label="Date of Birth:",
     :validation="getFieldValidationStatus('birthday')"
@@ -93,6 +96,10 @@ export default {
       ...mapState('verify', [
           'verification',
       ]),
+      phoneCode() {
+        let country = countryData[this.verification.country];
+        return (country && country.code) ? country.code : null;
+      },
   },
   methods: {
     getFieldValidationStatus(name) {
