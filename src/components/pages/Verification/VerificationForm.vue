@@ -1,80 +1,116 @@
 <template lang="pug">
 form.verificationForm
   VerificationFormGroup(
-    label="Foo Name:",
-    validatable,
-    valid,
+    label="First Name:",
+    :validation="getFieldValidationStatus('firstName')"
   )
-    VerificationInput.verificationForm__input
+    VerificationInput.verificationForm__input(v-model="verification.firstName")
   VerificationFormGroup(
     label="Last Name:",
-    validatable,
+    :validation="getFieldValidationStatus('lastName')"
   )
-    VerificationInput.verificationForm__input(
-    )
+    VerificationInput.verificationForm__input(v-model="verification.lastName")
   VerificationFormGroup(
     label="Country:",
-    validatable,
+    :validation="getFieldValidationStatus('country')",
+    label-for="null",
   )
     VerificationSelect.verificationForm__input(
-      :options="['Foo', 'Bar']",
+      :options="countryData",
+      label="name",
+      v-model="verification.country",
     )
   VerificationFormGroup(
-    label="City:"
-    validatable,
+    label="City:",
+    :validation="getFieldValidationStatus('city')"
+    label-for="null",
   )
     VerificationSelect.verificationForm__input(
       :options="['Foo', 'Bar', 'FooBar']",
+      v-model="verification.city",
     )
   VerificationFormGroup(
-    label="Street Address:"
-    validatable,
+    label="Street Address:",
+    :validation="getFieldValidationStatus('address')"
+  )
+    VerificationInput.verificationForm__input(v-model="verification.address")
+  VerificationFormGroup(
+    label="Postcode:",
+    :validation="getFieldValidationStatus('postCode')"
+  )
+    VerificationInput.verificationForm__input(v-model="verification.postCode")
+  VerificationFormGroup(
+    label="Phone Number:",
+    :validation="getFieldValidationStatus('phoneNumber')"
   )
     VerificationInput.verificationForm__input(
+      v-model="verification.phoneNumber",
+      :helper="phoneCode"
     )
   VerificationFormGroup(
-    label="Postcode:"
-    validatable,
-  )
-    VerificationInput.verificationForm__input(
-    )
-  VerificationFormGroup(
-    label="Phone Number:"
-    validatable,
-  )
-    VerificationInput.verificationForm__input(
-    )
-  VerificationFormGroup(
-    label="Date of Birth:"
-    validatable,
+    label="Date of Birth:",
+    :validation="getFieldValidationStatus('birthday')"
+    label-for="null",
   )
     VerificationSelect.verificationForm__input.verificationForm__input--small(
       placeholder="Day",
-      :options="['Foo', 'Bar']",
+      :options="birthdayDays",
+      v-model="verification.day",
     )
     VerificationSelect.verificationForm__input.verificationForm__input--small(
       placeholder="Month",
-      :options="['Foo', 'Bar']",
+      :options="birthdayMonths",
+      v-model="verification.month",
     )
     VerificationSelect.verificationForm__input.verificationForm__input--small(
       placeholder="Year",
-      :options="['Foo', 'Bar']",
+      :options="birthdayYears",
+      v-model="verification.year"
     )
   VerificationFormGroup(
-    label="ID or Passport #:"
-    validatable,
+    label="ID or Passport #:",
+    :validation="getFieldValidationStatus('passportId')"
   )
-    VerificationInput.verificationForm__input(
-    )
+    VerificationInput.verificationForm__input(v-model="verification.passportId")
 </template>
 
 <script>
+import {mapState} from 'vuex';
+import {countryData} from 'services/countries';
+import {birthdayDays, birthdayYears, birthdayMonths} from 'services/birthday';
 import VerificationFormGroup from './VerificationFormGroup';
 import VerificationInput from './VerificationInput';
 import VerificationSelect from './VerificationSelect';
 
 export default {
-  name: 'VerificationDropdown',
+  name: 'VerificationForm',
+  data() {
+    return {
+      countryData,
+      birthdayDays,
+      birthdayYears,
+      birthdayMonths,
+    };
+  },
+  computed: {
+      ...mapState('verify', [
+          'verification',
+      ]),
+      phoneCode() {
+        let country = countryData[this.verification.country];
+        return (country && country.code) ? country.code : null;
+      },
+  },
+  methods: {
+    getFieldValidationStatus(name) {
+      const $v = this.validations[name] ? this.validations : this.validations.verification;
+      if ($v[name].$error) return 'error';
+      return $v[name].$invalid ? 'invalid' : 'valid';
+    },
+  },
+  props: {
+    validations: Object,
+  },
   components: {
     VerificationSelect,
     VerificationFormGroup,

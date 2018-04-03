@@ -28,13 +28,20 @@ Page(title="Account information", title2="", :sidebar="true")
         .accountInfo__other
           .accountInfo__item.accountInfo__item--other
             .accountInfo__param I would like to receive:
-            Checkbox.accountInfo__checkbox(v-model="account.subscribe.newsletter") #[.accountInfo__text Email newsletter]
+            Checkbox.accountInfo__checkbox(
+              :value="account.subscribe.newsletter",
+              @change="setNewsletterSubscription"
+            ) #[.accountInfo__text Email newsletter]
             Checkbox.accountInfo__checkbox(v-model="account.subscribe.email") #[.accountInfo__text Email notification]
             Checkbox.accountInfo__checkbox(v-model="account.subscribe.sms") #[.accountInfo__text SMS notification]
           .accountInfo__item.accountInfo__item--other
             .accountInfo__param Preferred currency:
             .accountInfo__value.accountInfo__value--inline {{getCountryCurrency}}
-              FlagSwitch.accountInfo__dropdown(type="currency", :value="getCurrencyCountry", @change="setPrefCurrencyFromFlag")
+              FlagSwitch.accountInfo__dropdown(
+                type="currency",
+                :value="getCurrencyCountry",
+                @change="setPrefCurrencyFromFlag"
+              )
         BButton.accountInfo__button(color="malachite" rounded) Save
 </template>
 
@@ -51,10 +58,6 @@ import ChangePhone from './ChangePhone';
 import Page from './Page';
 
 export default {
-  data() {
-    return {
-    };
-  },
   computed: {
     ...mapState('user', {
       account: 'account',
@@ -72,10 +75,11 @@ export default {
   methods: {
     ...mapActions('user', [
       'setPreferredCurrency',
+      'setNewsletterSubscription',
     ]),
-    ...mapActions('user', {
-      getProfileData: 'getProfileData',
-    }),
+    ...mapActions('user', [
+      'getProfileData',
+    ]),
     setPrefCurrencyFromFlag(value) {
       this.setPreferredCurrency(getCountryCurrency(value));
     },

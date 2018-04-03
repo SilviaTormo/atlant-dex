@@ -25,11 +25,14 @@ $toolbar_width: 55px;
 $leftSide_width: $sidebar_width + $toolbar_width;
 
 $input-transition: border-color .3s;
+$input-font-size: 14px;
+$input-line-height: 18px;
 $input-border-color: #034468;
 $input-border: 1px solid $input-border-color;
 $input-padding: 7px 15px;
 $input-border-color-highlight: #42b6f6;
 $input-height: 32px;
 $input-placeholder-color: #044568;
-$input-success-color: #7dd320;
+$input-valid-color: #7dd320;
+$input-error-color: #f33a3a;
 

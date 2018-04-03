@@ -8,7 +8,7 @@ table.history
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import {mapGetters} from 'vuex';
 
 export default {
   data() {
@@ -16,8 +16,8 @@ export default {
     };
   },
   computed: {
-    ...mapState('trade', {
-      lastTrades: (state) => state.trades,
+    ...mapGetters('trade', {
+      lastTrades: 'getLastTrades',
     }),
   },
 };

@@ -65,8 +65,10 @@ export default {
 };
 </script>
 
-<style lang="css">
+<style lang="scss" scoped>
 .securityLog {
-  max-width: 500px;
+  td {
+    white-space: normal;
+  }
 }
 </style>

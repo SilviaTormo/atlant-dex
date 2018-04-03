@@ -72,6 +72,9 @@ export default {
     setNotifications(state, data) {
       state.notifications = data;
     },
+    setSubscribeNewsletter(state, isEnable) {
+      state.account.subscribe.newsletter = isEnable;
+    },
   },
   actions: {
     getProfileData({commit}) {
@@ -110,6 +113,17 @@ export default {
       return User.changePreferredCurrency(currencyCode)
       .catch((error) => {
         commit('setPrefCurrency', backUpCurrency);
+        console.error(error);
+      });
+    },
+    setNewsletterSubscription({state, commit}, isEnable) {
+      // Prevent useless request
+      if (state.account.subscribe.newsletter === isEnable) return;
+      const backUpIsEnable = state.account.subscribe.newsletter;
+      commit('setSubscribeNewsletter', isEnable);
+      return User.changeNewsletterSubscription(isEnable)
+      .catch((error) => {
+        commit('setSubscribeNewsletter', backUpIsEnable);
         console.error(error);
       });
     },
