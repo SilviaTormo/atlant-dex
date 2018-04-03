@@ -1,13 +1,13 @@
 <template lang="pug">
 .verificationFormGroup
-  label.verificationFormGroup__label
+  label.verificationFormGroup__label(:for="labelFor")
     .verificationFormGroup__labelText {{label}}
     .verificationFormGroup__input
       slot
   Icon.verificationFormGroup__icon(
-    v-if="validatable",
+    v-if="validation",
     :id="iconName",
-    :class="iconClass"
+    :class="`verificationFormGroup__icon--${validation}`"
   )
 </template>
 
@@ -18,23 +18,16 @@ export default {
   name: 'VerificationFormGroup',
   computed: {
     iconName() {
-      if (this.valid) {
+      if (this.validation === 'valid') {
         return 'circle-checked';
       }
       return 'circle-thick';
     },
-    iconClass() {
-      let className = 'verificationFormGroup__icon';
-      if (this.valid) {
-        className += '--success';
-      }
-      return className;
-    },
   },
   props: {
     label: String,
-    validatable: Boolean,
-    valid: Boolean,
+    validation: [Boolean, String],
+    labelFor: String,
   },
   components: {
     Icon,
@@ -67,9 +60,12 @@ export default {
       width: 13px;
       height: 13px;
       margin-left: 30px;
-      &--success {
+      &--error {
+        fill: $input-error-color;
+      }
+      &--valid {
         stroke: none;
-        fill: $input-success-color;
+        fill: $input-valid-color;
       }
     }
   }

@@ -1,8 +1,10 @@
 import * as Verification from 'services/api/verify';
+import VerificationData from 'models/VerificationData';
+import {notification} from 'services/notification';
 
 export default {
   state: {
-    lastVerification: {},
+    verification: new VerificationData,
     users: {
       accounts: [],
       totalItems: 0,
@@ -29,7 +31,7 @@ export default {
   },
   mutations: {
     setVerificationData(state, data) {
-      state.lastVerification = data;
+      state.verification = new VerificationData(data);
     },
     loginAdmin(state) {
       state.adminLoggedIn = true;
@@ -46,7 +48,14 @@ export default {
   },
   actions: {
     verifyTierOne({}, data) {
-      Verification.tierOneVerify(data);
+      Verification.tierOneVerify(data)
+      .then(() => {
+        notification({
+          title: 'Success:',
+          text: 'Data was successfully sent',
+          type: 'success',
+        });
+      });
     },
     getLastVerification({commit}) {
       Verification.getLastVerification().then((response) => {
