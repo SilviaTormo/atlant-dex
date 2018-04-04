@@ -6,7 +6,6 @@ export const getProfile = () => api.get('profile/my');
 export const requestTFAChange = ({method, contact}) => api.post('profile/requestTfaChanging', {method, contact});
 export const finishTFAChange = ({method, contact, code}) => api.put('profile/finishTfaChanging', {method, contact, code});
 
-export const changeName = (fullName) => api.put(`profile/fields/fullname/${fullName}`);
 export const changePhone = ({countryCode, phone}) => api.put(`profile/fields/phone`, {countryCode, phone});
 export const changePreferredCurrency = (currencyCode) => api.put(`profile/fields/prefferedCurrency/${currencyCode}`);
 export const changeNewsletterSubscription = (isEnable) => api.put(`profile/subscription/${isEnable}`);
