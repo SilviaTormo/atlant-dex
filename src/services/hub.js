@@ -5,6 +5,9 @@ export default {
     const signalR = require('@aspnet/signalr');
     let connection = new signalR.HubConnection(`${url}?token=${token}`);
     Vue.prototype.$hub = connection;
+    connection.on('Send', (data) => {
+      console.log(data);
+    });
     // {
       // proxy: null,
       // init() {
