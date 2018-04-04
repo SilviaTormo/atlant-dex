@@ -7,7 +7,6 @@ TablePage(
   :changeActivePage="changeActivePage",
   :checkedArray.sync='checkedArray',
   :getDelete="true",
-  :getExport="true",
 )
   .notificationHistory.table
     table.table__body
