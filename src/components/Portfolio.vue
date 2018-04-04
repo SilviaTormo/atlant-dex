@@ -19,12 +19,12 @@
     BalanceItem(v-for="bal in balances", v-if="!isFiatCurrency(bal.currency) && bal.availableFunds == 0 && showAll", :key="bal.currency",
       :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="!isFiatCurrency(bal.currency)", @click.native="openCur(bal.currency)")
     Icon.portfolio__EllipsisIcon(v-if="!showAll" id="ellipsis" @click="toggleShowAll()")
-  .portfolio__item
-    .portfolio__headerLine
-      .portfolio__header Fiat:
-      Icon.portfolio__icon(id="refresh")
-    BalanceItem(v-for="bal in balances", v-if="isFiatCurrency(bal.currency)", :key="bal.currency",
-      :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="!isFiatCurrency(bal.currency)", @click.native="openCur(bal.currency)")
+  //- .portfolio__item
+  //-   .portfolio__headerLine
+  //-     .portfolio__header Fiat:
+  //-     Icon.portfolio__icon(id="refresh")
+  //-   BalanceItem(v-for="bal in balances", v-if="isFiatCurrency(bal.currency)", :key="bal.currency",
+  //-     :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="!isFiatCurrency(bal.currency)", @click.native="openCur(bal.currency)")
 </template>
 
 <script>

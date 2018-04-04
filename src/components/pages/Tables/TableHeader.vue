@@ -121,7 +121,6 @@ export default {
   }
   &__dropdown {
     margin-left: 24px;
-    padding-right: 20px;
     color: $color_white;
     font-size: 12px;
     font-weight: 700;

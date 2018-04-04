@@ -26,11 +26,11 @@ export const profileSections = [
     label: 'Verification',
     category: 'user info',
   },
-  {
-    name: 'verificationAdmin',
-    label: 'Verification (admin)',
-    category: 'user info',
-  },
+  // {
+  //   name: 'verificationAdmin',
+  //   label: 'Verification (admin)',
+  //   category: 'user info',
+  // },
   {
     name: 'securitySettings',
     label: 'Security settings',
@@ -41,11 +41,11 @@ export const profileSections = [
     label: 'Security log',
     category: 'security',
   },
-  {
-    name: 'faq',
-    label: 'FAQ',
-    category: 'user info',
-  },
+  // {
+  //   name: 'faq',
+  //   label: 'FAQ',
+  //   category: 'user info',
+  // },
   {
     name: 'transactionHistory',
     label: 'Transaction history',

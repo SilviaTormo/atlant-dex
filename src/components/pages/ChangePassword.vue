@@ -20,7 +20,6 @@
 <script>
 import * as Membership from 'services/api/membership';
 import TFA from 'components/modals/TFA';
-import {serverNotification} from 'services/notification';
 
 export default {
   data() {
@@ -34,15 +33,22 @@ export default {
     };
   },
   methods: {
+    clearInputs() {
+      this.password.old = '';
+      this.password.new = '';
+      this.password.repeat = '';
+    },
+    setStep(step) {
+      this.password.step = step;
+    },
     confirmPasswordChange(code) {
       Membership.confirmPasswordChange({
         code,
         oldpassword: this.password.old,
         newpassword: this.password.new,
       }).then(() => {
-        this.password.step = 0;
-      }).catch((err) => {
-        serverNotification(err);
+        this.clearInputs();
+        this.setStep(0);
       });
     },
     requestPasswordChange() {
@@ -50,13 +56,12 @@ export default {
         oldpassword: this.password.old,
         newpassword: this.password.new,
       }).then(() => {
-        this.password.step = 2;
-      }).catch((err) => {
-        serverNotification(err);
+        this.setStep(2);
       });
     },
     cancelPasswordChange() {
-      this.password.step = 0;
+      this.clearInputs();
+      this.setStep(0);
     },
   },
   components: {

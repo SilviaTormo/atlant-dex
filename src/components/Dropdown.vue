@@ -57,6 +57,7 @@ export default {
     width: 100%;
     color: $color_white;
     // font-size: 16px;
+    padding-right: 20px;
     font-weight: bold;
     appearance: none;
     background-color: transparent;

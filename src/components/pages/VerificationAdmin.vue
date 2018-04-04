@@ -41,8 +41,8 @@ import Pagination from './Pagination';
 export default {
   data() {
     return {
-      email: 'bulka13@yopmail.com',
-      password: 'bulkabulka',
+      email: '',
+      password: '',
       page: 1,
       reason: '',
     };
