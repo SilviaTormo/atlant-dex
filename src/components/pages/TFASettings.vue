@@ -5,7 +5,7 @@
     .tfaSettings__tfaMethod(v-if="security.tfa.enabled") via {{activeTFAMethod}}
     .link.link--red.tfaSettings__disable(:class="{'tfaSettings__tfaEnabled' : !security.tfa.enabled}" @click="requestTFAChange()") {{security.tfa.enabled ? "Disable" : "Disabled"}}
   .tfaSettings__item(v-if="tfaStep === 2 && tfaMethod === 0")
-    TFA(:onConfirm="finish2FAChange", :onResend="requestTFAChange", :onCancel="cancel2FA", text="Confirmation code has been sent to disable 2FA")
+    TFA(:onConfirm="finish2FAChange", :onResend="requestTFAChange", :onCancel="cancel2FA", :text="tfaConfirmText")
   div(v-if="!security.tfa.enabled")
     .tfaSettings__item
       .tfaSettings__param I would like to use:
@@ -19,7 +19,7 @@
         input.input.tfaSettings__input(placeholder="965 296 36 36" v-model="number")
       .link.tfaSettings__action.tfaSettings__action--mobileLeft.tfaSettings__value(@click="requestTFAChange()") Save
     .tfaSettings__item(v-if="tfaStep === 2 && requiresNumber")
-      TFA(:onConfirm="finish2FAChange", :onResend="requestTFAChange", :onCancel="cancel2FA" text="Confirmation code has been sent to enable 2FA")
+      TFA(:onConfirm="finish2FAChange", :onResend="requestTFAChange", :onCancel="cancel2FA", :text="tfaConfirmText")
     .tfaSettings__item(v-if="tfaStep === 1 && tfaMethod === 2")
       .tfaSettings__value.tfaSettings__desktopRow You don't have an authentication key. #[.link.tfaSettings__action.tfaSettings__action--mobileLeft(@click="requestTFAChange()") Create key]
       .tfaSettings__param.tfaSettings__param--margin ***
@@ -36,8 +36,9 @@
 </template>
 
 <script>
-import * as User from 'services/api/user';
+import i18n from 'i18n';
 import {mapState, mapMutations} from 'vuex';
+import * as User from 'services/api/user';
 import {getCountryCode} from 'services/countries';
 import Icon from 'components/Icon';
 import Radio from 'components/Radio';
@@ -76,8 +77,22 @@ export default {
     activeTFAMethod() {
       return this.tfaMethods.find((item) => item.id === this.security.tfa.method).name;
     },
+    selectedTFAMethod() {
+      if (this.security.tfa.enabled) {
+          return this.activeTFAMethod;
+      } else {
+        const method = this.tfaMethods.find((method) => method.id === this.tfaMethod);
+        return method ? method.name : '';
+      }
+    },
     qrText() {
       return encodeURI(`otpauth://totp/${this.account.email.value}?secret=${this.qr}&issuer=ATLANT`);
+    },
+    tfaConfirmText() {
+      if (!this.selectedTFAMethod) return '';
+      const methodName = this.selectedTFAMethod.split(' ')[0];
+      const status = this.security.tfa.enabled ? 'Disable' : 'Enable';
+      return i18n.t(`tfaConfirmText${methodName}${status}`);
     },
   },
   methods: {
