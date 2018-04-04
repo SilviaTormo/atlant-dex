@@ -199,7 +199,7 @@ export default {
     margin-left: 5px;
     padding-top: 3px;
     font-weight: 700;
-    color: #044161;
+    color: #fff;
     text-decoration: none;
   }
   &__tfaOption {
