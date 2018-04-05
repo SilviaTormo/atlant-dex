@@ -11,6 +11,7 @@ Modal
           IInput.singUp__input(label="Email address", v-model="email")
           IInput.singUp__input(label="Choose a password", v-model="password",  type="password")
           IInput.singUp__input(label="Confirm password", v-model="passwordRepeat",  type="password")
+          .singUp__hiddenError(v-show="isShowPasswordError") At least 8 symbols including 1 number and 1 capital letter.
         .singUp__block
           Checkbox.singUp__checkbox(name="acknowledged", :value="true", v-model="iAgree")
             span.singUp__iAgree I certify that I am 18 years of age or older, and I agree to the #[a.link(href="#") User Agreement] and #[a.link(href="#") Privacy Policy].
@@ -37,6 +38,7 @@ export default {
       email: '',
       password: '',
       passwordRepeat: '',
+      isShowPasswordError: false,
       iAgree: false,
       step: 0,
     };
@@ -45,6 +47,10 @@ export default {
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
+    parsePassword() {
+      let regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
+      return regex.test(this.password);
+    },
   },
   methods: {
     ...mapMutations('modal', {
@@ -56,6 +62,10 @@ export default {
       });
     },
     signUpUser() {
+      if (!this.parsePassword) {
+        this.isShowPasswordError = true;
+        return false;
+      };
       Membership.signup({
         email: this.email,
         password: this.password,
@@ -65,6 +75,11 @@ export default {
       }).catch((error) => {
         serverNotification(error);
       });
+    },
+  },
+  watch: {
+    password() {
+      this.isShowPasswordError = false;
     },
   },
   components: {
@@ -150,6 +165,10 @@ export default {
     &:not(:last-child){
       margin-bottom: 40px;
     }
+  }
+  &__hiddenError {
+    color: #f33a3a;
+    margin-top: -30px;
   }
   &__checkbox {
     align-items: flex-start !important;

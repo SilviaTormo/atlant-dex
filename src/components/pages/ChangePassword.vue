@@ -13,6 +13,7 @@
       input.input(v-model="password.repeat" type="password")
       .link.changePassword__action(@click="requestPasswordChange") Confirm
       .link.changePassword__action(@click="cancelPasswordChange") Cancel
+    .changePassword__hiddenError(v-show="isShowPasswordError") At least 8 symbols including #[br] 1 number and 1 capital letter.
   .changePassword__item(v-if="password.step == 2")
     TFA(:onConfirm="confirmPasswordChange", :onCancel="cancelPasswordChange", :onResend="requestPasswordChange")
 </template>
@@ -30,7 +31,17 @@ export default {
         new: '',
         repeat: '',
       },
+      isShowPasswordError: false,
     };
+  },
+  computed: {
+    parsePassword() {
+      let regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
+      console.log('regex.test(this.password)', regex.test(this.password));
+      console.log('this.password', this.password.old);
+
+      return regex.test(this.password.old);
+    },
   },
   methods: {
     clearInputs() {
@@ -52,6 +63,10 @@ export default {
       });
     },
     requestPasswordChange() {
+      if (!this.parsePassword) {
+        this.isShowPasswordError = true;
+        return false;
+      };
       Membership.requestPasswordChange({
         oldpassword: this.password.old,
         newpassword: this.password.new,
@@ -62,6 +77,14 @@ export default {
     cancelPasswordChange() {
       this.clearInputs();
       this.setStep(0);
+    },
+  },
+  watch: {
+    password: {
+     handler(val) {
+       this.isShowPasswordError = false;
+     },
+     deep: true,
     },
   },
   components: {
@@ -88,6 +111,10 @@ export default {
   }
   &__action {
     margin: 0 5px 0 19px;
+  }
+  &__hiddenError {
+    color: #f33a3a;
+
   }
 }
 
