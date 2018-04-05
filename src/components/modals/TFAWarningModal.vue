@@ -4,17 +4,40 @@
       .tfaWarning__title Your account is not secure
       Icon.tfaWarning__icon(id="statusFailed")
       .tfaWarning__text Please, enable 2 factor authorization to protect your account
-      BButton( rounded caps ) OK, enable 2FA
-      .tfaWarning__link(role="button") No, thanks
+      BButton(
+        rounded,
+        caps,
+        @click="onYesClick",
+      ) OK, enable 2FA
+      .tfaWarning__link(
+        role="button",
+        @click="onNoClick",
+      ) No, thanks
 </template>
 
 <script>
+import {mapMutations} from 'vuex';
 import Modal from 'components/modals/Modal';
 import BButton from 'components/BButton';
 import Icon from 'components/Icon';
 
 export default {
   name: 'TFAWarningModal',
+  methods: {
+    ...mapMutations('page', {
+      openPage: 'open',
+    }),
+    ...mapMutations('modal', {
+      closeModal: 'close',
+    }),
+    onYesClick() {
+      this.closeModal();
+      this.openPage({name: 'securitySettings'});
+    },
+    onNoClick() {
+      this.closeModal();
+    },
+  },
   components: {
     Modal,
     BButton,
