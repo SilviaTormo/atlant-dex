@@ -47,7 +47,9 @@ export default {
       isMobile: 'isMobile',
     }),
     setTextMessage() {
-      return (this.text == false) ? i18n.t('sent2FA.' + this.security.tfa.method) : this.text;
+      console.log('this.security.tfa.method', this.security.tfa.method);
+
+      return (this.text == false) ? i18n.t(`sent2FA.${this.security.tfa.method}`) : this.text;
     },
   },
   methods: {

@@ -125,6 +125,7 @@ export default {
     ]),
     ...mapActions('user', {
       getTokens: 'getTokens',
+      getProfileData: 'getProfileData',
     }),
     ...mapActions('trade', {
       getTraderWallet: 'getTraderWallet',
@@ -164,6 +165,8 @@ export default {
         notification({
           text: 'Log Out',
         });
+      } else {
+        this.getProfileData();
       }
     },
   },
@@ -171,6 +174,8 @@ export default {
     this.setLang();
     this.updateScreenType();
     this.hubSubscribe();
+
+    if (this.isLoggedIn) this.getProfileData();
 
     this.$hub.start().then(() => {
       // this.$hub.invoke('newNotification', 'newMessage');

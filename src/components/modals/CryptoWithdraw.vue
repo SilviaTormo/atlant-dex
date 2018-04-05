@@ -10,7 +10,7 @@ Modal
       .cryptoWithdraw__amount {{netAmount}}
       BButton.cryptoWithdraw__button(color="malachite" rounded  @click.native="withdraw") Withdraw
       .cryptoWithdraw__fee Withdrawal fee: #[span.cryptoWithdraw__feeAmt {{fee}}] #[span.cryptoWithdraw__currency {{data.currency}}]
-    TFA(v-if="step == 1", :onConfirm="tryConfirmation", :onCancel="cancelConfirmation", :onResend="withdraw" text="Enter 2FA code to confirm withdrawal", :isModal="true")
+    TFA(v-if="step == 1", :onConfirm="tryConfirmation", :onCancel="cancelConfirmation", :onResend="withdraw", :isModal="true")
     Status.cryptoWithdraw__status(v-if="step === 2")
       .fiat__statusMsg Completed
 </template>
