@@ -33,6 +33,7 @@
   Status(v-else-if="isModalOpened('status')")
   Fiat(v-else-if="isModalOpened('fiat')")
   TFAModal(v-else-if="isModalOpened('tfaModal')")
+  TFAWarningModal(v-else-if="isModalOpened('tfaWarningModal')")
 </template>
 
 <script>
@@ -68,6 +69,7 @@ import CryptoWithdraw from './modals/CryptoWithdraw';
 import Status from './modals/Status';
 import Fiat from './modals/Fiat';
 import TFAModal from './modals/TFAModal';
+import TFAWarningModal from './modals/TFAWarningModal';
 
 export default {
   computed: {
@@ -81,6 +83,9 @@ export default {
     ...mapState('membership', {
       token: 'token',
     }),
+    ...mapGetters('user', [
+      'isTFAEnabled',
+    ]),
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
@@ -166,7 +171,12 @@ export default {
           text: 'Log Out',
         });
       } else {
-        this.getProfileData();
+        this.getProfileData().then((response) => {
+          if (!this.isTFAEnabled) {
+            this.openModal({name: 'tfaWarningModal'});
+          }
+          return response;
+        });
       }
     },
   },
@@ -240,6 +250,7 @@ export default {
     Status,
     Fiat,
     TFAModal,
+    TFAWarningModal,
   },
 };
 </script>
