@@ -4,7 +4,6 @@
     .grid__edit(@click="setIsEdit", v-show="!isMobile") Edit
   GridPanel(:data="getHiddenLayout", :isEdit="isEdit", v-show="!isMobile")
   GridLayout(
-      style="height: 100vh"
       :layout="(isMobile ? mobileGridData : gridData)",
       :col-num="12",
       :row-height="60",
