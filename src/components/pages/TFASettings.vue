@@ -32,7 +32,7 @@
     .tfaSettings__item(v-if="tfaStep === 2 && tfaMethod === 2")
       .tfaSettings__value Now scan QR-code below
       QR.tfaSettings__value(:text="qrText")
-      TFA(:onConfirm="finish2FAChange", :onCancel="cancel2FA" text="Enter the one-time password from Google Auth")
+      TFA(:onConfirm="finish2FAChange", :onCancel="cancel2FA" :text="tfaConfirmText")
 </template>
 
 <script>
