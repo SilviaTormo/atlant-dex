@@ -3,6 +3,7 @@ import serverErrors from './server-errors/en';
 export default {
   copied: 'Copied',
   loggedIn: 'Logged in ({0})',
+  passwordNotValid: 'At least 8 symbols including 1 number and 1 capital letter.',
   tfaEnabled: '2FA enabled',
   tfaDisabled: '2FA disabled',
   tfaConfirmTextTelegramEnable: 'Confirmation code has been sent via Telegram to enable 2FA',

@@ -11,7 +11,7 @@ Modal
           IInput.singUp__input(label="Email address", v-model="email")
           IInput.singUp__input(label="Choose a password", v-model="password",  type="password")
           IInput.singUp__input(label="Confirm password", v-model="passwordRepeat",  type="password")
-          .singUp__hiddenError(v-show="isShowPasswordError") At least 8 symbols including 1 number and 1 capital letter.
+          .singUp__hiddenError(v-show="isShowPasswordError") {{$t('passwordNotValid')}}
         .singUp__block
           Checkbox.singUp__checkbox(name="acknowledged", :value="true", v-model="iAgree")
             span.singUp__iAgree I certify that I am 18 years of age or older, and I agree to the #[a.link(href="#") User Agreement] and #[a.link(href="#") Privacy Policy].
@@ -168,7 +168,7 @@ export default {
   }
   &__hiddenError {
     color: #f33a3a;
-    margin-top: -30px;
+    margin-top: -28px;
   }
   &__checkbox {
     align-items: flex-start !important;
