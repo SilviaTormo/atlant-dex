@@ -11,7 +11,16 @@ export default {
   tfaConfirmTextSMSDisable: 'SMS with confirmation code has been sent to disable 2FA',
   tfaConfirmTextGoogleEnable: 'Enter the one-time password from Google Auth to enable 2FA',
   tfaConfirmTextGoogleDisable: 'Enter the one-time password from Google Auth to disable 2FA',
+  sent2FA: [
+    'You were sent an email to confirm',
+    'You were sent text message to confirm',
+    'Please enter Google Auth code to confirm',
+    'You were sent Telegram message to confirm',
+  ],
+
   serverErrors,
+
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA
+

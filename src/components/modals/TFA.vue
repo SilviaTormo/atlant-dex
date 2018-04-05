@@ -2,7 +2,7 @@
 .tfa
   form.tfa__content(v-if="isModal" @submit.prevent="onConfirm(secureCode)")
     .tfa__title confirmation
-    .tfa__text {{text}}
+    .tfa__text {{setTextMessage}}
     IInput.tfa__input(placeholder="Enter security code", v-model="secureCode", center)
     BButton.tfa__button(color="malachite" rounded) Confirm
     .tfa__repeat
@@ -10,7 +10,7 @@
       a.link(v-if="isLinkAviable && security.tfa.method != 2" @click="getCountDown(); onResend()") Send new code
     a.link(@click="onCancel()") Cancel
   form(v-else)
-    .tfa__row {{text}}
+    .tfa__row {{setTextMessage}}
     .tfa__row.tfa__row--desktop
       input.input(placeholder="Enter security code" v-model="secureCode")
       .tfa__row.tfa__row--mobileMargin
@@ -23,6 +23,7 @@
 
 <script>
 import {mapState, mapGetters, mapMutations} from 'vuex';
+import i18n from 'i18n';
 import Icon from 'components/Icon';
 import BButton from 'components/BButton';
 import IInput from 'components/IInput';
@@ -45,6 +46,11 @@ export default {
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
+    setTextMessage() {
+      console.log('this.security.tfa.method', this.security.tfa.method);
+
+      return (this.text == false) ? i18n.t(`sent2FA.${this.security.tfa.method}`) : this.text;
+    },
   },
   methods: {
     ...mapMutations('modal', {
@@ -69,8 +75,8 @@ export default {
   },
   props: {
     text: {
-      type: String,
-      default: 'You were sent 2FA code to confirm two-factor authentication',
+      type: [String, Boolean],
+      default: false,
       required: false,
     },
     onConfirm: {
