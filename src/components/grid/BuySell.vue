@@ -55,7 +55,7 @@ export default {
       } else {
         total = this.amount * this.price;
       };
-      return this.isBuy ? total + (total / 100) * this.fee : total - (total / 100) * this.fee;
+      return (this.isBuy ? total + (total / 100) * this.fee : total - (total / 100) * this.fee).toFixed(8);
     },
   },
   methods: {

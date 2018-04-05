@@ -9,7 +9,7 @@
         .main__shadow--top
         .main__shadow--bottom
       TheHeader
-      .main__tiles(v-show="!isPageOpened()")
+      .main__tiles(v-if="!isPageOpened()")
         Grid
         PairInfo(v-if="isMobile")
       //- Pages

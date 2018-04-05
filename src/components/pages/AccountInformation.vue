@@ -10,8 +10,10 @@ Page(title="Account information", title2="", :sidebar="true")
           .accountInfo__value.accountInfo__value--fullWidth
             .accountInfo__value--half {{account.id}}
             span.accountInfo__registration Registration date: {{regdate}}
-        .accountInfo__item
-          ChangeName
+        .accountInfo__item(v-if="account.fullName.value")
+          .accountInfo__param Full Name:
+          .accountInfo__value.accountInfo__value--fullWidth
+            .accountInfo__value {{account.fullName.value}}
         .accountInfo__item
           .accountInfo__param Verification status:
           .accountInfo__value.accountInfo__value--inline
@@ -53,7 +55,6 @@ import Icon from 'components/Icon';
 import Checkbox from 'components/Checkbox';
 import BButton from 'components/BButton';
 import FlagSwitch from 'components/FlagSwitch';
-import ChangeName from './ChangeName';
 import ChangePhone from './ChangePhone';
 import Page from './Page';
 
@@ -93,7 +94,6 @@ export default {
     Checkbox,
     BButton,
     FlagSwitch,
-    ChangeName,
     ChangePhone,
   },
 };

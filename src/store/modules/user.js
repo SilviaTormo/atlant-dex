@@ -9,10 +9,7 @@ export default {
       email: {
         value: '',
       },
-      fullName: {
-        value: null,
-        verified: false,
-      },
+      fullName: '',
       phone: {
         value: null,
         verified: false,
@@ -80,14 +77,6 @@ export default {
     getProfileData({commit}) {
       User.getProfile().then((res) => {
         commit('setProfile', res.data);
-      });
-    },
-    setFullName({state}, data) {
-      return new Promise((resolve, reject) => {
-        User.changeName(data).then(() => {
-          state.account.fullName.value = data;
-          return resolve();
-        });
       });
     },
     setPhone({commit}, data) {
