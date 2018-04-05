@@ -7,8 +7,7 @@ TablePage(
   :changeActivePage="setOffsetForTransactionHistory"
   :checkedArray.sync="checkedArray",
   :getRepeat="true",
-  :getUndo="true",
-  :getDelete="true",
+  :getCancel="true",
   :getExport="true",
 )
   .tHistory.table

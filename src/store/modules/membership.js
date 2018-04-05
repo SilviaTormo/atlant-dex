@@ -1,5 +1,4 @@
 import * as Membership from 'services/api/membership';
-import {serverNotification2} from 'services/notification';
 
 export default {
   state: {
@@ -48,17 +47,26 @@ export default {
         dispatch('dropUser');
       });
     },
-    tryReconnect({dispatch}, {response}) {
-      console.log('called tryReconnect');
-      dispatch('refreshToken').catch(() => {
-        serverNotification2(response);
-        dispatch('dropUser');
-        reject();
+    tryReconnect({getters, dispatch}) {
+      return new Promise((resolve, reject) => {
+        console.log('called tryReconnect');
+        if (getters.hasRefreshToken) {
+          dispatch('refreshToken').then(() => {
+            return resolve('success');
+          }).catch(() => {
+            dispatch('dropUser');
+            return reject('fail');
+          });
+        } else {
+          dispatch('dropUser');
+          return reject();
+        };
       });
     },
     dropUser({commit}) {
       commit('flushUser');
       commit('trade/emptyWallet', null, {root: true});
+      commit('modal/open', {name: 'signIn'}, {root: true});
     },
     regFinish({state}, code) {
       return Membership.regFinish(code).then((res) => {
@@ -78,7 +86,7 @@ export default {
         if (timeSinceLastAction > 86400000) {
           console.log('inactive user');
           console.log('time since last action', timeSinceLastAction);
-          reject();
+          return reject();
         } else {
           Membership.refreshToken({
             grantType: 'RefreshToken',

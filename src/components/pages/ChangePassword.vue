@@ -11,8 +11,10 @@
     .changePassword__param Repeat password:
     .changePassword__value.changePassword__desktopRow
       input.input(v-model="password.repeat" type="password")
+      .changePassword__hiddenError.changePassword__hiddenError--mobile(v-show="isShowPasswordError") {{$t('passwordNotValid')}}
       .link.changePassword__action(@click="requestPasswordChange") Confirm
       .link.changePassword__action(@click="cancelPasswordChange") Cancel
+    .changePassword__hiddenError.changePassword__hiddenError--desktop(v-show="isShowPasswordError") {{$t('passwordNotValid')}}
   .changePassword__item(v-if="password.step == 2")
     TFA(:onConfirm="confirmPasswordChange", :onCancel="cancelPasswordChange", :onResend="requestPasswordChange")
 </template>
@@ -30,7 +32,14 @@ export default {
         new: '',
         repeat: '',
       },
+      isShowPasswordError: false,
     };
+  },
+  computed: {
+    parsePassword() {
+      let regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
+      return regex.test(this.password.old);
+    },
   },
   methods: {
     clearInputs() {
@@ -52,6 +61,10 @@ export default {
       });
     },
     requestPasswordChange() {
+      if (!this.parsePassword) {
+        this.isShowPasswordError = true;
+        return false;
+      };
       Membership.requestPasswordChange({
         oldpassword: this.password.old,
         newpassword: this.password.new,
@@ -62,6 +75,14 @@ export default {
     cancelPasswordChange() {
       this.clearInputs();
       this.setStep(0);
+    },
+  },
+  watch: {
+    password: {
+     handler(val) {
+       this.isShowPasswordError = false;
+     },
+     deep: true,
     },
   },
   components: {
@@ -89,6 +110,14 @@ export default {
   &__action {
     margin: 0 5px 0 19px;
   }
+  &__hiddenError {
+    color: #f33a3a;
+    width: 181px;
+
+    &--mobile {
+      display: none;
+    }
+  }
 }
 
 @include media-breakpoint-down(md) {
@@ -100,6 +129,18 @@ export default {
     &__action {
       margin-left: 0;
       margin-top: 17px;
+    }
+     &__hiddenError {
+      color: #f33a3a;
+      width: 181px;
+
+      &--mobile {
+        display: block;
+        margin-top: 10px;
+      }
+      &--desktop {
+        display: none;
+      }
     }
   }
 }

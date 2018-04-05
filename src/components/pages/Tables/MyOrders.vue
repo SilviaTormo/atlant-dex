@@ -7,8 +7,7 @@ TablePage(
   :changeActivePage="setOffsetForTradeHistory"
   :checkedArray.sync='checkedArray',
   :getRepeat="true",
-  :getUndo="true",
-  :getDelete="true",
+  :getCancel="true",
   :getExport="true",
 )
   .myOrders.table

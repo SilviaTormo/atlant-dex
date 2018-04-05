@@ -90,8 +90,8 @@ export const operatingSystems = [
 
 export const tfaMethods = [
   {
-    id: 3,
-    name: 'Telegram',
+    id: 0,
+    name: 'E-mail',
   },
   {
     id: 1,
@@ -100,5 +100,9 @@ export const tfaMethods = [
   {
     id: 2,
     name: 'Google Auth',
+  },
+  {
+    id: 3,
+    name: 'Telegram',
   },
 ];

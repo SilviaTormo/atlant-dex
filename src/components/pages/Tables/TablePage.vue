@@ -10,7 +10,7 @@
         .tablePage__panelActions.panel__checkbox
           Checkbox.tHistory__checkbox(color="yellow", :value="isAllChecked" @change="toggleCheckboxes")
         .tablePage__panelActions(v-if="getRepeat") Repeat
-        .tablePage__panelActions(v-if="getUndo") Undo
+        .tablePage__panelActions(v-if="getCancel") Cancel
         .tablePage__panelActions(v-if="getDelete") Delete
         .tablePage__panelActions(v-if="getExport") Export
 </template>
@@ -84,6 +84,11 @@ export default {
       required: false,
     },
     getUndo: {
+      type: [Function, Boolean],
+      default: false,
+      required: false,
+    },
+    getCancel: {
       type: [Function, Boolean],
       default: false,
       required: false,

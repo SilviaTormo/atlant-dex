@@ -9,7 +9,7 @@
         .main__shadow--top
         .main__shadow--bottom
       TheHeader
-      .main__tiles(v-show="!isPageOpened()")
+      .main__tiles(v-if="!isPageOpened()")
         Grid
         PairInfo(v-if="isMobile")
       //- Pages
@@ -33,6 +33,7 @@
   Status(v-else-if="isModalOpened('status')")
   Fiat(v-else-if="isModalOpened('fiat')")
   TFAModal(v-else-if="isModalOpened('tfaModal')")
+  TFAWarningModal(v-else-if="isModalOpened('tfaWarningModal')")
 </template>
 
 <script>
@@ -68,6 +69,7 @@ import CryptoWithdraw from './modals/CryptoWithdraw';
 import Status from './modals/Status';
 import Fiat from './modals/Fiat';
 import TFAModal from './modals/TFAModal';
+import TFAWarningModal from './modals/TFAWarningModal';
 
 export default {
   computed: {
@@ -81,6 +83,9 @@ export default {
     ...mapState('membership', {
       token: 'token',
     }),
+    ...mapGetters('user', [
+      'isTFAEnabled',
+    ]),
     ...mapGetters('misc', {
       isMobile: 'isMobile',
     }),
@@ -125,6 +130,7 @@ export default {
     ]),
     ...mapActions('user', {
       getTokens: 'getTokens',
+      getProfileData: 'getProfileData',
     }),
     ...mapActions('trade', {
       getTraderWallet: 'getTraderWallet',
@@ -164,6 +170,13 @@ export default {
         notification({
           text: 'Log Out',
         });
+      } else {
+        this.getProfileData().then((response) => {
+          if (!this.isTFAEnabled) {
+            this.openModal({name: 'tfaWarningModal'});
+          }
+          return response;
+        });
       }
     },
   },
@@ -171,6 +184,8 @@ export default {
     this.setLang();
     this.updateScreenType();
     this.hubSubscribe();
+
+    if (this.isLoggedIn) this.getProfileData();
 
     this.$hub.start().then(() => {
       // this.$hub.invoke('newNotification', 'newMessage');
@@ -235,6 +250,7 @@ export default {
     Status,
     Fiat,
     TFAModal,
+    TFAWarningModal,
   },
 };
 </script>

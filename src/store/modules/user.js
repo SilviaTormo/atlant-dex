@@ -9,10 +9,7 @@ export default {
       email: {
         value: '',
       },
-      fullName: {
-        value: null,
-        verified: false,
-      },
+      fullName: '',
       phone: {
         value: null,
         verified: false,
@@ -48,6 +45,9 @@ export default {
     getNotificationsOnPage(state) {
       return state.notificationsOnPage;
     },
+    isTFAEnabled(state) {
+      return state.security.tfa.enabled;
+    },
   },
   mutations: {
     setProfile(state, data) {
@@ -78,16 +78,8 @@ export default {
   },
   actions: {
     getProfileData({commit}) {
-      User.getProfile().then((res) => {
+      return User.getProfile().then((res) => {
         commit('setProfile', res.data);
-      });
-    },
-    setFullName({state}, data) {
-      return new Promise((resolve, reject) => {
-        User.changeName(data).then(() => {
-          state.account.fullName.value = data;
-          return resolve();
-        });
       });
     },
     setPhone({commit}, data) {
