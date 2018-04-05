@@ -47,15 +47,21 @@ export default {
         dispatch('dropUser');
       });
     },
-    tryReconnect({getters, dispatch}, {response}) {
-      console.log('called tryReconnect');
-      if (getters.isLoggedIn) {
-        dispatch('refreshToken').catch(() => {
+    tryReconnect({getters, dispatch}) {
+      return new Promise((resolve, reject) => {
+        console.log('called tryReconnect');
+        if (getters.hasRefreshToken) {
+          dispatch('refreshToken').then(() => {
+            return resolve('success');
+          }).catch(() => {
+            dispatch('dropUser');
+            return reject('fail');
+          });
+        } else {
           dispatch('dropUser');
-        });
-      } else {
-        dispatch('dropUser');
-      };
+          return reject();
+        };
+      });
     },
     dropUser({commit}) {
       commit('flushUser');

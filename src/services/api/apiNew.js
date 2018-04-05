@@ -22,9 +22,12 @@ instance.interceptors.response.use((response) => {
   store.dispatch('membership/rememberLastAction');
   return response;
 }, ({response}) => {
-  const {status} = response;
+  const {status, config} = response;
   if (status === 401) {
-    store.dispatch('membership/tryReconnect', {response});
+    store.dispatch('membership/tryReconnect', {response}).then((res) => {
+      return axios(config);
+      // console.log('try reconnect ended in', res);
+    });
   } else {
     serverNotification2(response);
   }
