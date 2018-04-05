@@ -30,26 +30,24 @@ TablePage(
             Checkbox(color="yellow", :value="isChecked(item.id)" @change="setCheckedArray(item.id)")
           td {{item.id}}
           td {{setDate(item.creationDate)}}
-          // waiting for api
-          td {{item.fee}}
+          td {{item.fee}} {{item.feeCurrency}}
           td.myOrders__action(:class="'myOrders__action--' + (item.action)") {{item.action}}
           td {{item.pair}}
           td {{setFixNumber(item.total)}} {{getOrderBaseCurrency(item.pair)}}
           td {{setFixNumber(item.price)}} {{getOrderQuoteCurrency(item.pair)}}
           td {{setFixNumber(item.total * item.price)}} {{getOrderQuoteCurrency(item.pair)}}
-        tr.myOrders__row(v-for="trade in item.trades" v-show="item.id === currentOrderId")
+        tr(v-for="trade in item.trades" v-show="item.id === currentOrderId")
           td
           td
           td
           // waiting for api
-          td {{trade.buyerFee}} {{trade.quoteCurrency}}
+          td {{getTradeFee(item.action, trade)}}
           // waiting for api
           td.myOrders__action(:class="'myOrders__action--' + (item.action)") {{item.action}}
           td {{trade.baseCurrency}}/{{trade.quoteCurrency}}
           td {{setFixNumber(trade.amount)}} {{trade.baseCurrency}}
           td {{setFixNumber(trade.price)}} {{trade.quoteCurrency}}
-          // waiting for api
-          td {{setFixNumber(trade.amount * trade.price)}} {{trade.baseCurrency}}
+          td {{setFixNumber(trade.amount * trade.price)}} {{trade.quoteCurrency}}
 </template>
 
 <script>
@@ -120,6 +118,9 @@ export default {
     getTrades(orderId) {
       this.setCurrentOrderId(orderId);
       this.getTradesForOrder(orderId);
+    },
+    getTradeFee(action, trade) {
+      return (action === 'Sell') ? `${trade.buyerFee} ${trade.baseCurrency}` : `${trade.sellerFee} ${trade.quoteCurrency}`;
     },
   },
   watch: {
