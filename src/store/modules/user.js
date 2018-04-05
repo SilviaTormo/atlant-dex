@@ -45,6 +45,9 @@ export default {
     getNotificationsOnPage(state) {
       return state.notificationsOnPage;
     },
+    isTFAEnabled(state) {
+      return state.security.tfa.enabled;
+    },
   },
   mutations: {
     setProfile(state, data) {
@@ -75,7 +78,7 @@ export default {
   },
   actions: {
     getProfileData({commit}) {
-      User.getProfile().then((res) => {
+      return User.getProfile().then((res) => {
         commit('setProfile', res.data);
       });
     },
