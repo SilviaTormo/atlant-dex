@@ -24,9 +24,12 @@ instance.interceptors.response.use((response) => {
 }, ({response}) => {
   const {status, config} = response;
   if (status === 401) {
-    store.dispatch('membership/tryReconnect', {response}).then((res) => {
-      return axios(config);
-      // console.log('try reconnect ended in', res);
+    return new Promise((resolve, reject) => {
+      store.dispatch('membership/tryReconnect', {response}).then((res) => {
+        const token = store.state.membership.token;
+        config.headers.Authorization = 'token ' + token;
+        resolve(axios(config));
+      });
     });
   } else {
     serverNotification2(response);
