@@ -17,9 +17,13 @@ export default {
     'Please enter Google Auth code to confirm',
     'You were sent Telegram message to confirm',
   ],
-
+  tfaSecureWarning: {
+    text: 'Please, enable 2 factor authorization to protect your account',
+    title: 'Your account is not secure',
+    yesButton: 'OK, enable 2FA',
+    noButton: 'No, thanks',
+  },
   serverErrors,
-
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA

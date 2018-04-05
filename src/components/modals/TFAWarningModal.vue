@@ -1,18 +1,18 @@
 <template lang="pug">
   Modal
     .tfaWarning
-      .tfaWarning__title Your account is not secure
+      .tfaWarning__title {{$t('tfaSecureWarning.title')}}
       Icon.tfaWarning__icon(id="statusFailed")
-      .tfaWarning__text Please, enable 2 factor authorization to protect your account
+      .tfaWarning__text {{$t('tfaSecureWarning.text')}}
       BButton(
         rounded,
         caps,
         @click="onYesClick",
-      ) OK, enable 2FA
+      ) {{$t('tfaSecureWarning.yesButton')}}
       .tfaWarning__link(
         role="button",
         @click="onNoClick",
-      ) No, thanks
+      ) {{$t('tfaSecureWarning.noButton')}}
 </template>
 
 <script>
