@@ -13,7 +13,7 @@
 <script>
 import {mapState, mapActions} from 'vuex';
 import Icon from 'components/Icon';
-// import {serverNotification} from 'services/notification';
+import {notification} from 'services/notification';
 
 export default {
   data() {
@@ -43,6 +43,10 @@ export default {
     },
     setExtraEmail() {
       this.setAdditionalEmail(this.email).then(() => {
+        notification({
+          text: i18n.t('emailSent', i18n.locale, [this.email]),
+          type: 'info',
+        });
         this.security.additionalEmail.verified = false;
         this.setStep(0);
       });

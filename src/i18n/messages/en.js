@@ -24,8 +24,8 @@ export default {
     yesButton: 'OK, enable 2FA',
     noButton: 'No, thanks',
   },
+  emailSent: 'Emil sent to {0}',
   serverErrors,
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA
-
