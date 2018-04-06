@@ -69,5 +69,10 @@ export const getSignalRNotification = (type) => {
     case 1: return 'loggedIn';
     case 2: return 'tfaEnabled';
     case 3: return 'tfaDisabled';
+    case 7: return 'orderPlaced';
+    case 8: return 'orderPartiallyFilledSell';
+    case 9: return 'orderFilledSell';
+    case 10: return 'orderPartiallyFilledBuy';
+    case 11: return 'orderFilledBuy';
   };
 };

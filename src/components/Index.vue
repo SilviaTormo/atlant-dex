@@ -147,10 +147,12 @@ export default {
     hubSubscribe() {
       // add signalR events here
       this.$hub.on('newNotification', (data) => {
-        notification({
-          text: i18n.t(getSignalRNotification(data.notificationType), i18n.locale, data.arguments),
-          type: 'success',
-        });
+        if (getSignalRNotification(data.notificationType)) {
+          notification({
+            text: i18n.t(getSignalRNotification(data.notificationType), i18n.locale, data.arguments),
+            type: 'info',
+          });
+        };
       });
     },
     modalChangeStyleforBody() {
@@ -214,7 +216,6 @@ export default {
     }).then((res) => {
       this.setDesktopData(res.data.result);
       this.setPair(res.data.result.pair);
-      this.getOrderBook({limit: 20});
       this.setOHLC(res.data.result);
       this.setStats(res.data.result);
     });
