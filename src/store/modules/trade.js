@@ -1,20 +1,26 @@
 import * as Trade from 'services/api/trade';
 import {serverNotification} from 'services/notification';
 import {defPeriod} from 'config';
-import pairsMock from 'mocks/pairs';
+// import pairsMock from 'mocks/pairs';
 
 export default {
   state: {
     pair: 'BTC_ATL',
-    last: 0,
-    high: 0,
-    low: 0,
-    volume: 0,
-    change: 0,
-    bid: 0,
-    ask: 0,
     limit: 23,
-    pairs: pairsMock,
+    pairs: {},
+    pairInfo: {
+      ask: 0,
+      bid: 0,
+      change: 0,
+      high: 0,
+      highChange: 0,
+      last: 0,
+      low: 0,
+      lowChange: 0,
+      makerFee: 0,
+      takerFee: 0,
+      volume: 0,
+    },
     chart: {
       data: {},
       period: defPeriod,
@@ -31,10 +37,6 @@ export default {
       low: 0,
       change: 0,
     },
-    // accountTradeHistory: {
-    //   total: 0,
-    //   items: [],
-    // },
     accountTransactionHistory: {
       total: 0,
       items: [],
@@ -44,22 +46,6 @@ export default {
       orders: [],
     },
     orderFilter: '',
-    tradeInfo: {
-      availableFunds: 0,
-      blockedFunds: 0,
-      derivedAvailableFunds: 0,
-      derivedBlockedFunds: 0,
-      equity: 0,
-      freeMargin: 0,
-      levelFL: 0,
-      levelMC: 0,
-      makerFee: 0,
-      margin: 0,
-      marginCall: 0,
-      marginLevel: 0,
-      maxLeverage: 0,
-      orders: [],
-    },
     // wallet: [],
     orders: [],
   },
@@ -91,27 +77,17 @@ export default {
     },
   },
   mutations: {
-    setDesktopData(state, data) {
-      state.last = data.last;
-      state.high = data.high;
-      state.low = data.low;
-      state.volume = data.volume;
-      state.change = data.change;
-      state.bid = data.bid;
-      state.ask = data.ask;
-      // state.pairs = data.pairs;
-    },
     setChartData(state, data) {
       state.chart.data = data;
     },
-    // addLastTrade(state, lastTrade) {
-    //   const lastTrades = [
-    //     [lastTrade[8], lastTrade[7], lastTrade[11], lastTrade[6]],
-    //     ...state.trades,
-    //   ];
-    //   lastTrades.pop(); // delete last trade in history
-    //   state.trades = lastTrades;
-    // },
+
+    setPairs(state, data) {
+      state.pairs = data;
+    },
+
+    setPairInfo(state, data) {
+      state.pairInfo = data;
+    },
     setOrdersAsks(state, data) {
       const asks = data;
       state.book.asks = asks;
@@ -210,9 +186,6 @@ export default {
         };
       });
     },
-    // setTradeInfo(state, date) {
-    //   state.tradeInfo = date;
-    // },
     addNewPrices(state, prices) {
       state.volume = prices[0];
       state.change = prices[1];
@@ -241,6 +214,26 @@ export default {
     //     serverNotification(res);
     //   });
     // },
+
+    getPairs({commit}) {
+      return Trade.exchangePairs().then((res) => {
+        commit('setPairs', res.data);
+      }).catch((res) => {
+        serverNotification(res);
+      });
+    },
+
+    getPairInfo({getters, commit}) {
+      return Trade.exchangePairInfo({
+        baseCurrency: getters.baseCurrency,
+        quoteCurrency: getters.quoteCurrency,
+      }).then((res) => {
+        commit('setPairInfo', res.data);
+      }).catch((res) => {
+        serverNotification(res);
+      });
+    },
+
     getAccountTransactionHistory({commit, state, getters}) {
       return Trade.getAccountTransactionHistory({
         limit: state.limit,
@@ -288,18 +281,6 @@ export default {
     //     // console.log('Order canceled: ', id);
     //   });
     // },
-    // getTradeInfo({commit, state}) {
-    //   return Trade.getTradeInfo({
-    //     pair: state.pair,
-    //   }).then((res) => {
-    //     commit('setTradeInfo', res.data.result);
-    //   });
-    // },
-   // getTraderWallet({commit}) {
-   //    return Trade.getTraderWallet().then((res) => {
-   //      commit('setWallet', res.data.result['BTC']);
-   //    });
-   //  },
     getTradeHistory({commit}, {page, limit, pair}) {
       return Trade.getTradeHistory({page, limit, pair}).then((response) => {
         commit('setTradeHistory', response.data);

@@ -37,9 +37,9 @@ export default {
   },
   computed: {
     ...mapState('trade', {
-      bid: 'bid',
-      ask: 'ask',
-      fee: (state) => state.tradeInfo.makerFee,
+      bid: (state) => state.pairInfo.bid,
+      ask: (state) => state.pairInfo.ask,
+      fee: (state) => state.pairInfo.makerFee,
     }),
     ...mapGetters('membership', {
       isLoggedIn: 'isLoggedIn',

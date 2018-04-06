@@ -42,7 +42,7 @@
 import i18n from 'i18n';
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import {notification, getSignalRNotification} from 'services/notification';
-import * as Trade from 'services/api/trade';
+// import * as Trade from 'services/api/trade';
 import {showWelcome} from 'config';
 import {scrollbar} from 'directives';
 import TheHeader from './TheHeader';
@@ -210,20 +210,6 @@ export default {
       this.openModal('welcome');
     }
     this.updateOverflow();
-    Trade.getDesktop({
-      limit: 23,
-      pair: this.pair,
-    }).then((res) => {
-      this.setDesktopData(res.data.result);
-      this.setPair(res.data.result.pair);
-      this.setOHLC(res.data.result);
-      this.setStats(res.data.result);
-    });
-    this.getTradeHistory({
-      page: 1,
-      limit: 20,
-      pair: 'BTC_ATL',
-    });
   },
   directives: {
     scrollbar,
