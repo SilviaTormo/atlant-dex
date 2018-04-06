@@ -22,9 +22,15 @@ instance.interceptors.response.use((response) => {
   store.dispatch('membership/rememberLastAction');
   return response;
 }, ({response}) => {
-  const {status} = response;
+  const {status, config} = response;
   if (status === 401) {
-    store.dispatch('membership/tryReconnect', {response});
+    return new Promise((resolve, reject) => {
+      store.dispatch('membership/tryReconnect', {response}).then((res) => {
+        const token = store.state.membership.token;
+        config.headers.Authorization = 'token ' + token;
+        resolve(axios(config));
+      });
+    });
   } else {
     serverNotification2(response);
   }
