@@ -2,6 +2,7 @@ import * as Trade from 'services/api/trade';
 import {serverNotification} from 'services/notification';
 import {defPeriod} from 'config';
 import pairsMock from 'mocks/pairs';
+import chartDataMock from 'mocks/chartData';
 
 export default {
   state: {
@@ -16,7 +17,7 @@ export default {
     limit: 23,
     pairs: pairsMock,
     chart: {
-      data: {},
+      data: chartDataMock,
       period: defPeriod,
       lastFlag: false,
     },
@@ -138,27 +139,27 @@ export default {
       state.ohlc.close = data.last;
       state.ohlc.change = data.change;
     },
-    // addNewCandle(state, data) {
-    //   const open = data[0];
-    //   const high = data[1];
-    //   const low = data[2];
-    //   const close = data[3];
-    //   const volume = data[4];
-    //   if (state.chart.lastFlag == true) {
-    //     state.chart.data.candles.push([open, high, low, close, volume]);
-    //   } else {
-    //     if (!data[5] && state.chart.data.candles) {
-    //       let oldArray = state.chart.data.candles;
-    //       oldArray.splice(oldArray.length-1, 1);
-    //       state.chart.data.candles = [
-    //         ...oldArray,
-    //         [open, high, low, close, volume],
-    //       ];
-    //     }
-    //   }
-    //
-    //   state.chart.lastFlag = data[5];
-    // },
+    addNewCandle(state, data) {
+      let open, high, low, close, volume; // eslint-disable-line one-var
+      if (Array.isArray(data)) {
+        [open, high, low, close, volume] = data;
+      } else {
+        ({open, high, low, close, volume} = data);
+      }
+      // if (state.chart.lastFlag == true) {
+        state.chart.data.candles.push([open, high, low, close, volume]);
+      // } else {
+      //   if (!data[5] && state.chart.data.candles) {
+      //     let oldArray = state.chart.data.candles;
+      //     oldArray.splice(oldArray.length - 1, 1);
+      //     state.chart.data.candles = [
+      //       ...oldArray,
+      //       [open, high, low, close, volume],
+      //     ];
+      //   }
+      // }
+      // state.chart.lastFlag = data[5];
+    },
     // setOrderList(state, list) {
     //   state.orders = list.data.result.orders;
     // },
@@ -256,12 +257,12 @@ export default {
       });
     },
     loadChart({commit, state}) {
-      return Trade.getChart({
-        period: state.chart.period,
-        pair: state.pair,
-      }).then((res) => {
-        commit('setChartData', res.data.result);
-      });
+      // return Trade.getChart({
+      //   period: state.chart.period,
+      //   pair: state.pair,
+      // }).then((res) => {
+      //   commit('setChartData', res.data.result);
+      // });
     },
     changeBaseCurrency({commit, dispatch, getters}, currency) {
       const pair = getters.getPairName({

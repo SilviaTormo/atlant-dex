@@ -51,7 +51,7 @@ import 'echarts/lib/component/dataZoom';
 // import {exponentialMovingAverageArray} from 'binary-indicators/lib/exponentialMovingAverage';
 // import {macdArray} from 'binary-indicators/lib/macd';
 import {DateTime} from 'luxon';
-import {mapState, mapGetters, mapActions} from 'vuex';
+import {mapState, mapGetters, mapActions, mapMutations} from 'vuex';
 import {ticksToMilliseconds} from 'services/misc';
 import {periods} from 'config';
 import Icon from '../Icon';
@@ -99,14 +99,15 @@ export default {
     priceSeries() {
       if (this.rawCandles) {
         if (this.currentChart == 'candlestick') {
-          return this.rawCandles.map((item) => [
-            item[0], // open
-            item[3], // close
-            item[2], // low
-            item[1], // high
-          ]);
+          return this.rawCandles.map(
+              ({open, close, low, high}) => [open, close, low, high]
+          );
+            // item[0], // open
+            // item[3], // close
+            // item[2], // low
+            // item[1], // high
         } else {
-          return this.rawCandles.map((item) => item[3]);
+          return this.rawCandles.map((item) => item.close);
         }
       }
     },
@@ -123,9 +124,7 @@ export default {
       });
     },
     volumeSeries() {
-      return this.rawCandles.map((item) => {
-        return item[4];
-      });
+      return this.rawCandles.map(({volume}) => volume);
     },
     setStartDataZoomOfChart() {
       let containerWidth = document.getElementById('chart').clientWidth;
@@ -139,6 +138,9 @@ export default {
       loadChart: 'loadChart',
       changeChartPeriod: 'changeChartPeriod',
     }),
+    ...mapMutations('trade', [
+      'addNewCandle',
+    ]),
     setChartPeriod(period) {
       this.changeChartPeriod(period).then(() => {
         // this.$hub.proxy.invoke('setCandleSize', this.candleSize);
@@ -373,7 +375,7 @@ export default {
         };
         let sum = 0;
         for (let j = 0; j < count; j++) {
-            sum += this.rawCandles[i - j][1];
+            sum += this.rawCandles[i - j].high;
         };
         result.push(sum / count);
       }
@@ -384,9 +386,9 @@ export default {
       let result = [];
       let k = 2/(count + 1);
 
-      result = [this.rawCandles[0][1]];
+      result = [this.rawCandles[0].high];
       for (let i = 1; i < this.rawCandles.length; i++) {
-        result.push(this.rawCandles[i][1] * k + result[i - 1] * (1 - k));
+        result.push(this.rawCandles[i].high * k + result[i - 1] * (1 - k));
       };
       return result;
     },
@@ -400,6 +402,11 @@ export default {
       this.technicalIndicators[indicator].enabled = !this.technicalIndicators[indicator].enabled;
       this.createChart();
     },
+    onSendSignal(data) {
+      if (data.metadata && data.metadata.type === 'candle') {
+        this.addNewCandle(data.payload);
+      }
+    },
   },
   watch: {
     rawCandles() {
@@ -412,6 +419,7 @@ export default {
     this.loadChart().then(() => {
       this.createChart();
     });
+    this.$hub.on('Send', this.onSendSignal);
   },
   components: {
     Icon,
