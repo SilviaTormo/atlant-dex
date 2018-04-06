@@ -8,6 +8,11 @@ export default {
       {i: 'orders', x: 8, y: 7, w: 4, h: 8, minW: 4, minH: 2},
     ],
     gridData: [
+      {i: 'buySell', x: 0, y: 0, w: 3, h: 7, minW: 2, minH: 7, maxH: 7},
+      {i: 'chart', x: 3, y: 0, w: 9, h: 7, minW: 5, minH: 7},
+      {i: 'history', x: 0, y: 7, w: 3, h: 8, minW: 3, minH: 2},
+      {i: 'book', x: 3, y: 7, w: 5, h: 8, minW: 5, minH: 2},
+      {i: 'orders', x: 8, y: 7, w: 4, h: 8, minW: 4, minH: 2},
     ],
     mobileGridData: [
       {i: 'buySell', x: 0, y: 0, w: 12, h: 7, minW: 2, minH: 7, maxH: 7},
@@ -38,11 +43,11 @@ export default {
       state.isEdit = !state.isEdit;
     },
     addGridLayout(state, component) {
-      console.log('Add grid item ', component);
-      state.gridData.push(component);
+      // console.log('Add grid item ', component);
+      if (state.gridData.includes(component) == false) state.gridData.push(component);
     },
     removeGridLayout(state, component) {
-      console.log('Remove grid item ', component);
+      // console.log('Remove grid item ', component);
       state.gridData = state.gridData.filter((e) => {
         return e.i != component;
       });
