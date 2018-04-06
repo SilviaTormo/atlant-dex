@@ -195,7 +195,6 @@ export default {
     }).then((res) => {
       this.setDesktopData(res.data.result);
       this.setPair(res.data.result.pair);
-      this.getOrderBook({limit: 20});
       this.setOHLC(res.data.result);
       this.setStats(res.data.result);
     });

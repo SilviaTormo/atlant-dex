@@ -120,7 +120,7 @@ export default {
       this.getTradesForOrder(orderId);
     },
     getTradeFee(action, trade) {
-      return (action === 'Sell') ? `${trade.buyerFee} ${trade.baseCurrency}` : `${trade.sellerFee} ${trade.quoteCurrency}`;
+      return (action === 'Buy') ? `${trade.buyerFee} ${trade.baseCurrency}` : `${trade.sellerFee} ${trade.quoteCurrency}`;
     },
   },
   watch: {
