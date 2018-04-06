@@ -11,7 +11,7 @@
       input.input.changePhone__input(v-model="phone")
     .link.changePhone__action(@click="setPhoneNumber") Save
     .link.changePhone__action(@click="setStep(0)") Cancel
-  TFA(v-if="step === 2", :onCancel="cancelVerification", :onConfirm="finishVerification", :onResend="verifyPhone")
+  TFA(v-if="step === 2", :onCancel="cancelVerification", :onConfirm="finishVerification", :onResend="verifyPhone", :confirmType="1")
 </template>
 
 <script>

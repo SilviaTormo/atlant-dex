@@ -47,9 +47,8 @@ export default {
       isMobile: 'isMobile',
     }),
     setTextMessage() {
-      console.log('this.security.tfa.method', this.security.tfa.method);
-
-      return (this.text == false) ? i18n.t(`sent2FA.${this.security.tfa.method}`) : this.text;
+      let confirmMethod = (this.confirmType) ? this.confirmType : this.security.tfa.method;
+      return (this.text == false) ? i18n.t(`sent2FA.${confirmMethod}`) : this.text;
     },
   },
   methods: {
@@ -75,6 +74,11 @@ export default {
   },
   props: {
     text: {
+      type: [String, Boolean],
+      default: false,
+      required: false,
+    },
+    confirmType: {
       type: [String, Boolean],
       default: false,
       required: false,
