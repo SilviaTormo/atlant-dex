@@ -1,6 +1,6 @@
 <template lang="pug">
 .status
-  Icon.status__icon(id="statusSucceed")
+  Icon.status__icon(:id="(isSuccess) ? 'statusSucceed' : 'statusFailed'")
   slot
 </template>
 
@@ -11,6 +11,7 @@ export default {
   props: {
     isSuccess: {
       type: [Boolean, String],
+      default: true,
       required: false,
     },
   },

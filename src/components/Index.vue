@@ -34,6 +34,8 @@
   Fiat(v-else-if="isModalOpened('fiat')")
   TFAModal(v-else-if="isModalOpened('tfaModal')")
   TFAWarningModal(v-else-if="isModalOpened('tfaWarningModal')")
+  ModalEventStatusCompleted(v-else-if="isModalOpened('eventStatusCompleted')")
+  ModalEventStatusFailed(v-else-if="isModalOpened('eventStatusFailed')")
 </template>
 
 <script>
@@ -70,6 +72,8 @@ import Status from './modals/Status';
 import Fiat from './modals/Fiat';
 import TFAModal from './modals/TFAModal';
 import TFAWarningModal from './modals/TFAWarningModal';
+import ModalEventStatusCompleted from './modals/ModalEventStatusCompleted';
+import ModalEventStatusFailed from './modals/ModalEventStatusFailed';
 
 export default {
   computed: {
@@ -251,6 +255,8 @@ export default {
     Fiat,
     TFAModal,
     TFAWarningModal,
+    ModalEventStatusCompleted,
+    ModalEventStatusFailed,
   },
 };
 </script>
