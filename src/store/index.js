@@ -12,6 +12,7 @@ import verify from './modules/verify';
 import stats from './modules/stats';
 import membership from './modules/membership';
 import grid from './modules/grid';
+import geo from './modules/geo';
 
 Vue.use(Vuex);
 
@@ -28,6 +29,7 @@ const store = new Vuex.Store({
     stats,
     membership,
     grid,
+    geo,
   },
   plugins: [createPersistedState({
     paths: [
