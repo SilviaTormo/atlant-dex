@@ -38,6 +38,8 @@ export default {
     $_value() {
       if (this.isOptionsObject) {
         return this.options[this.value];
+      } else if (this.trackBy) {
+        return this.options.find((opt) => opt[this.trackBy] === this.value);
       }
       return this.value;
     },
@@ -53,6 +55,8 @@ export default {
       let value = val;
       if (this.isOptionsObject) {
         value = val.keyValue;
+      } else if (this.trackBy) {
+        value = val[this.trackBy];
       }
       this.$emit('input', value);
     },

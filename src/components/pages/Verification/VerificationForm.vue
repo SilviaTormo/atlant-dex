@@ -16,9 +16,11 @@ form.verificationForm
     label-for="null",
   )
     VerificationSelect.verificationForm__input(
-      :options="countryData",
+      :options="countries",
       label="name",
+      track-by="code",
       v-model="verification.country",
+      :loading="countriesLoading",
     )
   VerificationFormGroup(
     label="City:",
@@ -26,8 +28,9 @@ form.verificationForm
     label-for="null",
   )
     VerificationSelect.verificationForm__input(
-      :options="['Foo', 'Bar', 'FooBar']",
+      :options="countryCities",
       v-model="verification.city",
+      :loading="citiesLoading",
     )
   VerificationFormGroup(
     label="Street Address:",
@@ -75,8 +78,7 @@ form.verificationForm
 </template>
 
 <script>
-import {mapState} from 'vuex';
-import {countryData} from 'services/countries';
+import {mapState, mapActions} from 'vuex';
 import {birthdayDays, birthdayYears, birthdayMonths} from 'services/birthday';
 import VerificationFormGroup from './VerificationFormGroup';
 import VerificationInput from './VerificationInput';
@@ -86,27 +88,64 @@ export default {
   name: 'VerificationForm',
   data() {
     return {
-      countryData,
       birthdayDays,
       birthdayYears,
       birthdayMonths,
     };
   },
   computed: {
-      ...mapState('verify', [
-          'verification',
-      ]),
-      phoneCode() {
-        let country = countryData[this.verification.country];
-        return (country && country.code) ? country.code : null;
-      },
+    ...mapState('verify', [
+      'verification',
+    ]),
+    ...mapState('geo', [
+        'countries',
+        'cities',
+        'countriesLoading',
+        'citiesLoading',
+    ]),
+    selectedCountry() {
+      return this.countries.find((country) => country.code === this.verification.country);
+    },
+    phoneCode() {
+      return this.selectedCountry ? this.selectedCountry.phoneCode : null;
+    },
+    countryCities() {
+      const cities = this.cities[this.verification.country];
+      if (!cities) {
+        return [];
+      } else if (!cities.length) {
+        return ['No City'];
+      }
+      return cities;
+    },
   },
   methods: {
+    ...mapActions('geo', [
+      'getCountries',
+      'getCities',
+    ]),
     getFieldValidationStatus(name) {
-      const $v = this.validations[name] ? this.validations : this.validations.verification;
+      const $v = this.validations[name] ?
+          this.validations :
+          this.validations.verification;
       if ($v[name].$error) return 'error';
       return $v[name].$invalid ? 'invalid' : 'valid';
     },
+  },
+  watch: {
+    'verification.country'(country) {
+      if (country) {
+        this.getCities(country);
+      }
+    },
+    'countryCities'(cities) {
+      if (cities.length && cities.indexOf(this.verification.city) === -1) {
+        this.verification.city = '';
+      }
+    },
+  },
+  mounted() {
+    this.getCountries();
   },
   props: {
     validations: Object,
