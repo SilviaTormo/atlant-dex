@@ -10,8 +10,12 @@
       Radio(:name="`type${_uid}`", value="limit", label="Limit", v-model="type")
     .buySell__label Amount to {{isBuy ? 'buy' : 'sell'}}
     input.buySell__input(type="number" placeholder="0.0000" step="0.0001" min="0.0000" max="10000.0000", v-model="amount")
-    .buySell__label(v-show="type === 'limit'") Price
-    input.buySell__input(type="number", min="0", v-show="type === 'limit'", v-model="price")
+    .buySell__wrap(v-if="type === 'limit'")
+      .buySell__label Price
+      input.buySell__input(type="number", v-model="price")
+    .buySell__wrap(v-else)
+      .buySell__label Price
+      input.buySell__input(type="number", v-model="price", disabled)
     .buySell__label Total
     input.buySell__input(:placeholder="getTotal" disabled)
     BButton.buySell__button(color="yellow" full caps @click="getOrder") Place order
@@ -48,6 +52,9 @@ export default {
       baseCurrency: 'baseCurrency',
       quoteCurrency: 'quoteCurrency',
     }),
+    getPrice() {
+      return this.isBuy ? this.ask : this.bid;
+    },
     getTotal() {
       let total = 0;
       if (this.type === 'market') {
@@ -92,6 +99,23 @@ export default {
         this.total = 0;
       });
     },
+  },
+  watch: {
+    isBuy() {
+      this.price = this.getPrice;
+    },
+    type() {
+      this.price = this.getPrice;
+    },
+    bid() {
+      this.price = this.getPrice;
+    },
+    ask() {
+      this.price = this.getPrice;
+    },
+  },
+  created() {
+    this.price = this.getPrice;
   },
   components: {
     Icon,
