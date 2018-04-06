@@ -90,10 +90,6 @@ export const operatingSystems = [
 
 export const tfaMethods = [
   {
-    id: 0,
-    name: 'E-mail',
-  },
-  {
     id: 1,
     name: 'SMS',
   },

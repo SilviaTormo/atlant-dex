@@ -17,7 +17,7 @@
         .tfaSettings__code {{getCountryCode}}
         FlagSwitch.tfaSettings__dropdown(v-model="country")
         input.input.tfaSettings__input(placeholder="965 296 36 36" v-model="number")
-      .link.tfaSettings__action.tfaSettings__action--mobileLeft.tfaSettings__value(@click="requestTFAChange()") Save
+      .link.tfaSettings__action.tfaSettings__action--mobileLeft.tfaSettings__value(@click="requestTFAChange()") Send
     .tfaSettings__item(v-if="tfaStep === 2 && requiresNumber")
       TFA(:onConfirm="finish2FAChange", :onResend="requestTFAChange", :onCancel="cancel2FA", :text="tfaConfirmText")
     .tfaSettings__item(v-if="tfaStep === 1 && tfaMethod === 2")
