@@ -22,7 +22,7 @@ TablePage(
             Checkbox(color="yellow", :value="isChecked(item.id)" @change="setCheckedArray(item.id)")
           td {{formatTime(item.dateTime)}}
           td.notificationHistory__capital(:class="{'notificationHistory__redText' : getNotificationType(item.level) === 'Warning' || getNotificationType(item.level) === 'Error'}") {{getNotificationType(item.level)}}
-          td {{ $t(getStatus(item), item.arguments) }}
+          td {{$t('notifications.' + getStatus(item), item.arguments)}}
 </template>
 
 <script>
