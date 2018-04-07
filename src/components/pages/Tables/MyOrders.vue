@@ -40,10 +40,8 @@ TablePage(
           td
           td
           td
-          // waiting for api
           td {{getTradeFee(item.action, trade)}}
-          // waiting for api
-          td.myOrders__action(:class="'myOrders__action--' + (item.action)") {{item.action}}
+          td.myOrders__action(:class="'myOrders__action--' + getTradeAction(item.action)") {{getTradeAction(item.action)}}
           td {{trade.baseCurrency}}/{{trade.quoteCurrency}}
           td {{setFixNumber(trade.amount)}} {{trade.baseCurrency}}
           td {{setFixNumber(trade.price)}} {{trade.quoteCurrency}}
@@ -119,8 +117,11 @@ export default {
       this.setCurrentOrderId(orderId);
       this.getTradesForOrder(orderId);
     },
-    getTradeFee(action, trade) {
-      return (action === 'Buy') ? `${trade.buyerFee} ${trade.baseCurrency}` : `${trade.sellerFee} ${trade.quoteCurrency}`;
+    getTradeFee(orderAction, trade) {
+      return (orderAction === 'Sell') ? `${trade.buyerFee} ${trade.baseCurrency}` : `${trade.sellerFee} ${trade.quoteCurrency}`;
+    },
+    getTradeAction(orderAction) {
+      return (orderAction === 'Sell') ? 'Buy' : 'Sell';
     },
   },
   watch: {
