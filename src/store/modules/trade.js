@@ -46,7 +46,6 @@ export default {
       orders: [],
     },
     orderFilter: '',
-    // wallet: [],
     orders: [],
   },
   getters: {
