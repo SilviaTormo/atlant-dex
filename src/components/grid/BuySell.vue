@@ -108,10 +108,10 @@ export default {
       this.price = this.getPrice;
     },
     bid() {
-      this.price = this.getPrice;
+      if (this.type = 'market') this.price = this.getPrice;
     },
     ask() {
-      this.price = this.getPrice;
+      if (this.type = 'market') this.price = this.getPrice;
     },
   },
   created() {

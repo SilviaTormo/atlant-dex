@@ -78,7 +78,7 @@ export default {
       return state.orderFilter;
     },
     getLastTrades(state) {
-      return state.trades;
+      return state.trades.slice(0, 21);
     },
   },
   mutations: {
@@ -154,6 +154,9 @@ export default {
     },
     setOrders(state, data) {
       state.orders = data;
+    },
+    cleanOrders(state) {
+      state.orders = [];
     },
     // setAccountTradeHistory(state, list) {
     //   state.accountTradeHistory.total = list.total;
@@ -286,13 +289,16 @@ export default {
       commit('setPeriod', period);
       return dispatch('loadChart');
     },
-   // getTraderWallet({commit}) {
-   //    return Trade.getTraderWallet().then((res) => {
-   //      commit('setWallet', res.data.result['BTC']);
-   //    });
-   //  },
-    getTradeHistory({commit}, {page, limit, pair}) {
-      return Trade.getTradeHistory({page, limit, pair}).then((response) => {
+    // getCancelOrder({commit, state}, id) {
+    //   return Trade.getCancelOrder(
+    //     state.pair,
+    //     id
+    //   ).then((res) => {
+    //     // console.log('Order canceled: ', id);
+    //   });
+    // },
+    getTradeHistory({commit}) {
+      return Trade.getTradeHistory().then((response) => {
         commit('setTradeHistory', response.data);
       });
     },

@@ -37,7 +37,7 @@ export default {
       data: [],
       totalItems: 0,
     },
-    notificationsOnPage: 5,
+    notificationsOnPage: 10,
   },
   getters: {
     getNotifications(state) {

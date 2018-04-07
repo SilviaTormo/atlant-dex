@@ -22,9 +22,9 @@ export default {
     noButton: 'No, thanks',
   },
   notifications: {
-    loggedIn: 'Logged in ({0})',
-    tfaEnabled: '2FA enabled',
-    tfaDisabled: '2FA disabled',
+    loggedIn: 'Your login with IP ({0})',
+    tfaEnabled: 'Two factor authorization on',
+    tfaDisabled: 'Two factor authorization off',
     upgradeTier: 'You avalible balance is {0}. Please upgrade to the next verification tier',
     orderPlaced: 'New order #{0} placed',
     orderPartiallyFilledSell: 'Order #{0} partially filled: Sell {1} {2}',

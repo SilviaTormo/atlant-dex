@@ -138,8 +138,6 @@ export default {
     }),
     ...mapActions('trade', {
       getTraderWallet: 'getTraderWallet',
-      getTradeHistory: 'getTradeHistory',
-      getOrderBook: 'getOrderBook',
     }),
     updateOverflow() {
       document.querySelector('#app').style.overflow = (this.showSidebar && this.isMobile) ? 'hidden' : null;
