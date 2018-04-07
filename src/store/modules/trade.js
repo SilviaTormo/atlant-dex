@@ -72,6 +72,12 @@ export default {
         return order.status === 'Filled' || order.status === 'Cancelled';
       });
     },
+    getAccountOrders(state) {
+      return state.accountOrders.orders;
+    },
+    getAccountOrderFilter(state) {
+      return state.orderFilter;
+    },
     getLastTrades(state) {
       return state.trades;
     },
@@ -139,6 +145,9 @@ export default {
     //   state.orders = list.data.result.orders;
     // },
     setAccountOrders(state, data) {
+      data.orders.forEach((e) => {
+        e.trades = {};
+      });
       state.accountOrders = data;
     },
     setOrderFilter(state, status) {
@@ -197,6 +206,11 @@ export default {
     // },
     emptyWallet(state) {
       state.wallet = [];
+    },
+    setTradesForOrder(state, data) {
+      let arr = state.accountOrders.orders;
+      arr.find((item) => item.id === data.orderId).trades = data.trades.trades;
+      state.accountOrders.orders = arr;
     },
   },
   actions: {
@@ -273,14 +287,11 @@ export default {
       commit('setPeriod', period);
       return dispatch('loadChart');
     },
-    // getCancelOrder({commit, state}, id) {
-    //   return Trade.getCancelOrder(
-    //     state.pair,
-    //     id
-    //   ).then((res) => {
-    //     // console.log('Order canceled: ', id);
-    //   });
-    // },
+   // getTraderWallet({commit}) {
+   //    return Trade.getTraderWallet().then((res) => {
+   //      commit('setWallet', res.data.result['BTC']);
+   //    });
+   //  },
     getTradeHistory({commit}, {page, limit, pair}) {
       return Trade.getTradeHistory({page, limit, pair}).then((response) => {
         commit('setTradeHistory', response.data);
@@ -327,6 +338,15 @@ export default {
     cancelOrder({commit}, orderId) {
       return Trade.cancelOrder({orderId}).then((res) => {
         commit('setCancelledOrder', orderId);
+      });
+    },
+    getTradesForOrder({state, commit}, orderId) {
+      return Trade.getTradesForOrder(orderId).then((response) => {
+        let data = {
+          trades: response.data,
+          orderId,
+        };
+        commit('setTradesForOrder', data);
       });
     },
   },
