@@ -69,6 +69,7 @@ export const getSignalRNotification = (type) => {
     case 1: return 'loggedIn';
     case 2: return 'tfaEnabled';
     case 3: return 'tfaDisabled';
+    case 6: return 'upgradeTier';
     case 7: return 'orderPlaced';
     case 8: return 'orderPartiallyFilledSell';
     case 9: return 'orderFilledSell';

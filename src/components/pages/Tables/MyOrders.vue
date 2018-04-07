@@ -17,30 +17,38 @@ TablePage(
           th
           th ID
           th Timestamp
-          th Status
-          th Type
+          th Fee
           th Action
           th Pair
           th Amount
           th Price
           th Total
-      tbody
-        tr(v-for="(item, index) in orders")
+      tbody(v-for="(item, index) in orders")
+        tr.myOrders__row(@click="getTrades(item.id)")
           td.myOrders__checkboxContainer
             Checkbox(color="yellow", :value="isChecked(item.id)" @change="setCheckedArray(item.id)")
           td {{item.id}}
           td {{setDate(item.creationDate)}}
-          td {{item.status}}
-          td {{item.type}}
+          td {{item.fee}} {{item.feeCurrency}}
           td.myOrders__action(:class="'myOrders__action--' + (item.action)") {{item.action}}
-          td {{fixCurrencyPair(item.pair)}}
-          td {{setFixNumber(item.amount)}} {{item.quoteCurrency}}
-          td {{setFixNumber(item.price)}} {{item.baseCurrency}}
-          td {{setFixNumber(item.amount * item.price)}} {{item.baseCurrency}}
+          td {{item.pair}}
+          td {{setFixNumber(item.total)}} {{getOrderBaseCurrency(item.pair)}}
+          td {{setFixNumber(item.price)}} {{getOrderQuoteCurrency(item.pair)}}
+          td {{setFixNumber(item.total * item.price)}} {{getOrderQuoteCurrency(item.pair)}}
+        tr(v-for="trade in item.trades" v-show="item.id === currentOrderId")
+          td
+          td
+          td
+          td {{getTradeFee(item.action, trade)}}
+          td.myOrders__action(:class="'myOrders__action--' + getTradeAction(item.action)") {{getTradeAction(item.action)}}
+          td {{trade.baseCurrency}}/{{trade.quoteCurrency}}
+          td {{setFixNumber(trade.amount)}} {{trade.baseCurrency}}
+          td {{setFixNumber(trade.price)}} {{trade.quoteCurrency}}
+          td {{setFixNumber(trade.amount * trade.price)}} {{trade.quoteCurrency}}
 </template>
 
 <script>
-import {mapState, mapActions, mapMutations} from 'vuex';
+import {mapGetters, mapActions, mapMutations} from 'vuex';
 import {DateTime} from 'luxon';
 import Checkbox from 'components/Checkbox';
 import Icon from '../../Icon';
@@ -50,12 +58,13 @@ export default {
   data() {
     return {
       checkedArray: [],
+      currentOrderId: null,
     };
   },
   computed: {
-    ...mapState('trade', {
-      orders: (state) => state.accountOrders.orders,
-      orderFilter: (state) => state.orderFilter,
+    ...mapGetters('trade', {
+      orders: 'getAccountOrders',
+      orderFilter: 'getAccountOrderFilter',
     }),
     setPagesCount() {
       return Math.ceil(this.allDataLength / this.itemsOnPage);
@@ -68,9 +77,10 @@ export default {
     ...mapMutations('trade', {
       setOffsetForTradeHistory: 'setOffsetForTradeHistory',
     }),
-    ...mapActions('trade', {
-      getAccountOrders: 'getAccountOrders',
-    }),
+    ...mapActions('trade', [
+      'getAccountOrders',
+      'getTradesForOrder',
+    ]),
     isChecked(id) {
       return Boolean(this.checkedArray.indexOf(id) != -1);
     },
@@ -83,8 +93,34 @@ export default {
     setDate(isoTime) {
       return DateTime.fromISO(isoTime).toFormat('dd.LL.yyyy HH:mm');
     },
+    getOrderBaseCurrency(pair) {
+      return pair.split('/')[0];
+    },
+    getOrderQuoteCurrency(pair) {
+      return pair.split('/')[1];
+    },
     fixCurrencyPair(pair) {
       return pair.replace('_', '/');
+    },
+    setCurrentOrderId(orderId) {
+      if (this.currentOrderId === orderId) {
+        this.currentOrderId = null;
+      } else {
+        this.currentOrderId = orderId;
+      };
+    },
+    isDetailedOrder(order) {
+      return order.id === this.currentOrderId;
+    },
+    getTrades(orderId) {
+      this.setCurrentOrderId(orderId);
+      this.getTradesForOrder(orderId);
+    },
+    getTradeFee(orderAction, trade) {
+      return (orderAction === 'Sell') ? `${trade.buyerFee} ${trade.baseCurrency}` : `${trade.sellerFee} ${trade.quoteCurrency}`;
+    },
+    getTradeAction(orderAction) {
+      return (orderAction === 'Sell') ? 'Buy' : 'Sell';
     },
   },
   watch: {
@@ -100,6 +136,15 @@ export default {
     dataType() {
       this.getAccountTradeHistory;
     },
+    // orders: {
+    //   handler() {
+    //     console.log('orders changed');
+    //     if (this.orders.find((item) => item.id === this.currentOrderId)) {
+    //       console.log(this.orders.find((item) => item.id === this.currentOrderId).trades);
+    //     };
+    //   },
+    //   deep: true,
+    // },
   },
   created() {
     this.getAccountOrders();
@@ -122,6 +167,21 @@ export default {
     }
     &--Sell {
       color: $color_red;
+    }
+  }
+  &__row {
+    cursor: pointer;
+    & > td {
+      width: 10%;
+      &:nth-child(3) {
+        width: 200px;
+      }
+      &:nth-child(4) {
+        width: 125px;
+      }
+    }
+    &:hover {
+      background-color: $color_yellow;
     }
   }
   &__checkboxContainer {

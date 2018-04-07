@@ -68,7 +68,7 @@ $ROOT: "checkbox";
     }
   }
   &__icon {
-    $size: 18px;
+    $size: 17px;
     width: $size;
     height: $size;
     border-radius: 50%;
