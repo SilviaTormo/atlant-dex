@@ -149,7 +149,7 @@ export default {
       this.$hub.on('newNotification', (data) => {
         if (getSignalRNotification(data.notificationType)) {
           notification({
-            text: i18n.t(getSignalRNotification(data.notificationType), i18n.locale, data.arguments),
+            text: i18n.t(`notifications.${getSignalRNotification(data.notificationType)}`, i18n.locale, data.arguments),
             type: 'info',
           });
         };
