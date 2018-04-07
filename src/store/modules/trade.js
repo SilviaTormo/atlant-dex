@@ -290,7 +290,6 @@ export default {
       commit('setPeriod', period);
       return dispatch('loadChart');
     },
-<<<<<<< HEAD
     // getCancelOrder({commit, state}, id) {
     //   return Trade.getCancelOrder(
     //     state.pair,
@@ -301,15 +300,6 @@ export default {
     // },
     getTradeHistory({commit}) {
       return Trade.getTradeHistory().then((response) => {
-=======
-   // getTraderWallet({commit}) {
-   //    return Trade.getTraderWallet().then((res) => {
-   //      commit('setWallet', res.data.result['BTC']);
-   //    });
-   //  },
-    getTradeHistory({commit}, {page, limit, pair}) {
-      return Trade.getTradeHistory({page, limit, pair}).then((response) => {
->>>>>>> f857fafac1a9a98a0d4d809729f3ecaa2ed18665
         commit('setTradeHistory', response.data);
       });
     },
