@@ -1,8 +1,9 @@
 import api from './apiNew';
 import apiOld from './apiOld';
 
-export const getChart = ({period, pair}) => apiOld.get('/trade/chart', {params: {period, pair}});
+// export const getChart = ({period, pair}) => apiOld.get('/trade/chart', {params: {period, pair}});
 export const getDesktop = ({limit, pair}) => apiOld.get('/trade/getDesktop?', {params: {limit, pair}});
+export const getChart = ({period, pair}) => api.get('/candlescollection', {params: {period, pair}});
 export const getTradeHistory = ({page, limit, pair}) => api.get(`/trades?page=${page}&limit=${limit}&pair=${pair}`);
 
 export const getAccountTradeHistory = ({page, limit, pair}) => api.get(`/trades/my?page=${page}&limit=${limit}&pair=${pair}`);

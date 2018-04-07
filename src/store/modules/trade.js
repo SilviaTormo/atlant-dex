@@ -140,14 +140,14 @@ export default {
       state.ohlc.change = data.change;
     },
     addNewCandle(state, data) {
-      let open, high, low, close, volume; // eslint-disable-line one-var
-      if (Array.isArray(data)) {
-        [open, high, low, close, volume] = data;
-      } else {
-        ({open, high, low, close, volume} = data);
-      }
+      // let open, high, low, close, volume; // eslint-disable-line one-var
+      // if (Array.isArray(data)) {
+      //   [open, high, low, close, volume] = data;
+      // } else {
+      //   ({open, high, low, close, volume} = data);
+      // }
       // if (state.chart.lastFlag == true) {
-        state.chart.data.candles.push([open, high, low, close, volume]);
+        state.chart.data.candles.push(data);
       // } else {
       //   if (!data[5] && state.chart.data.candles) {
       //     let oldArray = state.chart.data.candles;
