@@ -17,9 +17,8 @@ Page(title="Account information", title2="", :sidebar="true")
         .accountInfo__item
           .accountInfo__param Verification status:
           .accountInfo__value.accountInfo__value--inline
-            Icon.accountInfo__star(id="star" v-for="(index) in 5", :class="{'accountInfo__star--verified' : index <= account.verificationRating }", :key="index")
-            .accountInfo__rating {{account.verificationRating}}/5
-            .link.accountInfo__action Finish process
+            .accountInfo__rating(v-show="account.verificationRating") Tier {{account.verificationRating}}
+            .link.accountInfo__action(v-show="account.verificationRating < 3 || typeof account.verificationRating == 'undefined'" @click="openPage({name: 'verification'})") Upgrade
         .accountInfo__item
           .accountInfo__param Email:
           .accountInfo__value.accountInfo__value--inline {{account.email.value}} #[Icon.accountInfo__icon(v-if="account.email.verified" id="verified")]
@@ -48,7 +47,7 @@ Page(title="Account information", title2="", :sidebar="true")
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex';
+import {mapState, mapMutations, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
 import {getCountryByCurrency, getCountryCurrency} from 'services/countries';
 import Icon from 'components/Icon';
@@ -81,6 +80,9 @@ export default {
     ...mapActions('user', [
       'getProfileData',
     ]),
+    ...mapMutations('page', {
+      openPage: 'open',
+    }),
     setPrefCurrencyFromFlag(value) {
       this.setPreferredCurrency(getCountryCurrency(value));
     },
@@ -162,18 +164,17 @@ export default {
     width: $size;
     margin-right: 38px;
   }
-  &__star {
-    $size: 11px;
-    height: $size;
-    width: $size;
-    fill: #044568;
-    margin-right: 5px;
-    &--verified {
-      fill: #ffc600;
-    }
-  }
   &__rating {
-    margin-left: 5px;
+    min-width: 60px;
+    border-radius: 2px;
+    padding: 3px 8px;
+    background-color: #ffc600;
+    color: #032f47;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 19px;
+    text-transform: uppercase;
   }
   &__checkbox {
     margin-top: 20px;
