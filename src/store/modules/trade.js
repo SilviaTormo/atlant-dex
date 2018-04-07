@@ -73,7 +73,7 @@ export default {
       });
     },
     getLastTrades(state) {
-      return state.trades;
+      return state.trades.slice(0, 21);
     },
   },
   mutations: {
@@ -284,8 +284,8 @@ export default {
     //     // console.log('Order canceled: ', id);
     //   });
     // },
-    getTradeHistory({commit}, {page, limit, pair}) {
-      return Trade.getTradeHistory({page, limit, pair}).then((response) => {
+    getTradeHistory({commit}) {
+      return Trade.getTradeHistory().then((response) => {
         commit('setTradeHistory', response.data);
       });
     },

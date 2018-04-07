@@ -57,6 +57,9 @@ export default {
       this.setQuoteAfterBaseChange(baseCurrency);
       this.getPairInfo();
     },
+    quoteCurrency() {
+      this.getPairInfo();
+    },
   },
   created() {
     this.getPairs();
