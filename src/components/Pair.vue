@@ -42,6 +42,8 @@ export default {
     ...mapActions('trade', [
       'changeQuoteCurrency',
       'changeBaseCurrency',
+      'getPairs',
+      'getPairInfo',
     ]),
     setQuoteAfterBaseChange(baseCurrency) {
       // Do not change if current quote available for new base
@@ -53,7 +55,15 @@ export default {
   watch: {
     baseCurrency(baseCurrency) {
       this.setQuoteAfterBaseChange(baseCurrency);
+      this.getPairInfo();
     },
+    quoteCurrency() {
+      this.getPairInfo();
+    },
+  },
+  created() {
+    this.getPairs();
+    this.getPairInfo();
   },
   components: {
     Icon,

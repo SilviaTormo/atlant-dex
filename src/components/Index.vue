@@ -34,13 +34,15 @@
   Fiat(v-else-if="isModalOpened('fiat')")
   TFAModal(v-else-if="isModalOpened('tfaModal')")
   TFAWarningModal(v-else-if="isModalOpened('tfaWarningModal')")
+  ModalEventStatusCompleted(v-else-if="isModalOpened('eventStatusCompleted')")
+  ModalEventStatusFailed(v-else-if="isModalOpened('eventStatusFailed')")
 </template>
 
 <script>
 import i18n from 'i18n';
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import {notification, getSignalRNotification} from 'services/notification';
-import * as Trade from 'services/api/trade';
+// import * as Trade from 'services/api/trade';
 import {showWelcome} from 'config';
 import {scrollbar} from 'directives';
 import TheHeader from './TheHeader';
@@ -70,6 +72,8 @@ import Status from './modals/Status';
 import Fiat from './modals/Fiat';
 import TFAModal from './modals/TFAModal';
 import TFAWarningModal from './modals/TFAWarningModal';
+import ModalEventStatusCompleted from './modals/ModalEventStatusCompleted';
+import ModalEventStatusFailed from './modals/ModalEventStatusFailed';
 
 export default {
   computed: {
@@ -134,8 +138,6 @@ export default {
     }),
     ...mapActions('trade', {
       getTraderWallet: 'getTraderWallet',
-      getTradeHistory: 'getTradeHistory',
-      getOrderBook: 'getOrderBook',
     }),
     updateOverflow() {
       document.querySelector('#app').style.overflow = (this.showSidebar && this.isMobile) ? 'hidden' : null;
@@ -143,10 +145,12 @@ export default {
     hubSubscribe() {
       // add signalR events here
       this.$hub.on('newNotification', (data) => {
-        notification({
-          text: i18n.t(getSignalRNotification(data.notificationType), i18n.locale, data.arguments),
-          type: 'success',
-        });
+        if (getSignalRNotification(data.notificationType)) {
+          notification({
+            text: i18n.t(`notifications.${getSignalRNotification(data.notificationType)}`, i18n.locale, data.arguments),
+            type: 'info',
+          });
+        };
       });
     },
     modalChangeStyleforBody() {
@@ -204,21 +208,6 @@ export default {
       this.openModal('welcome');
     }
     this.updateOverflow();
-    Trade.getDesktop({
-      limit: 23,
-      pair: this.pair,
-    }).then((res) => {
-      this.setDesktopData(res.data.result);
-      this.setPair(res.data.result.pair);
-      this.getOrderBook({limit: 20});
-      this.setOHLC(res.data.result);
-      this.setStats(res.data.result);
-    });
-    this.getTradeHistory({
-      page: 1,
-      limit: 20,
-      pair: 'BTC_ATL',
-    });
   },
   directives: {
     scrollbar,
@@ -251,6 +240,8 @@ export default {
     Fiat,
     TFAModal,
     TFAWarningModal,
+    ModalEventStatusCompleted,
+    ModalEventStatusFailed,
   },
 };
 </script>

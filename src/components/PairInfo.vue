@@ -18,15 +18,15 @@
         .pairInfo__label High:
         .pairInfo__block
           .pairInfo__value {{getFixed(high)}}
-          //- Icon.pairInfo__triangle(id="triangle", :class="(stat.highPersent  < 0) ? 'pairInfo__triangle--negative' : ''")
-          //- .pairInfo__percent(:class="(stat.highPersent < 0) ? 'pairInfo__percent--negative' : ''") %{{getFixed(((stat.highPersent < 0) ? -stat.highPersent : stat.highPersent), 2)}}
+          Icon.pairInfo__triangle(id="triangle", :class="(highChange  < 0) ? 'pairInfo__triangle--negative' : ''")
+          .pairInfo__percent(:class="(highChange < 0) ? 'pairInfo__percent--negative' : ''") %{{getFixed(((highChange < 0) ? -highChange : highChange), 2)}}
       .pairInfo__line(v-if="isMobile")
       .pairInfo__container
         .pairInfo__label Low:
         .pairInfo__block
           .pairInfo__value {{getFixed(low)}}
-          //- Icon.pairInfo__triangle(id="triangle", :class="(stat.lowPercent  < 0) ? 'pairInfo__triangle--negative' : ''")
-          //- .pairInfo__percent(:class="(stat.lowPercent < 0) ? 'pairInfo__percent--negative' : ''") %{{getFixed(((stat.lowPercent < 0) ? -stat.lowPercent : stat.lowPercent), 2)}}
+          Icon.pairInfo__triangle(id="triangle", :class="(lowChange  < 0) ? 'pairInfo__triangle--negative' : ''")
+          .pairInfo__percent(:class="(lowChange < 0) ? 'pairInfo__percent--negative' : ''") %{{getFixed(((lowChange < 0) ? -lowChange : lowChange), 2)}}
     .pairInfo__container
       .pairInfo__label Volume:
       .pairInfo__volume ${{addSpacesForNumbers(getFixed(volume, 2))}}
@@ -39,22 +39,20 @@ import Icon from './Icon';
 export default {
   data() {
     return {
-      stat: {
-        highPersent: 4.60,
-        lowPercent: -1.73,
-      },
       visible: false,
     };
   },
   computed: {
     ...mapState('trade', {
-      last: 'last',
-      high: 'high',
-      low: 'low',
-      volume: 'volume',
-      change: 'change',
-      bid: 'bid',
-      ask: 'ask',
+      last: (state) => state.pairInfo.last,
+      high: (state) => state.pairInfo.high,
+      highChange: (state) => state.pairInfo.highChange,
+      low: (state) => state.pairInfo.low,
+      lowChange: (state) => state.pairInfo.lowChange,
+      volume: (state) => state.pairInfo.volume,
+      change: (state) => state.pairInfo.change,
+      bid: (state) => state.pairInfo.ask,
+      ask: (state) => state.pairInfo.bid,
     }),
     ...mapGetters('misc', {
       isMobile: 'isMobile',

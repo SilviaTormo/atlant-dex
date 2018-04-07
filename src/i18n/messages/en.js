@@ -2,10 +2,7 @@ import serverErrors from './server-errors/en';
 
 export default {
   copied: 'Copied',
-  loggedIn: 'Logged in ({0})',
   passwordNotValid: 'At least 8 symbols including 1 number and 1 capital letter.',
-  tfaEnabled: '2FA enabled',
-  tfaDisabled: '2FA disabled',
   tfaConfirmTextTelegramEnable: 'Confirmation code has been sent via Telegram to enable 2FA',
   tfaConfirmTextTelegramDisable: 'Confirmation code has been sent via Telegram to disable 2FA',
   tfaConfirmTextSMSEnable: 'SMS with confirmation code has been sent to enable 2FA',
@@ -24,8 +21,19 @@ export default {
     yesButton: 'OK, enable 2FA',
     noButton: 'No, thanks',
   },
+  notifications: {
+    loggedIn: 'Your login with IP ({0})',
+    tfaEnabled: 'Two factor authorization on',
+    tfaDisabled: 'Two factor authorization off',
+    upgradeTier: 'You avalible balance is {0}. Please upgrade to the next verification tier',
+    orderPlaced: 'New order #{0} placed',
+    orderPartiallyFilledSell: 'Order #{0} partially filled: Sell {1} {2}',
+    orderFilledSell: 'Order #{0} filled: Sell {1} {2}',
+    orderPartiallyFilledBuy: 'Order #{0} partially filled: Buy {1} {2}',
+    orderFilledBuy: 'Order #{0} filled: Buy {1} {2}',
+  },
+  emailSent: 'Email sent to {0}',
   serverErrors,
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA
-

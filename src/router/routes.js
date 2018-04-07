@@ -5,10 +5,10 @@ import * as Membership from 'services/api/membership';
 export default [
   {
     path: '*',
-    redirect: '',
+    redirect: '/',
   },
   {
-    path: '',
+    path: '/',
     name: 'index',
     component: Index,
   },
@@ -20,8 +20,14 @@ export default [
     }),
     beforeEnter(to, from, next) {
       store.dispatch('membership/regFinish', to.query.code).then((data) => {
-        next(true);
+        store.commit('modal/open', {
+          name: 'eventStatusCompleted',
+        });
+        next('/');
       }).catch(() => {
+        store.commit('modal/open', {
+          name: 'eventStatusFailed',
+        });
         next('/');
       });
     },
@@ -42,7 +48,7 @@ export default [
         });
         next('/');
       }).catch(() => {
-        next(true);
+        next('/');
       });
     },
   },
@@ -56,7 +62,7 @@ export default [
       store.dispatch('user/verifyAdditionalEmail', to.query.code).then((data) => {
         next('/');
       }).catch(() => {
-        next(true);
+        next('/');
       });
     },
   },

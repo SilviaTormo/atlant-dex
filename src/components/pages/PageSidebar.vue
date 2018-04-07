@@ -116,8 +116,6 @@ export default {
     transform: rotate(270deg);
     left: -22px;
   }
-  &__label {
-  }
   &__mobileList {
     display: none;
   }
