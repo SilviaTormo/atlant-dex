@@ -2,7 +2,6 @@ import api from './apiNew';
 import apiOld from './apiOld';
 
 export const getChart = ({period, pair}) => apiOld.get('/trade/chart', {params: {period, pair}});
-// export const getAccountTransactionHistory = ({limit, offset, status, baseCurrency, currency}) => apiOld.get('/account/transactionList?', {params: {limit, offset, status, baseCurrency, currency}});
 // export const getTradeInfo = ({pair}) => apiOld.get('/trade/getTraderInfo?', {params: {pair}});
 // export const getTraderWallet = () => apiOld.get('/trade/traderWallets');
 

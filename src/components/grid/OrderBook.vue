@@ -8,7 +8,7 @@ table.book
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex';
+import {mapState, mapActions, mapMutations} from 'vuex';
 
 export default {
   data() {
@@ -18,6 +18,7 @@ export default {
   computed: {
     ...mapState('trade', {
       book: (state) => state.book,
+      status: (state) => state.book.status,
     }),
     orderBook() {
       const items = this.ask ? this.book.asks : this.book.bids;
@@ -28,9 +29,21 @@ export default {
     ...mapActions('trade', [
       'getOrderBook',
     ]),
+    ...mapMutations('trade', {
+      setOrdersStatus: 'setOrdersStatus',
+    }),
+    getApiRequest() {
+      this.setOrdersStatus();
+      this.getOrderBook({limit: 20});
+    },
+  },
+  watch: {
+    status() {
+      if (this.status == 1) this.getApiRequest();
+    },
   },
   created() {
-    this.getOrderBook({limit: 20});
+    this.getApiRequest();
   },
   props: {
     ask: {

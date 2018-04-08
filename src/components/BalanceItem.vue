@@ -6,19 +6,17 @@
       .balance__currencyName(:class="activeClass") {{data.currency}}
       //Icon.balance__icon.balance__icon--qr(id="qr")
       .balance__amount
-        .balance__currencyBalance {{data.availableFunds}}
-        .balance__equivBalance {{data.availableFunds}}
+        .balance__currencyBalance {{toCurrencyFormat(data.availableFunds)}}
+        .balance__equivBalance ${{toCurrencyFormat(data.balanceFiat)}}
     .balance__additional(v-if="isActive")
       div &#8212;
       .balance__deposit
         Icon.balance__depositIcon(id="deposit")
-        .balance__actionText(v-if="isCrypto" @click="openCrypto('cryptoDeposit')") Make deposit
-        .balance__actionText(v-if="isCrypto" @click="openCrypto('cryptoWithdraw')") Withdraw
-        .balance__actionText(v-if="!isCrypto" @click="openFiat(true)") Make deposit
-        .balance__actionText(v-if="!isCrypto" @click="openFiat(false)") Withdraw
+        .balance__actionText(@click="openDeposit()") Make deposit
+        .balance__actionText(@click="openWithdrawal()") Withdraw
       div &#8212;
       .balance__withdraw
-  Icon.balance__icon.balance__icon--alert(id="alert-inactive")
+  //Icon.balance__icon.balance__icon--alert(id="alert-inactive")
 </template>
 
 <script>
@@ -59,22 +57,35 @@ export default {
         },
       });
     },
+    openDeposit() {
+      if (this.data.isCrypto) {
+        this.openCrypto('cryptoDeposit');
+      } else {
+        this.openFiat(true);
+      };
+    },
+    openWithdrawal() {
+      if (this.data.isCrypto) {
+        this.openCrypto('cryptoWithdraw');
+      } else {
+        this.openFiat(false);
+      };
+    },
+    toCurrencyFormat(amount) {
+      return amount.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1 ');
+    },
   },
   props: {
     data: {
       type: Object,
       validator: (value) => {
-        return value.currency !== '';
+        return value.currency !== '' && value.isCrypto !== '';
       },
     },
     isActive: {
       type: Boolean,
       default: false,
       required: false,
-    },
-    isCrypto: {
-      type: Boolean,
-      required: true,
     },
   },
   components: {

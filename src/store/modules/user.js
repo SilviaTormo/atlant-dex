@@ -3,6 +3,10 @@ import * as User from 'services/api/user';
 export default {
   state: {
     balance: 317,
+    portfolio: {
+      balances: [],
+      portfolioValue: 0,
+    },
     userCurrencies: ['USD', 'BTC', 'ETH', 'ATL'],
     account: {
       currency: '',
@@ -33,6 +37,9 @@ export default {
       data: [],
       totalItems: 0,
     },
+    accountTransactionHistory: {
+      data: [],
+    },
     notificationsOnPage: 10,
   },
   getters: {
@@ -47,6 +54,18 @@ export default {
     },
     isTFAEnabled(state) {
       return state.security.tfa.enabled;
+    },
+    getUserBalances(state) {
+      return state.portfolio.balances;
+    },
+    getPortofolioValue(state) {
+      return state.portfolio.portfolioValue;
+    },
+    getAccountTransactions(state) {
+      return state.accountTransactionHistory.data;
+    },
+    getAccountTransactionItems(state) {
+      return state.accountTransactionHistory.totalItems;
     },
   },
   mutations: {
@@ -74,6 +93,12 @@ export default {
     },
     setSubscribeNewsletter(state, isEnable) {
       state.account.subscribe.newsletter = isEnable;
+    },
+    setBalances(state, data) {
+      state.portfolio = data;
+    },
+    setAccountTransactionHistory(state, data) {
+      state.accountTransactionHistory = data;
     },
   },
   actions: {
@@ -140,6 +165,21 @@ export default {
         ascending,
       }).then((response) => {
         commit('setNotifications', response.data);
+      });
+    },
+    getBalances({commit}) {
+      return User.getBalances().then((response) => {
+        commit('setBalances', response.data);
+      });
+    },
+    getAccountTransactionHistory({commit, state, getters}, {page, limit, sortBy, ascending}) {
+      return User.getAccountTransactionHistory({
+        page,
+        limit,
+        sortBy,
+        ascending,
+      }).then((response) => {
+        commit('setAccountTransactionHistory', response.data);
       });
     },
   },
