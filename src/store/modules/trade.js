@@ -58,6 +58,29 @@ export default {
     quoteCurrency(state) {
       return state.pair.split('_')[1];
     },
+    candles(state) {
+      return state.chart.data.candles;
+    },
+    candlePeriod(state) {
+      const {candles} = state.chart.data;
+      return candles.length && candles[0].period;
+    },
+    candlePeriodInMs(state, getters) {
+      return new Date(`1970-01-01T${getters.candlePeriod}Z`).getTime();
+    },
+    lastCandle(state, getters) {
+      return getters.candles[getters.candles.length - 1];
+    },
+    lastCandleOpenTime(state, getters) {
+      const {lastCandle, candles, candlePeriodInMs} = getters;
+      if (!candles.length) return 0;
+      let time = new Date(lastCandle.candleOpen).getTime();
+      // Fix when last candle has wrong open time
+      if (time < 0) {
+        time = new Date(candles[candles.length - 2].candleOpen).getTime() + candlePeriodInMs;
+      }
+      return time;
+    },
     getPairName: (state, getters) => ({base = getters.baseCurrency, quote = getters.quoteCurrency}) => {
       return `${base}_${quote}`;
     },
@@ -121,36 +144,20 @@ export default {
       state.ohlc.close = data.last;
       state.ohlc.change = data.change;
     },
+    setCandles(state, candles) {
+      state.chart.data.candles = candles;
+    },
     addNewCandle(state, data) {
       const {candles} = state.chart.data;
       const lastCandleIndex = candles.length - 1;
       const lastCandle = candles[lastCandleIndex];
-      if (lastCandle.candleOpen === data.candleOpen) {
-        console.log('update');
+      if ((new Date(data.candleOpen) - new Date(lastCandle.candleOpen)) < 1000) {
+        console.log('Update last candle');
         state.chart.data.candles = [...candles.slice(0, lastCandleIndex), data];
       } else {
-        console.log('add new');
+        console.log('Add new candle');
         state.chart.data.candles = candles.concat(data);
       }
-      // let open, high, low, close, volume; // eslint-disable-line one-var
-      // if (Array.isArray(data)) {
-      //   [open, high, low, close, volume] = data;
-      // } else {
-      //   ({open, high, low, close, volume} = data);
-      // }
-      // if (state.chart.lastFlag == true) {
-      //   state.chart.data.candles.push(data);
-      // } else {
-      //   if (!data[5] && state.chart.data.candles) {
-      //     let oldArray = state.chart.data.candles;
-      //     oldArray.splice(oldArray.length - 1, 1);
-      //     state.chart.data.candles = [
-      //       ...oldArray,
-      //       [open, high, low, close, volume],
-      //     ];
-      //   }
-      // }
-      // state.chart.lastFlag = data[5];
     },
     // setOrderList(state, list) {
     //   state.orders = list.data.result.orders;
@@ -242,7 +249,6 @@ export default {
     //     serverNotification(res);
     //   });
     // },
-
     getPairs({commit}) {
       return Trade.exchangePairs().then((res) => {
         commit('setPairs', res.data);
@@ -366,6 +372,21 @@ export default {
         };
         commit('setTradesForOrder', data);
       });
+    },
+    addNewCandle({commit, getters}, newCandle) {
+      const {candles, lastCandleOpenTime} = getters;
+      const lastCandleIndex = candles.length - 1;
+      let newCandles = candles;
+      console.log(newCandle);
+      console.log('=====time:::: ', (new Date(newCandle.candleOpen).getTime() - lastCandleOpenTime));
+      if ((new Date(newCandle.candleOpen).getTime() - lastCandleOpenTime) < 1000) {
+        console.log('update');
+        newCandles = [...candles.slice(0, lastCandleIndex), newCandle];
+      } else {
+        console.log('add new');
+        newCandles = candles.concat(newCandle);
+      }
+      commit('setCandles', newCandles);
     },
   },
   namespaced: true,
