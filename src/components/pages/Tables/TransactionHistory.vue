@@ -3,8 +3,8 @@ TablePage(
   title="Transaction history",
   :data="data",
   :pageCount='setPagesCount',
-  :page="setPageNum",
-  :changeActivePage="setOffsetForTransactionHistory"
+  :page="page",
+  :changeActivePage="changeActivePage"
   :checkedArray.sync="checkedArray",
   :getRepeat="true",
   :getCancel="true",
@@ -16,25 +16,24 @@ TablePage(
         tr
           th
           th ID
-          th Time
+          th.table__sortable(:class="{'table__sortable--active': sortBy==='datetime'}" @click="sortTransactions('datetime')") Time
           th Amount
           th.tHistory__header--description Description
-          th Status
+          th.table__sortable(:class="{'table__sortable--active': sortBy==='status'}" @click="sortTransactions('status')") Type Status
       tbody
         tr(v-for="(item, index) in data")
           td.tHistory__checkboxContainer
             Checkbox.tHistory__checkbox(:value="isChecked(item.id)", @change="setCheckedArray(item.id)", color="yellow")
           td {{item.id}}
-          td.tHistory__date {{item.date}}
-          td.tHistory__amount(:class="'tHistory__amount--' + (item.type == 'in' ? 'positive' : 'negative')") {{item.amount}} {{item.currency}}
-          td.tHistory__description
-            Icon(id='icon-qr', :class="{'tHistory__icon--visible': item.crypto}").tHistory__icon
-            | {{item.description}}
+          td.tHistory__date {{setDate(item.creationDate)}}
+          td.tHistory__amount(:class="'tHistory__amount--' + (item.amount > 0 ? 'positive' : 'negative')") {{item.amount}} {{item.currency}}
+          td.tHistory__description {{item.description}}
           td.tHistory__status(:class="'tHistory__status--' + status[item.status].toLowerCase()") {{status[item.status]}}
 </template>
 
 <script>
-import {mapState, mapActions, mapMutations} from 'vuex';
+import {mapGetters, mapActions} from 'vuex';
+import {DateTime} from 'luxon';
 import Checkbox from 'components/Checkbox';
 import Icon from '../../Icon';
 import TablePage from './TablePage';
@@ -52,45 +51,58 @@ export default {
         'Authorizing',
         'Wallet',
       ],
+      page: 1,
+      limit: 10,
+      sortBy: 'datetime',
+      asc: false,
     };
   },
   computed: {
-    ...mapState('trade', {
-      total: (state) => state.accountTransactionHistory.total,
-      data: (state) => state.accountTransactionHistory.items,
-      offset: (state) => state.accountTransactionHistory.offset,
-      itemsOnPage: 'limit',
+    ...mapGetters('user', {
+      data: 'getAccountTransactions',
+      totalItems: 'getAccountTransactionItems',
     }),
     setPagesCount() {
-      return Math.ceil(this.total / this.itemsOnPage);
+      return Math.ceil(this.totalItems / this.limit);
     },
-    setPageNum() {
-      return Math.ceil((this.offset) / this.itemsOnPage) + 1;
-    },
-  }, methods: {
-    ...mapMutations('trade', {
-      setOffsetForTransactionHistory: 'setOffsetForTransactionHistory',
-    }),
-    ...mapActions('trade', {
+  },
+  methods: {
+    ...mapActions('user', {
       getAccountTransactionHistory: 'getAccountTransactionHistory',
     }),
+    setDate(isoTime) {
+      return DateTime.fromISO(isoTime).toFormat('dd.LL.yyyy HH:mm');
+    },
     isChecked(id) {
       return this.checkedArray.indexOf(id) > -1;
     },
     setCheckedArray(id) {
       this.isChecked(id) ? this.checkedArray = this.checkedArray.filter((item) => item != id) : this.checkedArray.push(id);
     },
-  },
-  watch: {
-    setPageNum() {
-      this.getAccountTransactionHistory();
+    getUserTransactions() {
+      this.getAccountTransactionHistory({
+        page: this.page,
+        limit: this.limit,
+        sortBy: this.sortBy,
+        ascending: this.asc,
+      });
     },
-    setPagesCount() {
-      this.getAccountTransactionHistory;
+    sortTransactions(column) {
+      if (this.sortBy === column) {
+        this.asc = !this.asc;
+      } else {
+        this.sortBy = column;
+        this.asc = false;
+      };
+      this.getUserTransactions();
+    },
+    changeActivePage(num) {
+      this.page = num;
+      this.getUserTransactions();
     },
   },
   created() {
-    // this.getAccountTransactionHistory();
+    this.getUserTransactions();
   },
   components: {
     TablePage,
@@ -121,9 +133,6 @@ export default {
     }
     &--negative {
       color: $color_red;
-      &:before {
-        content: "- ",
-      }
     }
   }
   &__icon {
