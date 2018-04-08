@@ -52,7 +52,6 @@ import 'echarts/lib/component/dataZoom';
 // import {macdArray} from 'binary-indicators/lib/macd';
 import {DateTime} from 'luxon';
 import {mapState, mapGetters, mapActions} from 'vuex';
-import {ticksToMilliseconds} from 'services/misc';
 import {periods} from 'config';
 import Icon from '../Icon';
 
@@ -88,44 +87,46 @@ export default {
   },
   computed: {
     ...mapState('trade', {
-      startTicks: (state) => state.chart.data.startTicks,
-      candleTicks: (state) => state.chart.data.candleTicks,
-      candleSize: (state) => state.chart.data.candleSize,
+      // startTicks: (state) => state.chart.data.startTicks,
+      // candleTicks: (state) => state.chart.data.candleTicks,
+      // candleSize: (state) => state.chart.data.candleSize,
       rawCandles: (state) => state.chart.data.candles,
     }),
-    ...mapGetters('trade', {
-      isCurrentPeriod: 'isCurrentPeriod',
-    }),
+    ...mapGetters('trade', [
+      'isCurrentPeriod',
+      'baseCurrency',
+      'quoteCurrency',
+      'candlePeriodInMs',
+      'lastCandleOpenTime',
+      'lastCandle',
+    ]),
     priceSeries() {
       if (this.rawCandles) {
         if (this.currentChart == 'candlestick') {
-          return this.rawCandles.map((item) => [
-            item[0], // open
-            item[3], // close
-            item[2], // low
-            item[1], // high
-          ]);
+          return this.rawCandles.map(
+              ({open, close, low, high}) => [open, close, low, high]
+          );
+            // item[0], // open
+            // item[3], // close
+            // item[2], // low
+            // item[1], // high
         } else {
-          return this.rawCandles.map((item) => item[3]);
+          return this.rawCandles.map((item) => item.close);
         }
       }
     },
     timeSeries(index) {
       return this.rawCandles.map((item, i) => {
-        const msec = ticksToMilliseconds(this.startTicks + (this.candleTicks * i));
-        const date = new Date(msec).toISOString();
-        console.log();
-        if (Boolean(this.candleSize == '1m' || this.candleSize == '5m')) {
-          return DateTime.fromISO(date).toLocaleString({hour: '2-digit', minute: '2-digit'});
+        const date = DateTime.fromISO(item.candleOpen);
+        if (this.candlePeriodInMs <= 30000) {
+          return date.toLocaleString({hour: '2-digit', minute: '2-digit'});
         } else {
-          return DateTime.fromISO(date).toLocaleString();
-        };
+          return date.toLocaleString();
+        }
       });
     },
     volumeSeries() {
-      return this.rawCandles.map((item) => {
-        return item[4];
-      });
+      return this.rawCandles.map(({volume}) => volume);
     },
     setStartDataZoomOfChart() {
       let containerWidth = document.getElementById('chart').clientWidth;
@@ -139,6 +140,9 @@ export default {
       loadChart: 'loadChart',
       changeChartPeriod: 'changeChartPeriod',
     }),
+    ...mapActions('trade', [
+      'addNewCandle',
+    ]),
     setChartPeriod(period) {
       this.changeChartPeriod(period).then(() => {
         // this.$hub.proxy.invoke('setCandleSize', this.candleSize);
@@ -373,7 +377,7 @@ export default {
         };
         let sum = 0;
         for (let j = 0; j < count; j++) {
-            sum += this.rawCandles[i - j][1];
+            sum += this.rawCandles[i - j].high;
         };
         result.push(sum / count);
       }
@@ -381,12 +385,13 @@ export default {
       return result;
     },
     calculateEMA(count = 10) {
+      if (!this.rawCandles.length) return 0;
       let result = [];
       let k = 2/(count + 1);
 
-      result = [this.rawCandles[0][1]];
+      result = [this.rawCandles[0].high];
       for (let i = 1; i < this.rawCandles.length; i++) {
-        result.push(this.rawCandles[i][1] * k + result[i - 1] * (1 - k));
+        result.push(this.rawCandles[i].high * k + result[i - 1] * (1 - k));
       };
       return result;
     },
@@ -400,18 +405,64 @@ export default {
       this.technicalIndicators[indicator].enabled = !this.technicalIndicators[indicator].enabled;
       this.createChart();
     },
+    onSendSignal({payload, metadata}) {
+      // {x
+      //   baseCurrency: 'BTC',
+      //   candleOpen:'2018-04-03T11:38:03.4288665';
+      //   close:0;
+      //   high:0;
+      //   low:0;
+      //   open:0;
+      //   period:'00:15:00';
+      //   quoteCurrency:'ATL';
+      //   volume:0;
+      // }
+      if (
+          metadata
+          && metadata.type === 'candle'
+          && payload.baseCurrency === this.baseCurrency
+          && payload.quoteCurrency === this.quoteCurrency
+          && payload.period === this.candlePeriod
+      ) {
+        this.addNewCandle(payload);
+        this.setEmptyCandleHandle();
+      }
+    },
+    addEmptyCandle() {
+      const {close} = this.lastCandle;
+      const emptyCandle = Object.assign({}, this.lastCandle, {
+        high: close,
+        low: close,
+        open: close,
+        volume: 0,
+        candleOpen: new Date(this.lastCandleOpenTime + this.candlePeriodInMs).toISOString(),
+      });
+      this.addNewCandle(emptyCandle);
+    },
+    setEmptyCandleHandle() {
+      clearTimeout(this._emptyCandleTimeoutId);
+      const timeout = this.candlePeriodInMs - (new Date().getTime() - this.lastCandleOpenTime);
+      // If timeout is negative, means there is at least one candle which need to be added immediate
+      if (timeout < 0) {
+        this.addEmptyCandle();
+      } else {
+        this._emptyCandleTimeoutId = setTimeout(this.addEmptyCandle, timeout);
+      }
+    },
   },
   watch: {
     rawCandles() {
       this.calculateMA(10);
       this.calculateEMA(10);
       this.createChart();
+      this.setEmptyCandleHandle();
     },
   },
   created() {
     this.loadChart().then(() => {
       this.createChart();
     });
+    this.$hub.on('Send', this.onSendSignal);
   },
   components: {
     Icon,

@@ -1,6 +1,7 @@
 import * as Trade from 'services/api/trade';
 import {serverNotification} from 'services/notification';
 import {defPeriod} from 'config';
+import {debounce} from 'services/misc';
 // import pairsMock from 'mocks/pairs';
 
 export default {
@@ -22,9 +23,10 @@ export default {
       volume: 0,
     },
     chart: {
-      data: {},
+      data: {
+        candles: [],
+      },
       period: defPeriod,
-      lastFlag: false,
     },
     trades: [],
     book: {
@@ -50,6 +52,29 @@ export default {
     },
     quoteCurrency(state) {
       return state.pair.split('_')[1];
+    },
+    candles(state) {
+      return state.chart.data.candles;
+    },
+    candlePeriod(state) {
+      const {candles} = state.chart.data;
+      return candles.length && candles[0].period;
+    },
+    candlePeriodInMs(state, getters) {
+      return new Date(`1970-01-01T${getters.candlePeriod}Z`).getTime();
+    },
+    lastCandle(state, getters) {
+      return getters.candles[getters.candles.length - 1];
+    },
+    lastCandleOpenTime(state, getters) {
+      const {lastCandle, candles, candlePeriodInMs} = getters;
+      if (!candles.length) return 0;
+      let time = new Date(lastCandle.candleOpen).getTime();
+      // Fix when last candle has wrong open time
+      if (time < 0) {
+        time = new Date(candles[candles.length - 2].candleOpen).getTime() + candlePeriodInMs;
+      }
+      return time;
     },
     getPairName: (state, getters) => ({base = getters.baseCurrency, quote = getters.quoteCurrency}) => {
       return `${base}_${quote}`;
@@ -79,9 +104,8 @@ export default {
   },
   mutations: {
     setChartData(state, data) {
-      state.chart.data = data;
+      Object.assign(state.chart.data, data);
     },
-
     setPairs(state, data) {
       state.pairs = data;
     },
@@ -115,27 +139,9 @@ export default {
       state.ohlc.close = data.last;
       state.ohlc.change = data.change;
     },
-    // addNewCandle(state, data) {
-    //   const open = data[0];
-    //   const high = data[1];
-    //   const low = data[2];
-    //   const close = data[3];
-    //   const volume = data[4];
-    //   if (state.chart.lastFlag == true) {
-    //     state.chart.data.candles.push([open, high, low, close, volume]);
-    //   } else {
-    //     if (!data[5] && state.chart.data.candles) {
-    //       let oldArray = state.chart.data.candles;
-    //       oldArray.splice(oldArray.length-1, 1);
-    //       state.chart.data.candles = [
-    //         ...oldArray,
-    //         [open, high, low, close, volume],
-    //       ];
-    //     }
-    //   }
-    //
-    //   state.chart.lastFlag = data[5];
-    // },
+    setCandles(state, candles) {
+      state.chart.data.candles = candles;
+    },
     // setOrderList(state, list) {
     //   state.orders = list.data.result.orders;
     // },
@@ -215,7 +221,6 @@ export default {
     //     serverNotification(res);
     //   });
     // },
-
     getPairs({commit}) {
       return Trade.exchangePairs().then((res) => {
         commit('setPairs', res.data);
@@ -235,26 +240,27 @@ export default {
       });
     },
 
-    loadChart({commit, state}) {
-      return Trade.getChart({
+    loadChart: debounce(function({commit, state}) {
+      return Trade.getCandlesCollection({
         period: state.chart.period,
         pair: state.pair,
       }).then((res) => {
-        commit('setChartData', res.data.result);
+        commit('setChartData', res.data);
       });
-    },
+    }, 50),
     changeBaseCurrency({commit, dispatch, getters}, currency) {
       const pair = getters.getPairName({
         base: currency,
       });
       commit('setPair', pair);
+      dispatch('loadChart');
     },
     changeQuoteCurrency({commit, dispatch, getters}, currency) {
       const pair = getters.getPairName({
         quote: currency,
       });
       commit('setPair', pair);
-      // dispatch('loadChart');
+      dispatch('loadChart');
     },
     changeChartPeriod({commit, dispatch}, period) {
       commit('setPeriod', period);
@@ -328,6 +334,19 @@ export default {
         };
         commit('setTradesForOrder', data);
       });
+    },
+    addNewCandle({commit, getters}, newCandle) {
+      const {candles, lastCandleOpenTime} = getters;
+      const lastCandleIndex = candles.length - 1;
+      let newCandles = candles;
+      if ((new Date(newCandle.candleOpen).getTime() - lastCandleOpenTime) < 1000) {
+        console.log('Update new candle');
+        newCandles = [...candles.slice(0, lastCandleIndex), newCandle];
+      } else {
+        console.log('Add new candle');
+        newCandles = candles.concat(newCandle);
+      }
+      commit('setCandles', newCandles);
     },
   },
   namespaced: true,
