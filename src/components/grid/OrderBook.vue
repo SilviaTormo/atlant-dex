@@ -18,7 +18,7 @@ export default {
   computed: {
     ...mapState('trade', {
       book: (state) => state.book,
-      change: (state) => state.book.change,
+      status: (state) => state.book.status,
     }),
     orderBook() {
       const items = this.ask ? this.book.asks : this.book.bids;
@@ -38,8 +38,8 @@ export default {
     },
   },
   watch: {
-    change() {
-      this.getApiRequest();
+    status() {
+      if (this.status == 1) this.getApiRequest();
     },
   },
   created() {
