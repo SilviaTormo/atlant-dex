@@ -8,7 +8,7 @@ table.book
 </template>
 
 <script>
-import {mapState, mapActions, mapMutations} from 'vuex';
+import {mapState, mapActions} from 'vuex';
 
 export default {
   data() {
@@ -29,11 +29,7 @@ export default {
     ...mapActions('trade', [
       'getOrderBook',
     ]),
-    ...mapMutations('trade', {
-      setOrdersStatus: 'setOrdersStatus',
-    }),
     getApiRequest() {
-      this.setOrdersStatus();
       this.getOrderBook({limit: 20});
     },
   },
