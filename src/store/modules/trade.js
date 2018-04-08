@@ -182,7 +182,7 @@ export default {
       state.orders.unshift(obj);
     },
     changeOrderStatus(state, obj) {
-      console.log(obj);
+      // console.log(obj);
       state.orders.forEach((item, i, arr) => {
         if (item.status == 'Filled') return;
         if (item.id == obj.orderId) {
@@ -192,6 +192,10 @@ export default {
           }
         };
       });
+    },
+    addNewTrade(state, obj) {
+      obj.amount = obj.quantity;
+      state.trades.unshift(obj);
     },
     addNewPrices(state, prices) {
       state.volume = prices[0];

@@ -129,6 +129,7 @@ export default {
       addNewPrices: 'addNewPrices',
       addOrdersAsks: 'addOrdersAsks',
       addOrdersBids: 'addOrdersBids',
+      addNewTrade: 'addNewTrade',
     }),
     ...mapActions('membership', {
       dropUser: 'dropUser',
@@ -184,8 +185,8 @@ export default {
         this.changeOrderStatus(data);
       });
       this.$hub.on('newTrade', (data) => {
-        console.table(data);
-        // setTimeout(this.changeOrderStatus(data), 500);
+        // console.table(data);
+        this.addNewTrade(data);
       });
     },
     modalChangeStyleforBody() {
