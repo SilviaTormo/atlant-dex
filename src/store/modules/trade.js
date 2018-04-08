@@ -28,6 +28,7 @@ export default {
     },
     trades: [],
     book: {
+      change: true,
       bids: [],
       asks: [],
     },
@@ -101,11 +102,8 @@ export default {
       const bids = data;
       state.book.bids = bids;
     },
-    addOrdersAsks(state, data) {
-      state.book.asks.unshift(data);
-    },
-    addOrdersBids(state, data) {
-      state.book.bids.unshift(data);
+    setOrdersStatus(state) {
+      state.book.change = false;
     },
     setPair(state, pair) {
       state.pair = pair;
@@ -180,6 +178,7 @@ export default {
     },
     addActiveOrder(state, obj) {
       state.orders.unshift(obj);
+      state.book.change = true;
     },
     changeOrderStatus(state, obj) {
       // console.table(obj);
@@ -192,6 +191,7 @@ export default {
           }
         };
       });
+      state.book.change = true;
     },
     addNewTrade(state, obj) {
       obj.amount = obj.quantity;

@@ -1,6 +1,6 @@
 <template lang='pug'>
 .bookHeader
-    Icon.bookHeader__icon(id="arrow", v-if='!ask', :class="{'bookHeader__icon--neg': change >= 0}")
+    Icon.bookHeader__icon(id="arrow", v-if='!ask', :class="{'bookHeader__icon--neg': change <= 0}")
     .bookHeader__title(v-if='ask') 24h Range: {{low.toFixed(4)}} - {{high.toFixed(4)}}
     .bookHeader__title(v-else) {{last.toFixed(4)}}
 </template>

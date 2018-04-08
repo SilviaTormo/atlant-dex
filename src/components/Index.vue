@@ -127,8 +127,6 @@ export default {
       addActiveOrder: 'addActiveOrder',
       changeOrderStatus: 'changeOrderStatus',
       addNewPrices: 'addNewPrices',
-      addOrdersAsks: 'addOrdersAsks',
-      addOrdersBids: 'addOrdersBids',
       addNewTrade: 'addNewTrade',
     }),
     ...mapActions('membership', {
@@ -178,8 +176,6 @@ export default {
         obj = {};
         obj.amount = data.totalQuantity;
         obj.price = data.price;
-
-        (data.isSellOrder) ? this.addOrdersAsks(obj) : this.addOrdersBids(obj);
       });
       this.$hub.on('orderChanged', (data) => {
         this.changeOrderStatus(data);
