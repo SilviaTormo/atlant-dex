@@ -102,6 +102,12 @@ export default {
       const bids = data;
       state.book.bids = bids;
     },
+    addOrdersAsks(state, data) {
+      state.book.asks.unshift(data);
+    },
+    addOrdersBids(state, data) {
+      state.book.bids.unshift(data);
+    },
     setPair(state, pair) {
       state.pair = pair;
     },
@@ -173,28 +179,18 @@ export default {
     setOffsetForTransactionHistory(state, num) {
       state.accountTransactionHistory.offset = state.limit * (num - 1);
     },
-    addActiveOrder(state, array) {
-      state.tradeInfo.orders.push(array);
+    addActiveOrder(state, obj) {
+      state.orders.unshift(obj);
     },
-    setCancelActiveOrder(state, id) {
-      let array = [];
-      state.tradeInfo.orders.forEach((item, i, arr) => {
-        if (item[0] == id) {
-          array = item;
-          delete state.tradeInfo.orders[i];
-          array[7] = 3;
-          state.tradeInfo.orders.push(array);
-        };
-      });
-    },
-    setFilledActiveOrder(state, data) {
-      let array = [];
-      state.tradeInfo.orders.forEach((item, i, arr) => {
-        if (item[0] == data[0]) {
-          array = item;
-          delete state.tradeInfo.orders[i];
-          array[7] = data[3];
-          state.tradeInfo.orders.push(array);
+    changeOrderStatus(state, obj) {
+      console.log(obj);
+      state.orders.forEach((item, i, arr) => {
+        if (item.status == 'Filled') return;
+        if (item.id == obj.orderId) {
+          item.status = obj.status;
+          if (typeof obj.leavesQuantity != 'undefined') {
+            item.leavesQuantity = obj.leavesQuantity;
+          }
         };
       });
     },
@@ -313,7 +309,11 @@ export default {
       });
     },
     getOrders({commit}) {
-      return Trade.getOrders().then((response) => {
+      return Trade.getOrders({
+        sortby: 'datetime',
+        ascending: false,
+        limit: 20,
+      }).then((response) => {
         commit('setOrders', response.data.orders);
       });
     },
