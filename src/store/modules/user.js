@@ -3,6 +3,10 @@ import * as User from 'services/api/user';
 export default {
   state: {
     balance: 317,
+    portfolio: {
+      balances: [],
+      portfolioValue: 0,
+    },
     userCurrencies: ['USD', 'BTC', 'ETH', 'ATL'],
     account: {
       currency: '',
@@ -48,6 +52,12 @@ export default {
     isTFAEnabled(state) {
       return state.security.tfa.enabled;
     },
+    getUserBalances(state) {
+      return state.portfolio.balances;
+    },
+    getPortofolioValue(state) {
+      return state.portfolio.portfolioValue;
+    },
   },
   mutations: {
     setProfile(state, data) {
@@ -74,6 +84,9 @@ export default {
     },
     setSubscribeNewsletter(state, isEnable) {
       state.account.subscribe.newsletter = isEnable;
+    },
+    setBalances(state, data) {
+      state.portfolio = data;
     },
   },
   actions: {
@@ -140,6 +153,11 @@ export default {
         ascending,
       }).then((response) => {
         commit('setNotifications', response.data);
+      });
+    },
+    getBalances({commit}) {
+      return User.getBalances().then((response) => {
+        commit('setBalances', response.data);
       });
     },
   },

@@ -42,31 +42,31 @@ export default class VerificationData {
     }
   }
   set dateOfBirth(dateOfBirth) {
-    this._dateOfBirth = new Date(Date.parse(dateOfBirth));
+    this._dateOfBirth = new Date(dateOfBirth);
+    this._day = this._dateOfBirth.getDate();
+    this._month = (months[this._dateOfBirth.getMonth()]);
+    this._year = this._dateOfBirth.getFullYear();
   }
   set day(day) {
     this._day = day;
-    this._setDateOfBirth();
   }
   set month(month) {
     this._month = month;
-    this._setDateOfBirth();
   }
   set year(year) {
     this._year = year;
-    this._setDateOfBirth();
   }
   get dateOfBirth() {
-    return this._dateOfBirth ? this._dateOfBirth.toISOString() : null;
+    return `${this._year}-${months.indexOf(this._month) + 1}-${this._day}`;
   }
   get day() {
-    return this._dateOfBirth ? this._dateOfBirth.getDay() + 1: this._day;
+    return this._day;
   }
   get month() {
-    return this._dateOfBirth ? (months[this._dateOfBirth.getMonth()]) : this._month;
+    return this._month;
   }
   get year() {
-    return this._dateOfBirth ? this._dateOfBirth.getFullYear() : this._year;
+    return this._year;
   }
   getFormData() {
     const formData = new FormData();

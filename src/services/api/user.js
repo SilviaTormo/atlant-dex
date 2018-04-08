@@ -16,6 +16,7 @@ export const verifyAdditionalEmail = (confirmationCode) => api.put(`profile/fiel
 export const getNotificationHistory = ({page, limit, sortBy, ascending}) => api.get('/notifications/history', {params: {page, limit, sortBy, ascending}});
 export const getSecurityLog = ({page, limit}) => api.get('logs/security', {params: {page, limit}});
 
+export const getBalances = () => api.get('account/balances');
 export const deposit = ({currency, amount}) => api.put('account/deposit', {currency, amount});
 export const withdraw = ({currency, amount, address}) => api.post('crypto/withdraw/request', {currency, amount, address});
 export const confirmWithdraw = ({currency, code, transactionId}) => api.post('crypto/withdraw/finish', {currency, code, transactionId});
