@@ -104,7 +104,7 @@ export default {
   },
   mutations: {
     setChartData(state, data) {
-      Object.assign(state.chart, {data});
+      Object.assign(state.chart.data, data);
     },
     setPairs(state, data) {
       state.pairs = data;
@@ -241,7 +241,7 @@ export default {
     },
 
     loadChart: debounce(function({commit, state}) {
-      return Trade.getChart({
+      return Trade.getCandlesCollection({
         period: state.chart.period,
         pair: state.pair,
       }).then((res) => {
