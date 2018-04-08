@@ -182,7 +182,7 @@ export default {
       state.orders.unshift(obj);
     },
     changeOrderStatus(state, obj) {
-      // console.log(obj);
+      // console.table(obj);
       state.orders.forEach((item, i, arr) => {
         if (item.status == 'Filled') return;
         if (item.id == obj.orderId) {
