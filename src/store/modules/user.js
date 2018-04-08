@@ -37,6 +37,9 @@ export default {
       data: [],
       totalItems: 0,
     },
+    accountTransactionHistory: {
+      data: [],
+    },
     notificationsOnPage: 10,
   },
   getters: {
@@ -57,6 +60,12 @@ export default {
     },
     getPortofolioValue(state) {
       return state.portfolio.portfolioValue;
+    },
+    getAccountTransactions(state) {
+      return state.accountTransactionHistory.data;
+    },
+    getAccountTransactionItems(state) {
+      return state.accountTransactionHistory.totalItems;
     },
   },
   mutations: {
@@ -87,6 +96,9 @@ export default {
     },
     setBalances(state, data) {
       state.portfolio = data;
+    },
+    setAccountTransactionHistory(state, data) {
+      state.accountTransactionHistory = data;
     },
   },
   actions: {
@@ -158,6 +170,16 @@ export default {
     getBalances({commit}) {
       return User.getBalances().then((response) => {
         commit('setBalances', response.data);
+      });
+    },
+    getAccountTransactionHistory({commit, state, getters}, {page, limit, sortBy, ascending}) {
+      return User.getAccountTransactionHistory({
+        page,
+        limit,
+        sortBy,
+        ascending,
+      }).then((response) => {
+        commit('setAccountTransactionHistory', response.data);
       });
     },
   },

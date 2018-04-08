@@ -38,11 +38,6 @@ export default {
       low: 0,
       change: 0,
     },
-    accountTransactionHistory: {
-      total: 0,
-      items: [],
-      offset: 0,
-    },
     accountOrders: {
       orders: [],
     },
@@ -169,13 +164,6 @@ export default {
     setCancelledOrder(state, id) {
       state.orders.find((item) => item.id === id).status = 'Cancelled';
     },
-    setAccountTransactionHistory(state, list) {
-      state.accountTransactionHistory.total = list.count;
-      state.accountTransactionHistory.items = list.items;
-    },
-    setOffsetForTransactionHistory(state, num) {
-      state.accountTransactionHistory.offset = state.limit * (num - 1);
-    },
     addActiveOrder(state, obj) {
       state.orders.unshift(obj);
       state.book.change = true;
@@ -250,20 +238,6 @@ export default {
       });
     },
 
-    getAccountTransactionHistory({commit, state, getters}) {
-      return Trade.getAccountTransactionHistory({
-        limit: state.limit,
-        offset: state.accountTransactionHistory.offset,
-        status: state.accountTransactionHistory.status,
-        baseCurrency: getters.baseCurrency,
-        currency: getters.quoteCurrency,
-      }
-    ).then((res) => {
-        commit('setAccountTransactionHistory', res.data.result);
-      }).catch((res) => {
-        serverNotification(res);
-      });
-    },
     loadChart({commit, state}) {
       return Trade.getChart({
         period: state.chart.period,
