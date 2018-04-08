@@ -142,18 +142,6 @@ export default {
     setCandles(state, candles) {
       state.chart.data.candles = candles;
     },
-    addNewCandle(state, data) {
-      const {candles} = state.chart.data;
-      const lastCandleIndex = candles.length - 1;
-      const lastCandle = candles[lastCandleIndex];
-      if ((new Date(data.candleOpen) - new Date(lastCandle.candleOpen)) < 1000) {
-        console.log('Update last candle');
-        state.chart.data.candles = [...candles.slice(0, lastCandleIndex), data];
-      } else {
-        console.log('Add new candle');
-        state.chart.data.candles = candles.concat(data);
-      }
-    },
     // setOrderList(state, list) {
     //   state.orders = list.data.result.orders;
     // },
@@ -351,13 +339,11 @@ export default {
       const {candles, lastCandleOpenTime} = getters;
       const lastCandleIndex = candles.length - 1;
       let newCandles = candles;
-      console.log(newCandle);
-      console.log('=====time:::: ', (new Date(newCandle.candleOpen).getTime() - lastCandleOpenTime));
       if ((new Date(newCandle.candleOpen).getTime() - lastCandleOpenTime) < 1000) {
-        console.log('update');
+        console.log('Update new candle');
         newCandles = [...candles.slice(0, lastCandleIndex), newCandle];
       } else {
-        console.log('add new');
+        console.log('Add new candle');
         newCandles = candles.concat(newCandle);
       }
       commit('setCandles', newCandles);
