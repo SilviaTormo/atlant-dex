@@ -1,6 +1,7 @@
 import * as Trade from 'services/api/trade';
 import {serverNotification} from 'services/notification';
 import {defPeriod} from 'config';
+import {debounce} from 'services/misc';
 // import pairsMock from 'mocks/pairs';
 
 export default {
@@ -22,9 +23,10 @@ export default {
       volume: 0,
     },
     chart: {
-      data: {},
+      data: {
+        candles: [],
+      },
       period: defPeriod,
-      lastFlag: false,
     },
     trades: [],
     book: {
@@ -84,9 +86,8 @@ export default {
   },
   mutations: {
     setChartData(state, data) {
-      state.chart.data = data;
+      Object.assign(state.chart, {data});
     },
-
     setPairs(state, data) {
       state.pairs = data;
     },
@@ -121,6 +122,16 @@ export default {
       state.ohlc.change = data.change;
     },
     addNewCandle(state, data) {
+      const {candles} = state.chart.data;
+      const lastCandleIndex = candles.length - 1;
+      const lastCandle = candles[lastCandleIndex];
+      if (lastCandle.candleOpen === data.candleOpen) {
+        console.log('update');
+        state.chart.data.candles = [...candles.slice(0, lastCandleIndex), data];
+      } else {
+        console.log('add new');
+        state.chart.data.candles = candles.concat(data);
+      }
       // let open, high, low, close, volume; // eslint-disable-line one-var
       // if (Array.isArray(data)) {
       //   [open, high, low, close, volume] = data;
@@ -128,7 +139,7 @@ export default {
       //   ({open, high, low, close, volume} = data);
       // }
       // if (state.chart.lastFlag == true) {
-        state.chart.data.candles.push(data);
+      //   state.chart.data.candles.push(data);
       // } else {
       //   if (!data[5] && state.chart.data.candles) {
       //     let oldArray = state.chart.data.candles;
@@ -265,26 +276,27 @@ export default {
         serverNotification(res);
       });
     },
-    loadChart({commit, state}) {
-      return Trade.getChart({
+    loadChart: debounce(function({commit, state}) {
+      return Trade.getCandlesCollection({
         period: state.chart.period,
         pair: state.pair,
       }).then((res) => {
-        commit('setChartData', res.data.result);
+        commit('setChartData', res.data);
       });
-    },
+    }, 50),
     changeBaseCurrency({commit, dispatch, getters}, currency) {
       const pair = getters.getPairName({
         base: currency,
       });
       commit('setPair', pair);
+      dispatch('loadChart');
     },
     changeQuoteCurrency({commit, dispatch, getters}, currency) {
       const pair = getters.getPairName({
         quote: currency,
       });
       commit('setPair', pair);
-      // dispatch('loadChart');
+      dispatch('loadChart');
     },
     changeChartPeriod({commit, dispatch}, period) {
       commit('setPeriod', period);

@@ -52,7 +52,6 @@ import 'echarts/lib/component/dataZoom';
 // import {macdArray} from 'binary-indicators/lib/macd';
 import {DateTime} from 'luxon';
 import {mapState, mapGetters, mapActions, mapMutations} from 'vuex';
-import {ticksToMilliseconds} from 'services/misc';
 import {periods} from 'config';
 import Icon from '../Icon';
 
@@ -88,9 +87,9 @@ export default {
   },
   computed: {
     ...mapState('trade', {
-      startTicks: (state) => state.chart.data.startTicks,
-      candleTicks: (state) => state.chart.data.candleTicks,
-      candleSize: (state) => state.chart.data.candleSize,
+      // startTicks: (state) => state.chart.data.startTicks,
+      // candleTicks: (state) => state.chart.data.candleTicks,
+      // candleSize: (state) => state.chart.data.candleSize,
       rawCandles: (state) => state.chart.data.candles,
     }),
     ...mapGetters('trade', {
@@ -113,14 +112,15 @@ export default {
     },
     timeSeries(index) {
       return this.rawCandles.map((item, i) => {
-        const msec = ticksToMilliseconds(this.startTicks + (this.candleTicks * i));
-        const date = new Date(msec).toISOString();
-        console.log();
-        if (Boolean(this.candleSize == '1m' || this.candleSize == '5m')) {
-          return DateTime.fromISO(date).toLocaleString({hour: '2-digit', minute: '2-digit'});
-        } else {
-          return DateTime.fromISO(date).toLocaleString();
-        };
+        const date = DateTime.fromISO(item.candleOpen).toLocaleString();
+        // const msec = ticksToMilliseconds(this.startTicks + (this.candleTicks * i));
+        // const date = new Date(msec).toISOString();
+        // TODO: time for 1m or 5m
+        // if (Boolean(this.candleSize == '1m' || this.candleSize == '5m')) {
+        //   return date.toLocaleString({hour: '2-digit', minute: '2-digit'});
+        // } else {
+          return date.toLocaleString();
+        // }
       });
     },
     volumeSeries() {
@@ -383,6 +383,7 @@ export default {
       return result;
     },
     calculateEMA(count = 10) {
+      if (!this.rawCandles.length) return 0;
       let result = [];
       let k = 2/(count + 1);
 
