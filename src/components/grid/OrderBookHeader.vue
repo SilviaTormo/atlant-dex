@@ -1,8 +1,8 @@
 <template lang='pug'>
 .bookHeader
-    Icon.bookHeader__icon(id="arrow", v-if='!ask', :class="{'bookHeader__icon--neg': ohlc.change >= 0}")
-    .bookHeader__title(v-if='ask') 24h Range: {{ohlc.low.toFixed(4)}} - {{ohlc.high.toFixed(4)}}
-    .bookHeader__title(v-else) {{ohlc.close}}
+    Icon.bookHeader__icon(id="arrow", v-if='!ask', :class="{'bookHeader__icon--neg': change >= 0}")
+    .bookHeader__title(v-if='ask') 24h Range: {{low.toFixed(4)}} - {{high.toFixed(4)}}
+    .bookHeader__title(v-else) {{last.toFixed(4)}}
 </template>
 
 <script>
@@ -12,7 +12,10 @@ import Icon from '../Icon';
 export default {
   computed: {
     ...mapState('trade', {
-      ohlc: 'ohlc',
+      last: (state) => state.pairInfo.last,
+      high: (state) => state.pairInfo.high,
+      low: (state) => state.pairInfo.low,
+      change: (state) => state.pairInfo.change,
     }),
   },
   props: {
