@@ -2,7 +2,7 @@
 .orders
   .orders__container(v-scrollbar="")
     table.orders__body
-      tr.orders__row(v-for="order in (isActive ? getActiveOrders : getClosedOrders)")
+      tr.orders__row(v-for="order in (isActive ? getActiveOrders : getClosedOrders)", :key="order.id")
         td.orders__cell.orders__cell--sell
           .orders__typeWrapper
             .orders__square(:class="'orders__square--' + order.action")

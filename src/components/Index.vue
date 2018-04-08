@@ -87,6 +87,9 @@ export default {
     ...mapState('membership', {
       token: 'token',
     }),
+    ...mapState('user', {
+      account: 'account',
+    }),
     ...mapGetters('user', [
       'isTFAEnabled',
     ]),
@@ -122,9 +125,11 @@ export default {
       setDesktopData: 'setDesktopData',
       setOHLC: 'setOHLC',
       addActiveOrder: 'addActiveOrder',
-      setCancelActiveOrder: 'setCancelActiveOrder',
-      setFilledActiveOrder: 'setFilledActiveOrder',
+      changeOrderStatus: 'changeOrderStatus',
       addNewPrices: 'addNewPrices',
+      addOrdersAsks: 'addOrdersAsks',
+      addOrdersBids: 'addOrdersBids',
+      addNewTrade: 'addNewTrade',
     }),
     ...mapActions('membership', {
       dropUser: 'dropUser',
@@ -152,6 +157,37 @@ export default {
           });
         };
       });
+      this.$hub.on('newOrder', (data) => {
+        let obj = {};
+        if (data.makerId == this.account.id) {
+          obj.action = (data.isSellOrder) ? 'Sell' : 'Buy';
+          obj.amount = data.totalQuantity;
+          obj.creationDate = new Date().toISOString();
+          obj.fee = 0;
+          obj.feeCurrency = data.baseCurrency;
+          obj.id = data.id;
+          obj.pair = `${data.baseCurrency}/${data.quoteCurrency}`;
+          obj.price = data.price;
+          obj.status = 'Open';
+          obj.total = data.totalQuantity * data.price;
+          obj.type = (data.isMarketOrder) ? 'Market' : 'Limit';
+
+          this.addActiveOrder(obj);
+        }
+
+        obj = {};
+        obj.amount = data.totalQuantity;
+        obj.price = data.price;
+
+        (data.isSellOrder) ? this.addOrdersAsks(obj) : this.addOrdersBids(obj);
+      });
+      this.$hub.on('orderChanged', (data) => {
+        this.changeOrderStatus(data);
+      });
+      this.$hub.on('newTrade', (data) => {
+        // console.table(data);
+        this.addNewTrade(data);
+      });
     },
     modalChangeStyleforBody() {
       document.querySelector('body').style.overflow = (this.isModalOpened()) ? 'hidden' : 'auto';
@@ -175,6 +211,7 @@ export default {
           text: 'Log Out',
         });
       } else {
+        this.$hub.invoke('authenticate', this.token);
         this.getProfileData().then((response) => {
           if (!this.isTFAEnabled) {
             this.openModal({name: 'tfaWarningModal'});

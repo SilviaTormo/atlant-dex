@@ -29,6 +29,11 @@ export default {
       'getOrderBook',
     ]),
   },
+  watch: {
+    orderBook() {
+      this.getOrderBook({limit: 20});
+    },
+  },
   created() {
     this.getOrderBook({limit: 20});
   },

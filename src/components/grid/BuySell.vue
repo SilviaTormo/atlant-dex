@@ -95,7 +95,6 @@ export default {
         isQuantityInBaseCurrency: true,
       }).then(() => {
         this.amount = 0;
-        this.price = 0;
         this.total = 0;
       });
     },

@@ -8,7 +8,8 @@ export const birthdayDays = (() => {
 
 export const birthdayYears = (() => {
   const numbers = [];
-  for (let i = 2018; i >= 1918; i--) {
+  const yearLimit = new Date().getFullYear() - 18;
+  for (let i = yearLimit; i >= 1918; i--) {
     numbers.push(i);
   }
   return numbers;
