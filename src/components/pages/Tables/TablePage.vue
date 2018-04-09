@@ -4,7 +4,7 @@
   .tablePage__body
     .tablePage__content
       slot
-      EmptyPlaceholder(v-if="data.length == 0")
+      EmptyPlaceholder(v-if="data.length == 0", :content="getTableContent")
       Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
       .tablePage__panel(:class="{'tablePage__panel--active': isShowPanelInMobileVersion, 'tablePage__panelScrollbarOpened' : showSidebar}")
         .tablePage__panelActions.panel__checkbox
@@ -32,11 +32,20 @@ export default {
     ...mapState('misc', {
       showSidebar: 'showSidebar',
     }),
+    ...mapState('page', {
+      content: 'name',
+    }),
     isAllChecked() {
       return this.checkedArray.length === this.data.length;
     },
     isShowPanelInMobileVersion() {
       return Boolean(this.checkedArray.length);
+    },
+    getTableContent() {
+      switch (this.content) {
+        case 'myOrders': return 'orders';
+        case 'transactionHistory': return 'transactions';
+      };
     },
   },
   methods: {
