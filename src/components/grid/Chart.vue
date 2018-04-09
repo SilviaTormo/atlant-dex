@@ -97,6 +97,7 @@ export default {
       'baseCurrency',
       'quoteCurrency',
       'candlePeriodInMs',
+      'candlePeriod',
       'lastCandleOpenTime',
       'lastCandle',
     ]),
@@ -142,6 +143,7 @@ export default {
     }),
     ...mapActions('trade', [
       'addNewCandle',
+      'addBundleEmptyCandles',
     ]),
     setChartPeriod(period) {
       this.changeChartPeriod(period).then(() => {
@@ -425,26 +427,44 @@ export default {
           && payload.period === this.candlePeriod
       ) {
         this.addNewCandle(payload);
-        this.setEmptyCandleHandle();
+        // this.setEmptyCandleHandler();
       }
     },
-    addEmptyCandle() {
-      const {close} = this.lastCandle;
-      const emptyCandle = Object.assign({}, this.lastCandle, {
+    getEmptyCandle(lastCandle = this.lastCandle) {
+      const {close} = lastCandle;
+      const lastCandleOpenTime = (lastCandle === this.lastCandle) ?
+          this.lastCandleOpenTime
+          : new Date(lastCandle.candleOpen).getTime();
+
+      return Object.assign({}, lastCandle, {
         high: close,
         low: close,
         open: close,
         volume: 0,
-        candleOpen: new Date(this.lastCandleOpenTime + this.candlePeriodInMs).toISOString(),
+        candleOpen: new Date(lastCandleOpenTime + this.candlePeriodInMs).toISOString(),
       });
+    },
+    addBundleOfEmptyCandles(candleNumber) {
+      const newCandles = [];
+      let baseCandle = this.lastCandle;
+      for (let i = 0; i < candleNumber; i++) {
+        baseCandle = this.getEmptyCandle(baseCandle);
+        newCandles.push(baseCandle);
+      }
+      this.addBundleEmptyCandles(newCandles);
+    },
+    addEmptyCandle() {
+      const emptyCandle = this.getEmptyCandle();
       this.addNewCandle(emptyCandle);
     },
-    setEmptyCandleHandle() {
+    setEmptyCandleHandler() {
       clearTimeout(this._emptyCandleTimeoutId);
-      const timeout = this.candlePeriodInMs - (new Date().getTime() - this.lastCandleOpenTime);
-      // If timeout is negative, means there is at least one candle which need to be added immediate
+      const pastTime = new Date().getTime() - this.lastCandleOpenTime;
+      const timeout = this.candlePeriodInMs - pastTime;
+      // If timeout is negative, means there is at least one candle which need to be added immediately
       if (timeout < 0) {
-        this.addEmptyCandle();
+        const numberOfEmptyCandles = Math.floor(pastTime / this.candlePeriodInMs);
+        this.addBundleOfEmptyCandles(numberOfEmptyCandles);
       } else {
         this._emptyCandleTimeoutId = setTimeout(this.addEmptyCandle, timeout);
       }
@@ -455,7 +475,7 @@ export default {
       this.calculateMA(10);
       this.calculateEMA(10);
       this.createChart();
-      this.setEmptyCandleHandle();
+      this.setEmptyCandleHandler();
     },
   },
   created() {

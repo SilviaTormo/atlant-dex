@@ -335,12 +335,17 @@ export default {
         commit('setTradesForOrder', data);
       });
     },
+    addBundleEmptyCandles({commit, getters}, bundleEmptyCandles) {
+      const newCandles = getters.candles.concat(bundleEmptyCandles);
+      commit('setCandles', newCandles);
+    },
     addNewCandle({commit, getters}, newCandle) {
       const {candles, lastCandleOpenTime} = getters;
       const lastCandleIndex = candles.length - 1;
       let newCandles = candles;
+      console.log('newCandle: ', newCandle);
       if ((new Date(newCandle.candleOpen).getTime() - lastCandleOpenTime) < 1000) {
-        console.log('Update new candle');
+        console.log('Update last candle');
         newCandles = [...candles.slice(0, lastCandleIndex), newCandle];
       } else {
         console.log('Add new candle');
