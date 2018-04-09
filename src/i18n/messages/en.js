@@ -3,12 +3,10 @@ import serverErrors from './server-errors/en';
 export default {
   copied: 'Copied',
   passwordNotValid: 'At least 8 symbols including 1 number and 1 capital letter.',
-  tfaConfirmTextTelegramEnable: 'Confirmation code has been sent via Telegram to enable 2FA',
-  tfaConfirmTextTelegramDisable: 'Confirmation code has been sent via Telegram to disable 2FA',
-  tfaConfirmTextSMSEnable: 'SMS with confirmation code has been sent to enable 2FA',
-  tfaConfirmTextSMSDisable: 'SMS with confirmation code has been sent to disable 2FA',
-  tfaConfirmTextGoogleEnable: 'Enter the one-time password from Google Auth to enable 2FA',
-  tfaConfirmTextGoogleDisable: 'Enter the one-time password from Google Auth to disable 2FA',
+  passwordValidation: {
+    tooShort: 'Password must have at least {minLength} letters',
+    notMatch: 'Passwords must be identical',
+  },
   sent2FA: [
     'You were sent an email to confirm',
     'You were sent text message to confirm',
