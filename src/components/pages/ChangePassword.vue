@@ -56,7 +56,7 @@ export default {
     },
     inputType() {
       return this.isShowPassword ? 'text' : 'password';
-    }
+    },
   },
   methods: {
     clearInputs() {
@@ -102,13 +102,13 @@ export default {
     password: {
       new: {
         required,
-        minLength: minLength(8)
+        minLength: minLength(8),
       },
       repeat: {
-        sameAsPassword: sameAs('new')
-      }
-    }
-  }
+        sameAsPassword: sameAs('new'),
+      },
+    },
+  },
 };
 </script>
 
