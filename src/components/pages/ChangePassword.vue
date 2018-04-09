@@ -5,23 +5,27 @@
     .link.changePassword__value(@click="password.step = 1") Change
   .changePassword__item(v-if="password.step == 1")
     .changePassword__param Old password:
-    input.input.changePassword__value(v-model="password.old" type="password")
+    input.input.changePassword__value(v-model="password.old", :type="inputType")
     .changePassword__param New password:
-    input.input.changePassword__value(v-model="password.new" type="password")
+    input.input.changePassword__value(v-model="password.new", :type="inputType")
     .changePassword__param Repeat password:
     .changePassword__value.changePassword__desktopRow
-      input.input(v-model="password.repeat" type="password")
-      .changePassword__hiddenError.changePassword__hiddenError--mobile(v-show="isShowPasswordError") {{$t('passwordNotValid')}}
+      input.input(v-model="password.repeat", :type="inputType")
+      .changePassword__hiddenError.changePassword__hiddenError--mobile(v-show="validationErrorText") {{validationErrorText}}
       .link.changePassword__action(@click="requestPasswordChange") Confirm
       .link.changePassword__action(@click="cancelPasswordChange") Cancel
-    .changePassword__hiddenError.changePassword__hiddenError--desktop(v-show="isShowPasswordError") {{$t('passwordNotValid')}}
+    .changePassword__hiddenError.changePassword__hiddenError--desktop(v-if="validationErrorText") {{validationErrorText}}
+    Checkbox(v-model="isShowPassword")
+      .changePassword__checkboxText Show passwords
   .changePassword__item(v-if="password.step == 2")
     TFA(:onConfirm="confirmPasswordChange", :onCancel="cancelPasswordChange", :onResend="requestPasswordChange")
 </template>
 
 <script>
+import {required, sameAs, minLength} from 'vuelidate/lib/validators';
 import * as Membership from 'services/api/membership';
 import TFA from 'components/modals/TFA';
+import Checkbox from 'components/Checkbox';
 
 export default {
   data() {
@@ -32,7 +36,7 @@ export default {
         new: '',
         repeat: '',
       },
-      isShowPasswordError: false,
+      isShowPassword: false,
     };
   },
   computed: {
@@ -40,6 +44,19 @@ export default {
       let regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
       return regex.test(this.password.old);
     },
+    validationErrorText() {
+      if (this.$v.$error) {
+        if (this.$v.password.new.$error) {
+          return this.$t('passwordValidation.tooShort', {minLength: this.$v.password.new.$params.minLength.min});
+        } else if (this.$v.password.repeat.$error) {
+          return this.$t('passwordValidation.notMatch');
+        }
+      }
+      return '';
+    },
+    inputType() {
+      return this.isShowPassword ? 'text' : 'password';
+    }
   },
   methods: {
     clearInputs() {
@@ -61,8 +78,8 @@ export default {
       });
     },
     requestPasswordChange() {
-      if (!this.parsePassword) {
-        this.isShowPasswordError = true;
+      if (this.$v.$invalid) {
+        this.$v.$touch();
         return false;
       };
       Membership.requestPasswordChange({
@@ -77,17 +94,21 @@ export default {
       this.setStep(0);
     },
   },
-  watch: {
-    password: {
-     handler(val) {
-       this.isShowPasswordError = false;
-     },
-     deep: true,
-    },
-  },
   components: {
     TFA,
+    Checkbox,
   },
+  validations: {
+    password: {
+      new: {
+        required,
+        minLength: minLength(8)
+      },
+      repeat: {
+        sameAsPassword: sameAs('new')
+      }
+    }
+  }
 };
 </script>
 
@@ -117,6 +138,13 @@ export default {
     &--mobile {
       display: none;
     }
+  }
+  &__checkboxText {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 19px;
+    margin-left: 10px;
+    padding-top: 5px;
   }
 }
 

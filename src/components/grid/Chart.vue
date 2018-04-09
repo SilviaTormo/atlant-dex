@@ -119,7 +119,7 @@ export default {
     timeSeries(index) {
       return this.rawCandles.map((item, i) => {
         const date = DateTime.fromISO(item.candleOpen);
-        if (this.candlePeriodInMs <= 30000) {
+        if (this.candlePeriodInMs <= 300000) {
           return date.toLocaleString({hour: '2-digit', minute: '2-digit'});
         } else {
           return date.toLocaleString();
