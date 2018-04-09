@@ -6,7 +6,7 @@ import {debounce} from 'services/misc';
 
 export default {
   state: {
-    pair: 'BTC_ATL',
+    pair: 'LTC_BTC',
     limit: 23,
     pairs: {},
     pairInfo: {
