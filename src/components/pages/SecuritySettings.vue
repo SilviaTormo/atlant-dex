@@ -36,14 +36,6 @@ import Page from './Page';
 export default {
   data() {
     return {
-      email: {
-        value: '****ize@atlant.io',
-        verified: true,
-      },
-      additionalEmail: {
-        value: '****ize@gmail.com',
-        verified: false,
-      },
     };
   },
   computed: {

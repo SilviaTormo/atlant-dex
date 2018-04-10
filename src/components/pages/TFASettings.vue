@@ -86,7 +86,7 @@ export default {
       }
     },
     qrText() {
-      return encodeURI(`otpauth://totp/${this.account.email.value}?secret=${this.qr}&issuer=ATLANT`);
+      return encodeURI(`otpauth://totp/${this.account.email.value}?secret=${this.qr}&issuer=DAX`);
     },
     tfaConfirmText() {
       if (!this.selectedTFAMethod) return '';

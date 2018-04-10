@@ -1,13 +1,19 @@
 <template lang="pug">
 .empty
   Icon.empty__icon(id="magnifier")
-  .empty__text We can’t find any orders of this type.
+  .empty__text We couldn’t find any {{content}}
 </template>
 
 <script>
 import Icon from '../../Icon';
 
 export default {
+  props: {
+    content: {
+      type: String,
+      required: false,
+    },
+  },
   components: {
     Icon,
   },

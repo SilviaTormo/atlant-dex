@@ -68,8 +68,8 @@ export default {
       commit('trade/emptyWallet', null, {root: true});
       commit('modal/open', {name: 'signIn'}, {root: true});
     },
-    regFinish({state}, code) {
-      return Membership.regFinish(code).then((res) => {
+    regFinish({state, commit}, code) {
+      return Membership.regFinish(code).then((response) => {
         commit('createUser', response.data);
       });
     },

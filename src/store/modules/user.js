@@ -7,7 +7,7 @@ export default {
       balances: [],
       portfolioValue: 0,
     },
-    userCurrencies: ['USD', 'BTC', 'ETH', 'ATL'],
+    userCurrencies: ['USD', 'BTC', 'ETH', 'LTC'],
     account: {
       currency: '',
       email: {

@@ -3,8 +3,8 @@
   .quotes__item.quotes__item--header
     .quotes__headerLine
       .quotes__header Quotes:
-      .quotes__headerText 24 hr change
-      Dropdown.quotes__headerDropdown(:options="currencies" v-model="selected")
+      //- .quotes__headerText 24 hr change
+      //- Dropdown.quotes__headerDropdown(:options="currencies" v-model="selected")
   .quotes__item
     .quotes__headerLine
       input.quotes__search(type="text", placeholder="Search for currencies" v-model="search")
