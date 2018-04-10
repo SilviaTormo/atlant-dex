@@ -274,8 +274,15 @@ export default {
     //     // console.log('Order canceled: ', id);
     //   });
     // },
-    getTradeHistory({commit}) {
-      return Trade.getTradeHistory().then((response) => {
+    getTradeHistory({state, commit}) {
+      return Trade.getTradeHistory(
+        {
+          Pair: state.pair,
+          CurrencyPairValid: true,
+          Page: 1,
+          Limit: 20,
+        },
+      ).then((response) => {
         commit('setTradeHistory', response.data);
       });
     },

@@ -17,6 +17,7 @@ export default {
   },
   computed: {
     ...mapState('trade', {
+      pair: 'pair',
       book: (state) => state.book,
       status: (state) => state.book.status,
     }),
@@ -34,6 +35,9 @@ export default {
     },
   },
   watch: {
+    pair() {
+      this.getApiRequest();
+    },
     status() {
       if (this.status == 1) this.getApiRequest();
     },

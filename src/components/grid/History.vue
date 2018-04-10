@@ -8,10 +8,13 @@ table.history
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import {mapState, mapGetters, mapActions} from 'vuex';
 
 export default {
   computed: {
+    ...mapState('trade', {
+      pair: 'pair',
+    }),
     ...mapGetters('trade', {
       lastTrades: 'getLastTrades',
     }),
@@ -22,6 +25,11 @@ export default {
     }),
     getApiRequest() {
       this.getTradeHistory();
+    },
+  },
+  watch: {
+    pair() {
+      this.getApiRequest();
     },
   },
   created() {
