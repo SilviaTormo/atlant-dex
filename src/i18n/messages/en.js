@@ -2,11 +2,11 @@ import serverErrors from './server-errors/en';
 
 export default {
   copied: 'Copied',
-  passwordNotValid: 'At least 8 symbols including 1 number and 1 capital letter.',
   passwordValidation: {
     tooShort: 'Password must have at least {minLength} letters',
     notMatch: 'Passwords must be identical',
   },
+
   sent2FA: [
     'You were sent an email to confirm',
     'You were sent text message to confirm',

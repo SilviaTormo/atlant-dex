@@ -11,7 +11,7 @@ Modal
           IInput.singUp__input(label="Email address", v-model="email")
           IInput.singUp__input(label="Choose a password", v-model="password",  type="password")
           IInput.singUp__input(label="Confirm password", v-model="passwordRepeat",  type="password")
-          .singUp__hiddenError(v-show="isShowPasswordError") {{$t('passwordNotValid')}}
+          .singUp__hiddenError(v-show="parsePassword") {{parsePassword}}
         .singUp__block
           Checkbox.singUp__checkbox(name="acknowledged", :value="true", v-model="iAgree")
             span.singUp__iAgree I certify that I am 18 years of age or older, and I agree to the #[a.link(href="#") User Agreement] and #[a.link(href="#") Privacy Policy].
@@ -22,6 +22,7 @@ Modal
 </template>
 
 <script>
+import {required, sameAs, minLength} from 'vuelidate/lib/validators';
 import {mapGetters, mapMutations} from 'vuex';
 import {serverNotification} from 'services/notification';
 import * as Membership from 'services/api/membership';
@@ -38,7 +39,6 @@ export default {
       email: '',
       password: '',
       passwordRepeat: '',
-      isShowPasswordError: false,
       iAgree: false,
       step: 0,
     };
@@ -48,8 +48,14 @@ export default {
       isMobile: 'isMobile',
     }),
     parsePassword() {
-      let regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
-      return regex.test(this.password);
+      if (this.$v.$error) {
+        if (this.$v.password.$error) {
+          return this.$t('passwordValidation.tooShort', {minLength: this.$v.password.$params.minLength.min});
+        } else if (this.$v.passwordRepeat.$error) {
+          return this.$t('passwordValidation.notMatch');
+        }
+      }
+      return '';
     },
   },
   methods: {
@@ -62,8 +68,8 @@ export default {
       });
     },
     signUpUser() {
-      if (!this.parsePassword) {
-        this.isShowPasswordError = true;
+      if (this.$v.$invalid) {
+        this.$v.$touch();
         return false;
       };
       Membership.signup({
@@ -77,11 +83,6 @@ export default {
       });
     },
   },
-  watch: {
-    password() {
-      this.isShowPasswordError = false;
-    },
-  },
   components: {
     Icon,
     Checkbox,
@@ -89,6 +90,15 @@ export default {
     BButton,
     IInput,
     Status,
+  },
+  validations: {
+    password: {
+      required,
+      minLength: minLength(8),
+    },
+    passwordRepeat: {
+      sameAsPassword: sameAs('password'),
+    },
   },
 };
 </script>
@@ -168,7 +178,7 @@ export default {
   }
   &__hiddenError {
     color: #f33a3a;
-    margin-top: -28px;
+    margin-top: -14px;
   }
   &__checkbox {
     align-items: flex-start !important;

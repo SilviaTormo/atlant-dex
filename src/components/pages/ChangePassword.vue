@@ -40,10 +40,6 @@ export default {
     };
   },
   computed: {
-    parsePassword() {
-      let regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
-      return regex.test(this.password.old);
-    },
     validationErrorText() {
       if (this.$v.$error) {
         if (this.$v.password.new.$error) {
