@@ -66,9 +66,6 @@ export default {
     getPortofolioValue(state) {
       return state.portfolio.portfolioValue;
     },
-    getPortofolioStatus(state) {
-      return state.portfolio.status;
-    },
     getAccountTransactions(state) {
       return state.accountTransactionHistory.data;
     },
@@ -102,8 +99,26 @@ export default {
     setSubscribeNewsletter(state, isEnable) {
       state.account.subscribe.newsletter = isEnable;
     },
-    changePortfolioStatus(state) {
-      state.portfolio.status = 1;
+    changePortfolio(state, data) {
+      for (let i = 0; i < data.balances.length; i++) {
+        let notMatch = true;
+        for (let j = 0; j < state.portfolio.balances.length; j++) {
+          if ((state.portfolio.balances[j].currency) == data.balances[i][0]) {
+            notMatch = false;
+            state.portfolio.balances[j].availableFunds = data.balances[i][1];
+            state.portfolio.balances[j].balanceFiat = data.balances[i][2];
+          }
+        }
+        if (notMatch) {
+          state.portfolio.balances.push({
+            availableFunds: 0,
+            balanceFiat: data.balances[i][2],
+            blockedFunds: 0,
+            currency: data.balances[i][0],
+            isCrypto: true,
+          });
+        }
+      }
     },
     setBalances(state, data) {
       state.portfolio = data;

@@ -132,7 +132,7 @@ export default {
     }),
     ...mapMutations('user', {
       setNotificationsCounter: 'setNotificationsCounter',
-      changePortfolioStatus: 'changePortfolioStatus',
+      changePortfolio: 'changePortfolio',
     }),
     ...mapActions('membership', {
       dropUser: 'dropUser',
@@ -164,6 +164,7 @@ export default {
         };
       });
       this.$hub.on('newOrder', (data) => {
+        // console.table(data);
         let obj = {};
         if (data.makerId == this.account.id) {
           obj.action = (data.isSellOrder) ? 'Sell' : 'Buy';
@@ -180,10 +181,6 @@ export default {
 
           this.addActiveOrder(obj);
         }
-
-        obj = {};
-        obj.amount = data.totalQuantity;
-        obj.price = data.price;
       });
       this.$hub.on('orderChanged', (data) => {
         this.changeOrderStatus(data);
@@ -193,7 +190,7 @@ export default {
         this.addNewTrade(data);
       });
       this.$hub.on('newBalance', (data) => {
-        this.changePortfolioStatus();
+        this.changePortfolio(data);
       });
     },
     modalChangeStyleforBody() {
