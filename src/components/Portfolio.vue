@@ -46,6 +46,7 @@ export default {
     ...mapGetters('user', {
       balances: 'getUserBalances',
       portfolioValue: 'getPortofolioValue',
+      portofolioStatus: 'getPortofolioStatus',
     }),
   },
   methods: {
@@ -61,6 +62,11 @@ export default {
     // toggleShowAll() {
     //   this.showAll = true;
     // },
+  },
+  watch: {
+    portofolioStatus() {
+      if (this.portofolioStatus == 1) this.getBalances();
+    },
   },
   created() {
     this.getBalances();

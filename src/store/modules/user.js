@@ -5,6 +5,7 @@ export default {
     balance: 317,
     portfolio: {
       balances: [],
+      status: 0,
       portfolioValue: 0,
     },
     userCurrencies: ['USD', 'BTC', 'ETH', 'LTC'],
@@ -62,6 +63,12 @@ export default {
     getPortofolioValue(state) {
       return state.portfolio.portfolioValue;
     },
+    getPortofolioValue(state) {
+      return state.portfolio.portfolioValue;
+    },
+    getPortofolioStatus(state) {
+      return state.portfolio.status;
+    },
     getAccountTransactions(state) {
       return state.accountTransactionHistory.data;
     },
@@ -94,6 +101,9 @@ export default {
     },
     setSubscribeNewsletter(state, isEnable) {
       state.account.subscribe.newsletter = isEnable;
+    },
+    changePortfolioStatus(state) {
+      state.portfolio.status = 1;
     },
     setBalances(state, data) {
       state.portfolio = data;

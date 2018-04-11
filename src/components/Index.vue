@@ -132,6 +132,7 @@ export default {
     }),
     ...mapMutations('user', {
       setNotificationsCounter: 'setNotificationsCounter',
+      changePortfolioStatus: 'changePortfolioStatus',
     }),
     ...mapActions('membership', {
       dropUser: 'dropUser',
@@ -190,6 +191,9 @@ export default {
       this.$hub.on('newTrade', (data) => {
         // console.table(data);
         this.addNewTrade(data);
+      });
+      this.$hub.on('newBalance', (data) => {
+        this.changePortfolioStatus();
       });
     },
     modalChangeStyleforBody() {
