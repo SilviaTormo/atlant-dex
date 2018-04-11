@@ -3,7 +3,7 @@
   .changeEmail__param Additional email:
   .changeEmail__row(v-if="step === 0")
     .changeEmail__value {{security.additionalEmail.value}} #[Icon.changeEmail__icon(v-if="security.additionalEmail.verified" id="verified")]
-    .link.changeEmail__action(:class="{'changeEmail__action--empty' : isEmpty}" @click="changeEmail") Change
+    .link.changeEmail__action(v-show="security.tfa.enabled" :class="{'changeEmail__action--empty' : isEmpty}" @click="changeEmail") Change
   .changeEmail__row(v-if="step === 1")
     input.input(v-model="email")
     .link.changeEmail__action(@click="setExtraEmail") Save
