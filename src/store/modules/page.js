@@ -17,8 +17,18 @@ export default {
     isOpened: (state) => (name) => {
       return (name) ? (state.name === name) : (state.name !== '');
     },
+    currentPage: (state) => state.name,
     isProfileOpened(state) {
       return state.name !== '';
+    },
+    isProfilePageOpened(state) {
+      return state.name === 'accountInformation' || state.name === 'verification';
+    },
+    isSettingPageOpened(state) {
+      return state.name === 'securitySettings' || state.name === 'securityLog';
+    },
+    isPageHistoryOpened(state) {
+      return state.name === 'transactionHistory' || state.name === 'myOrders';
     },
   },
   namespaced: true,
