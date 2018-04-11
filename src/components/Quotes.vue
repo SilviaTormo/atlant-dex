@@ -1,8 +1,9 @@
 <template lang='pug'>
 .quotes
-  .quotes__item.quotes__item--header
-    .quotes__headerLine
-      .quotes__header Quotes:
+  UserVisibility(hide-on-logout)
+    .quotes__item.quotes__item--header
+      .quotes__headerLine
+        .quotes__header Quotes:
       //- .quotes__headerText 24 hr change
       //- Dropdown.quotes__headerDropdown(:options="currencies" v-model="selected")
   .quotes__item
@@ -24,6 +25,7 @@ import {getCryptoName} from 'services/misc';
 import Icon from './Icon';
 import Dropdown from './Dropdown';
 import QuoteItem from './QuoteItem';
+import UserVisibility from './UserVisibility';
 
 export default {
   data() {
@@ -84,6 +86,7 @@ export default {
     Icon,
     Dropdown,
     QuoteItem,
+    UserVisibility,
   },
 };
 
