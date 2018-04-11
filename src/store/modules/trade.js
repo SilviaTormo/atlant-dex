@@ -26,6 +26,7 @@ export default {
       data: {
         candles: [],
       },
+      newCandles: [],
       period: defPeriod,
     },
     trades: [],
@@ -141,6 +142,16 @@ export default {
     },
     setCandles(state, candles) {
       state.chart.data.candles = candles;
+    },
+    addNewCandle(state, candle) {
+      if (state.chartюnewCandles) {
+        state.chart.newCandles.push(candle);
+      } else {
+        state.chart.newCandles = [candle];
+      }
+    },
+    setNewCandles(state, candles) {
+      state.chart.newCandles = candles;
     },
     // setOrderList(state, list) {
     //   state.orders = list.data.result.orders;
@@ -346,7 +357,18 @@ export default {
       const newCandles = getters.candles.concat(bundleEmptyCandles);
       commit('setCandles', newCandles);
     },
-    addNewCandle({commit, getters}, newCandle) {
+    addNewCandle({dispatch, commit}, candle) {
+      commit('addNewCandle', candle);
+      dispatch('mergeNewCandles');
+    },
+    mergeNewCandles: debounce(function({dispatch, state, commit}) {
+      const {newCandles = []} = state.chart;
+      newCandles.forEach((candle) => {
+        dispatch('mergeCandleToChart', candle);
+      });
+      commit('setNewCandles', []);
+    }, 100),
+    mergeCandleToChart({commit, getters}, newCandle) {
       const {candles, lastCandleOpenTime} = getters;
       const lastCandleIndex = candles.length - 1;
       let newCandles = candles;
