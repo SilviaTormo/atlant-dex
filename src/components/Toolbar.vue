@@ -17,10 +17,9 @@
       )
   .toolbar__group
     UserVisibility(hide-on-logout)
-      Icon.toolbar__icon(
-        id='icon-notification',
-        @click="checkBeforeOpenPage('notificationHistory')",
-      )
+      .toolbar__iconWrap(@click="checkBeforeOpenPage('notificationHistory')")
+        Icon.toolbar__icon(id='icon-notification')
+        .toolbar__notifications {{(notificationsCounter > 10) ? '9+' : notificationsCounter}}
     UserVisibility(hide-on-logout)
       Icon.toolbar__icon(
         id='user',
@@ -51,6 +50,9 @@ export default {
   computed: {
     ...mapState('misc', [
       'showSidebar',
+    ]),
+    ...mapState('user', [
+      'notificationsCounter',
     ]),
     ...mapGetters('misc', [
       'isMobile',
@@ -111,6 +113,11 @@ export default {
   border-left: 1px solid $color_tangaroa;
   z-index: 1;
   flex-shrink: 0;
+  &__iconWrap {
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 32px;
+  }
   &__icon {
     $size: 20px;
     height: $size;
@@ -126,6 +133,18 @@ export default {
       cursor: pointer;
       fill: #e9bd24;
     }
+  }
+  &__notifications {
+    position: absolute;
+    top: -2px;
+    right: -5px;
+    background-color: #f33a3a;
+    border-radius: 10px;
+    padding: 1px 4px;
+    color: #ffffff;
+    font-family: Roboto;
+    font-size: 11px;
+    font-weight: 900;
   }
 }
 </style>

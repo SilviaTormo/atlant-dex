@@ -89,6 +89,7 @@ export default {
     }),
     ...mapState('user', {
       account: 'account',
+      notificationsCounter: 'notificationsCounter',
     }),
     ...mapGetters('user', [
       'isTFAEnabled',
@@ -129,6 +130,9 @@ export default {
       addNewPrices: 'addNewPrices',
       addNewTrade: 'addNewTrade',
     }),
+    ...mapMutations('user', {
+      setNotificationsCounter: 'setNotificationsCounter',
+    }),
     ...mapActions('membership', {
       dropUser: 'dropUser',
     }),
@@ -153,6 +157,9 @@ export default {
             text: i18n.t(`notifications.${getSignalRNotification(data.notificationType)}`, i18n.locale, data.arguments),
             type: 'info',
           });
+          if (data.notificationType < 7) {
+            this.setNotificationsCounter(this.notificationsCounter + 1);
+          }
         };
       });
       this.$hub.on('newOrder', (data) => {

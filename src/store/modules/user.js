@@ -41,6 +41,7 @@ export default {
       data: [],
     },
     notificationsOnPage: 10,
+    notificationsCounter: 0,
   },
   getters: {
     getNotifications(state) {
@@ -99,6 +100,9 @@ export default {
     },
     setAccountTransactionHistory(state, data) {
       state.accountTransactionHistory = data;
+    },
+    setNotificationsCounter(state, data) {
+      state.notificationsCounter = data;
     },
   },
   actions: {

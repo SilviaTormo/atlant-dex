@@ -26,7 +26,7 @@ TablePage(
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
 import {notificationType, getSignalRNotification} from 'services/notification';
 import Checkbox from 'components/Checkbox';
@@ -43,6 +43,9 @@ export default {
     };
   },
   computed: {
+    ...mapState('user', {
+      notificationsCounter: 'notificationsCounter',
+    }),
     ...mapGetters('user', {
       data: 'getNotifications',
       totalItems: 'getNotificationItems',
@@ -53,6 +56,9 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('user', {
+      setNotificationsCounter: 'setNotificationsCounter',
+    }),
     ...mapActions('user', [
       'getNotificationHistory',
     ]),
@@ -92,7 +98,16 @@ export default {
       this.getNotifications();
     },
   },
+  watch: {
+    notificationsCounter() {
+      if (this.notificationsCounter > 0) {
+        this.setNotificationsCounter(0);
+        this.getNotifications();
+      }
+    },
+  },
   created() {
+    this.setNotificationsCounter(0);
     this.getNotifications();
   },
   components: {
