@@ -18,20 +18,26 @@
   .toolbar__group
     UserVisibility(hide-on-logout)
       .toolbar__iconWrap(@click="checkBeforeOpenPage('notificationHistory')")
-        Icon.toolbar__icon(id='icon-notification')
+        Icon.toolbar__icon(
+          id='icon-notification',
+          :class="{'toolbar__icon--active': (currentPage === 'notificationHistory')}",
+        )
         .toolbar__notifications {{(notificationsCounter > 10) ? '9+' : notificationsCounter}}
     UserVisibility(hide-on-logout)
       Icon.toolbar__icon(
         id='user',
         @click="checkBeforeOpenPage('accountInformation')",
+        :class="{'toolbar__icon--active': isProfilePageOpened}"
       )
     Icon.toolbar__icon(
       id='settings',
       @click="checkBeforeOpenPage('securitySettings')",
+      :class="{'toolbar__icon--active': isSettingPageOpened}",
     )
     Icon.toolbar__icon(
       id='info',
-      @click="getOpenPage('transactionHistory')"
+      @click="getOpenPage('transactionHistory')",
+      :class="{'toolbar__icon--active': isPageHistoryOpened}",
     )
 </template>
 
@@ -60,6 +66,12 @@ export default {
     ]),
     ...mapGetters('membership', [
       'isLoggedIn',
+    ]),
+    ...mapGetters('page', [
+      'currentPage',
+      'isProfilePageOpened',
+      'isSettingPageOpened',
+      'isPageHistoryOpened',
     ]),
   },
   methods: {

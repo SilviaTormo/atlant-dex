@@ -12,23 +12,23 @@
       )
   .verificationFiles__item
     VerificationFormGroup(
+    label="Proof of address:",
+    label-for="null",
+    )
+      VerificationFileInput(
+      :image-src="passportImage",
+      v-model="verification.proofOfResidenceScan",
+      :validation="getFieldValidationStatus('proofOfResidenceScan')",
+      )
+  .verificationFiles__item
+    VerificationFormGroup(
       label="Selfie holding ID card & signed «Coin.gi» paper:",
       label-for="null",
     )
       VerificationFileInput(
-        :image-src="passportImage",
+        :image-src="selfieImage",
         v-model="verification.selfie",
         :validation="getFieldValidationStatus('selfie')",
-      )
-  .verificationFiles__item
-    VerificationFormGroup(
-      label="Proof of address:",
-      label-for="null",
-    )
-      VerificationFileInput(
-        :image-src="selfieImage",
-        v-model="verification.proofOfResidenceScan",
-        :validation="getFieldValidationStatus('proofOfResidenceScan')",
       )
 </template>
 
