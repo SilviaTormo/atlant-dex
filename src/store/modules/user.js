@@ -107,6 +107,8 @@ export default {
       state.account.subscribe.newsletter = isEnable;
     },
     changePortfolio(state, data) {
+      state.portfolio.portfolioValue = data.total;
+
       for (let i = 0; i < data.balances.length; i++) {
         let notMatch = true;
         for (let j = 0; j < state.portfolio.balances.length; j++) {
