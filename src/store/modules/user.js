@@ -57,8 +57,15 @@ export default {
     isTFAEnabled(state) {
       return state.security.tfa.enabled;
     },
-    getUserBalances(state) {
-      return state.portfolio.balances;
+    getUserBalancesInCrypto(state) {
+      return state.portfolio.balances.filter((balance) => {
+        return balance.isCrypto === true;
+      });
+    },
+    getUserBalancesInFiat(state) {
+      return state.portfolio.balances.filter((balance) => {
+        return balance.isCrypto === false;
+      });
     },
     getPortofolioValue(state) {
       return state.portfolio.portfolioValue;

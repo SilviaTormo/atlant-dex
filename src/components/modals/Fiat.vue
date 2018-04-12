@@ -31,7 +31,7 @@ Modal
           span.fiat__receiveAmt ${{newBalance.toFixed(2)}}
         IInput.fiat__input(placeholder="Contact information" v-model="contact")
         IInput.fiat__input(placeholder="Comment" v-model="comment")
-        BButton.fiat__button(color="malachite" rounded @click="step++") Make {{transactionType}}
+        BButton.fiat__button(color="malachite" rounded @click="makeDeposit()") Make {{transactionType}}
       .fiat__bottom(v-if="isMobile")
         div ***
         .fiat__note
@@ -43,7 +43,7 @@ Modal
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations} from 'vuex';
+import {mapState, mapActions, mapGetters, mapMutations} from 'vuex';
 import BButton from 'components/BButton';
 import IInput from 'components/IInput';
 import Icon from 'components/Icon';
@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       step: 0,
-      isSuccess: false,
+      isSuccess: true,
       amount: '',
       fee: 1,
       paymentMethods: [
@@ -98,8 +98,18 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
+    ...mapActions('user', {
+      deposit: 'deposit',
+    }),
     getPaymentMethods(array) {
       return array.map((item) => item.paymentName);
+    },
+    makeDeposit() {
+      this.deposit({
+        currency: this.data.currency,
+        amount: 1000,
+      });
+      this.step++;
     },
   },
   components: {

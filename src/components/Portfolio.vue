@@ -14,17 +14,17 @@
     .portfolio__headerLine
       .portfolio__header Coins:
       Icon.portfolio__icon(id="refresh" @click="getBalances")
-    BalanceItem(v-for="bal in balances", :key="bal.currency", :data="bal",
-    :isActive="bal.currency === selectedCur", @click.native="openCur(bal.currency)")
-  //-   BalanceItem(v-for="bal in balances", v-if="!isFiatCurrency(bal.currency) && bal.availableFunds == 0 && showAll", :key="bal.currency",
-  //-     :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="!isFiatCurrency(bal.currency)", @click.native="openCur(bal.currency)")
-  //-   Icon.portfolio__EllipsisIcon(v-if="!showAll" id="ellipsis" @click="toggleShowAll()")
-  //- .portfolio__item
-  //-   .portfolio__headerLine
-  //-     .portfolio__header Fiat:
-  //-     Icon.portfolio__icon(id="refresh")
-  //-   BalanceItem(v-for="bal in balances", v-if="isFiatCurrency(bal.currency)", :key="bal.currency",
-  //-     :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="!isFiatCurrency(bal.currency)", @click.native="openCur(bal.currency)")
+    BalanceItem(v-for="bal in getUserBalancesInCrypto", :key="bal.currency", :data="bal",
+     :isActive="bal.currency === selectedCur", @click.native="openCur(bal.currency)")
+    //- BalanceItem(v-for="bal in balances", v-if="bal.isCrypto && bal.availableFunds == 0 && showAll", :key="bal.currency",
+      :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="bal.isCrypto", @click.native="openCur(bal.currency)")
+    //- Icon.portfolio__EllipsisIcon(v-if="!showAll" id="ellipsis" @click="toggleShowAll()")
+  .portfolio__item
+    .portfolio__headerLine
+      .portfolio__header Fiat:
+      Icon.portfolio__icon(id="refresh")
+    BalanceItem(v-for="bal in getUserBalancesInFiat", :key="bal.currency",
+      :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="bal.isCrypto", @click.native="openCur(bal.currency)")
 </template>
 
 <script>
@@ -40,11 +40,42 @@ export default {
       selected: '',
       selectedCur: '',
       percChng: 2.73,
+      balances: [
+        {
+          availableFunds: 1231.9868,
+          balanceFiat: 8463983.393492,
+          blockedFunds: -232,
+          currency: 'BTC',
+          isCrypto: true,
+        },
+        {
+          availableFunds: 999.9832,
+          balanceFiat: 0,
+          blockedFunds: 0,
+          currency: 'USD',
+          isCrypto: false,
+        },
+        {
+          availableFunds: 0,
+          balanceFiat: 0,
+          blockedFunds: 0,
+          currency: 'ETH',
+          isCrypto: true,
+        },
+        {
+          availableFunds: 0,
+          balanceFiat: 0,
+          blockedFunds: 0,
+          currency: 'LTC',
+          isCrypto: true,
+        },
+      ],
     };
   },
   computed: {
     ...mapGetters('user', {
-      balances: 'getUserBalances',
+      getUserBalancesInCrypto: 'getUserBalancesInCrypto',
+      getUserBalancesInFiat: 'getUserBalancesInFiat',
       portfolioValue: 'getPortofolioValue',
     }),
   },
