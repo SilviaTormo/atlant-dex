@@ -22,7 +22,7 @@ Page(
 
 <script>
 import {mapState, mapActions} from 'vuex';
-import {required} from 'vuelidate/lib/validators';
+import {required, minLength} from 'vuelidate/lib/validators';
 import BButton from 'components/BButton';
 import Page from '../Page';
 import VerificationForm from './VerificationForm';
@@ -61,9 +61,11 @@ export default {
     verification: {
       firstName: {
         required,
+        minLength: minLength(2),
       },
       lastName: {
         required,
+        minLength: minLength(2),
       },
       country: {
         required,
@@ -73,12 +75,15 @@ export default {
       },
       address: {
         required,
+        minLength: minLength(2),
       },
       postCode: {
         required,
+        minLength: minLength(2),
       },
       phoneNumber: {
         required,
+        minLength: minLength(4),
       },
       day: {
         required,
