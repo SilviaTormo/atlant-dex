@@ -18,12 +18,13 @@
       div &#8212;
       .quote__deposit
         Icon.quote__depositIcon(id="deposit")
-        .quote__actionText Make deposit
+        .quote__actionText(@click="makeDeposit()") Make deposit
       div &#8212;
   Icon.quote__icon.quote__icon--alert(id="alert-inactive")
 </template>
 
 <script>
+import {mapGetters, mapMutations} from 'vuex';
 import {getCryptoName} from 'services/misc';
 import Icon from './Icon';
 
@@ -33,6 +34,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('membership', [
+      'isLoggedIn',
+    ]),
     activeClass() {
       return (this.isActive) ? 'quote__currencyName--active' : '';
     },
@@ -41,9 +45,26 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('modal', {
+      openModal: 'open',
+    }),
     fullCurrencyName() {
       const name = this.currency.toUpperCase();
       return getCryptoName(name);
+    },
+    makeDeposit() {
+      if (this.isLoggedIn) {
+        this.openModal({
+          name: 'cryptoDeposit',
+          data: {
+            currency: this.currency,
+          },
+        });
+      } else {
+        this.openModal({
+          name: 'signUp',
+        });
+      }
     },
   },
   props: {
