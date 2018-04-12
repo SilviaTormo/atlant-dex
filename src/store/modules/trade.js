@@ -105,7 +105,8 @@ export default {
   },
   mutations: {
     setChartData(state, data) {
-      Object.assign(state.chart.data, data);
+      const modifier = data.candles ? {} : {candles: []};
+      Object.assign(state.chart.data, data, modifier);
     },
     setPairs(state, data) {
       state.pairs = data;
