@@ -6,6 +6,8 @@ export const getChart = ({period, pair}) => apiOld.get('/trade/chart', {params: 
 // export const getTraderWallet = () => apiOld.get('/trade/traderWallets');
 
 // NEW API
+export const coinsInfo = ({period, currencies}) => api.get(`/exchange/coinsInfo?period=${period}${currencies}`);
+
 export const exchangePairs = () => api.get('/Exchange/pairs');
 export const exchangePairInfo = ({baseCurrency, quoteCurrency}) => api.get(`/Exchange/pair/${baseCurrency}/${quoteCurrency}`);
 

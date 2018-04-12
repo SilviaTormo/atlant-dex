@@ -65,7 +65,7 @@ export const sidebarSections = [
     name: 'wallet',
   },
   {
-    name: 'quotes',
+    name: 'charts',
     isShowOnLogout: true,
   },
   {

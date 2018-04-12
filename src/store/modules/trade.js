@@ -46,6 +46,7 @@ export default {
     },
     orderFilter: '',
     orders: [],
+    chartsInfo: [],
   },
   getters: {
     baseCurrency(state) {
@@ -104,6 +105,10 @@ export default {
     },
   },
   mutations: {
+    setChartsInfo(state, data) {
+      state.chartsInfo = data;
+    },
+
     setChartData(state, data) {
       const modifier = data.candles ? {} : {candles: []};
       Object.assign(state.chart.data, data, modifier);
@@ -236,6 +241,17 @@ export default {
     getPairs({commit}) {
       return Trade.exchangePairs().then((res) => {
         commit('setPairs', res.data);
+      }).catch((res) => {
+        serverNotification(res);
+      });
+    },
+
+    getChartsInfo({commit}, {period, currencies}) {
+      return Trade.coinsInfo({
+        period,
+        currencies,
+      }).then((res) => {
+        commit('setChartsInfo', res.data);
       }).catch((res) => {
         serverNotification(res);
       });

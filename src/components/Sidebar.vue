@@ -5,7 +5,7 @@
     // Icon.sidebar__logo(id="logo")
     h1.sidebar__title DAX EXCHANGE
   Portfolio(v-if="section == 'wallet'")
-  Quotes(v-if="section == 'quotes'")
+  Charts(v-if="section == 'charts'")
   Alerts(v-if="section == 'alert'")
   //- .sidebar__item(v-for="(account, index) in accounts")
   //-   CryptoAddress(
@@ -27,7 +27,7 @@ import {mapMutations, mapState, mapGetters} from 'vuex';
 import Icon from './Icon';
 import Portfolio from './Portfolio';
 import Alerts from './Alerts';
-import Quotes from './Quotes';
+import Charts from './Charts';
 
 export default {
   data() {
@@ -96,7 +96,7 @@ export default {
     Icon,
     Portfolio,
     Alerts,
-    Quotes,
+    Charts,
   },
 };
 

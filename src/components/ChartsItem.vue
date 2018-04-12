@@ -1,26 +1,27 @@
 <template lang='pug'>
-.quote
-  Icon.quote__currencyIcon(:id="'cur_'+ currency")
-  .quote__currencyContainer
-    .quote__main
-      .quote__row
-        .quote__currencyName(:class="activeClass") {{currency}}
-        .quote__price {{price}}
-      .quote__row
-        .quote__currencyFull {{fullCurrencyName()}}
-        .quote__change
-          Icon.quote__chngIcon(id="arrow", :class="{'quote__chngIcon--neg': priceChng < 0}")
-          .quote__changeAmt(:class="{'quote__changeAmt--neg': priceChng < 0}") {{absPriceChng}}%
-    .quote__additional(v-if="isActive")
-      div &#8212;
-        .quote__details #[.quote__detail Market Cap] #[span {{cap}}]
-        .quote__details #[.quote__detail Volume] #[span {{volume}}]
-      div &#8212;
-      .quote__deposit
-        Icon.quote__depositIcon(id="deposit")
-        .quote__actionText(@click="makeDeposit()") Make deposit
-      div &#8212;
-  Icon.quote__icon.quote__icon--alert(id="alert-inactive")
+.chartItem
+  Icon.chartItem__currencyIcon(:id="'cur_'+ currency")
+  .chartItem__currencyContainer
+    .chartItem__main
+      .chartItem__row
+        .chartItem__currencyName(:class="activeClass") {{currency}}
+        .chartItem__price {{price}}
+      .chartItem__row
+        .chartItem__currencyFull {{fullCurrencyName()}}
+        .chartItem__change
+          Icon.chartItem__chngIcon(id="arrow", :class="{'chartItem__chngIcon--neg': priceChng < 0}")
+          .chartItem__changeAmt(:class="{'chartItem__changeAmt--neg': priceChng < 0}") {{absPriceChng}}%
+    .chartItem__additional(v-if="isActive")
+      .chartItem__separator —
+        .chartItem__details #[.chartItem__detail Market Cap] #[span.chartItem__number ${{toCurrencyFormat(cap)}}]
+        .chartItem__details #[.chartItem__detail Volume] #[span.chartItem__number ${{toCurrencyFormat(volume)}}]
+      .chartItem__separator —
+      .chartItem__deposit
+        Icon.chartItem__depositIcon(id="deposit")
+        .chartItem__actionText(@click="makeDeposit()") Make deposit
+      .chartItem__separator —
+  Icon.chartItem__icon.chartItem__icon--alert(id="alert-inactive")
+  Icon.chartItem__icon.chartItem__icon--triagle(id="triangle2" v-show="isActive")
 </template>
 
 <script>
@@ -38,7 +39,7 @@ export default {
       'isLoggedIn',
     ]),
     activeClass() {
-      return (this.isActive) ? 'quote__currencyName--active' : '';
+      return (this.isActive) ? 'chartItem__currencyName--active' : '';
     },
     absPriceChng() {
       return Math.abs(this.priceChng);
@@ -65,6 +66,9 @@ export default {
           name: 'signUp',
         });
       }
+    },
+    toCurrencyFormat(amount) {
+      return amount.replace(/(\d)(?=(\d{3})+\.)/g, '$1 ');
     },
   },
   props: {
@@ -107,10 +111,11 @@ export default {
 @import "~variables";
 @import '~sass/bootstrap/media';
 
-.quote {
+.chartItem {
   display: flex;
   align-items: flex-start;
   margin-top: 25px;
+  position: relative;
   &__currencyContainer {
     width: 100%;
   }
@@ -153,6 +158,13 @@ export default {
       fill: #044669;
       margin-top: 3px;
       margin-left: 14px;
+    }
+    &--triagle {
+      fill: #ffc600;
+      position: absolute;
+      top: 6px;
+      left: -29px;
+      transform: rotate(-90deg);
     }
   }
   &__change {
@@ -202,6 +214,9 @@ export default {
   &__detail {
     width: 70px;
     margin-right: 14px;
+  }
+  &__number {
+    white-space: nowrap;
   }
 }
 </style>
