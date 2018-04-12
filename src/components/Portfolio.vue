@@ -19,7 +19,7 @@
     //- BalanceItem(v-for="bal in balances", v-if="bal.isCrypto && bal.availableFunds == 0 && showAll", :key="bal.currency",
       :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="bal.isCrypto", @click.native="openCur(bal.currency)")
     //- Icon.portfolio__EllipsisIcon(v-if="!showAll" id="ellipsis" @click="toggleShowAll()")
-  .portfolio__item
+  //- .portfolio__item
     .portfolio__headerLine
       .portfolio__header Fiat:
       Icon.portfolio__icon(id="refresh")
@@ -40,36 +40,6 @@ export default {
       selected: '',
       selectedCur: '',
       percChng: 2.73,
-      balances: [
-        {
-          availableFunds: 1231.9868,
-          balanceFiat: 8463983.393492,
-          blockedFunds: -232,
-          currency: 'BTC',
-          isCrypto: true,
-        },
-        {
-          availableFunds: 999.9832,
-          balanceFiat: 0,
-          blockedFunds: 0,
-          currency: 'USD',
-          isCrypto: false,
-        },
-        {
-          availableFunds: 0,
-          balanceFiat: 0,
-          blockedFunds: 0,
-          currency: 'ETH',
-          isCrypto: true,
-        },
-        {
-          availableFunds: 0,
-          balanceFiat: 0,
-          blockedFunds: 0,
-          currency: 'LTC',
-          isCrypto: true,
-        },
-      ],
     };
   },
   computed: {
