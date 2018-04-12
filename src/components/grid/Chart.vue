@@ -458,6 +458,7 @@ export default {
       this.addNewCandle(emptyCandle);
     },
     setEmptyCandleHandler() {
+      if (!this.rawCandles.length) return;
       clearTimeout(this._emptyCandleTimeoutId);
       const pastTime = new Date().getTime() - this.lastCandleOpenTime;
       const timeout = this.candlePeriodInMs - pastTime;
