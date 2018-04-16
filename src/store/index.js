@@ -40,6 +40,7 @@ const store = new Vuex.Store({
       'membership.email',
       'membership.lastAction',
       'trade.pair',
+      'trade.pairs',
       'user.account.currency',
     ],
   })],
