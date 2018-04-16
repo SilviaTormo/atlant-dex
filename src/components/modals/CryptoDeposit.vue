@@ -37,7 +37,7 @@ export default {
     makeDeposit() {
       this.deposit({
         currency: (this.data.currency).toUpperCase(),
-        amount: 1000,
+        amount: 100000,
       });
     },
   },
