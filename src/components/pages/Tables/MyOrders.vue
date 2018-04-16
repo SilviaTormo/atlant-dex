@@ -4,7 +4,7 @@ TablePage(
   :data="orders",
   :pageCount='setPagesCount',
   :page="setPageNum",
-  :changeActivePage="setOffsetForTradeHistory"
+  :changeActivePage="setOffsetForTradeHistory",
   :checkedArray.sync='checkedArray',
   :getRepeat="true",
   :getCancel="true",
@@ -181,7 +181,7 @@ export default {
       }
     }
     &:hover {
-      background-color: $color_yellow;
+      background-color: rgba(#000, .1);
     }
   }
   &__checkboxContainer {
