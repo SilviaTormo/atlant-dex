@@ -176,6 +176,9 @@ export default {
     },
     cleanOrders(state) {
       state.orders = [];
+      state.accountOrders = {
+        orders: [],
+      };
     },
     // setAccountTradeHistory(state, list) {
     //   state.accountTradeHistory.total = list.total;
