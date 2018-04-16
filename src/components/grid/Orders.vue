@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import {mapState, mapMutations, mapGetters, mapActions} from 'vuex';
+import {mapState, mapGetters, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
 import {scrollbar} from 'directives';
 import Icon from '../Icon';
@@ -51,9 +51,6 @@ export default {
     }),
   },
   methods: {
-    ...mapMutations('trade', {
-      cleanOrders: 'cleanOrders',
-    }),
     ...mapActions('trade', {
       getOrders: 'getOrders',
       cancelOrder: 'cancelOrder',
@@ -65,16 +62,12 @@ export default {
       this.cancelOrder(id);
     },
     getApiRequest() {
-      if (this.isLoggedIn) {
         this.getOrders();
-      } else {
-        this.cleanOrders();
-      }
     },
   },
   watch: {
     isLoggedIn() {
-      this.getApiRequest();
+      if (this.isLoggedIn) this.getApiRequest();
     },
   },
   created() {

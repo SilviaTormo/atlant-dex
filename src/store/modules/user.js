@@ -2,7 +2,6 @@ import * as User from 'services/api/user';
 
 export default {
   state: {
-    balance: 317,
     portfolio: {
       balances: [],
       status: 0,
@@ -131,6 +130,45 @@ export default {
     },
     setBalances(state, data) {
       state.portfolio = data;
+    },
+    cleanAfterLogout(state) {
+      state.portfolio = {
+        balances: [],
+        status: 0,
+        portfolioValue: 0,
+      };
+      state.account = {
+        currency: '',
+          email: {
+          value: '',
+        },
+        fullName: '',
+          phone: {
+          value: null,
+            verified: false,
+        },
+        subscribe: {
+          newsletter: false,
+            email: false,
+              sms: false,
+        },
+      };
+      state.security = {
+        additionalEmail: {
+          value: null,
+            verified: false,
+        },
+          tfa: {
+            method: '',
+        },
+      };
+      state.notifications = {
+        data: [],
+          totalItems: 0,
+      };
+      state.accountTransactionHistory = {
+        data: [],
+      };
     },
     setAccountTransactionHistory(state, data) {
       state.accountTransactionHistory = data;

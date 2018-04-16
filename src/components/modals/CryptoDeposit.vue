@@ -36,8 +36,6 @@ export default {
     }),
     makeDeposit() {
       this.deposit({
-        currency: this.data.currency,
-        amount: 1000,
       });
     },
   },

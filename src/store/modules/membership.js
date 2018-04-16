@@ -65,7 +65,8 @@ export default {
     },
     dropUser({commit}) {
       commit('flushUser');
-      commit('trade/emptyWallet', null, {root: true});
+      commit('trade/cleanOrders', null, {root: true});
+      commit('user/cleanAfterLogout', null, {root: true});
       commit('modal/open', {name: 'signIn'}, {root: true});
     },
     regFinish({state, commit}, code) {

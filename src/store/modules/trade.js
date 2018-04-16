@@ -214,9 +214,6 @@ export default {
     // setWallet(state, data) {
     //   state.wallet = data;
     // },
-    emptyWallet(state) {
-      state.wallet = [];
-    },
     setTradesForOrder(state, data) {
       let arr = state.accountOrders.orders;
       arr.find((item) => item.id === data.orderId).trades = data.trades.trades;
