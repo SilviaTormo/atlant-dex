@@ -15,9 +15,6 @@ export default {
       return (this.hideOnLogout && !this.isLoggedIn)
       || (this.hideOnLogin && this.isLoggedIn);
     },
-    elm() {
-      return this.$slots.default[0].elm;
-    },
   },
   methods: {
     ...mapMutations('modal', {
@@ -30,14 +27,29 @@ export default {
         this.openModal({name: 'signIn'});
       }
     },
-  },
-  mounted() {
-    if (this.onLoginClick) {
-      this.elm.addEventListener('click', this.onClick);
+    setClickEventListener() {
+      this.$nextTick(() => {
+        const {elm} = this.$slots.default[0];
+        if (this.onLoginClick && elm) {
+          console.log('set click event');
+          elm.addEventListener('click', this.onClick);
+        }
+      });
     }
   },
+  watch: {
+    isLoggedIn(isLoggedIn) {
+      if (isLoggedIn) {
+        this.setClickEventListener();
+      }
+    }
+  },
+  mounted() {
+    this.setClickEventListener();
+  },
   beforeDestroy() {
-    this.elm && this.elm.removeEventListener('click', this.onClick);
+    const {elm} = this.$slots.default[0];
+    elm && elm.removeEventListener('click', this.onClick);
   },
   props: {
     hideOnLogout: Boolean,
