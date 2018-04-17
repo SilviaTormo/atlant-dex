@@ -91,6 +91,7 @@ export default {
       // candleTicks: (state) => state.chart.data.candleTicks,
       // candleSize: (state) => state.chart.data.candleSize,
       rawCandles: (state) => state.chart.data.candles,
+      period: (state) => state.chart.period,
     }),
     ...mapGetters('trade', [
       'isCurrentPeriod',
@@ -146,9 +147,11 @@ export default {
       'addBundleEmptyCandles',
     ]),
     setChartPeriod(period) {
+      this.$hub.invoke('LeftGroupAsync', `candle_${this.period}`);
       this.changeChartPeriod(period).then(() => {
         // this.$hub.proxy.invoke('setCandleSize', this.candleSize);
         this.createChart();
+        this.$hub.invoke('JoinGroupAsync', `candle_${period}`);
       });
     },
     isCurrentChart(chart) {
@@ -482,6 +485,11 @@ export default {
   created() {
     this.loadChart().then(() => {
       this.createChart();
+    });
+    this.$hub.connection.startPromise.then(() => {
+      setTimeout(() => {
+        this.$hub.invoke('JoinGroupAsync', `candle_${this.period}`);
+      }, 100);
     });
     this.$hub.on('Send', this.onSendSignal);
   },
