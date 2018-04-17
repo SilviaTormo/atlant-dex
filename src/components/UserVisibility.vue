@@ -35,14 +35,14 @@ export default {
           elm.addEventListener('click', this.onClick);
         }
       });
-    }
+    },
   },
   watch: {
     isLoggedIn(isLoggedIn) {
       if (isLoggedIn) {
         this.setClickEventListener();
       }
-    }
+    },
   },
   mounted() {
     this.setClickEventListener();
