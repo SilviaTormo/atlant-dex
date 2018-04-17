@@ -16,24 +16,29 @@
         @click="setSection(section.name)",
       )
   .toolbar__group
-    UserVisibility(hide-on-logout)
-      .toolbar__iconWrap(@click="checkBeforeOpenPage('notificationHistory')")
+    UserVisibility(
+      hide-on-logout,
+      :onLoginClick="() => getOpenPage('notificationHistory')"
+    )
+      .toolbar__iconWrap
         Icon.toolbar__icon(
           id='icon-notification',
           :class="{'toolbar__icon--active': (currentPage === 'notificationHistory')}",
         )
         .toolbar__notifications {{(notificationsCounter > 10) ? '9+' : notificationsCounter}}
-    UserVisibility(hide-on-logout)
+    UserVisibility(
+      hide-on-logout,
+      :onLoginClick="() => getOpenPage('accountInformation')"
+    )
       Icon.toolbar__icon(
         id='user',
-        @click="checkBeforeOpenPage('accountInformation')",
         :class="{'toolbar__icon--active': isProfilePageOpened}"
       )
-    Icon.toolbar__icon(
-      id='settings',
-      @click="checkBeforeOpenPage('securitySettings')",
-      :class="{'toolbar__icon--active': isSettingPageOpened}",
-    )
+    UserVisibility(:onLoginClick="() => getOpenPage('securitySettings')")
+      Icon.toolbar__icon(
+        id='settings',
+        :class="{'toolbar__icon--active': isSettingPageOpened}",
+      )
     Icon.toolbar__icon(
       id='info',
       @click="getOpenPage('transactionHistory')",
