@@ -183,6 +183,7 @@ export default {
       &__option {
         align-items: center;
         cursor: pointer;
+        color: $input-option-color;
         display: flex;
         line-height: 16px;
         min-height: 32px;
@@ -193,13 +194,16 @@ export default {
         text-transform: none;
         vertical-align: middle;
         white-space: nowrap;
+        transition: all .2s;
 
         &--highlight {
           background-color: #eee;
+          color: $input-option-highlight-color;
         }
+
         &--selected {
           &:before {
-            border: solid #000;
+            border: solid $input-option-color;
             border-width: 0 2px 2px 0;
             content: '';
             display: block;
