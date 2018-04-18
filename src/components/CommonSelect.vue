@@ -7,15 +7,14 @@
     :allow-empty="false",
     :value="$_value",
     :track-by="$_trackBy",
+    :searchable="searchable",
     @input="onChange",
     v-bind="$attrs",
   )
     span.multiselect__placeholder(slot="placeholder") {{placeholder}}
     span(slot="noResult") No Results
-    template(slot="option",  slot-scope="props")
-      slot(name="option" v-bind="props")
-    template(slot="singleLabel",  slot-scope="props")
-      slot(name="singleLabel" v-bind="props")
+    template(v-for="(value, slotName) in $scopedSlots", :slot="slotName",  slot-scope="props")
+      slot(:name="slotName" v-bind="props")
 </template>
 
 <script>
@@ -77,6 +76,10 @@ export default {
     },
     options: [Array, Object],
     trackBy: String,
+    searchable: {
+      type: Boolean,
+      default: false,
+    },
     noBorder: Boolean,
     noPadding: Boolean,
   },
@@ -124,9 +127,9 @@ export default {
         border: none;
         box-sizing: border-box;
         display: inline-block;
-        line-height: 16px;
+        line-height: 1em;
         margin: 0;
-        min-height: 16px;
+        min-height: 1em;
         padding: 0;
         position: relative;
         transition: border .1s ease;
@@ -148,8 +151,8 @@ export default {
         border-radius: 0;
         border: $input-border;
         display: flex;
-        font-size: $input-font-size;
-        line-height: 16px;
+        font-size: 1em;
+        line-height: 1em;
         min-height: 32px;
         transition: $input-transition;
         padding: $input-padding;

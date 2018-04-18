@@ -3,7 +3,13 @@
   .alerts__item.alerts__item--header
     .alerts__headerLine
       .alerts__header Alerts:
-      Dropdown.alerts__headerDropdown(:options="criteria" v-model="selected")
+      CommonSelect.alerts__headerDropdown(
+        :options="criteria",
+        v-model="selected",
+        no-border,
+        no-padding,
+        preselect-first,
+      )
   .alerts__item
     AlertItem(currency='btc', level="12%", dropped)
   .alerts__item
@@ -16,7 +22,7 @@
 <script>
 import {mapState} from 'vuex';
 import Icon from './Icon';
-import Dropdown from './Dropdown';
+import CommonSelect from './CommonSelect';
 import AlertItem from './AlertItem';
 
 export default {
@@ -43,14 +49,14 @@ export default {
   },
   components: {
     Icon,
-    Dropdown,
+    CommonSelect,
     AlertItem,
   },
 };
 
 </script>
 
-<style lang='scss'>
+<style lang='scss' scoped>
 @import '~variables';
 @import '~sass/bootstrap/media';
 
@@ -87,8 +93,9 @@ export default {
     text-transform: uppercase;
   }
   &__headerDropdown {
-    width: 90px;
+    width: 100px;
     font-size: 12px;
+    text-transform: none;
   }
   &__addAllerts {
     cursor: pointer;

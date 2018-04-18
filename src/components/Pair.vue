@@ -4,7 +4,6 @@
     :options="baseCurrencyOptions",
     :value="baseCurrency",
     @input="changeBaseCurrency",
-    :searchable="false",
     no-border,
     no-padding,
   )
@@ -21,7 +20,6 @@
     :options="quoteCurrencyOptions",
     :value="quoteCurrency",
     @input="changeQuoteCurrency",
-    :searchable="false",
     no-border,
     no-padding,
   )
