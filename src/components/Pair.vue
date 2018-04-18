@@ -1,26 +1,45 @@
 <template lang="pug">
 .pair
-  Icon.pair__icon(:id="('cur_' + baseCurrency).toLocaleLowerCase()")
-  Dropdown.pair__dropdown(
+  CommonSelect.pair__select(
     :options="baseCurrencyOptions",
-    :selectDefault="baseCurrency",
     :value="baseCurrency",
-    @change="changeBaseCurrency",
+    @input="changeBaseCurrency",
+    :searchable="false",
+    no-border,
+    no-padding,
   )
+    template(slot="option", slot-scope="props")
+      .pair__label
+        Icon.pair__icon.pair__icon--option(:id="getCurrencyIconId(props.option)")
+        div {{props.option}}
+    template(slot="singleLabel", slot-scope="props")
+      .pair__label
+        Icon.pair__icon(:id="getCurrencyIconId(props.option)")
+        span {{props.option}}
   Icon.pair__exchange(id="exchange")
-  Icon.pair__icon(:id="('cur_' + quoteCurrency).toLocaleLowerCase()")
-  Dropdown.pair__dropdown(
+  CommonSelect.pair__select(
     :options="quoteCurrencyOptions",
-    :selectDefault="quoteCurrency",
     :value="quoteCurrency",
-    @change="changeQuoteCurrency",
+    @input="changeQuoteCurrency",
+    :searchable="false",
+    no-border,
+    no-padding,
   )
+    template(slot="option", slot-scope="props")
+      .pair__label
+        Icon.pair__icon.pair__icon--option(:id="getCurrencyIconId(props.option)")
+        div {{props.option}}
+    template(slot="singleLabel", slot-scope="props")
+      .pair__label
+        Icon.pair__icon(:id="getCurrencyIconId(props.option)")
+        span {{props.option}}
 </template>
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex';
 import Icon from './Icon';
 import Dropdown from './Dropdown';
+import CommonSelect from './CommonSelect';
 
 export default {
   computed: {
@@ -51,6 +70,9 @@ export default {
       // If not, change quote currency for first available
       this.changeQuoteCurrency(this.pairs[baseCurrency][0]);
     },
+    getCurrencyIconId(currencyName) {
+      return `cur_${currencyName}`.toLocaleLowerCase();
+    },
   },
   watch: {
     baseCurrency(baseCurrency) {
@@ -68,6 +90,7 @@ export default {
   components: {
     Icon,
     Dropdown,
+    CommonSelect,
   },
 };
 </script>
@@ -75,31 +98,47 @@ export default {
 <style lang="scss">
 @import "~variables";
 .pair {
-  display: flex;
   align-items: center;
+  display: flex;
   &__icon {
     $size: 25px;
     fill: $color_white;
-    width: $size;
     height: $size;
     margin-right: 10px;
+    width: $size;
+
+    &--option {
+      $size: 17px;
+      width: $size;
+      height: $size;
+    }
   }
-  &__dropdown {
-    min-width: 64px;
-    max-width: 64px;
+  &__select {
+    max-width: 90px;
+    min-width: 90px;
+  }
+  &__label {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
     font-size: 16px;
-  }
-  &__currency {
     font-weight: bold;
+    width: max-content;
+  }
+  &__option {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
     font-size: 16px;
+    font-weight: bold;
   }
   &__exchange {
     $size: 15px;
-    height: $size;
-    width: $size;
-    transform: rotate(90deg);
-    margin: 0 10px;
     fill: $color_yellow;
+    height: $size;
+    margin: 0 10px;
+    transform: rotate(90deg);
+    width: $size;
   }
 }
 </style>
