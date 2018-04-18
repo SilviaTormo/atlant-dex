@@ -92,6 +92,7 @@ export default {
       // candleSize: (state) => state.chart.data.candleSize,
       rawCandles: (state) => state.chart.data.candles,
       period: (state) => state.chart.period,
+      pair: (state) => state.pair,
     }),
     ...mapGetters('trade', [
       'isCurrentPeriod',
@@ -101,6 +102,7 @@ export default {
       'candlePeriod',
       'lastCandleOpenTime',
       'lastCandle',
+      'candleSubmitOptions',
     ]),
     priceSeries() {
       if (this.rawCandles) {
@@ -138,20 +140,23 @@ export default {
     },
   },
   methods: {
-    ...mapActions('trade', {
-      loadChart: 'loadChart',
-      changeChartPeriod: 'changeChartPeriod',
-    }),
+    ...mapActions('trade', [
+      'loadChart',
+      'changeChartPeriod',
+    ]),
     ...mapActions('trade', [
       'addNewCandle',
       'addBundleEmptyCandles',
     ]),
     setChartPeriod(period) {
-      this.$hub.invoke('LeftGroupAsync', `candle_${this.period}`);
+      this.$hub.invoke('LeftGroupAsync', this.candleSubmitOptions);
       this.changeChartPeriod(period).then(() => {
         // this.$hub.proxy.invoke('setCandleSize', this.candleSize);
         this.createChart();
-        this.$hub.invoke('JoinGroupAsync', `candle_${period}`);
+        this.$hub.invoke('JoinGroupAsync', {
+          ...this.candleSubmitOptions,
+          chartPeriod: period,
+        });
       });
     },
     isCurrentChart(chart) {
@@ -481,6 +486,19 @@ export default {
       this.createChart();
       this.setEmptyCandleHandler();
     },
+    pair(newPair, oldPair) {
+        console.log(oldPair);
+        console.log(JSON.stringify(this.candleSubmitOptions));
+        if (oldPair) {
+          const parsedPair = oldPair.split('_');
+          this.$hub.invoke('LeftGroupAsync', {
+            ...this.candleSubmitOptions,
+            baseCurrency: parsedPair[0],
+            quoteCurrency: parsedPair[1],
+          });
+        }
+        this.$hub.invoke('JoinGroupAsync', this.candleSubmitOptions);
+    },
   },
   created() {
     this.loadChart().then(() => {
@@ -488,7 +506,7 @@ export default {
     });
     this.$hub.connection.startPromise.then(() => {
       setTimeout(() => {
-        this.$hub.invoke('JoinGroupAsync', `candle_${this.period}`);
+        this.$hub.invoke('JoinGroupAsync', this.candleSubmitOptions);
       }, 100);
     });
     this.$hub.on('Send', this.onSendSignal);

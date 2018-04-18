@@ -78,6 +78,14 @@ export default {
       }
       return time;
     },
+    candleSubmitOptions(state, getters) {
+      return {
+        type: 'candle',
+        chartPeriod: state.chart.period,
+        baseCurrency: getters.baseCurrency,
+        quoteCurrency: getters.quoteCurrency,
+      };
+    },
     getPairName: (state, getters) => ({base = getters.baseCurrency, quote = getters.quoteCurrency}) => {
       return `${base}_${quote}`;
     },
@@ -150,7 +158,7 @@ export default {
       state.chart.data.candles = candles;
     },
     addNewCandle(state, candle) {
-      if (state.chartюnewCandles) {
+      if (state.chart.newCandles) {
         state.chart.newCandles.push(candle);
       } else {
         state.chart.newCandles = [candle];
