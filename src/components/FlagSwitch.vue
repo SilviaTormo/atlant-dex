@@ -1,10 +1,12 @@
 <template lang="pug">
 CommonSelect.flagSwitch(
+  :class="{'flagSwitch--flagOnly': flagOnly}",
   :options="flags",
   no-border,
   no-padding,
   :value="value",
-  @input="setFlag"
+  @input="setFlag",
+  v-bind="$attrs",
 )
   template(
     slot="option",
@@ -18,7 +20,7 @@ CommonSelect.flagSwitch(
     slot-scope="props",
   )
     .flagSwitch__option
-      div.flagSwitch__optionText {{getOptionText(props.option)}}
+      div.flagSwitch__optionText(v-if="!flagOnly") {{getOptionText(props.option)}}
       img.flagSwitch__optionImage(:src="flagPath(props.option)")
 </template>
 
@@ -57,6 +59,7 @@ export default {
       required: false,
       default: 'country',
     },
+    flagOnly: Boolean,
   },
   components: {
     Icon,
@@ -69,10 +72,15 @@ export default {
 @import '~variables';
 .flagSwitch {
   width: 80px;
+
+  &--flagOnly {
+    width: auto;
+  }
   &__option {
     align-items: center;
     display: flex;
     flex-direction: row;
+    width: 165px;
     width: max-content;
   }
   &__optionImage {
