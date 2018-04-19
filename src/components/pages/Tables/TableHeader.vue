@@ -4,7 +4,14 @@
   .tableHeader__container(v-show="isTradeTables")
     .tableHeader__title(v-if="!isMobile" @click="getOpenPage('transactionHistory')", :class="(isThisPage('transactionHistory')) ? 'tableHeader__title--active' : ''") Transaction History
     .tableHeader__title(v-if="!isMobile" @click="getOpenPage('myOrders')", :class="(isThisPage('myOrders')) ? 'tableHeader__title--active' : ''") My Orders
-      Dropdown.tableHeader__dropdown(v-if="isThisPage('myOrders')", :options="sortTypes" v-model="sortTypeForMyOrders")
+      CommonSelect.tableHeader__dropdown(
+        v-if="isThisPage('myOrders')",
+        :options="sortTypes",
+        v-model="sortTypeForMyOrders",
+        no-border,
+        no-paddding,
+        preselect-first,
+      )
   .tableHeader__container(v-show="isNotifications")
     .tableHeader__title(v-if="!isMobile" :class="(isThisPage('notificationHistory')) ? 'tableHeader__title--active' : ''") Notification History
 </template>
@@ -12,7 +19,7 @@
 <script>
 import {mapState, mapGetters, mapMutations} from 'vuex';
 import BackToDashboard from '../BackToDashboard';
-import Dropdown from '../../Dropdown';
+import CommonSelect from '../../CommonSelect';
 
 export default {
   data() {
@@ -79,13 +86,13 @@ export default {
     },
   },
   components: {
-    Dropdown,
     BackToDashboard,
+    CommonSelect,
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~variables';
 @import "~sass/bootstrap/media";
 
@@ -120,11 +127,12 @@ export default {
     }
   }
   &__dropdown {
-    margin-left: 24px;
     color: $color_white;
+    margin-left: 10px;
     font-size: 12px;
     font-weight: 700;
-    text-transform: uppercase;
+    min-width: 120px;
+    text-transform: none;
   }
 }
 

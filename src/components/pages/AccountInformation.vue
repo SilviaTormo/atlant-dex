@@ -37,11 +37,11 @@ Page(title="Account information", title2="", :sidebar="true")
             Checkbox.accountInfo__checkbox(v-model="account.subscribe.sms") #[.accountInfo__text SMS notification]
           .accountInfo__item.accountInfo__item--other
             .accountInfo__param Preferred currency:
-            .accountInfo__value.accountInfo__value--inline {{getCountryCurrency}}
+            .accountInfo__value.accountInfo__value--inline
               FlagSwitch.accountInfo__dropdown(
                 type="currency",
                 :value="getCurrencyCountry",
-                @change="setPrefCurrencyFromFlag"
+                @input="setPrefCurrencyFromFlag"
               )
         BButton.accountInfo__button(color="malachite" rounded) Save
 </template>

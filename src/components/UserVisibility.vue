@@ -31,7 +31,6 @@ export default {
       this.$nextTick(() => {
         const {elm} = this.$slots.default[0];
         if (this.onLoginClick && elm) {
-          console.log('set click event');
           elm.addEventListener('click', this.onClick);
         }
       });

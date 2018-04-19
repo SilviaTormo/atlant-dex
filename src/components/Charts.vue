@@ -4,7 +4,13 @@
     .charts__headerLine
       .charts__header CHARTS:
       .charts__headerText 24 hr change
-      Dropdown.charts__headerDropdown(:options="currencies" v-model="selected")
+      CommonSelect.charts__headerDropdown(
+        :options="currencies",
+        v-model="selected",
+        no-border,
+        no-padding,
+        preselect-first,
+      )
   .charts__item
     .charts__headerLine
       input.charts__search(type="text", placeholder="Search for currencies" v-model="search")
@@ -22,7 +28,7 @@
 import {mapState, mapActions} from 'vuex';
 import {getCryptoName} from 'services/misc';
 import Icon from './Icon';
-import Dropdown from './Dropdown';
+import CommonSelect from './CommonSelect';
 import ChartsItem from './ChartsItem';
 
 export default {
@@ -103,14 +109,14 @@ export default {
   },
   components: {
     Icon,
-    Dropdown,
     ChartsItem,
+    CommonSelect,
   },
 };
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "~variables";
 @import '~sass/bootstrap/media';
 
