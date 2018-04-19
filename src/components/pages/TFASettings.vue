@@ -14,8 +14,11 @@
     .tfaSettings__item.tfaSettings__desktopRow(v-if="tfaStep === 1 && requiresNumber")
       .tfaSettings__value My phone number
       .tfaSettings__value.tfaSettings__value--row
-        .tfaSettings__code {{getCountryCode}}
-        FlagSwitch.tfaSettings__dropdown(v-model="country")
+        FlagSwitch.tfaSettings__dropdown(
+          v-model="country",
+          :max-height="200",
+          type="phone"
+        )
         input.input.tfaSettings__input(placeholder="965 296 36 36" v-model="number")
       .link.tfaSettings__action.tfaSettings__action--mobileLeft.tfaSettings__value(@click="requestTFAChange()") Send
     .tfaSettings__item(v-if="tfaStep === 2 && requiresNumber")

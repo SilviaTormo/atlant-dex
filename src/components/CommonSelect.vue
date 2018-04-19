@@ -1,16 +1,20 @@
 <template lang="pug">
-  VSelect.verificationSelect(
+  VSelect.commonSelect(
+    :class="{'commonSelect--noBorder': noBorder, 'commonSelect--noPadding': noPadding}",
     :options="$_options",
     placeholder="",
     :show-labels="false",
     :allow-empty="false",
     :value="$_value",
     :track-by="$_trackBy",
+    :searchable="searchable",
     @input="onChange",
     v-bind="$attrs",
   )
     span.multiselect__placeholder(slot="placeholder") {{placeholder}}
     span(slot="noResult") No Results
+    template(v-for="(value, slotName) in $scopedSlots", :slot="slotName",  slot-scope="props")
+      slot(:name="slotName" v-bind="props")
 </template>
 
 <script>
@@ -18,7 +22,7 @@ import Icon from 'components/Icon';
 import VSelect from 'vue-multiselect';
 
 export default {
-  name: 'VerificationSelect',
+  name: 'CommonSelect',
   computed: {
     isOptionsObject() {
       return this.options && typeof this.options === 'object' && !Array.isArray(this.options);
@@ -72,6 +76,12 @@ export default {
     },
     options: [Array, Object],
     trackBy: String,
+    searchable: {
+      type: Boolean,
+      default: false,
+    },
+    noBorder: Boolean,
+    noPadding: Boolean,
   },
   components: {
     Icon,
@@ -82,16 +92,31 @@ export default {
 
 <style lang="scss" rel="stylesheet/scss" scoped>
 @import "~variables";
+
+  .commonSelect {
+    &--noBorder /deep/ .multiselect__tags {
+      border: none;
+    }
+    &--noPadding /deep/ .multiselect{
+      &__tags {
+        padding: 0 19px 0 0;
+      }
+      &__select {
+        padding:  0 0 0 9px;
+      }
+    }
+  }
+
   .multiselect {
-    display: block;
-    position: relative;
-    width: 100%;
-    min-height: 32px;
-    text-align: left;
     color: $color_white;
-    font-style: $input-font-size;
+    cursor: pointer;
+    display: block;
+    min-height: 32px;
     outline: 0;
-    &--active /deep/ &__tags{
+    position: relative;
+    text-align: left;
+    width: 100%;
+    &--active /deep/ &__tags {
       border-color: $input-border-color-highlight;
     }
 
@@ -102,9 +127,9 @@ export default {
         border: none;
         box-sizing: border-box;
         display: inline-block;
-        line-height: 16px;
+        line-height: 1em;
         margin: 0;
-        min-height: 16px;
+        min-height: 1em;
         padding: 0;
         position: relative;
         transition: border .1s ease;
@@ -126,8 +151,8 @@ export default {
         border-radius: 0;
         border: $input-border;
         display: flex;
-        font-size: $input-font-size;
-        line-height: 16px;
+        font-size: 1em;
+        line-height: 1em;
         min-height: 32px;
         transition: $input-transition;
         padding: $input-padding;
@@ -142,7 +167,7 @@ export default {
         position: absolute;
         display: block;
         background: $color-white;
-        width: 100%;
+        min-width: 100%;
         max-height: 240px;
         overflow: auto;
         z-index: 3;
@@ -161,6 +186,7 @@ export default {
       &__option {
         align-items: center;
         cursor: pointer;
+        color: $input-option-color;
         display: flex;
         line-height: 16px;
         min-height: 32px;
@@ -170,14 +196,16 @@ export default {
         text-decoration: none;
         text-transform: none;
         vertical-align: middle;
-        white-space: nowrap;
+        transition: all .2s;
 
         &--highlight {
           background-color: #eee;
+          color: $input-option-highlight-color;
         }
+
         &--selected {
           &:before {
-            border: solid #000;
+            border: solid $input-option-color;
             border-width: 0 2px 2px 0;
             content: '';
             display: block;
