@@ -1,6 +1,6 @@
 <template lang="pug">
 CommonSelect.flagSwitch(
-  :class="{'flagSwitch--flagOnly': flagOnly}",
+  :class="{'flagSwitch--phone': isPhone}",
   :options="flags",
   no-border,
   no-padding,
@@ -20,19 +20,29 @@ CommonSelect.flagSwitch(
     slot-scope="props",
   )
     .flagSwitch__option
-      div.flagSwitch__optionText(v-if="!flagOnly") {{getOptionText(props.option)}}
+      div.flagSwitch__optionText.flagSwitch__optionText--singleLabel.
+        {{getSingleLabelText(props.option)}}
       img.flagSwitch__optionImage(:src="flagPath(props.option)")
 </template>
 
 <script>
 import Icon from 'components/Icon';
 import CommonSelect from 'components/CommonSelect';
-import {countryData, countryCurrencies, getCountryName, getCountryCurrency} from 'services/countries';
+import {
+  countryData,
+  countryCurrencies,
+  getCountryName,
+  getCountryCurrency,
+  getCountryCode,
+} from 'services/countries';
 
 export default {
   computed: {
     isCurrency() {
       return this.type === 'currency';
+    },
+    isPhone() {
+      return this.type === 'phone';
     },
     flags() {
       return this.isCurrency ? Object.keys(countryCurrencies) : Object.keys(countryData);
@@ -44,6 +54,15 @@ export default {
     },
     getOptionText(option) {
       return this.isCurrency ? getCountryCurrency(option) : getCountryName(option);
+    },
+    getSingleLabelText(option) {
+      if (this.isCurrency) {
+        return getCountryCurrency(option);
+      } else if (this.isPhone) {
+        return getCountryCode(option);
+      } else {
+        return getCountryName(option);
+      }
     },
     flagPath(flag = this.currentFlag) {
       return require('assets/images/flags/flag_' + flag + '.png');
@@ -59,7 +78,6 @@ export default {
       required: false,
       default: 'country',
     },
-    flagOnly: Boolean,
   },
   components: {
     Icon,
@@ -73,8 +91,11 @@ export default {
 .flagSwitch {
   width: 80px;
 
-  &--flagOnly {
-    width: auto;
+  &--phone & {
+    &__optionText--singleLabel {
+      min-width: 33px;
+      text-align: right;
+    }
   }
   &__option {
     align-items: center;
