@@ -86,12 +86,12 @@ export default {
     },
     getActiveOrders(state) {
       return state.orders.filter((order) => {
-        return order.status === 'Open' || order.status === 'Partially Filled';
+        return order.status === 0 || order.status === 1;
       });
     },
     getClosedOrders(state) {
       return state.orders.filter((order) => {
-        return order.status === 'Filled' || order.status === 'Cancelled';
+        return order.status === 2 || order.status === 3;
       });
     },
     getAccountOrders(state) {
@@ -185,9 +185,10 @@ export default {
     //   state.accountTradeHistory.items = list.orders;
     // },
     setCancelledOrder(state, id) {
-      state.orders.find((item) => item.id === id).status = 'Cancelled';
+      state.orders.find((item) => item.id === id).status = 3;
     },
     addActiveOrder(state, obj) {
+      console.log(obj);
       state.orders.unshift(obj);
       state.book.status = 1;
     },
@@ -205,7 +206,6 @@ export default {
       state.book.status = 1;
     },
     addNewTrade(state, obj) {
-      obj.amount = obj.quantity;
       state.trades.unshift(obj);
     },
     addNewPrices(state, prices) {
@@ -323,8 +323,9 @@ export default {
         commit('setAccountOrders', response.data);
       });
     },
-    getOrders({commit}) {
+    getOrders({state, commit}) {
       return Trade.getOrders({
+        pair: state.pair,
         sortby: 'datetime',
         ascending: false,
         limit: 20,

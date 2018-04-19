@@ -7,7 +7,7 @@ import Vuelidate from 'vuelidate';
 import {hubURL} from 'config';
 
 Vue.use(Vuelidate);
-Vue.use(hub, hubURL, store.state.membership.token);
+Vue.use(hub, hubURL, store.state.membership.token, store.state.trade.pair);
 
 Vue.mixin({
   methods: {

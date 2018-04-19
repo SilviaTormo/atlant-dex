@@ -46,6 +46,7 @@ export default {
       'getPairInfo',
     ]),
     setQuoteAfterBaseChange(baseCurrency) {
+      // This should be moved to Store
       // Do not change if current quote available for new base
       if (this.pairs[baseCurrency].includes(this.quoteCurrency)) return;
       // If not, change quote currency for first available
