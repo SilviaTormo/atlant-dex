@@ -212,7 +212,7 @@ export default {
       if (!isTrue) {
         this.openModal({name: 'signIn'});
         notification({
-          text: 'Log Out',
+          text: 'Logged out',
         });
       } else {
         this.$hub.invoke('authenticate', this.token);

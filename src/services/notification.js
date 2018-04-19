@@ -14,14 +14,20 @@ export const getServerErrorText = (responseData) => {
   }
 };
 
-export const notification = ({title = '', text, type = 'info'}) => new Noty({
-  text: `<b>${title}</b> ${text}`,
-  type,
-  layout: 'topRight',
-  closeWith: ['click', 'button'],
-  progressBar: false,
-  timeout: 3000,
-}).show();
+export const notification = ({title = '', text, type = 'info'}) => {
+  let errorTag = '';
+  if (type === 'error') {
+    errorTag = `<b style="color:red;">Error. </b>`;
+  };
+  new Noty({
+    text: `${errorTag}<b>${title}</b> ${text}`,
+    type: 'info',
+    layout: 'topRight',
+    closeWith: ['click', 'button'],
+    progressBar: false,
+    timeout: 3000,
+  }).show();
+};
 
 export const serverNotification = (response) => {
   const {data: {code}, status} = response;
@@ -49,7 +55,6 @@ export const serverNotification2 = (response) => {
   if (response.status >= 400) {
     const type = 'error';
     notification({
-      title: `Error: `,
       text: getServerErrorText(data),
       type,
     });

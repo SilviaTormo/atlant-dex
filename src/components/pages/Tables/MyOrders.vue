@@ -29,18 +29,18 @@ TablePage(
             Checkbox(color="yellow", :value="isChecked(item.id)" @change="setCheckedArray(item.id)")
           td {{item.id}}
           td {{setDate(item.creationDate)}}
-          td {{item.fee}} {{item.feeCurrency}}
-          td.myOrders__action(:class="'myOrders__action--' + (item.action)") {{item.action}}
-          td {{item.pair}}
-          td {{setFixNumber(item.total)}} {{getOrderBaseCurrency(item.pair)}}
-          td {{setFixNumber(item.price)}} {{getOrderQuoteCurrency(item.pair)}}
-          td {{setFixNumber(item.total * item.price)}} {{getOrderQuoteCurrency(item.pair)}}
+          td {{getOrderFee(item)}}
+          td.myOrders__action(:class="'myOrders__action--' + getAction(item.side)") {{getAction(item.side)}}
+          td {{item.baseCurrency}}/{{item.quoteCurrency}}
+          td {{setFixNumber(item.totalQuantity)}} {{item.baseCurrency}}
+          td {{setFixNumber(item.price)}} {{item.quoteCurrency}}
+          td {{setFixNumber(item.totalQuantity * item.price)}} {{item.quoteCurrency}}
         tr(v-for="trade in item.trades" v-show="item.id === currentOrderId")
           td
           td
           td
-          td {{getTradeFee(item.action, trade)}}
-          td.myOrders__action(:class="'myOrders__action--' + getTradeAction(item.action)") {{getTradeAction(item.action)}}
+          td {{getTradeFee(item.side, trade)}}
+          td.myOrders__action(:class="'myOrders__action--' + getTradeAction(item.side)") {{getTradeAction(item.side)}}
           td {{trade.baseCurrency}}/{{trade.quoteCurrency}}
           td {{setFixNumber(trade.amount)}} {{trade.baseCurrency}}
           td {{setFixNumber(trade.price)}} {{trade.quoteCurrency}}
@@ -93,14 +93,17 @@ export default {
     setDate(isoTime) {
       return DateTime.fromISO(isoTime).toFormat('dd.LL.yyyy HH:mm');
     },
-    getOrderBaseCurrency(pair) {
-      return pair.split('/')[0];
+    getAction(side) {
+      return (side === 0) ? 'buy' : 'sell';
     },
-    getOrderQuoteCurrency(pair) {
-      return pair.split('/')[1];
+    getOrderFee(order) {
+      return `${order.fee} ${(order.side === 0) ? order.baseCurrency : order.quoteCurrency}`;
     },
-    fixCurrencyPair(pair) {
-      return pair.replace('_', '/');
+    getTradeAction(orderSide) {
+      return (orderSide === 1) ? 'buy' : 'sell';
+    },
+    getTradeFee(orderSide, trade) {
+      return (orderSide === 1) ? `${trade.buyerFee} ${trade.baseCurrency}` : `${trade.sellerFee} ${trade.quoteCurrency}`;
     },
     setCurrentOrderId(orderId) {
       if (this.currentOrderId === orderId) {
@@ -115,12 +118,6 @@ export default {
     getTrades(orderId) {
       this.setCurrentOrderId(orderId);
       this.getTradesForOrder(orderId);
-    },
-    getTradeFee(orderAction, trade) {
-      return (orderAction === 'Sell') ? `${trade.buyerFee} ${trade.baseCurrency}` : `${trade.sellerFee} ${trade.quoteCurrency}`;
-    },
-    getTradeAction(orderAction) {
-      return (orderAction === 'Sell') ? 'Buy' : 'Sell';
     },
   },
   watch: {
@@ -162,10 +159,11 @@ export default {
 @import '~variables';
 .myOrders {
   &__action {
-    &--Buy {
+    text-transform: capitalize;
+    &--buy {
       color: $color_green;
     }
-    &--Sell {
+    &--sell {
       color: $color_red;
     }
   }
