@@ -15,22 +15,24 @@ form.verificationForm
     :validation="getFieldValidationStatus('country')",
     label-for="null",
   )
-    VerificationSelect.verificationForm__input(
+    CommonSelect.verificationForm__input(
       :options="countries",
       label="name",
       track-by="code",
       v-model="verification.country",
       :loading="countriesLoading",
+      searchable
     )
   VerificationFormGroup(
     label="City:",
     :validation="getFieldValidationStatus('city')"
     label-for="null",
   )
-    VerificationSelect.verificationForm__input(
+    CommonSelect.verificationForm__input(
       :options="countryCities",
       v-model="verification.city",
       :loading="citiesLoading",
+      searchable
     )
   VerificationFormGroup(
     label="Street Address:",
@@ -55,20 +57,23 @@ form.verificationForm
     :validation="getFieldValidationStatus('birthday')"
     label-for="null",
   )
-    VerificationSelect.verificationForm__input.verificationForm__input--small(
+    CommonSelect.verificationForm__input.verificationForm__input--small(
       placeholder="Day",
       :options="birthdayDays",
       v-model="verification.day",
+      searchable,
     )
-    VerificationSelect.verificationForm__input.verificationForm__input--small(
+    CommonSelect.verificationForm__input.verificationForm__input--small(
       placeholder="Month",
       :options="birthdayMonths",
       v-model="verification.month",
+      searchable,
     )
-    VerificationSelect.verificationForm__input.verificationForm__input--small(
+    CommonSelect.verificationForm__input.verificationForm__input--small(
       placeholder="Year",
       :options="birthdayYears",
-      v-model="verification.year"
+      v-model="verification.year",
+      searchable,
     )
   VerificationFormGroup(
     label="ID or Passport #:",
@@ -80,9 +85,9 @@ form.verificationForm
 <script>
 import {mapState, mapActions} from 'vuex';
 import {birthdayDays, birthdayYears, birthdayMonths} from 'services/birthday';
+import CommonSelect from 'components/CommonSelect';
 import VerificationFormGroup from './VerificationFormGroup';
 import VerificationInput from './VerificationInput';
-import VerificationSelect from './VerificationSelect';
 
 export default {
   name: 'VerificationForm',
@@ -151,7 +156,7 @@ export default {
     validations: Object,
   },
   components: {
-    VerificationSelect,
+    CommonSelect,
     VerificationFormGroup,
     VerificationInput,
   },

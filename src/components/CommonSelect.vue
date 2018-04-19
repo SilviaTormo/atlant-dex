@@ -196,7 +196,6 @@ export default {
         text-decoration: none;
         text-transform: none;
         vertical-align: middle;
-        white-space: nowrap;
         transition: all .2s;
 
         &--highlight {
