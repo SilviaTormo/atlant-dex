@@ -50,7 +50,6 @@ import 'echarts/lib/component/dataZoom';
 // import {simpleMovingAverageArray} from 'binary-indicators/lib/simpleMovingAverage';
 // import {exponentialMovingAverageArray} from 'binary-indicators/lib/exponentialMovingAverage';
 // import {macdArray} from 'binary-indicators/lib/macd';
-import {DateTime} from 'luxon';
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {periods} from 'config';
 import Icon from '../Icon';
@@ -100,6 +99,7 @@ export default {
       'candlePeriod',
       'lastCandleOpenTime',
       'lastCandle',
+      'getEmptyCandle',
     ]),
     priceSeries() {
       if (this.rawCandles) {
@@ -116,15 +116,18 @@ export default {
         }
       }
     },
-    timeSeries(index) {
-      return this.rawCandles.map((item, i) => {
-        const date = DateTime.fromISO(item.candleOpen);
+    timeSeries() {
+      // console.time('timeSeries calculation time');
+      return this.rawCandles.map((item) => {
+        const date = new Date(item.candleOpen);
         if (this.candlePeriodInMs <= 300000) {
-          return date.toLocaleString({hour: '2-digit', minute: '2-digit'});
+          // Don't show seconds
+          return date.toLocaleTimeString().replace(/((\d{2}\s)|(\d{2}$))/, ' ');
         } else {
-          return date.toLocaleString();
+          return date.toLocaleDateString();
         }
       });
+      // console.timeEnd('timeSeries calculation time');
     },
     volumeSeries() {
       return this.rawCandles.map(({volume}) => volume);
@@ -143,7 +146,6 @@ export default {
     }),
     ...mapActions('trade', [
       'addNewCandle',
-      'addBundleEmptyCandles',
     ]),
     setChartPeriod(period) {
       this.changeChartPeriod(period).then(() => {
@@ -430,29 +432,6 @@ export default {
         // this.setEmptyCandleHandler();
       }
     },
-    getEmptyCandle(lastCandle = this.lastCandle) {
-      const {close} = lastCandle;
-      const lastCandleOpenTime = (lastCandle === this.lastCandle) ?
-          this.lastCandleOpenTime
-          : new Date(lastCandle.candleOpen).getTime();
-
-      return Object.assign({}, lastCandle, {
-        high: close,
-        low: close,
-        open: close,
-        volume: 0,
-        candleOpen: new Date(lastCandleOpenTime + this.candlePeriodInMs).toISOString(),
-      });
-    },
-    addBundleOfEmptyCandles(candleNumber) {
-      const newCandles = [];
-      let baseCandle = this.lastCandle;
-      for (let i = 0; i < candleNumber; i++) {
-        baseCandle = this.getEmptyCandle(baseCandle);
-        newCandles.push(baseCandle);
-      }
-      this.addBundleEmptyCandles(newCandles);
-    },
     addEmptyCandle() {
       const emptyCandle = this.getEmptyCandle();
       this.addNewCandle(emptyCandle);
@@ -462,11 +441,7 @@ export default {
       clearTimeout(this._emptyCandleTimeoutId);
       const pastTime = new Date().getTime() - this.lastCandleOpenTime;
       const timeout = this.candlePeriodInMs - pastTime;
-      // If timeout is negative, means there is at least one candle which need to be added immediately
-      if (timeout < 0) {
-        const numberOfEmptyCandles = Math.floor(pastTime / this.candlePeriodInMs);
-        this.addBundleOfEmptyCandles(numberOfEmptyCandles);
-      } else {
+      if (timeout >= 0) {
         this._emptyCandleTimeoutId = setTimeout(this.addEmptyCandle, timeout);
       }
     },
