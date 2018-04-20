@@ -164,29 +164,12 @@ export default {
         };
       });
       this.$hub.on('newOrder', (data) => {
-        // console.table(data);
-        let obj = {};
-        if (data.makerId == this.account.id) {
-          obj.action = (data.isSellOrder) ? 'Sell' : 'Buy';
-          obj.amount = data.totalQuantity;
-          obj.creationDate = new Date().toISOString();
-          obj.fee = 0;
-          obj.feeCurrency = data.baseCurrency;
-          obj.id = data.id;
-          obj.pair = `${data.baseCurrency}/${data.quoteCurrency}`;
-          obj.price = data.price;
-          obj.status = 'Open';
-          obj.total = data.totalQuantity * data.price;
-          obj.type = (data.isMarketOrder) ? 'Market' : 'Limit';
-
-          this.addActiveOrder(obj);
-        }
+        this.addActiveOrder(data);
       });
       this.$hub.on('orderChanged', (data) => {
         this.changeOrderStatus(data);
       });
       this.$hub.on('newTrade', (data) => {
-        // console.table(data);
         this.addNewTrade(data);
       });
       this.$hub.on('newBalance', (data) => {
@@ -198,6 +181,9 @@ export default {
     },
   },
   watch: {
+    pair() {
+      this.$hub.invoke('setPair', this.pair);
+    },
     showSidebar() {
       this.updateOverflow();
     },

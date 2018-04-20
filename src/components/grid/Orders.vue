@@ -5,13 +5,13 @@
       tr.orders__row(v-for="order in (isActive ? getActiveOrders : getClosedOrders)", :key="order.id")
         td.orders__cell.orders__cell--sell
           .orders__typeWrapper
-            .orders__square(:class="'orders__square--' + order.action")
-            .orders__type {{order.action}}
-        td.orders__cell.orders__cell--type {{order.type}}
+            .orders__square(:class="'orders__square--' + getAction(order.side)")
+            .orders__type {{getAction(order.side)}}
+        td.orders__cell.orders__cell--type {{orderType[order.type]}}
         td.orders__cell.orders__cell--number {{order.price}}
-        td.orders__cell.orders__cell--number {{order.amount}}
-        td.orders__cell.orders__cell--number {{order.total}}
-        td.orders__cell.orders__cell--status {{order.status}}
+        td.orders__cell.orders__cell--number {{order.leavesQuantity}}
+        td.orders__cell.orders__cell--number {{order.totalQuantity}}
+        td.orders__cell.orders__cell--status {{orderStatus[order.status]}}
         td.orders__cell.orders__cell--date {{setDate(order.creationDate)}}
         td.orders__cell.orders__cell--trash
           Icon.orders__trash(id='trash' @click="isActive ? deleteOrder(order.id) : ''", :class="'orders__trash--' + (isActive ? 'active' : 'disabled')")
@@ -36,6 +36,16 @@ import Icon from '../Icon';
 export default {
   data() {
     return {
+      orderStatus: [
+        'Open',
+        'Partially filled',
+        'Filled',
+        'Cancelled',
+      ],
+      orderType: [
+        'Limit',
+        'Market',
+      ],
     };
   },
   computed: {
@@ -63,6 +73,9 @@ export default {
     },
     getApiRequest() {
         this.getOrders();
+    },
+    getAction(side) {
+      return (side === 0) ? 'buy' : 'sell';
     },
   },
   watch: {
@@ -145,10 +158,10 @@ export default {
     height: $size;
     border-radius: 1px;
     margin-right: 16px;
-    &--Buy {
+    &--buy {
       background-color: #7ed321;
     }
-    &--Sell {
+    &--sell {
       background-color: #f33a3a;
     }
   }
