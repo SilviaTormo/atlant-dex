@@ -23,8 +23,16 @@ TablePage(
           th Amount
           th Price
           th Total
-      tbody(v-for="(item, index) in orders")
-        tr.myOrders__row(@click="getTrades(item.id)")
+      transition-group(
+        v-for="(item, index) in orders",
+        tag="tbody",
+        :key="index",
+        name="order-list",
+      )
+        tr.myOrders__row(
+          @click="getTrades(item.id)"
+          key="main"
+        )
           td.myOrders__checkboxContainer
             Checkbox(color="yellow", :value="isChecked(item.id)" @change="setCheckedArray(item.id)")
           td {{item.id}}
@@ -35,8 +43,12 @@ TablePage(
           td {{setFixNumber(item.totalQuantity)}} {{item.baseCurrency}}
           td {{setFixNumber(item.price)}} {{item.quoteCurrency}}
           td {{setFixNumber(item.totalQuantity * item.price)}} {{item.quoteCurrency}}
-        tr(v-for="trade in item.trades" v-show="item.id === currentOrderId")
-          td
+        tr.myOrders__trades.order-list-item(
+          v-for="(trade, index) in item.trades",
+          v-show="item.id === currentOrderId",
+          :key="index",
+        )
+          td.myOrders__guidline
           td
           td
           td {{getTradeFee(item.side, trade)}}
@@ -182,6 +194,30 @@ export default {
       background-color: rgba(#000, .1);
     }
   }
+  &__trades {
+    height: 30px;
+    font-size: 11px;
+    /*background-color: rgba(#000, .1);*/
+    font-weight: normal;
+  }
+  &__guidline {
+    $line-color: #e9bd2455;
+    position: relative;
+    &:before {
+      border-left: 1px solid $line-color;
+      position: absolute;
+      top: 0;
+      margin-left: 8px;
+      bottom: 0;
+      content: '';
+    }
+    tbody tr.myOrders__trades:last-child &:before {
+      bottom: 50%;
+      width: 5px;
+      border-bottom: 1px solid $line-color;
+    }
+  }
+
   &__checkboxContainer {
     width: 50px;
     min-width: 32px;
@@ -190,6 +226,14 @@ export default {
   &__checkbox {
     position: absolute;
     top: 20px;
+  }
+  .order-list-enter, .order-list-leave-to {
+    opacity: 0;
+    height: 0;
+    line-height: 0;
+  }
+  .order-list-enter-active, .order-list-leave-active {
+    transition: all .3s;
   }
 }
 </style>
