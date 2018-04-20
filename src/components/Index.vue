@@ -304,9 +304,10 @@ export default {
   &__leftSide {
     display: flex;
     width: $leftSide_width;
-    height: 100%;
+    // height: 100%;
     position: fixed;
     top: 0;
+    bottom: 0;
     left: 0;
     z-index: 10;
     transition: left $sidebar_speed linear;

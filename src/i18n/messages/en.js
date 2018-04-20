@@ -6,7 +6,6 @@ export default {
     tooShort: 'Password must have at least {minLength} letters',
     notMatch: 'Passwords must be identical',
   },
-
   sent2FA: [
     'You were sent an email to confirm',
     'You were sent text message to confirm',
