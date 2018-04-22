@@ -147,7 +147,7 @@ export default {
     }
   }
   &__registration {
-    color: #054465;
+    color: #fff; // #054465;
   }
   &__action {
     margin-left: 19px;
@@ -163,6 +163,7 @@ export default {
     height: $size;
     width: $size;
     margin-right: 38px;
+    margin-bottom: 40px;
   }
   &__rating {
     min-width: 60px;
@@ -201,8 +202,11 @@ export default {
 
 @include media-breakpoint-down(md) {
   .accountInfo {
+    &__content {
+      display: block;
+    }
     &__iconMain {
-      display: none;
+      // display: none;
     }
     &__value {
       &--fullWidth {
