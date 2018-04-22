@@ -23,10 +23,26 @@ TablePage(
           th Amount
           th Price
           th Total
-      tbody(v-for="(item, index) in orders")
-        tr.myOrders__row(@click="getTrades(item.id)")
-          td.myOrders__checkboxContainer
-            Checkbox(color="yellow", :value="isChecked(item.id)" @change="setCheckedArray(item.id)")
+      transition-group(
+        v-for="(item, index) in orders",
+        tag="tbody",
+        :key="index",
+        name="order-list",
+      )
+        tr.myOrders__row(
+          @click="getTrades(item.id)"
+          key="main"
+        )
+          td.myOrders__checkboxCell
+            .myOrders__checkboxContainer
+              div(@click.stop="()=>{}")
+                Checkbox(
+                  color="yellow",
+                  :value="isChecked(item.id)",
+                  @change="setCheckedArray(item.id)",
+                )
+              .myOrders__chevronContainer(v-if="isOrderHasDetails(item)")
+                .myOrders__chevron(:class="{'myOrders__chevron--down': isOrderDetailed(item)}")
           td {{item.id}}
           td {{setDate(item.creationDate)}}
           td {{getOrderFee(item)}}
@@ -35,8 +51,17 @@ TablePage(
           td {{setFixNumber(item.totalQuantity)}} {{item.baseCurrency}}
           td {{setFixNumber(item.price)}} {{item.quoteCurrency}}
           td {{setFixNumber(item.totalQuantity * item.price)}} {{item.quoteCurrency}}
-        tr(v-for="trade in item.trades" v-show="item.id === currentOrderId")
-          td
+        tr.myOrders__loading(
+          key="spinner"
+          v-if="isOrderTradesLoading(item)",
+        )
+          td(colspan="9") loading...
+        tr.myOrders__trades.order-list-item(
+          v-for="(trade, index) in item.trades",
+          v-if="isOrderDetailed(item)",
+          :key="index",
+        )
+          td.myOrders__guidline
           td
           td
           td {{getTradeFee(item.side, trade)}}
@@ -59,6 +84,7 @@ export default {
     return {
       checkedArray: [],
       currentOrderId: null,
+      orderIdTradesLoading: null,
     };
   },
   computed: {
@@ -110,14 +136,30 @@ export default {
         this.currentOrderId = null;
       } else {
         this.currentOrderId = orderId;
-      };
+      }
     },
-    isDetailedOrder(order) {
+    isOrderDetailed(order) {
       return order.id === this.currentOrderId;
     },
+    isOrderHasDetails(order) {
+      return order.leavesQuantity !== order.totalQuantity;
+    },
+    isOrderTradesLoading(order) {
+      return order.id === this.orderIdTradesLoading;
+    },
     getTrades(orderId) {
+      console.log('orderId');
+      if (this.currentOrderId !== orderId) {
+        this.orderIdTradesLoading = orderId;
+        this.getTradesForOrder(orderId).then((response) => {
+          this.orderIdTradesLoading = false;
+          return response;
+        }).catch((error) => {
+          this.orderIdTradesLoading = false;
+          return error;
+        });
+      }
       this.setCurrentOrderId(orderId);
-      this.getTradesForOrder(orderId);
     },
   },
   watch: {
@@ -182,14 +224,77 @@ export default {
       background-color: rgba(#000, .1);
     }
   }
-  &__checkboxContainer {
+  &__trades {
+    height: 30px;
+    font-size: 11px;
+    /*background-color: rgba(#000, .1);*/
+    font-weight: normal;
+  }
+  &__guidline {
+    $line-color: #e9bd2455;
+    position: relative;
+    &:before {
+      border-left: 1px solid $line-color;
+      position: absolute;
+      top: 0;
+      margin-left: 8px;
+      bottom: 0;
+      content: '';
+    }
+    tbody tr.myOrders__trades:last-child &:before {
+      bottom: 50%;
+      width: 5px;
+      border-bottom: 1px solid $line-color;
+    }
+  }
+  &__chevronContainer {
+    flex: 1;
+    justify-content: center;
+    display: flex;
+  }
+  &__chevron {
+    border-color: #e9bd24;
+    border-style: solid;
+    border-width: 2px 2px 0 0;
+    content: "";
+    height: 10px;
+    margin: 0 5px 0 15px;
+    position: relative;
+    transform: rotate(-45deg);
+    transition: transform .3s;
+    width: 10px;
+
+    &--down {
+      transform: rotate(135deg);
+    }
+  }
+  &__checkboxCell {
     width: 50px;
     min-width: 32px;
     position: relative;
   }
+  &__checkboxContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
   &__checkbox {
     position: absolute;
     top: 20px;
+  }
+  &__loading {
+    text-align: center;
+    height: 30px;
+    font-size: 10px;
+    font-weight: 300;
+  }
+  .order-list-enter, .order-list-leave-to {
+    opacity: 0;
+    height: 0;
+    line-height: 0;
+  }
+  .order-list-enter-active, .order-list-leave-active {
+    transition: all .3s;
   }
 }
 </style>
