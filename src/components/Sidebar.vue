@@ -21,7 +21,7 @@
   //-     BButton(color="malachite" rounded outline @click="openSignIn") Import
   //- .sidebar__item.sidebar__item--copyright Copyright &#169; Atlant, 2017
   .sidebar__item.sidebar__item--bottom
-    .sidebar__contact Contacs Us: #[a.link(href="mailto:info@coin.gi") info@coin.gi]
+    .sidebar__contact Contact Us: #[a.link(href="mailto:info@coin.gi") info@coin.gi]
 </template>
 
 <script>

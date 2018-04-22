@@ -109,6 +109,7 @@ export default {
     font-size: 14px;
     font-weight: 700;
     background: repeating-linear-gradient(135deg,#103c55,#103c55 25px,#03324c 0,#03324c 60px);
+    z-index: 1;
   }
   &__addAllertsIcon {
     fill: #E9BD24;
