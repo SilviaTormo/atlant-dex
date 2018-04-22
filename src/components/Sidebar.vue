@@ -2,8 +2,8 @@
 .sidebar
   .sidebar__shadowBottom(:class="(showSidebar) ? '' : 'sidebar__shadowBottom--hidden'")
   .sidebar__item.sidebar__item--logo(@click="getOpenPage('generalsettings')")
-    // Icon.sidebar__logo(id="logo")
-    h1.sidebar__title DAX EXCHANGE
+    Icon.sidebar__logo(id="logo")
+    h1.sidebar__title EXCHANGE
   Portfolio(v-if="section == 'wallet'")
   Charts(v-if="section == 'charts'")
   Alerts(v-if="section == 'alert'")
@@ -148,14 +148,15 @@ export default {
     position: relative;
     &--logo {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: space-between;
       font-size: 14px;
       font-weight: bold;
       color: red;
       cursor: pointer;
-      padding-top: 18px;
-      padding-bottom: 18px;
+      padding-top: 30px;
+      padding-bottom: 20px;
+      // height: 56px;
     }
     &--header {
       font-weight: 700;
@@ -216,16 +217,18 @@ export default {
     margin-top: 5px;
   }
   &__logo {
-    width: 121px;
-    height: 15px;
+    height: 30px;
+    width: 80px;
     fill: #fff;
   }
   &__title {
     color: #ffffff;
     font-size: 10px;
-    line-height: 8px;
+    line-height: 20px;
+    height: 20px;
     font-weight: 700;
     letter-spacing: 1px;
+    margin-right: 50px;
   }
   &__buttons {
     display: flex;

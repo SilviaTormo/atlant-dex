@@ -384,7 +384,7 @@ export default {
       &--bottom {
         position: fixed;
         width: 100%;
-        bottom: 50px;
+        bottom: 0px;
         height: 50px;
         background: $background__shadow__gradient__to__top;
       }
