@@ -35,11 +35,12 @@ TablePage(
         )
           td.myOrders__checkboxCell
             .myOrders__checkboxContainer
-              Checkbox(
-                color="yellow",
-                :value="isChecked(item.id)",
-                @change="setCheckedArray(item.id)"
-              )
+              div(@click.stop="()=>{}")
+                Checkbox(
+                  color="yellow",
+                  :value="isChecked(item.id)",
+                  @change="setCheckedArray(item.id)",
+                )
               .myOrders__chevronContainer(v-if="isOrderHasDetails(item)")
                 .myOrders__chevron(:class="{'myOrders__chevron--down': isOrderDetailed(item)}")
           td {{item.id}}
@@ -147,6 +148,7 @@ export default {
       return order.id === this.orderIdTradesLoading;
     },
     getTrades(orderId) {
+      console.log('orderId');
       if (this.currentOrderId !== orderId) {
         this.orderIdTradesLoading = orderId;
         this.getTradesForOrder(orderId).then((response) => {
