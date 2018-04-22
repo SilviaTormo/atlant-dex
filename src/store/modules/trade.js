@@ -63,20 +63,60 @@ export default {
       return candles.length && candles[0].period;
     },
     candlePeriodInMs(state, getters) {
-      return new Date(`1970-01-01T${getters.candlePeriod}Z`).getTime();
+      return getters.getCandlePeriodInMs();
     },
     lastCandle(state, getters) {
       return getters.candles[getters.candles.length - 1];
     },
     lastCandleOpenTime(state, getters) {
-      const {lastCandle, candles, candlePeriodInMs} = getters;
+      return getters.getLastCandleOpenTime();
+    },
+    getCandlePeriodInMs: (state, getters) => (candlePeriod = getters.candlePeriod) => {
+      return new Date(`1970-01-01T${candlePeriod}Z`).getTime();
+    },
+    getLastCandleOpenTime: (state, getters) => (
+        candles = getters.candles,
+        lastCandle = getters.lastCandle,
+    ) => {
       if (!candles.length) return 0;
-      let time = new Date(lastCandle.candleOpen).getTime();
+      let time = Date.parse(lastCandle.candleOpen);
       // Fix when last candle has wrong open time
       if (time < 0) {
-        time = new Date(candles[candles.length - 2].candleOpen).getTime() + candlePeriodInMs;
+        const candlePeriodInMs = getters.getCandlePeriodInMs(candles[0].period);
+        time = Date.parse(candles[candles.length - 2].candleOpen) + candlePeriodInMs;
       }
       return time;
+    },
+    getEmptyCandle: (state, getters) => (
+        lastCandle = getters.lastCandle,
+        candlePeriodInMs = getters.candlePeriodInMs
+    ) => {
+      const {close} = lastCandle;
+      const lastCandleOpenTime = (lastCandle === getters.lastCandle) ?
+          getters.lastCandleOpenTime
+          : new Date(lastCandle.candleOpen).getTime();
+
+      return Object.assign({}, lastCandle, {
+        high: close,
+        low: close,
+        open: close,
+        volume: 0,
+        candleOpen: new Date(lastCandleOpenTime + candlePeriodInMs).toISOString(),
+      });
+    },
+    getActualizedCandlesCollection: (state, getters) => (candlesCollection) => {
+      const lastCandle = candlesCollection[candlesCollection.length - 1];
+      const candlePeriodInMs = getters.getCandlePeriodInMs(lastCandle.period);
+      const lastCandleOpenTime = getters.getLastCandleOpenTime(candlesCollection, lastCandle);
+      const pastTime = new Date().getTime() - lastCandleOpenTime;
+      const candleNumber = Math.floor(pastTime / candlePeriodInMs);
+      const newCandles = [];
+      let baseCandle = lastCandle;
+      for (let i = 0; i < candleNumber; i++) {
+        baseCandle = getters.getEmptyCandle(baseCandle, candlePeriodInMs);
+        newCandles.push(baseCandle);
+      }
+      return candlesCollection.concat(newCandles);
     },
     getPairName: (state, getters) => ({base = getters.baseCurrency, quote = getters.quoteCurrency}) => {
       return `${base}_${quote}`;
@@ -108,7 +148,6 @@ export default {
     setChartsInfo(state, data) {
       state.chartsInfo = data;
     },
-
     setChartData(state, data) {
       const modifier = data.candles ? {} : {candles: []};
       Object.assign(state.chart.data, data, modifier);
@@ -116,7 +155,6 @@ export default {
     setPairs(state, data) {
       state.pairs = data;
     },
-
     setPairInfo(state, data) {
       state.pairInfo = data;
     },
@@ -150,7 +188,7 @@ export default {
       state.chart.data.candles = candles;
     },
     addNewCandle(state, candle) {
-      if (state.chartюnewCandles) {
+      if (state.chart.newCandles) {
         state.chart.newCandles.push(candle);
       } else {
         state.chart.newCandles = [candle];
@@ -268,12 +306,13 @@ export default {
       });
     },
 
-    loadChart: debounce(function({commit, state}) {
+    loadChart: debounce(function({commit, state, dispatch, getters}) {
       return Trade.getCandlesCollection({
         period: state.chart.period,
         pair: state.pair,
       }).then((res) => {
-        commit('setChartData', res.data);
+        const candles = getters.getActualizedCandlesCollection(res.data.candles);
+        commit('setChartData', Object.assign(res.data, {candles}));
       });
     }, 50),
     changeBaseCurrency({commit, dispatch, getters}, currency) {
@@ -370,10 +409,6 @@ export default {
         };
         commit('setTradesForOrder', data);
       });
-    },
-    addBundleEmptyCandles({commit, getters}, bundleEmptyCandles) {
-      const newCandles = getters.candles.concat(bundleEmptyCandles);
-      commit('setCandles', newCandles);
     },
     addNewCandle({dispatch, commit}, candle) {
       commit('addNewCandle', candle);
