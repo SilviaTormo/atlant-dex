@@ -20,6 +20,8 @@
   //-     b or
   //-     BButton(color="malachite" rounded outline @click="openSignIn") Import
   //- .sidebar__item.sidebar__item--copyright Copyright &#169; Atlant, 2017
+  .sidebar__item.sidebar__item--bottom
+    .sidebar__contact Contacs Us: #[a.link(href="mailto:info@coin.gi") info@coin.gi]
 </template>
 
 <script>
@@ -107,6 +109,8 @@ export default {
 @import '~sass/bootstrap/media';
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
   min-height: 100%;
   background-image: linear-gradient(to top, #01253A 0%, #03354F 100%);
   position: relative;
@@ -158,6 +162,9 @@ export default {
     }
     &--copyright {
       font-size: 8px;
+    }
+    &--bottom {
+      flex: 1 1 auto;
     }
   }
   &__headerLine {
@@ -227,6 +234,10 @@ export default {
     width: 75%;
     margin-left: auto;
     margin-right: auto;
+  }
+  &__contact {
+    position: absolute;
+    bottom: 25px;
   }
 }
 @include media-breakpoint-down(md) {

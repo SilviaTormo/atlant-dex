@@ -102,7 +102,6 @@ export default {
 .balance {
   display: flex;
   align-items: flex-start;
-  margin-bottom: 30px;
   &--zero {
     opacity: 0.2;
   }

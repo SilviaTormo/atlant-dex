@@ -14,7 +14,7 @@
     .portfolio__headerLine
       .portfolio__header Coins:
       Icon.portfolio__icon(id="refresh" @click="getBalances")
-    BalanceItem(v-for="bal in getUserBalancesInCrypto", :key="bal.currency", :data="bal",
+    BalanceItem.portfolio__balanceItem(v-for="bal in getUserBalancesInCrypto", :key="bal.currency", :data="bal",
      :isActive="bal.currency === selectedCur", @click.native="openCur(bal.currency)")
     //- BalanceItem(v-for="bal in balances", v-if="bal.isCrypto && bal.availableFunds == 0 && showAll", :key="bal.currency",
       :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="bal.isCrypto", @click.native="openCur(bal.currency)")
@@ -122,6 +122,11 @@ export default {
     color: #31edd7;
     font-size: 22px;
     font-weight: 500;
+  }
+  &__balanceItem {
+    &:not(:last-of-type) {
+      margin-bottom: 30px;
+    }
   }
   &__headerDropdown {
     width: 50px;
