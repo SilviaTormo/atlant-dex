@@ -117,6 +117,16 @@ module.exports = {
         ],
       },
       {
+        test: /\.ico$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: '',
+          },
+        }],
+      },
+      {
         test: /\.(eot|ttf|woff|woff2)$/,
         use: [{
           loader: 'file-loader',
@@ -160,8 +170,28 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new FaviconsWebpackPlugin({
+      logo: `${DIR_IMAGES}/favicon.png`,
+      background: '#02344e',
+      emitStats: false,
+      title: 'DEX',
+      inject: true,
+      icons: {
+        android: true,
+        appleIcon: true,
+        appleStartup: false,
+        coast: false,
+        favicons: true,
+        firefox: true,
+        opengraph: false,
+        twitter: false,
+        yandex: false,
+        windows: false
+      }
+    }),
     new HtmlWebpackPlugin({
       template: `${DIR_SRC}/index.pug`,
+      inject: 'head'
     }),
     new ProgressBarPlugin({
       format: 'build [:bar] ' + (':percent') + ' (:elapsed seconds)',
@@ -186,12 +216,6 @@ module.exports = {
     new StyleExtHtmlWebpackPlugin(),
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'async',
-    }),
-    new FaviconsWebpackPlugin({
-      logo: `${DIR_IMAGES}/favicon.png`,
-      background: '#fff',
-      emitStats: false,
-      title: 'Atlant DEX',
     }),
   ],
 };

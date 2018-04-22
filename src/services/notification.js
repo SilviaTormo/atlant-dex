@@ -26,7 +26,7 @@ export const notification = ({title = '', text, type = 'info'}) => {
     layout: store.getters['misc/isMobile'] ? 'bottomCenter' : 'topRight',
     closeWith: ['click', 'button'],
     progressBar: false,
-    timeout: 30000000,
+    timeout: 3000,
   }).show();
 };
 
