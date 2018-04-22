@@ -33,8 +33,15 @@ TablePage(
           @click="getTrades(item.id)"
           key="main"
         )
-          td.myOrders__checkboxContainer
-            Checkbox(color="yellow", :value="isChecked(item.id)" @change="setCheckedArray(item.id)")
+          td.myOrders__checkboxCell
+            .myOrders__checkboxContainer
+              Checkbox(
+                color="yellow",
+                :value="isChecked(item.id)",
+                @change="setCheckedArray(item.id)"
+              )
+              .myOrders__chevronContainer(v-if="isOrderHasDetails(item)")
+                .myOrders__chevron(:class="{'myOrders__chevron--down': isOrderDetailed(item)}")
           td {{item.id}}
           td {{setDate(item.creationDate)}}
           td {{getOrderFee(item)}}
@@ -43,9 +50,14 @@ TablePage(
           td {{setFixNumber(item.totalQuantity)}} {{item.baseCurrency}}
           td {{setFixNumber(item.price)}} {{item.quoteCurrency}}
           td {{setFixNumber(item.totalQuantity * item.price)}} {{item.quoteCurrency}}
+        tr.myOrders__loading(
+          key="spinner"
+          v-if="isOrderTradesLoading(item)",
+        )
+          td(colspan="9") loading...
         tr.myOrders__trades.order-list-item(
           v-for="(trade, index) in item.trades",
-          v-show="item.id === currentOrderId",
+          v-if="isOrderDetailed(item)",
           :key="index",
         )
           td.myOrders__guidline
@@ -71,6 +83,7 @@ export default {
     return {
       checkedArray: [],
       currentOrderId: null,
+      orderIdTradesLoading: null,
     };
   },
   computed: {
@@ -122,14 +135,29 @@ export default {
         this.currentOrderId = null;
       } else {
         this.currentOrderId = orderId;
-      };
+      }
     },
-    isDetailedOrder(order) {
+    isOrderDetailed(order) {
       return order.id === this.currentOrderId;
     },
+    isOrderHasDetails(order) {
+      return order.leavesQuantity !== order.totalQuantity;
+    },
+    isOrderTradesLoading(order) {
+      return order.id === this.orderIdTradesLoading;
+    },
     getTrades(orderId) {
+      if (this.currentOrderId !== orderId) {
+        this.orderIdTradesLoading = orderId;
+        this.getTradesForOrder(orderId).then((response) => {
+          this.orderIdTradesLoading = false;
+          return response;
+        }).catch((error) => {
+          this.orderIdTradesLoading = false;
+          return error;
+        });
+      }
       this.setCurrentOrderId(orderId);
-      this.getTradesForOrder(orderId);
     },
   },
   watch: {
@@ -217,15 +245,45 @@ export default {
       border-bottom: 1px solid $line-color;
     }
   }
+  &__chevronContainer {
+    flex: 1;
+    justify-content: center;
+    display: flex;
+  }
+  &__chevron {
+    border-style: solid;
+    border-width: 2px 2px 0 0;
+    content: "";
+    height: 10px;
+    margin: 0 5px 0 15px;
+    position: relative;
+    transform: rotate(-45deg);
+    transition: transform .3s;
+    width: 10px;
 
-  &__checkboxContainer {
+    &--down {
+      transform: rotate(135deg);
+    }
+  }
+  &__checkboxCell {
     width: 50px;
     min-width: 32px;
     position: relative;
   }
+  &__checkboxContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
   &__checkbox {
     position: absolute;
     top: 20px;
+  }
+  &__loading {
+    text-align: center;
+    height: 30px;
+    font-size: 10px;
+    font-weight: 300;
   }
   .order-list-enter, .order-list-leave-to {
     opacity: 0;
