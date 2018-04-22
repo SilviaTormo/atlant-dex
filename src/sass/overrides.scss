@@ -1,3 +1,5 @@
+@import '~sass/bootstrap/media';
+
 .noty{
   &_close_button {
     color: #ffc600;
@@ -31,6 +33,25 @@
     }
   }
 }
+
+@keyframes noty_mobile_anim_in {
+  0% {
+    opacity: 0;
+    transform: rotateX(-90deg);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes noty_mobile_anim_out {
+  100% {
+    transform: rotateX(-90deg);
+    opacity: 0;
+  }
+}
+
 .gm-style-cc {
   display: none;
 }
@@ -108,5 +129,32 @@
   background-color: transparent !important;
   & img {
     display: none;
+  }
+}
+
+
+@include media-breakpoint-down(md) {
+  #noty_layout__bottomCenter {
+    perspective: 300px;
+    bottom: 2px;
+  }
+
+  .noty{
+    &_close_button {
+      display: none;
+    }
+    &_type {
+      &__info, &__error, &__success {
+        margin: 2px !important;
+      }
+    }
+    &_effects {
+      &_open {
+        animation: noty_mobile_anim_in 0.5s cubic-bezier(.36,-0.64,.34,1.76);
+      }
+      &_close {
+        animation: noty_mobile_anim_out 0.5s cubic-bezier(.36,-0.64,.34,1.76);
+      }
+    }
   }
 }

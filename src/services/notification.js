@@ -1,5 +1,6 @@
 import Noty from 'noty';
 import i18n from 'i18n';
+import store from 'store';
 import {serverCodes} from './serverCodes';
 
 window.i18n = i18n;
@@ -22,10 +23,10 @@ export const notification = ({title = '', text, type = 'info'}) => {
   new Noty({
     text: `${errorTag}<b>${title}</b> ${text}`,
     type: 'info',
-    layout: 'topRight',
+    layout: store.getters['misc/isMobile'] ? 'bottomCenter' : 'topRight',
     closeWith: ['click', 'button'],
     progressBar: false,
-    timeout: 3000,
+    timeout: 30000000,
   }).show();
 };
 
