@@ -1,6 +1,6 @@
 <template lang="pug">
 .pageHeader
-  BackToDashboard
+  // BackToDashboard
   .pageHeader__title(v-if="!isMobile") {{title}} :
 </template>
 
@@ -39,30 +39,31 @@ export default {
   &__title {
     font-weight: 700;
     text-transform: uppercase;
-    margin-left: 52px;
+    margin-left: 148px;
   }
 }
 
 @include media-breakpoint-down(md) {
   .pageHeader {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    height: 52px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 0;
-    padding-left: 30px;
-    background: repeating-linear-gradient(
-      135deg,
-      #103c55,
-      #103c55 25px,
-      #03324c 0,
-      #03324c 60px
-    );
-    z-index: 1.5;
+    // position: fixed;
+    // display: flex;
+    // justify-content: center;
+    // align-content: center;
+    // height: 52px;
+    // bottom: 0;
+    // left: 0;
+    // right: 0;
+    // padding: 0;
+    // padding-left: 30px;
+    // background: repeating-linear-gradient(
+    //   135deg,
+    //   #103c55,
+    //   #103c55 25px,
+    //   #03324c 0,
+    //   #03324c 60px
+    // );
+    // z-index: 1.5;
+    display: none;
   }
 }
 </style>

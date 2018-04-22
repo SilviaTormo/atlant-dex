@@ -3,7 +3,7 @@
   .sidebar__shadowBottom(:class="(showSidebar) ? '' : 'sidebar__shadowBottom--hidden'")
   .sidebar__item.sidebar__item--logo(@click="getOpenPage('generalsettings')")
     // Icon.sidebar__logo(id="logo")
-    h1.sidebar__title DAX EXCHANGE
+    h1.sidebar__title DAE EXCHANGE
   Portfolio(v-if="section == 'wallet'")
   Charts(v-if="section == 'charts'")
   Alerts(v-if="section == 'alert'")

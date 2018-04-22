@@ -34,11 +34,11 @@
         id='user',
         :class="{'toolbar__icon--active': isProfilePageOpened}"
       )
-    UserVisibility(:onLoginClick="() => getOpenPage('securitySettings')")
-      Icon.toolbar__icon(
-        id='settings',
-        :class="{'toolbar__icon--active': isSettingPageOpened}",
-      )
+    //- UserVisibility(:onLoginClick="() => getOpenPage('securitySettings')")
+    //-   Icon.toolbar__icon(
+    //-     id='settings',
+    //-     :class="{'toolbar__icon--active': isSettingPageOpened}",
+    //-   )
     Icon.toolbar__icon(
       id='info',
       @click="getOpenPage('transactionHistory')",
