@@ -251,6 +251,7 @@ export default {
     display: flex;
   }
   &__chevron {
+    border-color: #e9bd24;
     border-style: solid;
     border-width: 2px 2px 0 0;
     content: "";
