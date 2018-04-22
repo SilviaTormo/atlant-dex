@@ -184,6 +184,11 @@ export default {
     pair() {
       this.$hub.invoke('setPair', this.pair);
     },
+    token() {
+      if (this.token) {
+        this.$hub.invoke('authenticate', this.token);
+      }
+    },
     showSidebar() {
       this.updateOverflow();
     },
@@ -201,7 +206,6 @@ export default {
           text: 'Logged out',
         });
       } else {
-        this.$hub.invoke('authenticate', this.token);
         this.getProfileData().then((response) => {
           if (!this.isTFAEnabled) {
             this.openModal({name: 'tfaWarningModal'});
