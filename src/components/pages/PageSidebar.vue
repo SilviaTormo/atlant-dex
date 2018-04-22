@@ -8,18 +8,22 @@
     )
       Icon.pageSidebar__icon(id="triangle2" v-if="isPageOpened(name) && !isMobile")
       span.pageSidebar__label {{label}}
-  ul.pageSidebar__mobileList
-    li.pageSidebar__mobileItem(
-      :class="{'pageSidebar__mobileItem--selected': selectedCat == cat}",
-      v-for="cat in categories"
-      @click="unhideCategory(cat)"
-    ) {{cat}}
-      .pageSidebar__mobileSubItem(
-        v-show="openCat == cat",
-        :class="{'pageSidebar__mobileSubItem--selected': isPageOpened(name)}",
-        v-for="{name, label, category} in items" v-if="category == cat",
-        @click="openMobilePage({name})"
-      ) {{label}}
+  ul.pageSidebar__mobileList(
+    :class="{'pageSidebar__mobileList--selected': showNav}",
+    @click="toggleNav"
+  )
+    .pageSidebar__navHeader Profile #[Icon.pageSidebar__navIcon(:class="{'pageSidebar__navIcon--show' : showNav}" id="arrow_angle")]
+    //- li.pageSidebar__mobileItem(
+    //-   :class="{'pageSidebar__mobileItem--selected': selectedCat == cat}",
+    //-   v-for="cat in categories"
+    //-   @click="unhideCategory(cat)"
+    //- ) {{cat}}
+    .pageSidebar__mobileSubItem(
+      v-show="showNav"
+      :class="{'pageSidebar__mobileSubItem--selected': isPageOpened(name)}",
+      v-for="{name, label} in items",
+      @click="openMobilePage({name})"
+    ) {{label}}
 </template>
 
 <script>
@@ -31,13 +35,13 @@ export default {
   data() {
     return {
       items: [],
-      categories: [
-        'user info',
+      // categories: [
+        // 'user info',
         // 'transaction history',
         // 'my orders',
-        'security',
-      ],
-      openCat: '',
+        // 'security',
+      // ],
+      showNav: true,
     };
   },
   computed: {
@@ -65,8 +69,8 @@ export default {
         window.scrollTo(0, scrollY - headerHeight);
       });
     },
-    unhideCategory(cat) {
-      this.openCat = cat;
+    toggleNav() {
+      this.showNav = !this.showNav;
     },
     openMobilePage(param) {
       this.openPage(param);
@@ -129,17 +133,26 @@ export default {
     }
     &__mobileList {
       display: block;
-    }
-    &__mobileItem {
       padding: 14px;
       text-align: center;
       font-size: 16px;
       font-weight: 700;
       text-transform: uppercase;
       border: 1px solid #032537;
-      &--selected {
-        color: $color_yellow;
+      fill:#fff;
+    }
+    &__navHeader {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &__navIcon {
+      margin-left: 10px;
+      &--show {
+        transform: rotate(180deg);
       }
+    }
+    &__mobileItem {
     }
     &__mobileSubItem {
       color: #fff;
