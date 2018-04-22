@@ -172,8 +172,8 @@ export default {
       }
     }
     &__input--small {
-      & + & {
-        margin-left: 25px;
+      &:not(:last-of-type) {
+        margin-right: 25px;
       }
     }
     /deep/ .verificationFormGroup__labelText {

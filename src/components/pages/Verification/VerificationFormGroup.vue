@@ -4,10 +4,10 @@
     .verificationFormGroup__labelText {{label}}
     .verificationFormGroup__input
       slot
-  Icon.verificationFormGroup__icon(
-    v-if="validation",
-    :id="iconName",
-    :class="`verificationFormGroup__icon--${validation}`"
+      Icon.verificationFormGroup__icon(
+        v-if="validation",
+        :id="iconName",
+        :class="`verificationFormGroup__icon--${validation}`"
   )
 </template>
 
@@ -36,6 +36,7 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
+  @import "~sass/bootstrap/media";
   @import "~sass/variables";
   .verificationFormGroup {
     align-items: center;
@@ -53,7 +54,7 @@ export default {
     }
     &__input {
       display: flex;
-      flex-direction: row;
+      align-items: center;
     }
     &__icon {
       fill: $input-border-color;
@@ -69,4 +70,17 @@ export default {
       }
     }
   }
+
+@include media-breakpoint-down(xs) {
+  .verificationFormGroup {
+    &__label {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    &__labelText {
+      text-align: left;
+      padding-bottom: 10px;
+    }
+  }
+}
 </style>
