@@ -19,5 +19,6 @@ export const getSecurityLog = ({page, limit}) => api.get('logs/security', {param
 
 export const getBalances = () => api.get('account/balances');
 export const deposit = ({currency, amount}) => api.put('account/deposit', {currency, amount});
+export const getDepositAddress = ({currency}) => api.get('crypto/address', {params: {currency}});
 export const withdraw = ({currency, amount, address}) => api.post('crypto/withdraw/request', {currency, amount, address});
 export const confirmWithdraw = ({currency, code, transactionId}) => api.post('crypto/withdraw/finish', {currency, code, transactionId});

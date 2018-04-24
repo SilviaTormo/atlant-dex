@@ -11,6 +11,7 @@ Modal
 
 <script>
 import {mapState, mapMutations, mapActions} from 'vuex';
+import * as User from 'services/api/user';
 import clipboard from 'directives/clipboard';
 import BButton from 'components/BButton';
 import QR from 'components/QR';
@@ -19,7 +20,7 @@ import Modal from 'components/modals/Modal';
 export default {
   data() {
     return {
-      address: '1Em13kZhv8VZcqDFhTE7TSAuTaxzRrykmG',
+      address: '',
     };
   },
   computed: {
@@ -40,6 +41,13 @@ export default {
         amount: 100000,
       });
     },
+  },
+  created() {
+    User.getDepositAddress({
+      currency: this.data.currency,
+    }).then((response) => {
+      this.address = response.data.address;
+    });
   },
   directives: {
     clipboard,
