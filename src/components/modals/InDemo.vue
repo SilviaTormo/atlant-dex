@@ -2,7 +2,7 @@
 Modal
   .inDemo
     Icon.inDemo__icon(id="info")
-    .inDemo__text DAE exchange is currently in demo, live trading to be enabled once released
+    .inDemo__text ATLANT exchange is currently in demo, live trading to be enabled once released
 </template>
 
 <script>

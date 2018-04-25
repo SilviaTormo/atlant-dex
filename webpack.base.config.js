@@ -6,7 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+// const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
@@ -14,7 +14,7 @@ const DIR_SRC = path.resolve(__dirname, 'src');
 const DIR_BUILD = path.resolve(__dirname, 'dist');
 const DIR_ASSETS = path.resolve(DIR_SRC, 'assets');
 // const DIR_SOUNDS = path.resolve(DIR_ASSETS, 'sounds');
-const DIR_IMAGES = path.resolve(DIR_ASSETS, 'images');
+// const DIR_IMAGES = path.resolve(DIR_ASSETS, 'images');
 const DIR_ICONS = path.resolve(DIR_ASSETS, 'icons');
 const DIR_ICONS_COLORED = path.resolve(DIR_ICONS, 'colored');
 // const DIR_FONTS = path.resolve(DIR_ASSETS, 'fonts');
@@ -170,28 +170,28 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new FaviconsWebpackPlugin({
-      logo: `${DIR_IMAGES}/favicon.png`,
-      background: '#02344e',
-      emitStats: false,
-      title: 'DEX',
-      inject: true,
-      icons: {
-        android: true,
-        appleIcon: true,
-        appleStartup: false,
-        coast: false,
-        favicons: true,
-        firefox: true,
-        opengraph: false,
-        twitter: false,
-        yandex: false,
-        windows: false
-      }
-    }),
+    // new FaviconsWebpackPlugin({
+    //   logo: `${DIR_IMAGES}/favicon.png`,
+    //   background: '#02344e',
+    //   emitStats: false,
+    //   title: 'DEX',
+    //   inject: true,
+    //   icons: {
+    //     android: true,
+    //     appleIcon: true,
+    //     appleStartup: false,
+    //     coast: false,
+    //     favicons: true,
+    //     firefox: true,
+    //     opengraph: false,
+    //     twitter: false,
+    //     yandex: false,
+    //     windows: false,
+    //   },
+    // }),
     new HtmlWebpackPlugin({
       template: `${DIR_SRC}/index.pug`,
-      inject: 'head'
+      inject: 'head',
     }),
     new ProgressBarPlugin({
       format: 'build [:bar] ' + (':percent') + ' (:elapsed seconds)',

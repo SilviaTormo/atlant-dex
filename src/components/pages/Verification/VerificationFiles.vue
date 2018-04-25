@@ -22,7 +22,7 @@
       )
   .verificationFiles__item
     VerificationFormGroup(
-      label="Selfie holding ID card & signed «Coin.gi» paper:",
+      label="Selfie holding ID card & signed «ATLANT» paper:",
       label-for="null",
     )
       VerificationFileInput(

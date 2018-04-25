@@ -2,8 +2,8 @@
 .sidebar
   .sidebar__shadowBottom(:class="(showSidebar) ? '' : 'sidebar__shadowBottom--hidden'")
   .sidebar__item.sidebar__item--logo(@click="getOpenPage('generalsettings')")
-    Icon.sidebar__logo(id="logo")
-    h1.sidebar__title EXCHANGE
+    // Icon.sidebar__logo(id="logo")
+    h1.sidebar__title ATLANT EXCHANGE
   Portfolio(v-if="section == 'wallet'")
   Charts(v-if="section == 'charts'")
   Alerts(v-if="section == 'alert'")
@@ -20,8 +20,8 @@
   //-     b or
   //-     BButton(color="malachite" rounded outline @click="openSignIn") Import
   //- .sidebar__item.sidebar__item--copyright Copyright &#169; Atlant, 2017
-  .sidebar__item.sidebar__item--bottom
-    .sidebar__contact Contact Us: #[a.link(href="mailto:info@coin.gi") info@coin.gi]
+  //- .sidebar__item.sidebar__item--bottom
+  //-   .sidebar__contact Contact Us: #[a.link(href="mailto:info@atlant.io") info@atlant.io]
 </template>
 
 <script>
