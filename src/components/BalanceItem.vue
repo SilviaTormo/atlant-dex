@@ -1,11 +1,11 @@
 <template lang='pug'>
-.balance(:class="{'balance--zero': data.availableFunds == 0}")
-  Icon.balance__currencyIcon(:class="{'balance__currencyIcon--zero': data.availableFunds == 0}", :id="logoId")
+.balance
+  Icon.balance__currencyIcon(:id="logoId")
   .balance__currencyContainer
     .balance__main
       .balance__currencyName(:class="activeClass") {{data.currency}}
       //Icon.balance__icon.balance__icon--qr(id="qr")
-      .balance__amount
+      .balance__amount(:class="{'balance--zero': data.availableFunds == 0}")
         .balance__currencyBalance {{toCurrencyFormat(data.availableFunds)}}
         .balance__equivBalance ${{toCurrencyFormat(data.balanceFiat)}}
     .balance__additional(v-if="isActive")
@@ -106,7 +106,9 @@ export default {
     opacity: 0.2;
   }
   &:hover {
-    opacity: 1;
+    .balance--zero {
+      opacity: 1;
+    }
   }
   &__currencyContainer {
     width: 100%;
