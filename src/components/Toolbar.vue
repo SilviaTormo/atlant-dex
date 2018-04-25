@@ -25,7 +25,7 @@
           id='icon-notification',
           :class="{'toolbar__icon--active': (currentPage === 'notificationHistory')}",
         )
-        .toolbar__notifications {{(notificationsCounter > 10) ? '9+' : notificationsCounter}}
+        .toolbar__notifications(v-show="notificationsCounter > 0") {{(notificationsCounter > 10) ? '9+' : notificationsCounter}}
     UserVisibility(
       hide-on-logout,
       :onLoginClick="() => getOpenPage('accountInformation')"
