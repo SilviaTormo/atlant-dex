@@ -35,7 +35,7 @@ export default {
 };
 </script>
 
-<style lang="scss" rel="stylesheet/scss" scoped>
+<style lang="scss">
   @import "~sass/bootstrap/media";
   @import "~sass/variables";
   .verificationFormGroup {
@@ -51,6 +51,7 @@ export default {
     &__labelText {
       display: inline-block;
       padding-right: 15px;
+      width: 121px;
     }
     &__input {
       display: flex;

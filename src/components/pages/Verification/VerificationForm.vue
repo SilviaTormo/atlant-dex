@@ -57,24 +57,25 @@ form.verificationForm
     :validation="getFieldValidationStatus('birthday')"
     label-for="null",
   )
-    CommonSelect.verificationForm__input.verificationForm__input--small(
-      placeholder="Day",
-      :options="birthdayDays",
-      v-model="verification.day",
-      searchable,
-    )
-    CommonSelect.verificationForm__input.verificationForm__input--small(
-      placeholder="Month",
-      :options="birthdayMonths",
-      v-model="verification.month",
-      searchable,
-    )
-    CommonSelect.verificationForm__input.verificationForm__input--small(
-      placeholder="Year",
-      :options="birthdayYears",
-      v-model="verification.year",
-      searchable,
-    )
+    .verificationForm__dataContainer
+      CommonSelect.verificationForm__input.verificationForm__input--small(
+        placeholder="Day",
+        :options="birthdayDays",
+        v-model="verification.day",
+        searchable,
+      )
+      CommonSelect.verificationForm__input.verificationForm__input--small(
+        placeholder="Month",
+        :options="birthdayMonths",
+        v-model="verification.month",
+        searchable,
+      )
+      CommonSelect.verificationForm__input.verificationForm__input--small(
+        placeholder="Year",
+        :options="birthdayYears",
+        v-model="verification.year",
+        searchable,
+      )
   VerificationFormGroup(
     label="ID or Passport #:",
     :validation="getFieldValidationStatus('passportId')"
@@ -163,21 +164,34 @@ export default {
 };
 </script>
 
-<style lang="scss" rel="stylesheet/scss" scoped>
+<style lang="scss" scoped>
+@import "~sass/bootstrap/media";
   .verificationForm {
-    & &__input {
-      width: 174px;
+    &__input {
+      width: 191px;
       &--small {
-        width: 84px;
+        width: 80px;
+        &:not(:last-of-type) {
+          margin-right: 25px;
+        }
       }
     }
-    &__input--small {
-      &:not(:last-of-type) {
-        margin-right: 25px;
-      }
+    &__dataContainer {
+      display: flex;
     }
-    /deep/ .verificationFormGroup__labelText {
-      width: 121px;
+  }
+  @include media-breakpoint-down(md) {
+    .verificationForm {
+      &__input {
+        &--small {
+          &:not(:last-of-type) {
+            margin-bottom: 20px;
+          }
+        }
+      }
+      &__dataContainer {
+        flex-direction: column;
+      }
     }
   }
 </style>
