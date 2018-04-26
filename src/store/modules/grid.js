@@ -43,8 +43,10 @@ export default {
       state.isEdit = !state.isEdit;
     },
     addGridLayout(state, component) {
-      // console.log('Add grid item ', component);
-      if (state.gridData.includes(component) == false) state.gridData.push(component);
+      state.gridData.forEach((el) => {
+        if (el.i == component.i) return false;
+      });
+      state.gridData.push(component);
     },
     removeGridLayout(state, component) {
       // console.log('Remove grid item ', component);
