@@ -12,6 +12,12 @@ export default {
     'Please enter Google Auth code to confirm',
     'You were sent Telegram message to confirm',
   ],
+  tfaConfirmTextTelegramEnable: 'Confirmation code has been sent via Telegram to enable 2FA',
+  tfaConfirmTextTelegramDisable: 'Confirmation code has been sent via Telegram to disable 2FA',
+  tfaConfirmTextSMSEnable: 'SMS with confirmation code has been sent to enable 2FA',
+  tfaConfirmTextSMSDisable: 'SMS with confirmation code has been sent to disable 2FA',
+  tfaConfirmTextGoogleEnable: 'Enter the one-time password from Google Auth to enable 2FA',
+  tfaConfirmTextGoogleDisable: 'Enter the one-time password from Google Auth to disable 2FA',
   tfaSecureWarning: {
     text: 'Please, enable 2 factor authorization to protect your account',
     title: 'Your account is not secure',
