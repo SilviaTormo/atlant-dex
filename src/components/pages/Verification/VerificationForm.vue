@@ -168,6 +168,7 @@ export default {
 @import "~sass/bootstrap/media";
   .verificationForm {
     &__input {
+      display: block;
       width: 191px;
       &--small {
         width: 80px;

@@ -44,7 +44,6 @@ export default {
     border: $input-border;
     padding: $input-padding;
     transition: $input-transition;
-    width: 100%;
     min-height: $input-height;
     line-height: 16px;
     display: flex;
