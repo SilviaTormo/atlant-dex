@@ -2,9 +2,14 @@ export default {
   state: {
     name: '',
     data: {},
+    previusPageForTables: '',
   },
   mutations: {
     open(state, {name, data}) {
+      if (state.name != name && state.name !== 'myOrders' && name !== 'myOrders') {
+        state.previusPageForTables = state.name;
+      }
+
       state.name = name;
       state.data = data;
     },

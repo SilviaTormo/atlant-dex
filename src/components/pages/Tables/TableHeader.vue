@@ -1,5 +1,6 @@
 <template lang="pug">
 .tableHeader
+  BackToPreviousPage.tableHeader__backToDashboard
   // BackToDashboard.tableHeader__backToDashboard
   .tableHeader__container(v-show="isTradeTables")
     .tableHeader__title(v-if="!isMobile" @click="getOpenPage('transactionHistory')", :class="(isThisPage('transactionHistory')) ? 'tableHeader__title--active' : ''") Transaction History
@@ -18,8 +19,9 @@
 
 <script>
 import {mapState, mapGetters, mapMutations} from 'vuex';
-import BackToDashboard from '../BackToDashboard';
 import CommonSelect from '../../CommonSelect';
+import BackToDashboard from '../BackToDashboard';
+import BackToPreviousPage from './BackToPreviousPage';
 
 export default {
   data() {
@@ -87,6 +89,7 @@ export default {
   },
   components: {
     BackToDashboard,
+    BackToPreviousPage,
     CommonSelect,
   },
 };
