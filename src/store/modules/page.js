@@ -6,7 +6,7 @@ export default {
   },
   mutations: {
     open(state, {name, data}) {
-      if (state.name != name && state.name !== 'myOrders' && name !== 'myOrders') {
+      if (state.name != name && !(state.name == 'transactionHistory' && name == 'myOrders') && !(state.name == 'myOrders' && name == 'transactionHistory')) {
         state.previusPageForTables = state.name;
       }
 
