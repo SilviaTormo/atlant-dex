@@ -1,7 +1,7 @@
 <template lang="pug">
 .tableHeader
-  BackToPreviousPage.tableHeader__backToDashboard
-  // BackToDashboard.tableHeader__backToDashboard
+  BackToPreviousPage.tableHeader__backTo
+  // BackToDashboard.tableHeader__backTo
   .tableHeader__container(v-show="isTradeTables")
     .tableHeader__title(v-if="!isMobile" @click="getOpenPage('transactionHistory')", :class="(isThisPage('transactionHistory')) ? 'tableHeader__title--active' : ''") Transaction History
     .tableHeader__title(v-if="!isMobile" @click="getOpenPage('myOrders')", :class="(isThisPage('myOrders')) ? 'tableHeader__title--active' : ''") My Orders
@@ -104,7 +104,7 @@ export default {
   padding: 0 36px;
   min-height: 73px;
   border-top: 1px solid $color_tangaroa;
-  &__backToDashboard {
+  &__backTo {
     padding-right: 43px;
   }
   &__container {
@@ -141,29 +141,28 @@ export default {
 
 @include media-breakpoint-down(md) {
   .tableHeader {
-    // position: fixed;
-    // display: flex;
-    // justify-content: center;
-    // align-content: center;
-    // min-height: 52px;
-    // height: 52px;
-    // bottom: 0;
-    // left: 0;
-    // right: 0;
-    // padding: 0;
-    // padding-left: 30px;
-    // background: repeating-linear-gradient(
-    //   135deg,
-    //   #103c55,
-    //   #103c55 25px,
-    //   #03324c 0,
-    //   #03324c 60px
-    // );
-    // z-index: 1.5;
-    // &__backToDashboard {
-    //   padding-right: 0;
-    // }
-    display: none;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    min-height: 52px;
+    height: 52px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0;
+    padding-left: 30px;
+    background: repeating-linear-gradient(
+      135deg,
+      #103c55,
+      #103c55 25px,
+      #03324c 0,
+      #03324c 60px
+    );
+    z-index: 1.5;
+    &__backTo {
+      padding-right: 0;
+    }
   }
 }
 </style>
