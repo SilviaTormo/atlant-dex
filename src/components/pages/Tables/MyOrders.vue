@@ -3,8 +3,8 @@ TablePage(
   title="My orders",
   :data="orders",
   :pageCount='setPagesCount',
-  :page="setPageNum",
-  :changeActivePage="setOffsetForTradeHistory",
+  :page="page",
+  :changeActivePage="changeActivePage",
   :checkedArray.sync='checkedArray',
   :getRepeat="true",
   :getCancel="true",
@@ -18,7 +18,7 @@ TablePage(
           th ID
           th Timestamp
           th Fee
-          th Action
+          th.table__sortable(:class="{'table__sortable--active': sortBy==='action'}" @click="sortOrders('action')") Action
           th Pair
           th Amount
           th Price
@@ -85,18 +85,20 @@ export default {
       checkedArray: [],
       currentOrderId: null,
       orderIdTradesLoading: null,
+      page: 1,
+      sortBy: 'action',
+      asc: false,
+      itemsOnPage: 3,
     };
   },
   computed: {
     ...mapGetters('trade', {
       orders: 'getAccountOrders',
       orderFilter: 'getAccountOrderFilter',
+      totalItems: 'getAccountOrdersItems',
     }),
     setPagesCount() {
-      return Math.ceil(this.allDataLength / this.itemsOnPage);
-    },
-    setPageNum() {
-      return Math.ceil((this.offset) / this.itemsOnPage) + 1;
+      return Math.ceil(this.totalItems / this.itemsOnPage);
     },
   },
   methods: {
@@ -147,6 +149,14 @@ export default {
     isOrderTradesLoading(order) {
       return order.id === this.orderIdTradesLoading;
     },
+    getMyOrders() {
+      this.getAccountOrders({
+        page: this.page,
+        limit: this.itemsOnPage,
+        sortBy: this.sortBy,
+        ascending: this.asc,
+      });
+    },
     getTrades(orderId) {
       console.log('orderId');
       if (this.currentOrderId !== orderId) {
@@ -161,10 +171,23 @@ export default {
       }
       this.setCurrentOrderId(orderId);
     },
+    changeActivePage(num) {
+      this.page = num;
+      this.getMyOrders();
+    },
+    sortOrders(column) {
+      if (this.sortBy === column) {
+        this.asc = !this.asc;
+      } else {
+        this.sortBy = column;
+        this.asc = false;
+      };
+      this.getMyOrders();
+    },
   },
   watch: {
     orderFilter() {
-      this.getAccountOrders(this.orderFilter);
+      this.getMyOrders();
     },
     setPageNum() {
       this.getAccountTradeHistory;
@@ -175,18 +198,9 @@ export default {
     dataType() {
       this.getAccountTradeHistory;
     },
-    // orders: {
-    //   handler() {
-    //     console.log('orders changed');
-    //     if (this.orders.find((item) => item.id === this.currentOrderId)) {
-    //       console.log(this.orders.find((item) => item.id === this.currentOrderId).trades);
-    //     };
-    //   },
-    //   deep: true,
-    // },
   },
   created() {
-    this.getAccountOrders();
+    this.getMyOrders();
   },
   components: {
     TablePage,
