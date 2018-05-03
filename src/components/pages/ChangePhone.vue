@@ -6,8 +6,8 @@
     .link.changePhone__action(:class="{'changePhone__action--empty' : isEmpty}" @click="changePhone") Change
     .link.changePhone__action(v-if="account.phone.value && !account.phone.verified" @click="verifyPhone") Verify
   .changePhone__row(v-if="step === 1")
-    .changePhone__value {{getCountryCode}}
-      FlagSwitch.changePhone__dropdown(v-model="country")
+    .changePhone__value
+      FlagSwitch.changePhone__dropdown(v-model="country" type="phone")
       input.input.changePhone__input(v-model="phone")
     .link.changePhone__action(@click="setPhoneNumber") Save
     .link.changePhone__action(@click="setStep(0)") Cancel
@@ -119,7 +119,6 @@ export default {
   &__dropdown {
     width: 40px;
     margin-right: 10px;
-    margin-left: 10px;
   }
   &__input {
     width: 120px;

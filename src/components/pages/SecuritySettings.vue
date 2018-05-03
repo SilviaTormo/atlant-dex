@@ -20,7 +20,7 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
     .securitySettings__item.securitySettings__desktopRow
       .securitySettings__row Terminate active sessions #[Icon.securitySettings__terminateIcon(id="terminate")]
       .link.securitySettings__action.securitySettings__action--mobileLeft Terminate
-    BButton.accountInfo__button(color="malachite" rounded) Save
+    // BButton.accountInfo__button(color="malachite" rounded) Save
 </template>
 
 <script>

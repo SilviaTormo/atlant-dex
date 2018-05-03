@@ -140,8 +140,11 @@ export default {
     getAccountOrderFilter(state) {
       return state.orderFilter;
     },
+    getAccountOrdersItems(state) {
+      return state.accountOrders.totalItems;
+    },
     getLastTrades(state) {
-      return state.trades.slice(0, 21);
+      return state.trades;
     },
   },
   mutations: {
@@ -172,8 +175,8 @@ export default {
     setPeriod(state, period) {
       state.chart.period = period;
     },
-    setTradeHistory(state, data) {
-      state.trades = data.trades;
+    setTradeHistory(state, trades) {
+      state.trades = trades.data;
     },
     setBook(state, data) {
       state.book = data;
@@ -226,21 +229,25 @@ export default {
       state.orders.find((item) => item.id === id).status = 3;
     },
     addActiveOrder(state, obj) {
-      console.log(obj);
       state.orders.unshift(obj);
       state.book.status = 1;
     },
     changeOrderStatus(state, obj) {
       // console.table(obj);
-      state.orders.forEach((item, i, arr) => {
-        if (item.status == 'Filled') return;
-        if (item.id == obj.orderId) {
-          item.status = obj.status;
-          if (typeof obj.leavesQuantity != 'undefined') {
-            item.leavesQuantity = obj.leavesQuantity;
-          }
-        };
-      });
+      // state.orders.forEach((item, i, arr) => {
+      //   if (item.status === 2) return;
+      //   if (item.id == obj.orderId) {
+      //     item.status = obj.status;
+      //     if (typeof obj.leavesQuantity != 'undefined') {
+      //       item.leavesQuantity = obj.leavesQuantity;
+      //     }
+      //   };
+      // });
+      let order = state.orders.find((item) => item.id === obj.id);
+      if (order) {
+        order.leavesQuantity = obj.leavesQuantity;
+        order.status = obj.status;
+      }
       state.book.status = 1;
     },
     addNewTrade(state, obj) {
@@ -353,11 +360,13 @@ export default {
         commit('setTradeHistory', response.data);
       });
     },
-    getAccountOrders({commit}, status) {
+    getAccountOrders({state, commit}, {page, limit, sortBy, ascending}) {
       return Trade.getOrders({
-        page: 1,
-        limit: 20,
-        status,
+        page,
+        limit,
+        sortBy,
+        ascending,
+        status: state.orderFilter,
       }).then((response) => {
         commit('setAccountOrders', response.data);
       });
