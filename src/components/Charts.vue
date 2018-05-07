@@ -2,7 +2,7 @@
 .charts
   .charts__item.charts__item--header
     .charts__headerLine
-      .charts__header CHARTS:
+      .charts__header QUOTES:
       .charts__headerText 24 hr change
       CommonSelect.charts__headerDropdown(
         :options="currencies",
@@ -11,9 +11,9 @@
         no-padding,
         preselect-first,
       )
-  .charts__item
+  .charts__item.charts__item--search
     .charts__headerLine
-      input.charts__search(type="text", placeholder="Search for currencies" v-model="search")
+      input.charts__search(type="text", placeholder="Search" v-model="search")
       Icon.charts__searchIcon(id="search")
   .charts__item(v-show="charts")
     .charts__headerLine
@@ -147,6 +147,9 @@ export default {
     font-size: 12px;
     &--header {
       font-weight: 700;
+    }
+    &--search {
+      padding: 14px 18px 14px 25px;
     }
   }
   &__headerLine {

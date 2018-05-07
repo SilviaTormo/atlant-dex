@@ -20,8 +20,7 @@ CommonSelect.flagSwitch(
     slot-scope="props",
   )
     .flagSwitch__option
-      div.flagSwitch__optionText.flagSwitch__optionText--singleLabel.
-        {{getSingleLabelText(props.option)}}
+      div.flagSwitch__optionText.flagSwitch__optionText--singleLabel {{getSingleLabelText(props.option)}}
       img.flagSwitch__optionImage(:src="flagPath(props.option)")
 </template>
 
@@ -94,7 +93,7 @@ export default {
   &--phone & {
     &__optionText--singleLabel {
       min-width: 33px;
-      text-align: right;
+      text-align: left;
     }
   }
   &__option {

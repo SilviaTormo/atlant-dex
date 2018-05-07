@@ -140,10 +140,11 @@ export default {
     ...mapActions('localization', [
       'setLang',
     ]),
-    ...mapActions('user', {
-      getTokens: 'getTokens',
-      getProfileData: 'getProfileData',
-    }),
+    ...mapActions('user', [
+      'getTokens',
+      'getProfileData',
+      'getCurrencies',
+    ]),
     ...mapActions('trade', {
       getTraderWallet: 'getTraderWallet',
     }),
@@ -220,7 +221,10 @@ export default {
     this.updateScreenType();
     this.hubSubscribe();
 
-    if (this.isLoggedIn) this.getProfileData();
+    if (this.isLoggedIn) {
+      this.getProfileData();
+      this.getCurrencies();
+    };
 
     this.$hub.start().then(() => {
       // this.$hub.invoke('newNotification', 'newMessage');

@@ -18,6 +18,7 @@ export const getNotificationHistory = ({page, limit, sortBy, ascending}) => api.
 export const getSecurityLog = ({page, limit}) => api.get('logs/security', {params: {page, limit}});
 
 export const getBalances = () => api.get('account/balances');
+export const getCurrencies = () => api.get('/exchange/currencies');
 export const deposit = ({currency, amount}) => api.put('account/deposit', {currency, amount});
 export const getDepositAddress = ({currency}) => api.get('crypto/address', {params: {currency}});
 export const withdraw = ({currency, amount, address}) => api.post('crypto/withdraw/request', {currency, amount, address});

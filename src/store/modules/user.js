@@ -8,6 +8,7 @@ export default {
       portfolioValue: 0,
     },
     userCurrencies: ['USD', 'BTC', 'ETH', 'LTC'],
+    transactionFees: [],
     account: {
       currency: '',
       email: {
@@ -77,6 +78,9 @@ export default {
     },
     getAccountTransactionItems(state) {
       return state.accountTransactionHistory.totalItems;
+    },
+    getCurrencyTransFees(state) {
+      return state.transactionFees;
     },
   },
   mutations: {
@@ -176,6 +180,9 @@ export default {
     setNotificationsCounter(state, data) {
       state.notificationsCounter = data;
     },
+    setTransactionFees(state, data) {
+      state.transactionFees = data;
+    },
   },
   actions: {
     getProfileData({commit}) {
@@ -256,6 +263,11 @@ export default {
         ascending,
       }).then((response) => {
         commit('setAccountTransactionHistory', response.data);
+      });
+    },
+    getCurrencies({commit}) {
+      User.getCurrencies().then((response) => {
+        commit('setTransactionFees', response.data);
       });
     },
   },

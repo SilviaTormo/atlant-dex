@@ -156,7 +156,7 @@ export default {
       cursor: pointer;
       padding-top: 30px;
       padding-bottom: 20px;
-      // height: 56px;
+      height: 50px;
     }
     &--header {
       font-weight: 700;

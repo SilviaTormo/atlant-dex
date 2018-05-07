@@ -10,7 +10,7 @@ Modal
 </template>
 
 <script>
-import {mapState, mapMutations, mapActions} from 'vuex';
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import * as User from 'services/api/user';
 import clipboard from 'directives/clipboard';
 import BButton from 'components/BButton';
@@ -27,6 +27,12 @@ export default {
     ...mapState('modal', {
       data: 'data',
     }),
+    ...mapGetters('user', [
+      'getCurrencyTransFees',
+    ]),
+    fee() {
+      return this.getCurrencyTransFees.find((item) => item.name === this.data.currency).depositFee;
+    },
   },
   methods: {
     ...mapMutations('modal', {

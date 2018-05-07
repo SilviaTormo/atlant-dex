@@ -43,7 +43,7 @@ Page(title="Account information", title2="", :sidebar="true")
                 :value="getCurrencyCountry",
                 @input="setPrefCurrencyFromFlag"
               )
-        BButton.accountInfo__button(color="malachite" rounded) Save
+        // BButton.accountInfo__button(color="malachite" rounded) Save
 </template>
 
 <script>
