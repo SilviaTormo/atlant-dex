@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Icon from 'components/Icon';
+import Icon from '@/components/Icon';
 
 export default {
   name: 'VerificationFormGroup',
@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style lang="scss">
-  @import "~sass/bootstrap/media";
+  @import "~@/sass/bootstrap/media";
   @import "~sass/variables";
   .verificationFormGroup {
     align-items: center;

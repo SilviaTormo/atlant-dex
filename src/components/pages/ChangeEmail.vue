@@ -12,8 +12,8 @@
 
 <script>
 import {mapState, mapActions} from 'vuex';
-import Icon from 'components/Icon';
-import {notification} from 'services/notification';
+import {notification} from '@/services/notification';
+import Icon from '@/components/Icon';
 
 export default {
   data() {
@@ -60,7 +60,7 @@ export default {
 
 
 <style lang="scss">
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
 
 .changeEmail {
   &__row {

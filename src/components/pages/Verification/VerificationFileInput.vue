@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import Icon from 'components/Icon';
-import {notification} from 'services/notification';
+import {notification} from '@/services/notification';
+import Icon from '@/components/Icon';
 
 const acceptTypes = ['application/pdf', 'image/*'];
 
@@ -82,7 +82,7 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  @import "~sass/bootstrap/media";
+  @import "~@/sass/bootstrap/media";
   @import "~sass/variables";
   .verificationUploadInput {
     position: relative;

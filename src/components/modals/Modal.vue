@@ -10,9 +10,9 @@ transition(name="modal__anim")
 </template>
 
 <script>
-import Icon from 'components/Icon';
-import {scrollbar} from 'directives';
 import {mapState, mapMutations} from 'vuex';
+import {scrollbar} from '@/directives';
+import Icon from '@/components/Icon';
 
 export default {
   computed: {
@@ -48,7 +48,7 @@ export default {
 <style lang="scss" scoped>
 @import '~perfect-scrollbar/dist/css/perfect-scrollbar';
 @import "~variables";
-@import '~sass/bootstrap/media';
+@import '~@/sass/bootstrap/media';
 $padding: 40px;
 
 .modal {

@@ -23,9 +23,9 @@
 
 <script>
 import {required, sameAs, minLength} from 'vuelidate/lib/validators';
-import * as Membership from 'services/api/membership';
-import TFA from 'components/modals/TFA';
-import Checkbox from 'components/Checkbox';
+import * as Membership from '@/services/api/membership';
+import TFA from '@/components/modals/TFA';
+import Checkbox from '@/components/Checkbox';
 
 export default {
   data() {
@@ -110,7 +110,7 @@ export default {
 
 
 <style lang="scss">
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
 
 .changePassword {
   &__desktopRow {

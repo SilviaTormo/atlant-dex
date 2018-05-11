@@ -39,87 +39,87 @@
 </template>
 
 <script>
-import i18n from 'i18n';
-import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
-import {notification, getSignalRNotification} from 'services/notification';
-// import * as Trade from 'services/api/trade';
-import {showWelcome} from 'config';
-import {scrollbar} from 'directives';
-import TheHeader from './TheHeader';
-import PairInfo from './PairInfo';
-import TheFooter from './TheFooter';
-import Sidebar from './Sidebar';
-import Toolbar from './Toolbar';
-import Grid from './grid/Grid';
-import PropertyMap from './PropertyMap';
-import TransactionHistory from './pages/Tables/TransactionHistory';
-import MyOrders from './pages/Tables/MyOrders';
-import NotificationHistory from './pages/Tables/NotificationHistory';
-import VerificationPage from './pages/Verification/VerificationPage';
-import VerificationAdmin from './pages/VerificationAdmin';
-import AccountInformation from './pages/AccountInformation';
-import SecuritySettings from './pages/SecuritySettings';
-import SecurityLog from './pages/SecurityLog';
-import FAQ from './pages/FAQ';
-import InDemo from './modals/InDemo';
-import Reset from './modals/Reset';
-import NewPassword from './modals/NewPassword';
-import SignUp from './modals/SignUp';
-import SignIn from './modals/SignIn';
-import CryptoDeposit from './modals/CryptoDeposit';
-import CryptoWithdraw from './modals/CryptoWithdraw';
-import Status from './modals/Status';
-import Fiat from './modals/Fiat';
-import TFAModal from './modals/TFAModal';
-import TFAWarningModal from './modals/TFAWarningModal';
-import ModalEventStatusCompleted from './modals/ModalEventStatusCompleted';
-import ModalEventStatusFailed from './modals/ModalEventStatusFailed';
+import i18n from 'i18n'
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
+import {notification, getSignalRNotification} from '@/services/notification'
+// import * as Trade from '@/services/api/trade';
+import {showWelcome} from '@/config'
+import {scrollbar} from '@/directives'
+import TheHeader from './TheHeader'
+import PairInfo from './PairInfo'
+import TheFooter from './TheFooter'
+import Sidebar from './Sidebar'
+import Toolbar from './Toolbar'
+import Grid from './grid/Grid'
+import PropertyMap from './PropertyMap'
+import TransactionHistory from './pages/Tables/TransactionHistory'
+import MyOrders from './pages/Tables/MyOrders'
+import NotificationHistory from './pages/Tables/NotificationHistory'
+import VerificationPage from './pages/Verification/VerificationPage'
+import VerificationAdmin from './pages/VerificationAdmin'
+import AccountInformation from './pages/AccountInformation'
+import SecuritySettings from './pages/SecuritySettings'
+import SecurityLog from './pages/SecurityLog'
+import FAQ from './pages/FAQ'
+import InDemo from './modals/InDemo'
+import Reset from './modals/Reset'
+import NewPassword from './modals/NewPassword'
+import SignUp from './modals/SignUp'
+import SignIn from './modals/SignIn'
+import CryptoDeposit from './modals/CryptoDeposit'
+import CryptoWithdraw from './modals/CryptoWithdraw'
+import Status from './modals/Status'
+import Fiat from './modals/Fiat'
+import TFAModal from './modals/TFAModal'
+import TFAWarningModal from './modals/TFAWarningModal'
+import ModalEventStatusCompleted from './modals/ModalEventStatusCompleted'
+import ModalEventStatusFailed from './modals/ModalEventStatusFailed'
 
 export default {
   computed: {
     ...mapState('misc', {
       showSidebar: 'showSidebar',
-      currentPage: 'currentPage',
+      currentPage: 'currentPage'
     }),
     ...mapState('trade', {
-      pair: 'pair',
+      pair: 'pair'
     }),
     ...mapState('membership', {
-      token: 'token',
+      token: 'token'
     }),
     ...mapState('user', {
       account: 'account',
-      notificationsCounter: 'notificationsCounter',
+      notificationsCounter: 'notificationsCounter'
     }),
     ...mapGetters('user', [
-      'isTFAEnabled',
+      'isTFAEnabled'
     ]),
     ...mapGetters('misc', {
-      isMobile: 'isMobile',
+      isMobile: 'isMobile'
     }),
     ...mapGetters('membership', {
-      isLoggedIn: 'isLoggedIn',
+      isLoggedIn: 'isLoggedIn'
     }),
     ...mapGetters('modal', {
-      isModalOpened: 'isOpened',
+      isModalOpened: 'isOpened'
     }),
     ...mapGetters('page', {
-      isPageOpened: 'isOpened',
+      isPageOpened: 'isOpened'
     }),
-    modalOpenedDesktop() {
-      return this.isModalOpened() && !this.isMobile;
-    },
+    modalOpenedDesktop () {
+      return this.isModalOpened() && !this.isMobile
+    }
   },
   methods: {
     ...mapMutations('misc', {
       updateScreenType: 'updateScreenType',
-      setSidebar: 'setSidebar',
+      setSidebar: 'setSidebar'
     }),
     ...mapMutations('modal', {
-      openModal: 'open',
+      openModal: 'open'
     }),
     ...mapMutations('stats', {
-      setStats: 'setStats',
+      setStats: 'setStats'
     }),
     ...mapMutations('trade', {
       setPair: 'setPair',
@@ -128,102 +128,102 @@ export default {
       addActiveOrder: 'addActiveOrder',
       changeOrderStatus: 'changeOrderStatus',
       addNewPrices: 'addNewPrices',
-      addNewTrade: 'addNewTrade',
+      addNewTrade: 'addNewTrade'
     }),
     ...mapMutations('user', {
       setNotificationsCounter: 'setNotificationsCounter',
-      changePortfolio: 'changePortfolio',
+      changePortfolio: 'changePortfolio'
     }),
     ...mapActions('membership', {
-      dropUser: 'dropUser',
+      dropUser: 'dropUser'
     }),
     ...mapActions('localization', [
-      'setLang',
+      'setLang'
     ]),
     ...mapActions('user', [
       'getTokens',
       'getProfileData',
-      'getCurrencies',
+      'getCurrencies'
     ]),
     ...mapActions('trade', {
-      getTraderWallet: 'getTraderWallet',
+      getTraderWallet: 'getTraderWallet'
     }),
-    updateOverflow() {
-      document.querySelector('#app').style.overflow = (this.showSidebar && this.isMobile) ? 'hidden' : null;
+    updateOverflow () {
+      document.querySelector('#app').style.overflow = (this.showSidebar && this.isMobile) ? 'hidden' : null
     },
-    hubSubscribe() {
+    hubSubscribe () {
       // add signalR events here
       this.$hub.on('newNotification', (data) => {
         if (getSignalRNotification(data.notificationType)) {
           notification({
             text: i18n.t(`notifications.${getSignalRNotification(data.notificationType)}`, i18n.locale, data.arguments),
-            type: 'info',
-          });
+            type: 'info'
+          })
           if (data.notificationType < 7) {
-            this.setNotificationsCounter(this.notificationsCounter + 1);
+            this.setNotificationsCounter(this.notificationsCounter + 1)
           }
         };
-      });
+      })
       this.$hub.on('newOrder', (data) => {
-        this.addActiveOrder(data);
-      });
+        this.addActiveOrder(data)
+      })
       this.$hub.on('orderChanged', (data) => {
-        this.changeOrderStatus(data);
-      });
+        this.changeOrderStatus(data)
+      })
       this.$hub.on('newTrade', (data) => {
-        this.addNewTrade(data);
-      });
+        this.addNewTrade(data)
+      })
       this.$hub.on('newBalance', (data) => {
-        this.changePortfolio(data);
-      });
+        this.changePortfolio(data)
+      })
     },
-    modalChangeStyleforBody() {
-      document.querySelector('body').style.overflow = (this.isModalOpened()) ? 'hidden' : 'auto';
-    },
+    modalChangeStyleforBody () {
+      document.querySelector('body').style.overflow = (this.isModalOpened()) ? 'hidden' : 'auto'
+    }
   },
   watch: {
-    pair() {
-      this.$hub.invoke('setPair', this.pair);
+    pair () {
+      this.$hub.invoke('setPair', this.pair)
     },
-    token() {
+    token () {
       if (this.token) {
-        this.$hub.invoke('authenticate', this.token);
+        this.$hub.invoke('authenticate', this.token)
       }
     },
-    showSidebar() {
-      this.updateOverflow();
+    showSidebar () {
+      this.updateOverflow()
     },
-    isMobile() {
-      this.setSidebar(false);
-      this.updateOverflow();
+    isMobile () {
+      this.setSidebar(false)
+      this.updateOverflow()
     },
-    modalOpenedDesktop() {
-      this.modalChangeStyleforBody();
+    modalOpenedDesktop () {
+      this.modalChangeStyleforBody()
     },
-    isLoggedIn(isTrue) {
+    isLoggedIn (isTrue) {
       if (!isTrue) {
-        this.openModal({name: 'signIn'});
+        this.openModal({name: 'signIn'})
         notification({
-          text: 'Logged out',
-        });
+          text: 'Logged out'
+        })
       } else {
         this.getProfileData().then((response) => {
           if (!this.isTFAEnabled) {
-            this.openModal({name: 'tfaWarningModal'});
+            this.openModal({name: 'tfaWarningModal'})
           }
-          return response;
-        });
+          return response
+        })
       }
-    },
+    }
   },
-  created() {
-    this.setLang();
-    this.updateScreenType();
-    this.hubSubscribe();
+  created () {
+    this.setLang()
+    this.updateScreenType()
+    this.hubSubscribe()
 
     if (this.isLoggedIn) {
-      this.getProfileData();
-      this.getCurrencies();
+      this.getProfileData()
+      this.getCurrencies()
     };
 
     this.$hub.start().then(() => {
@@ -231,21 +231,21 @@ export default {
       // if (this.isLoggedIn) {
       //   this.$hub.setToken(this.token);
       // }
-    });
+    })
     window.addEventListener('resize', () => {
       setTimeout(() => {
-        this.updateScreenType();
-      }, 66);
-    });
+        this.updateScreenType()
+      }, 66)
+    })
   },
-  mounted() {
+  mounted () {
     if (showWelcome) {
-      this.openModal('welcome');
+      this.openModal('welcome')
     }
-    this.updateOverflow();
+    this.updateOverflow()
   },
   directives: {
-    scrollbar,
+    scrollbar
   },
   components: {
     TheFooter,
@@ -276,21 +276,21 @@ export default {
     TFAModal,
     TFAWarningModal,
     ModalEventStatusCompleted,
-    ModalEventStatusFailed,
-  },
-};
+    ModalEventStatusFailed
+  }
+}
 </script>
 
 <style lang='scss'>
 @import '~noty/lib/noty';
 @import '~normalize.css/normalize';
-@import '~sass/defaults';
-@import '~sass/fonts';
-@import '~sass/global';
-@import '~sass/overrides';
+@import '~@/sass/defaults';
+@import '~@/sass/fonts';
+@import '~@/sass/global';
+@import '~@/sass/overrides';
 @import '~variables';
-@import '~sass/bootstrap/flex';
-@import '~sass/bootstrap/media';
+@import '~@/sass/bootstrap/flex';
+@import '~@/sass/bootstrap/media';
 @import '~perfect-scrollbar/dist/css/perfect-scrollbar';
 @import '~bootstrap/scss/utilities/sizing';
 

@@ -1,4 +1,4 @@
-import * as User from 'services/api/user';
+import * as User from '@/services/api/user';
 
 export default {
   state: {

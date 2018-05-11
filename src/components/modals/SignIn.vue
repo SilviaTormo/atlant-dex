@@ -20,53 +20,53 @@ Modal
 </template>
 
 <script>
-import {mapGetters, mapMutations, mapActions} from 'vuex';
-import Icon from 'components/Icon';
-import Checkbox from 'components/Checkbox';
-import BButton from 'components/BButton';
-import Modal from 'components/modals/Modal';
-import IInput from 'components/IInput';
-import Status from 'components/modals/Status.vue';
+import {mapGetters, mapMutations, mapActions} from 'vuex'
+import Icon from '@/components/Icon'
+import Checkbox from '@/components/Checkbox'
+import BButton from '@/components/BButton'
+import Modal from '@/components/modals/Modal'
+import IInput from '@/components/IInput'
+import Status from '@/components/modals/Status.vue'
 
 export default {
-  data() {
+  data () {
     return {
       email: '',
       password: '',
       remember: false,
       step: 0,
-      isSuccess: false,
-    };
+      isSuccess: false
+    }
   },
   computed: {
     ...mapGetters('misc', {
-      isMobile: 'isMobile',
-    }),
+      isMobile: 'isMobile'
+    })
   },
   methods: {
     ...mapMutations('modal', {
-      openModal: 'open',
+      openModal: 'open'
     }),
     ...mapActions('membership', {
-      login: 'login',
+      login: 'login'
     }),
-    openSignUp() {
+    openSignUp () {
       this.openModal({
-        name: 'signUp',
-      });
+        name: 'signUp'
+      })
     },
-    signIn() {
+    signIn () {
       this.login({
         email: this.email,
-        password: this.password,
+        password: this.password
       }).then(() => {
-        this.finishTransaction();
-      });
+        this.finishTransaction()
+      })
     },
-    finishTransaction() {
-      this.step = 1;
-      this.isSuccess = true;
-    },
+    finishTransaction () {
+      this.step = 1
+      this.isSuccess = true
+    }
   },
   components: {
     Icon,
@@ -74,14 +74,14 @@ export default {
     Modal,
     BButton,
     IInput,
-    Status,
-  },
-};
+    Status
+  }
+}
 </script>
 
 <style lang="scss">
 @import "~variables";
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
 
 .singIn {
   display: flex;

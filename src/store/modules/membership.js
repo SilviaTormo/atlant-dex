@@ -1,4 +1,4 @@
-import * as Membership from 'services/api/membership';
+import * as Membership from '@/services/api/membership';
 
 export default {
   state: {

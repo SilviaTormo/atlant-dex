@@ -54,7 +54,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
 .pagination {
   display: flex;
   justify-content: center;

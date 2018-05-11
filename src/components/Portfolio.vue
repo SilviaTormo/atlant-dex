@@ -77,7 +77,7 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import '~sass/bootstrap/media';
+@import '~@/sass/bootstrap/media';
 
 .portfolio {
   position: relative;

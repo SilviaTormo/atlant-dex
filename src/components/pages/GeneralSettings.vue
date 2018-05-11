@@ -15,7 +15,7 @@ Page(title="General settings", title2="General settings", :sidebar="true")
 
 <script>
 import {mapMutations} from 'vuex';
-import Checkbox from 'components/Checkbox';
+import Checkbox from '@/components/Checkbox';
 import Page from './Page';
 
 export default {
@@ -50,7 +50,7 @@ export default {
 
 
 <style lang="scss">
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
 .generalSettings {
   &__block {
     margin-bottom: 67px;

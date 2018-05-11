@@ -28,7 +28,7 @@
 
 <script>
 import {mapState, mapGetters, mapMutations} from 'vuex';
-import {profileSections} from 'config';
+import {profileSections} from '@/config';
 import Icon from '../Icon';
 
 export default {
@@ -90,7 +90,7 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
 
 .pageSidebar {
   padding: 36px;

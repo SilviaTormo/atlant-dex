@@ -18,8 +18,8 @@
 </template>
 
 <script>
-import Icon from 'components/Icon';
 import VSelect from 'vue-multiselect';
+import Icon from '@/components/Icon';
 
 export default {
   name: 'CommonSelect',

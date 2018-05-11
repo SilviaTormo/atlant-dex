@@ -34,7 +34,7 @@ Page(title='Verification management', :sidebar='true')
 <script>
 import {mapGetters, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
-import BButton from 'components/BButton';
+import BButton from '@/components/BButton';
 import Page from './Page';
 import Pagination from './Pagination';
 
@@ -117,7 +117,7 @@ export default {
 
 
 <style lang='scss'>
-@import '~sass/bootstrap/media';
+@import '~@/sass/bootstrap/media';
 .verification {
   &__section {
   }

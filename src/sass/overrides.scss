@@ -1,4 +1,4 @@
-@import '~sass/bootstrap/media';
+@import '~@/sass/bootstrap/media';
 
 .noty{
   &_close_button {
@@ -125,7 +125,7 @@
   overflow: hidden;
   margin-left: 10px;
   margin-bottom: 10px;
-  background: url('~assets/images/file.png') no-repeat;
+  background: url('~@/assets/images/file.png') no-repeat;
   background-color: transparent !important;
   & img {
     display: none;

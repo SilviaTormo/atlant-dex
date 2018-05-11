@@ -6,8 +6,8 @@ Modal
 </template>
 
 <script>
-import Icon from 'components/Icon';
-import Modal from 'components/modals/Modal';
+import Icon from '@/components/Icon';
+import Modal from '@/components/modals/Modal';
 
 export default {
   components: {

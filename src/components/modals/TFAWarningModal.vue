@@ -16,34 +16,34 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex';
-import Modal from 'components/modals/Modal';
-import BButton from 'components/BButton';
-import Icon from 'components/Icon';
+import {mapMutations} from 'vuex'
+import Modal from '@/components/modals/Modal'
+import BButton from '@/components/BButton'
+import Icon from '@/components/Icon'
 
 export default {
   name: 'TFAWarningModal',
   methods: {
     ...mapMutations('page', {
-      openPage: 'open',
+      openPage: 'open'
     }),
     ...mapMutations('modal', {
-      closeModal: 'close',
+      closeModal: 'close'
     }),
-    onYesClick() {
-      this.closeModal();
-      this.openPage({name: 'securitySettings'});
+    onYesClick () {
+      this.closeModal()
+      this.openPage({name: 'securitySettings'})
     },
-    onNoClick() {
-      this.closeModal();
-    },
+    onNoClick () {
+      this.closeModal()
+    }
   },
   components: {
     Modal,
     BButton,
-    Icon,
-  },
-};
+    Icon
+  }
+}
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>

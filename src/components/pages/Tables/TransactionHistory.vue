@@ -34,8 +34,8 @@ TablePage(
 <script>
 import {mapGetters, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
-import Checkbox from 'components/Checkbox';
-import Icon from '../../Icon';
+import Checkbox from '@/components/Checkbox';
+import Icon from '@/components/Icon';
 import TablePage from './TablePage';
 
 export default {

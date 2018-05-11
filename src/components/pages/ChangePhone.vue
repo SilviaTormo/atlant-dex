@@ -15,13 +15,13 @@
 </template>
 
 <script>
-import * as User from 'services/api/user';
-import Icon from 'components/Icon';
 import {mapState, mapMutations, mapActions} from 'vuex';
-import {getCountryCode} from 'services/countries';
-import FlagSwitch from 'components/FlagSwitch';
-import TFA from 'components/modals/TFA';
-// import {serverNotification} from 'services/notification';
+import * as User from '@/services/api/user';
+import {getCountryCode} from '@/services/countries';
+// import {serverNotification} from '@/services/notification';
+import Icon from '@/components/Icon';
+import FlagSwitch from '@/components/FlagSwitch';
+import TFA from '@/components/modals/TFA';
 
 export default {
   data() {
@@ -94,7 +94,7 @@ export default {
 
 
 <style lang="scss">
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
 
 .changePhone {
   &__row {

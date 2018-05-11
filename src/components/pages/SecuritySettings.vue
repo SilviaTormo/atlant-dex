@@ -25,12 +25,12 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
 
 <script>
 import {mapState, mapActions} from 'vuex';
-import Icon from 'components/Icon';
-import BButton from 'components/BButton';
-import ChangePassword from 'components/pages/ChangePassword';
-import ChangeEmail from 'components/pages/ChangeEmail';
-import TFASettings from 'components/pages/TFASettings';
-// import {serverNotification} from 'services/notification';
+import Icon from '@/components/Icon';
+import BButton from '@/components/BButton';
+import ChangePassword from '@/components/pages/ChangePassword';
+import ChangeEmail from '@/components/pages/ChangeEmail';
+import TFASettings from '@/components/pages/TFASettings';
+// import {serverNotification} from '@/services/notification';
 import Page from './Page';
 
 export default {
@@ -63,7 +63,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
 
 .securitySettings {
   max-width: 600px;

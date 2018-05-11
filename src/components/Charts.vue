@@ -26,7 +26,7 @@
 
 <script>
 import {mapState, mapActions} from 'vuex';
-import {getCryptoName} from 'services/misc';
+import {getCryptoName} from '@/services/misc';
 import Icon from './Icon';
 import CommonSelect from './CommonSelect';
 import ChartsItem from './ChartsItem';
@@ -118,7 +118,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "~variables";
-@import '~sass/bootstrap/media';
+@import '~@/sass/bootstrap/media';
 
 .charts {
   position: relative;

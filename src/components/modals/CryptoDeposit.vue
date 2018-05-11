@@ -11,14 +11,14 @@ Modal
 
 <script>
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
-import * as User from 'services/api/user';
-import clipboard from 'directives/clipboard';
-import BButton from 'components/BButton';
-import QR from 'components/QR';
-import Modal from 'components/modals/Modal';
+import * as User from '@/services/api/user';
+import clipboard from '@/directives/clipboard';
+import BButton from '@/components/BButton';
+import QR from '@/components/QR';
+import Modal from '@/components/modals/Modal';
 
 export default {
-  data() {
+  data () {
     return {
       address: '',
     };
@@ -50,7 +50,7 @@ export default {
   },
   created() {
     User.getDepositAddress({
-      currency: this.data.currency,
+      currency: this.data.currency
     }).then((response) => {
       this.address = response.data.address;
     });
@@ -68,7 +68,7 @@ export default {
 
 <style lang='scss'>
 @import '~variables';
-@import '~sass/bootstrap/media';
+@import '~@/sass/bootstrap/media';
 
 .cryptoDeposit {
   display: flex;

@@ -37,40 +37,40 @@
 </template>
 
 <script>
-import {mapState, mapMutations} from 'vuex';
-import {scrollbar} from 'directives';
-import Icon from '../Icon';
-import TileHeader from './TileHeader';
-import BuySell from './BuySell';
-import Chart from './Chart';
-import Orders from './Orders';
-import OrderBook from './OrderBook';
-import OrderBookHeader from './OrderBookHeader';
-import History from './History';
+import {mapState, mapMutations} from 'vuex'
+import {scrollbar} from '@/directives'
+import Icon from '@/components/Icon'
+import TileHeader from './TileHeader'
+import BuySell from './BuySell'
+import Chart from './Chart'
+import Orders from './Orders'
+import OrderBook from './OrderBook'
+import OrderBookHeader from './OrderBookHeader'
+import History from './History'
 
 export default {
   computed: {
     ...mapState('grid', {
-      isEdit: 'isEdit',
-    }),
+      isEdit: 'isEdit'
+    })
   },
   methods: {
-  ...mapMutations('grid', {
-    removeGridLayout: 'removeGridLayout',
-  }),
-},
+    ...mapMutations('grid', {
+      removeGridLayout: 'removeGridLayout'
+    })
+  },
   props: {
     component: {
       type: String,
-      required: true,
+      required: true
     },
     index: {
       type: Number,
-      required: true,
-    },
+      required: true
+    }
   },
   directives: {
-    scrollbar,
+    scrollbar
   },
   components: {
     Icon,
@@ -80,16 +80,16 @@ export default {
     Orders,
     OrderBook,
     OrderBookHeader,
-    History,
-  },
-};
+    History
+  }
+}
 </script>
 
 <style lang="scss">
 @import '~perfect-scrollbar/dist/css/perfect-scrollbar';
 @import '~variables';
-@import '~sass/overrides';
-@import '~sass/bootstrap/media';
+@import '~@/sass/overrides';
+@import '~@/sass/bootstrap/media';
 
 .gridItem {
   height: 100%;

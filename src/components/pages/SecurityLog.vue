@@ -17,7 +17,7 @@ Page(title="Security log", title2="Authorization sheet", :sidebar="true")
 </template>
 
 <script>
-import * as User from 'services/api/user';
+import * as User from '@/services/api/user';
 import {DateTime} from 'luxon';
 import Page from './Page';
 import Pagination from './Pagination';

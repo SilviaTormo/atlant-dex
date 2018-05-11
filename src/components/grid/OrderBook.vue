@@ -8,56 +8,52 @@ table.book
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex';
+import {mapState, mapActions} from 'vuex'
 
 export default {
-  data() {
-    return {
-    };
-  },
   computed: {
     ...mapState('trade', {
       pair: 'pair',
       book: (state) => state.book,
-      status: (state) => state.book.status,
+      status: (state) => state.book.status
     }),
-    orderBook() {
-      const items = this.ask ? this.book.asks : this.book.bids;
-      return items; // .slice(0, this.limit);
-    },
+    orderBook () {
+      const items = this.ask ? this.book.asks : this.book.bids
+      return items // .slice(0, this.limit);
+    }
   },
   methods: {
     ...mapActions('trade', [
-      'getOrderBook',
+      'getOrderBook'
     ]),
-    getApiRequest() {
-      this.getOrderBook({limit: 20});
-    },
+    getApiRequest () {
+      this.getOrderBook({limit: 20})
+    }
   },
   watch: {
-    pair() {
-      this.getApiRequest();
+    pair () {
+      this.getApiRequest()
     },
-    status() {
-      if (this.status == 1) this.getApiRequest();
-    },
+    status () {
+      if (this.status === 1) this.getApiRequest()
+    }
   },
-  created() {
-    this.getApiRequest();
+  created () {
+    this.getApiRequest()
   },
   props: {
     ask: {
       type: Boolean,
       default: false,
-      required: false,
+      required: false
     },
     limit: {
       type: Number,
       default: 20,
-      required: false,
-    },
-  },
-};
+      required: false
+    }
+  }
+}
 </script>
 
 <style lang="scss">

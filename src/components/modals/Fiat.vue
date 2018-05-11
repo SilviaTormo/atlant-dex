@@ -44,13 +44,13 @@ Modal
 
 <script>
 import {mapState, mapActions, mapGetters, mapMutations} from 'vuex';
-import BButton from 'components/BButton';
-import IInput from 'components/IInput';
-import Icon from 'components/Icon';
-import Dropdown from 'components/Dropdown';
-import Radio from 'components/Radio';
-import Modal from 'components/modals/Modal';
-import Status from 'components/modals/Status.vue';
+import BButton from '@/components/BButton';
+import IInput from '@/components/IInput';
+import Icon from '@/components/Icon';
+import Dropdown from '@/components/Dropdown';
+import Radio from '@/components/Radio';
+import Modal from '@/components/modals/Modal';
+import Status from '@/components/modals/Status.vue';
 
 export default {
   data() {
@@ -126,7 +126,7 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
 
 .fiat {
   width: 100%;

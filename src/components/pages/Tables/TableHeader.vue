@@ -97,7 +97,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '~variables';
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
 
 .tableHeader {
   display: flex;

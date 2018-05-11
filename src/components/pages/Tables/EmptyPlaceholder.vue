@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Icon from '../../Icon';
+import Icon from '@/components/Icon';
 
 export default {
   props: {
@@ -22,7 +22,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import '~sass/bootstrap/media';
+@import '~@/sass/bootstrap/media';
 .empty {
   width: 100%;
   display: flex;

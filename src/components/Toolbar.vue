@@ -48,7 +48,7 @@
 
 <script>
 import {mapState, mapGetters, mapMutations} from 'vuex';
-import {sidebarSections} from 'config';
+import {sidebarSections} from '@/config';
 import UserVisibility from './UserVisibility';
 import Icon from './Icon';
 
@@ -116,7 +116,7 @@ export default {
 
 <style lang='scss'>
 @import "~variables";
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
 
 .toolbar {
   display: flex;

@@ -17,12 +17,12 @@ Modal
 
 <script>
 import {mapState, mapMutations} from 'vuex';
-import * as User from 'services/api/user';
-import BButton from 'components/BButton';
-import IInput from 'components/IInput';
-import Modal from 'components/modals/Modal';
-import TFA from 'components/modals/TFA';
-import Status from 'components/modals/Status.vue';
+import * as User from '@/services/api/user';
+import BButton from '@/components/BButton';
+import IInput from '@/components/IInput';
+import Modal from '@/components/modals/Modal';
+import TFA from '@/components/modals/TFA';
+import Status from '@/components/modals/Status.vue';
 
 export default {
   data() {
@@ -88,7 +88,7 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
 
 .cryptoWithdraw {
   display: flex;

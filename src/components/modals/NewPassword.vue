@@ -18,14 +18,14 @@ Modal
 
 <script>
 import {mapState, mapGetters} from 'vuex';
-import Icon from 'components/Icon';
-import Checkbox from 'components/Checkbox';
-import BButton from 'components/BButton';
-import Modal from 'components/modals/Modal';
-import IInput from 'components/IInput';
-import Status from 'components/modals/Status.vue';
-import * as Membership from 'services/api/membership';
-import {serverNotification} from 'services/notification';
+import * as Membership from '@/services/api/membership';
+import {serverNotification} from '@/services/notification';
+import Icon from '@/components/Icon';
+import Checkbox from '@/components/Checkbox';
+import BButton from '@/components/BButton';
+import Modal from '@/components/modals/Modal';
+import IInput from '@/components/IInput';
+import Status from '@/components/modals/Status.vue';
 
 export default {
   data() {
@@ -70,7 +70,7 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
 
 .newPassword{
   display: flex;

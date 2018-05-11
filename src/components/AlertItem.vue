@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import {getCryptoName} from 'services/misc';
+import {getCryptoName} from '@/services/misc';
 import Icon from './Icon';
 
 export default {
@@ -55,7 +55,7 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import '~sass/bootstrap/media';
+@import '~@/sass/bootstrap/media';
 
 .alert {
   &__main {

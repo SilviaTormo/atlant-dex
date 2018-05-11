@@ -106,7 +106,7 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import '~sass/bootstrap/media';
+@import '~@/sass/bootstrap/media';
 
 .sidebar {
   display: flex;

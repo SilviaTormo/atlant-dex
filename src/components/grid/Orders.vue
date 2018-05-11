@@ -28,78 +28,78 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapActions} from 'vuex';
-import {DateTime} from 'luxon';
-import {scrollbar} from 'directives';
-import Icon from '../Icon';
+import {mapState, mapGetters, mapActions} from 'vuex'
+import {DateTime} from 'luxon'
+import {scrollbar} from '@/directives'
+import Icon from '@/components/Icon'
 
 export default {
-  data() {
+  data () {
     return {
       orderStatus: [
         'Open',
         'Partially filled',
         'Filled',
-        'Cancelled',
+        'Cancelled'
       ],
       orderType: [
         'Limit',
-        'Market',
-      ],
-    };
+        'Market'
+      ]
+    }
   },
   computed: {
     ...mapState('trade', {
-      orders: (state) => state.orders,
+      orders: (state) => state.orders
     }),
     ...mapGetters('membership', {
-      isLoggedIn: 'isLoggedIn',
+      isLoggedIn: 'isLoggedIn'
     }),
     ...mapGetters('trade', {
       getActiveOrders: 'getActiveOrders',
-      getClosedOrders: 'getClosedOrders',
-    }),
+      getClosedOrders: 'getClosedOrders'
+    })
   },
   methods: {
     ...mapActions('trade', {
       getOrders: 'getOrders',
-      cancelOrder: 'cancelOrder',
+      cancelOrder: 'cancelOrder'
     }),
-    setDate(isoTime) {
-      return DateTime.fromISO(isoTime).toFormat('dd.LL.yyyy HH:mm');
+    setDate (isoTime) {
+      return DateTime.fromISO(isoTime).toFormat('dd.LL.yyyy HH:mm')
     },
-    deleteOrder(id) {
-      this.cancelOrder(id);
+    deleteOrder (id) {
+      this.cancelOrder(id)
     },
-    getApiRequest() {
-        this.getOrders();
+    getApiRequest () {
+      this.getOrders()
     },
-    getAction(side) {
-      return (side === 0) ? 'buy' : 'sell';
-    },
+    getAction (side) {
+      return (side === 0) ? 'buy' : 'sell'
+    }
   },
   watch: {
-    isLoggedIn() {
-      if (this.isLoggedIn) this.getApiRequest();
-    },
+    isLoggedIn () {
+      if (this.isLoggedIn) this.getApiRequest()
+    }
   },
-  created() {
-    this.getApiRequest();
+  created () {
+    this.getApiRequest()
   },
   props: {
     isActive: {
       type: Boolean,
       default: false,
-      required: false,
-    },
+      required: false
+    }
   },
   directives: {
-    scrollbar,
+    scrollbar
   },
   components: {
-    Icon,
-  },
-};
+    Icon
+  }
+}
 
 </script>
 

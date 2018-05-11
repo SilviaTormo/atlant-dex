@@ -33,14 +33,14 @@
 </template>
 
 <script>
-import VueGridLayout from 'vue-grid-layout';
-import {mapState, mapMutations, mapGetters} from 'vuex';
-import UserVisibility from 'components/UserVisibility';
-import GridItems from './GridItems';
-import GridPanel from './GridPanel';
+import VueGridLayout from 'vue-grid-layout'
+import {mapState, mapMutations, mapGetters} from 'vuex'
+import UserVisibility from '@/components/UserVisibility'
+import GridItems from './GridItems'
+import GridPanel from './GridPanel'
 
-const GridLayout = VueGridLayout.GridLayout;
-const GridItem = VueGridLayout.GridItem;
+const GridLayout = VueGridLayout.GridLayout
+const GridItem = VueGridLayout.GridItem
 
 export default {
   computed: {
@@ -48,33 +48,33 @@ export default {
       allGridLayout: 'allGridLayout',
       gridData: 'gridData',
       mobileGridData: 'mobileGridData',
-      isEdit: 'isEdit',
+      isEdit: 'isEdit'
     }),
     ...mapGetters('misc', {
-      isMobile: 'isMobile',
+      isMobile: 'isMobile'
     }),
     ...mapGetters('grid', {
-      getHiddenLayout: 'getHiddenLayout',
-    }),
+      getHiddenLayout: 'getHiddenLayout'
+    })
   },
   methods: {
     ...mapMutations('grid', {
       changeGrid: 'changeGrid',
-      setIsEdit: 'setIsEdit',
+      setIsEdit: 'setIsEdit'
     }),
-    layoutUpdatedEvent(newLayout) {
-      this.changeGrid(newLayout);
+    layoutUpdatedEvent (newLayout) {
+      this.changeGrid(newLayout)
       // console.log('Updated layout: ', newLayout);
-    },
+    }
   },
   components: {
     GridLayout,
     GridItem,
     GridItems,
     GridPanel,
-    UserVisibility,
-  },
-};
+    UserVisibility
+  }
+}
 </script>
 
 <style lang="scss">

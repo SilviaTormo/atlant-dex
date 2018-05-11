@@ -22,66 +22,66 @@ Modal
 </template>
 
 <script>
-import {required, sameAs, minLength} from 'vuelidate/lib/validators';
-import {mapGetters, mapMutations} from 'vuex';
-import {serverNotification} from 'services/notification';
-import * as Membership from 'services/api/membership';
-import Icon from 'components/Icon';
-import Checkbox from 'components/Checkbox';
-import BButton from 'components/BButton';
-import Modal from 'components/modals/Modal';
-import IInput from 'components/IInput';
-import Status from 'components/modals/Status.vue';
+import {required, sameAs, minLength} from 'vuelidate/lib/validators'
+import {mapGetters, mapMutations} from 'vuex'
+import {serverNotification} from '@/services/notification'
+import * as Membership from '@/services/api/membership'
+import Icon from '@/components/Icon'
+import Checkbox from '@/components/Checkbox'
+import BButton from '@/components/BButton'
+import Modal from '@/components/modals/Modal'
+import IInput from '@/components/IInput'
+import Status from '@/components/modals/Status.vue'
 
 export default {
-  data() {
+  data () {
     return {
       email: '',
       password: '',
       passwordRepeat: '',
       iAgree: false,
-      step: 0,
-    };
+      step: 0
+    }
   },
   computed: {
     ...mapGetters('misc', {
-      isMobile: 'isMobile',
+      isMobile: 'isMobile'
     }),
-    parsePassword() {
+    parsePassword () {
       if (this.$v.$error) {
         if (this.$v.password.$error) {
-          return this.$t('passwordValidation.tooShort', {minLength: this.$v.password.$params.minLength.min});
+          return this.$t('passwordValidation.tooShort', {minLength: this.$v.password.$params.minLength.min})
         } else if (this.$v.passwordRepeat.$error) {
-          return this.$t('passwordValidation.notMatch');
+          return this.$t('passwordValidation.notMatch')
         }
       }
-      return '';
-    },
+      return ''
+    }
   },
   methods: {
     ...mapMutations('modal', {
-      open: 'open',
+      open: 'open'
     }),
-    openSignIn() {
+    openSignIn () {
       this.open({
-        name: 'signIn',
-      });
+        name: 'signIn'
+      })
     },
-    signUpUser() {
+    signUpUser () {
       if (this.$v.$invalid) {
-        this.$v.$touch();
-        return false;
+        this.$v.$touch()
+        return false
       };
       Membership.signup({
         email: this.email,
         password: this.password,
-        termsaccepted: this.iAgree,
+        termsaccepted: this.iAgree
       }).then((res) => {
-        this.step++;
+        this.step++
       }).catch((error) => {
-        serverNotification(error);
-      });
-    },
+        serverNotification(error)
+      })
+    }
   },
   components: {
     Icon,
@@ -89,23 +89,23 @@ export default {
     Modal,
     BButton,
     IInput,
-    Status,
+    Status
   },
   validations: {
     password: {
       required,
-      minLength: minLength(8),
+      minLength: minLength(8)
     },
     passwordRepeat: {
-      sameAsPassword: sameAs('password'),
-    },
-  },
-};
+      sameAsPassword: sameAs('password')
+    }
+  }
+}
 </script>
 
 <style lang="scss">
 @import "~variables";
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
 
 .singUp {
   display: flex;

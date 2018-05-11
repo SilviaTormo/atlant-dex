@@ -34,9 +34,9 @@
 
 <script>
 import {mapState} from 'vuex';
-import idImage from 'assets/images/example-id.png';
-import passportImage from 'assets/images/example-passport.png';
-import selfieImage from 'assets/images/example-selfie.png';
+import idImage from '@/assets/images/example-id.png';
+import passportImage from '@/assets/images/example-passport.png';
+import selfieImage from '@/assets/images/example-selfie.png';
 import VerificationFormGroup from './VerificationFormGroup';
 import VerificationFileInput from './VerificationFileInput';
 

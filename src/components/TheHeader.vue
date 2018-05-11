@@ -11,7 +11,7 @@ header.header
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex';
-import {profileSections} from 'config';
+import {profileSections} from '@/config';
 import Icon from './Icon';
 import PairInfo from './PairInfo';
 import BButton from './BButton';
@@ -58,7 +58,7 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import '~sass/bootstrap/media';
+@import '~@/sass/bootstrap/media';
 
 .header {
   padding: 12px 28px;

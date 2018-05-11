@@ -23,7 +23,7 @@ Page(
 <script>
 import {mapState, mapActions} from 'vuex';
 import {required, minLength} from 'vuelidate/lib/validators';
-import BButton from 'components/BButton';
+import BButton from '@/components/BButton';
 import Page from '../Page';
 import VerificationForm from './VerificationForm';
 import VerificationFiles from './VerificationFiles';
@@ -114,7 +114,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
 @import "~sass/variables";
 .verification {
   color: $color_white;

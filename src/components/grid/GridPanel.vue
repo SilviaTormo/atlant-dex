@@ -7,29 +7,29 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex';
-import Icon from '../Icon';
+import {mapMutations} from 'vuex'
+import Icon from '@/components/Icon'
 
 export default {
   methods: {
     ...mapMutations('grid', {
-      addGridLayout: 'addGridLayout',
-    }),
+      addGridLayout: 'addGridLayout'
+    })
   },
   props: {
     data: {
       type: Array,
-      required: true,
+      required: true
     },
     isEdit: {
       type: Boolean,
-      required: true,
-    },
+      required: true
+    }
   },
   components: {
-    Icon,
-  },
-};
+    Icon
+  }
+}
 </script>
 
 <style lang="scss">

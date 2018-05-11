@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import i18n from 'i18n';
-import store from 'store';
-import router from 'router';
-import hub from 'services/hub';
+import store from './store';
+import router from './router';
+import hub from './services/hub';
 import Vuelidate from 'vuelidate';
-import {hubURL} from 'config';
+import { hubURL } from './config.js';
 
 Vue.use(Vuelidate);
 Vue.use(hub, hubURL, store.state.membership.token, store.state.trade.pair);
@@ -36,7 +36,7 @@ new Vue({
   i18n,
   router,
   beforeCreate() {
-    const icons = require.context('assets/icons', true, /\.(svg)$/);
+    const icons = require.context('./assets/icons', true, /\.(svg)$/);
     icons.keys().forEach(icons);
   },
 });

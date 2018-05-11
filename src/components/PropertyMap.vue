@@ -21,8 +21,8 @@
 //-
 //- <script>
 //- import {mapGetters} from 'vuex';
-//- import {getBuilding} from 'services/properties';
-//- import {googleMapsKey} from 'config';
+//- import {getBuilding} from '@/services/properties';
+//- import {googleMapsKey} from '@/config';
 //- import GoogleMapsLoader from 'google-maps';
 //- import Icon from './Icon';
 //- import BButton from './BButton';

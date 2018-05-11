@@ -41,15 +41,15 @@
 <script>
 import i18n from 'i18n';
 import {mapState, mapMutations} from 'vuex';
-import * as User from 'services/api/user';
-import {getCountryCode} from 'services/countries';
-import Icon from 'components/Icon';
-import Radio from 'components/Radio';
-import FlagSwitch from 'components/FlagSwitch';
-import TFA from 'components/modals/TFA';
-import QR from 'components/QR';
-import {operatingSystems, tfaMethods} from 'config';
-// import {serverNotification} from 'services/notification';
+import * as User from '@/services/api/user';
+import {getCountryCode} from '@/services/countries';
+// import {serverNotification} from '@/services/notification';
+import {operatingSystems, tfaMethods} from '@/config';
+import Icon from '@/components/Icon';
+import Radio from '@/components/Radio';
+import FlagSwitch from '@/components/FlagSwitch';
+import TFA from '@/components/modals/TFA';
+import QR from '@/components/QR';
 
 export default {
   data() {
@@ -164,7 +164,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
 
 .tfaSettings {
   &__desktopRow {

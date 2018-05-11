@@ -1,6 +1,6 @@
 import axios from 'axios';
-import store from 'store';
-import {baseURLOld, timeout} from 'config';
+import store from '@/store';
+import {baseURLOld, timeout} from '@/config';
 
 const instance = axios.create({
   baseURL: baseURLOld,

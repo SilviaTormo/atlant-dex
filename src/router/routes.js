@@ -1,6 +1,6 @@
-import store from 'store';
-import Index from 'components/Index';
-import * as Membership from 'services/api/membership';
+import store from '@/store';
+import Index from '@/components/Index';
+import * as Membership from '@/services/api/membership';
 
 export default [
   {

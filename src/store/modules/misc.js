@@ -1,5 +1,5 @@
-import {getScreenType} from 'services/misc';
-import {sidebarSections} from 'config';
+import {getScreenType} from '@/services/misc';
+import {sidebarSections} from '@/config';
 
 export default {
   state: {

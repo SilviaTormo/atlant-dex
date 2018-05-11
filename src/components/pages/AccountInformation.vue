@@ -49,11 +49,11 @@ Page(title="Account information", title2="", :sidebar="true")
 <script>
 import {mapState, mapMutations, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
-import {getCountryByCurrency, getCountryCurrency} from 'services/countries';
-import Icon from 'components/Icon';
-import Checkbox from 'components/Checkbox';
-import BButton from 'components/BButton';
-import FlagSwitch from 'components/FlagSwitch';
+import {getCountryByCurrency, getCountryCurrency} from '@/services/countries';
+import Icon from '@/components/Icon';
+import Checkbox from '@/components/Checkbox';
+import BButton from '@/components/BButton';
+import FlagSwitch from '@/components/FlagSwitch';
 import ChangePhone from './ChangePhone';
 import Page from './Page';
 
@@ -103,7 +103,7 @@ export default {
 
 
 <style lang="scss">
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
 
 .accountInfo {
   max-width: 600px;

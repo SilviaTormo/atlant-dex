@@ -1,6 +1,6 @@
 import axios from 'axios';
-import store from 'store';
-import {baseURL, timeout} from 'config';
+import store from '@/store';
+import {baseURL, timeout} from '@/config';
 import {serverNotification2} from '../notification';
 
 const instance = axios.create({

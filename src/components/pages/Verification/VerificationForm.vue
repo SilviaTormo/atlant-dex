@@ -85,8 +85,8 @@ form.verificationForm
 
 <script>
 import {mapState, mapActions} from 'vuex';
-import {birthdayDays, birthdayYears, birthdayMonths} from 'services/birthday';
-import CommonSelect from 'components/CommonSelect';
+import {birthdayDays, birthdayYears, birthdayMonths} from '@/services/birthday';
+import CommonSelect from '@/components/CommonSelect';
 import VerificationFormGroup from './VerificationFormGroup';
 import VerificationInput from './VerificationInput';
 
@@ -165,7 +165,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~sass/bootstrap/media";
+@import "~@/sass/bootstrap/media";
   .verificationForm {
     &__input {
       display: block;

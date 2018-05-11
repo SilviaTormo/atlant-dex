@@ -5,20 +5,20 @@
 </template>
 
 <script>
-import Icon from 'components/Icon';
+import Icon from '@/components/Icon'
 
 export default {
   props: {
     isSuccess: {
       type: [Boolean, String],
       default: true,
-      required: false,
-    },
+      required: false
+    }
   },
   components: {
-    Icon,
-  },
-};
+    Icon
+  }
+}
 </script>
 
 <style lang="scss">

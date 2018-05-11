@@ -23,67 +23,67 @@
 </template>
 
 <script>
-import {mapState, mapActions, mapGetters, mapMutations} from 'vuex';
-import {notification} from 'services/notification';
-import Icon from '../Icon';
-import Radio from '../Radio';
-import BButton from '../BButton';
+import {mapState, mapActions, mapGetters, mapMutations} from 'vuex'
+import {notification} from '@/services/notification'
+import Icon from '@/components/Icon'
+import Radio from '@/components/Radio'
+import BButton from '@/components/BButton'
 
 export default {
-  data() {
+  data () {
     return {
       type: 'market',
       isBuy: false,
       amount: 0,
       price: 0,
-      total: 0,
-    };
+      total: 0
+    }
   },
   computed: {
     ...mapState('trade', {
       bid: (state) => state.pairInfo.bid,
       ask: (state) => state.pairInfo.ask,
-      fee: (state) => state.pairInfo.makerFee,
+      fee: (state) => state.pairInfo.makerFee
     }),
     ...mapGetters('membership', {
-      isLoggedIn: 'isLoggedIn',
+      isLoggedIn: 'isLoggedIn'
     }),
     ...mapGetters('trade', {
       baseCurrency: 'baseCurrency',
-      quoteCurrency: 'quoteCurrency',
+      quoteCurrency: 'quoteCurrency'
     }),
-    getPrice() {
-      return this.isBuy ? this.ask : this.bid;
+    getPrice () {
+      return this.isBuy ? this.ask : this.bid
     },
-    getTotal() {
-      let total = 0;
+    getTotal () {
+      let total = 0
       if (this.type === 'market') {
-        total = this.isBuy ? this.ask * this.amount : this.bid * this.amount;
+        total = this.isBuy ? this.ask * this.amount : this.bid * this.amount
       } else {
-        total = this.amount * this.price;
+        total = this.amount * this.price
       };
-      return (this.isBuy ? total + (total / 100) * this.fee : total - (total / 100) * this.fee).toFixed(8);
-    },
+      return (this.isBuy ? total + (total / 100) * this.fee : total - (total / 100) * this.fee).toFixed(8)
+    }
   },
   methods: {
     ...mapActions('trade', {
-      placeOrder: 'placeOrder',
+      placeOrder: 'placeOrder'
     }),
     ...mapMutations('modal', {
-      openModal: 'open',
+      openModal: 'open'
     }),
-    getOrder() {
+    getOrder () {
       if (!this.isLoggedIn) {
-        this.openModal({name: 'signIn'});
-        return false;
+        this.openModal({name: 'signIn'})
+        return false
       };
       if (this.amount <= 0) {
         notification({
           title: 'Negative or zero value:',
           text: 'Please correct the value provided.',
-          type: 'error',
-        });
-        return false;
+          type: 'error'
+        })
+        return false
       };
       this.placeOrder({
         isMarketOrder: this.type === 'market',
@@ -92,36 +92,36 @@ export default {
         quoteCurrency: this.quoteCurrency,
         price: this.price,
         quantity: this.amount,
-        isQuantityInBaseCurrency: true,
+        isQuantityInBaseCurrency: true
       }).then(() => {
-        this.amount = 0;
-        this.total = 0;
-      });
-    },
+        this.amount = 0
+        this.total = 0
+      })
+    }
   },
   watch: {
-    isBuy() {
-      this.price = this.getPrice;
+    isBuy () {
+      this.price = this.getPrice
     },
-    type() {
-      this.price = this.getPrice;
+    type () {
+      this.price = this.getPrice
     },
-    bid() {
-      if (this.type = 'market') this.price = this.getPrice;
+    bid () {
+      if (this.type === 'market') this.price = this.getPrice
     },
-    ask() {
-      if (this.type = 'market') this.price = this.getPrice;
-    },
+    ask () {
+      if (this.type === 'market') this.price = this.getPrice
+    }
   },
-  created() {
-    this.price = this.getPrice;
+  created () {
+    this.price = this.getPrice
   },
   components: {
     Icon,
     Radio,
-    BButton,
-  },
-};
+    BButton
+  }
+}
 
 </script>
 

@@ -1,4 +1,4 @@
-import {mobileBreakpoint} from 'config';
+import {mobileBreakpoint} from '@/config';
 
 export const getSeparatedNumber = (str, symbol) =>
   str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, symbol);

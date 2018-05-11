@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Checkbox from 'components/Checkbox';
+import Checkbox from '@/components/Checkbox';
 
 export default {
   data() {
@@ -42,7 +42,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import '~sass/bootstrap/media';
+@import '~@/sass/bootstrap/media';
 .panel {
   $panelHeight: 58px;
   z-index: 1.6;
