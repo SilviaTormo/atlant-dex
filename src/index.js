@@ -38,6 +38,5 @@ new Vue({
   created() {
     const sprite = require.context('./assets/icons/', true, /\.(svg)$/);
     icons.keys().forEach(sprite);
-    const spriteContent = sprite.symbols.map((s) => s.toString()).join('\n');
   },
 });

@@ -84,7 +84,33 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        loader: 'svg-sprite-loader'
+        exclude: [
+          resolve('src/assets/icons/colored/'),
+        ],
+        use: [
+          'svg-sprite-loader',
+          {
+            loader: 'svgo-loader',
+            options: {
+              plugins: [
+                {removeTitle: true},
+                {cleanupEnableBackground: true},
+                {cleanupAttrs: true},
+                {removeEmptyAttrs: true},
+                {removeDimensions: true},
+                {removeStyleElement: true},
+                {removeAttrs: {attrs: ['fill', 'stroke']}},
+              ],
+            },
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        include: [
+          resolve('src/assets/icons/colored/'),
+        ],
+        use: 'svg-sprite-loader',
       },
     ]
   },
