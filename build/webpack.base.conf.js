@@ -32,12 +32,13 @@ module.exports = {
       : config.dev.assetsPublicPath
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    extensions: ['.js', '.vue', '.css', '.scss', '.svg'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
       'mixins': `@/sass/mixins.scss`,
       'variables': `@/sass/variables.scss`,
+      'assets': `@/assets/`,
     }
   },
   module: {
@@ -83,33 +84,7 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        exclude: [
-          resolve('src/assets/svg/colored/'),
-        ],
-        use: [
-          'svg-sprite-loader',
-          {
-            loader: 'svgo-loader',
-            options: {
-              plugins: [
-                { removeTitle: true },
-                { cleanupEnableBackground: true },
-                { cleanupAttrs: true },
-                { removeEmptyAttrs: true },
-                { removeDimensions: true },
-                { removeStyleElement: true },
-                { removeAttrs: { attrs: ['fill', 'stroke'] } },
-              ],
-            },
-          },
-        ],
-      },
-      {
-        test: /\.svg$/,
-        include: [
-          resolve('src/assets/svg/colored/'),
-        ],
-        use: 'svg-sprite-loader',
+        loader: 'svg-sprite-loader'
       },
     ]
   },

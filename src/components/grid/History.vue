@@ -8,34 +8,34 @@ table.history
 </template>
 
 <script>
-import {mapState, mapGetters, mapActions} from 'vuex'
+import {mapState, mapGetters, mapActions} from 'vuex';
 
 export default {
   computed: {
     ...mapState('trade', {
-      pair: 'pair'
+      pair: 'pair',
     }),
     ...mapGetters('trade', {
-      lastTrades: 'getLastTrades'
-    })
+      lastTrades: 'getLastTrades',
+    }),
   },
   methods: {
     ...mapActions('trade', {
-      getTradeHistory: 'getTradeHistory'
+      getTradeHistory: 'getTradeHistory',
     }),
-    getApiRequest () {
-      this.getTradeHistory()
-    }
+    getApiRequest() {
+      this.getTradeHistory();
+    },
   },
   watch: {
-    pair () {
-      this.getApiRequest()
-    }
+    pair() {
+      this.getApiRequest();
+    },
   },
-  created () {
-    this.getApiRequest()
-  }
-}
+  created() {
+    this.getApiRequest();
+  },
+};
 </script>
 
 <style lang="scss">

@@ -83,7 +83,7 @@ export default {
 
 <style lang="scss" rel="stylesheet/scss" scoped>
   @import "~@/sass/bootstrap/media";
-  @import "~sass/variables";
+  @import "~variables";
   .verificationUploadInput {
     position: relative;
     display: flex;

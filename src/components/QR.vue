@@ -3,12 +3,12 @@ canvas#qr
 </template>
 
 <script>
-  import qrious from 'qrious';
+  import Qrious from 'qrious';
 
   export default {
     methods: {
       createQR() {
-        new qrious({
+        new Qrious({
           element: document.querySelector('#qr'),
           value: this.text,
           size: this.size,

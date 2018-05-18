@@ -25,64 +25,64 @@ CommonSelect.flagSwitch(
 </template>
 
 <script>
-import Icon from '@/components/Icon'
-import CommonSelect from '@/components/CommonSelect'
+import Icon from '@/components/Icon';
+import CommonSelect from '@/components/CommonSelect';
 import {
   countryData,
   countryCurrencies,
   getCountryName,
   getCountryCurrency,
-  getCountryCode
-} from '@/services/countries'
+  getCountryCode,
+} from '@/services/countries';
 
 export default {
   computed: {
-    isCurrency () {
-      return this.type === 'currency'
+    isCurrency() {
+      return this.type === 'currency';
     },
-    isPhone () {
-      return this.type === 'phone'
+    isPhone() {
+      return this.type === 'phone';
     },
-    flags () {
-      return this.isCurrency ? Object.keys(countryCurrencies) : Object.keys(countryData)
-    }
+    flags() {
+      return this.isCurrency ? Object.keys(countryCurrencies) : Object.keys(countryData);
+    },
   },
   methods: {
-    setFlag (flag) {
-      this.$emit('input', flag)
+    setFlag(flag) {
+      this.$emit('input', flag);
     },
-    getOptionText (option) {
-      return this.isCurrency ? getCountryCurrency(option) : getCountryName(option)
+    getOptionText(option) {
+      return this.isCurrency ? getCountryCurrency(option) : getCountryName(option);
     },
-    getSingleLabelText (option) {
+    getSingleLabelText(option) {
       if (this.isCurrency) {
-        return getCountryCurrency(option)
+        return getCountryCurrency(option);
       } else if (this.isPhone) {
-        return getCountryCode(option)
+        return getCountryCode(option);
       } else {
-        return getCountryName(option)
+        return getCountryName(option);
       }
     },
-    flagPath (flag = this.currentFlag) {
-      return require('@/assets/images/flags/flag_' + flag + '.png')
-    }
+    flagPath(flag = this.currentFlag) {
+      return require('@/assets/images/flags/flag_' + flag + '.png');
+    },
   },
   props: {
     value: {
       type: String,
-      required: true
+      required: true,
     },
     type: {
       type: String,
       required: false,
-      default: 'country'
-    }
+      default: 'country',
+    },
   },
   components: {
     Icon,
-    CommonSelect
-  }
-}
+    CommonSelect,
+  },
+};
 </script>
 
 <style lang='scss' scoped>

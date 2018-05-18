@@ -18,56 +18,56 @@ Modal
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex'
-import * as Membership from '@/services/api/membership'
-import Icon from '@/components/Icon'
-import Checkbox from '@/components/Checkbox'
-import BButton from '@/components/BButton'
-import Modal from '@/components/modals/Modal'
-import IInput from '@/components/IInput'
-import TFA from '@/components/modals/TFA'
-import Status from '@/components/modals/Status.vue'
-import {serverNotification} from '@/services/notification'
+import {mapGetters, mapMutations} from 'vuex';
+import * as Membership from '@/services/api/membership';
+import Icon from '@/components/Icon';
+import Checkbox from '@/components/Checkbox';
+import BButton from '@/components/BButton';
+import Modal from '@/components/modals/Modal';
+import IInput from '@/components/IInput';
+import TFA from '@/components/modals/TFA';
+import Status from '@/components/modals/Status.vue';
+import {serverNotification} from '@/services/notification';
 
 export default {
-  data () {
+  data() {
     return {
       email: '',
       acknowledged: false,
       step: 0,
-      isSuccess: false
-    }
+      isSuccess: false,
+    };
   },
   computed: {
     ...mapGetters('misc', {
-      isMobile: 'isMobile'
-    })
+      isMobile: 'isMobile',
+    }),
   },
   methods: {
     ...mapMutations('modal', {
-      openModal: 'open'
+      openModal: 'open',
     }),
     ...mapMutations('user', {
-      setTFAMethod: 'setTFAMethod'
+      setTFAMethod: 'setTFAMethod',
     }),
-    reset () {
+    reset() {
       Membership.requestPasswordRestore(this.email).then((response) => {
-        this.setTFAMethod({method: response.data.twoFactorAuthenticationMethod})
-        this.step = 1
+        this.setTFAMethod({method: response.data.twoFactorAuthenticationMethod});
+        this.step = 1;
       }).catch((res) => {
-        serverNotification(res)
-      })
+        serverNotification(res);
+      });
     },
-    cancelReset () {
-      this.step = 0
+    cancelReset() {
+      this.step = 0;
     },
-    confirmReset (code) {
+    confirmReset(code) {
       Membership.validatePasswordRestore({code: code, email: this.email}).then(() => {
-        this.step = 2
+        this.step = 2;
       }).catch((res) => {
-        serverNotification(res)
-      })
-    }
+        serverNotification(res);
+      });
+    },
   },
   components: {
     Icon,
@@ -76,9 +76,9 @@ export default {
     BButton,
     IInput,
     TFA,
-    Status
-  }
-}
+    Status,
+  },
+};
 </script>
 
 <style lang="scss">

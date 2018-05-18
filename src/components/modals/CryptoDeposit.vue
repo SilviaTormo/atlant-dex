@@ -18,7 +18,7 @@ import QR from '@/components/QR';
 import Modal from '@/components/modals/Modal';
 
 export default {
-  data () {
+  data() {
     return {
       address: '',
     };
@@ -50,7 +50,7 @@ export default {
   },
   created() {
     User.getDepositAddress({
-      currency: this.data.currency
+      currency: this.data.currency,
     }).then((response) => {
       this.address = response.data.address;
     });

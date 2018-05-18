@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import IEcharts from 'vue-echarts-v3/src/lite.js'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/chart/bar'
+import IEcharts from 'vue-echarts-v3/src/lite.js';
+import 'echarts/lib/chart/line';
+import 'echarts/lib/chart/bar';
 // import 'echarts/lib/chart/pie';
 // import 'echarts/lib/chart/scatter';
 // import 'echarts/lib/chart/radar';
@@ -25,21 +25,21 @@ import 'echarts/lib/chart/bar'
 // import 'echarts/lib/chart/parallel';
 // import 'echarts/lib/chart/sankey';
 // import 'echarts/lib/chart/boxplot';
-import 'echarts/lib/chart/candlestick'
+import 'echarts/lib/chart/candlestick';
 // import 'echarts/lib/chart/effectScatter';
-import 'echarts/lib/chart/lines'
+import 'echarts/lib/chart/lines';
 // import 'echarts/lib/chart/heatmap';
 // import 'echarts/lib/component/graphic';
 // import 'echarts/lib/component/grid';
 // import 'echarts/lib/component/legend';
-import 'echarts/lib/component/tooltip'
+import 'echarts/lib/component/tooltip';
 // import 'echarts/lib/component/polar';
 // import 'echarts/lib/component/geo';
 // import 'echarts/lib/component/parallel';
 // import 'echarts/lib/component/singleAxis';
 // import 'echarts/lib/component/brush';
 // import 'echarts/lib/component/title';
-import 'echarts/lib/component/dataZoom'
+import 'echarts/lib/component/dataZoom';
 // import 'echarts/lib/component/visualMap';
 // import 'echarts/lib/component/markPoint';
 // import 'echarts/lib/component/markLine';
@@ -47,46 +47,46 @@ import 'echarts/lib/component/dataZoom'
 // import 'echarts/lib/component/timeline';
 // import 'echarts/lib/component/toolbox';
 // import 'zrender/lib/vml/vml';
-import {mapState, mapGetters, mapActions} from 'vuex'
-import {periods} from '@/config'
-import Icon from '@/components/Icon'
+import {mapState, mapGetters, mapActions} from 'vuex';
+import {periods} from '@/config';
+import Icon from '@/components/Icon';
 
 export default {
-  data () {
+  data() {
     return {
       chart: {},
       maxRenderedCandles: 0,
       periods: Object.keys(periods),
       types: [
         'line',
-        'candlestick'
+        'candlestick',
       ],
       technicalIndicators: {
         'MA10': {
           name: 'MA10',
           enabled: false,
-          color: '#42B6F6'
+          color: '#42B6F6',
         },
         'EMA10': {
           name: 'EMA10',
           enabled: false,
-          color: 'orange'
-        }
+          color: 'orange',
+        },
         // 'MACD': {
         //   name: 'MACD',
         //   enabled: false,
         //   color: 'pink',
         // },
       },
-      currentChart: 'candlestick'
-    }
+      currentChart: 'candlestick',
+    };
   },
   computed: {
     ...mapState('trade', {
       // startTicks: (state) => state.chart.data.startTicks,
       // candleTicks: (state) => state.chart.data.candleTicks,
       // candleSize: (state) => state.chart.data.candleSize,
-      rawCandles: (state) => state.chart.data.candles
+      rawCandles: (state) => state.chart.data.candles,
     }),
     ...mapGetters('trade', [
       'isCurrentPeriod',
@@ -96,65 +96,65 @@ export default {
       'candlePeriod',
       'lastCandleOpenTime',
       'lastCandle',
-      'getEmptyCandle'
+      'getEmptyCandle',
     ]),
-    priceSeries () {
+    priceSeries() {
       if (this.rawCandles) {
         if (this.currentChart === 'candlestick') {
           return this.rawCandles.map(
             ({open, close, low, high}) => [open, close, low, high]
-          )
+          );
           // item[0], // open
           // item[3], // close
           // item[2], // low
           // item[1], // high
         } else {
-          return this.rawCandles.map((item) => item.close)
+          return this.rawCandles.map((item) => item.close);
         }
       }
     },
-    timeSeries () {
+    timeSeries() {
       // console.time('timeSeries calculation time');
       return this.rawCandles.map((item) => {
-        const date = new Date(item.candleOpen)
+        const date = new Date(item.candleOpen);
         if (this.candlePeriodInMs <= 300000) {
           // Don't show seconds
-          return date.toLocaleTimeString().replace(/((\d{2}\s)|(\d{2}$))/, ' ')
+          return date.toLocaleTimeString().replace(/((\d{2}\s)|(\d{2}$))/, ' ');
         } else {
-          return date.toLocaleDateString()
+          return date.toLocaleDateString();
         }
-      })
+      });
       // console.timeEnd('timeSeries calculation time');
     },
-    volumeSeries () {
-      return this.rawCandles.map(({volume}) => volume)
+    volumeSeries() {
+      return this.rawCandles.map(({volume}) => volume);
     },
-    setStartDataZoomOfChart () {
-      let containerWidth = document.getElementById('chart').clientWidth
-      let howManyCandlesInTheScreen = containerWidth / 10
-      let result = 100 - (howManyCandlesInTheScreen * 100 / this.timeSeries.length)
-      return result
-    }
+    setStartDataZoomOfChart() {
+      let containerWidth = document.getElementById('chart').clientWidth;
+      let howManyCandlesInTheScreen = containerWidth / 10;
+      let result = 100 - (howManyCandlesInTheScreen * 100 / this.timeSeries.length);
+      return result;
+    },
   },
   methods: {
     ...mapActions('trade', {
       loadChart: 'loadChart',
-      changeChartPeriod: 'changeChartPeriod'
+      changeChartPeriod: 'changeChartPeriod',
     }),
     ...mapActions('trade', [
-      'addNewCandle'
+      'addNewCandle',
     ]),
-    setChartPeriod (period) {
+    setChartPeriod(period) {
       this.changeChartPeriod(period).then(() => {
         // this.$hub.proxy.invoke('setCandleSize', this.candleSize);
-        this.createChart()
-      })
+        this.createChart();
+      });
     },
-    isCurrentChart (chart) {
-      return this.currentChart === chart
+    isCurrentChart(chart) {
+      return this.currentChart === chart;
     },
-    setChartType (type) {
-      this.currentChart = type
+    setChartType(type) {
+      this.currentChart = type;
       this.chart = ({
         series: [
           {
@@ -166,20 +166,20 @@ export default {
                 color: '#e55541',
                 color0: '#00ce7d',
                 borderColor: '#e55541',
-                borderColor0: '#00ce7d'
-              }
-            }
-          }
-        ]
-      })
+                borderColor0: '#00ce7d',
+              },
+            },
+          },
+        ],
+      });
     },
-    createChart () {
+    createChart() {
       this.chart = {
         tooltip: {
           trigger: 'axis',
           axisPointer: {
-            type: 'cross'
-          }
+            type: 'cross',
+          },
         },
         animation: false,
         grid: [
@@ -191,7 +191,7 @@ export default {
             top: 64,
             width: 'auto',
             height: 'auto',
-            containLabel: false
+            containLabel: false,
           },
           {
             show: false,
@@ -201,8 +201,8 @@ export default {
             top: '70%',
             width: 'auto',
             height: 'auto',
-            containLabel: false
-          }
+            containLabel: false,
+          },
         ],
         xAxis: [
           {
@@ -211,9 +211,9 @@ export default {
             scale: true,
             axisLine: {
               lineStyle: {
-                color: '#376691'
-              }
-            }
+                color: '#376691',
+              },
+            },
           },
           {
             show: false,
@@ -227,10 +227,10 @@ export default {
             axisLabel: {show: false},
             axisLine: {
               lineStyle: {
-                color: '#376691'
-              }
-            }
-          }
+                color: '#376691',
+              },
+            },
+          },
         ],
         yAxis: [
           {
@@ -239,23 +239,23 @@ export default {
             offset: false,
             width: 100,
             splitArea: {
-              show: false
+              show: false,
             },
             splitLine: {
               show: true,
               lineStyle: {
                 color: '#194362',
-                width: 1
-              }
+                width: 1,
+              },
             },
             axisLabel: {
               show: true,
               color: '#376691',
-              verticalAlign: 'middle'
+              verticalAlign: 'middle',
             },
             axisLine: {
-              show: false
-            }
+              show: false,
+            },
           },
           {
             scale: false,
@@ -264,8 +264,8 @@ export default {
             axisLabel: {show: false},
             axisLine: {show: false},
             axisTick: {show: false},
-            splitLine: {show: false}
-          }
+            splitLine: {show: false},
+          },
         ],
         dataZoom: [
           {
@@ -273,15 +273,15 @@ export default {
             xAxisIndex: [0, 1],
             start: this.setStartDataZoomOfChart,
             end: 100,
-            throttle: false
+            throttle: false,
           },
           {
             type: 'inside',
             xAxisIndex: [0, 1],
             start: this.setStartDataZoomOfChart,
             end: 100,
-            throttle: false
-          }
+            throttle: false,
+          },
         ],
         series: [
           {
@@ -293,9 +293,9 @@ export default {
                 color: '#e55541',
                 color0: '#00ce7d',
                 borderColor: '#e55541',
-                borderColor0: '#00ce7d'
-              }
-            }
+                borderColor0: '#00ce7d',
+              },
+            },
           },
           {
             name: 'MA10',
@@ -304,16 +304,16 @@ export default {
             itemStyle: {
               normal: {
                 color: this.technicalIndicators['MA10'].color,
-                opacity: this.technicalIndicators['MA10'].enabled
-              }
+                opacity: this.technicalIndicators['MA10'].enabled,
+              },
             },
             lineStyle: {
               normal: {
                 color: this.technicalIndicators['MA10'].color,
-                opacity: this.technicalIndicators['MA10'].enabled
-              }
+                opacity: this.technicalIndicators['MA10'].enabled,
+              },
             },
-            zlevel: 1
+            zlevel: 1,
           },
           {
             name: 'EMA10',
@@ -322,16 +322,16 @@ export default {
             itemStyle: {
               normal: {
                 color: this.technicalIndicators['EMA10'].color,
-                opacity: this.technicalIndicators['EMA10'].enabled
-              }
+                opacity: this.technicalIndicators['EMA10'].enabled,
+              },
             },
             lineStyle: {
               normal: {
                 color: this.technicalIndicators['EMA10'].color,
-                opacity: this.technicalIndicators['EMA10'].enabled
-              }
+                opacity: this.technicalIndicators['EMA10'].enabled,
+              },
             },
-            zlevel: 1
+            zlevel: 1,
           },
           // {
           //   name: 'MACD',
@@ -360,52 +360,52 @@ export default {
             itemStyle: {
               normal: {
                 color: '#376691',
-                opacity: 0.3
-              }
-            }
-          }
-        ]
-      }
+                opacity: 0.3,
+              },
+            },
+          },
+        ],
+      };
     },
-    calculateMA (count = 10) {
-      let result = []
+    calculateMA(count = 10) {
+      let result = [];
 
       for (let i = 0, len = this.rawCandles.length; i < len; i++) {
         if (i < count) {
-          result.push('')
-          continue
+          result.push('');
+          continue;
         };
-        let sum = 0
+        let sum = 0;
         for (let j = 0; j < count; j++) {
-          sum += this.rawCandles[i - j].high
+          sum += this.rawCandles[i - j].high;
         };
-        result.push(sum / count)
+        result.push(sum / count);
       }
       // console.table(result);
-      return result
+      return result;
     },
-    calculateEMA (count = 10) {
-      if (!this.rawCandles.length) return 0
-      let result = []
-      let k = 2 / (count + 1)
+    calculateEMA(count = 10) {
+      if (!this.rawCandles.length) return 0;
+      let result = [];
+      let k = 2 / (count + 1);
 
-      result = [this.rawCandles[0].high]
+      result = [this.rawCandles[0].high];
       for (let i = 1; i < this.rawCandles.length; i++) {
-        result.push(this.rawCandles[i].high * k + result[i - 1] * (1 - k))
+        result.push(this.rawCandles[i].high * k + result[i - 1] * (1 - k));
       };
-      return result
+      return result;
     },
-    techClass (indicator) {
-      return (this.technicalIndicators[indicator].enabled) ? 'chart__buttonTxt--activeBox' : ''
+    techClass(indicator) {
+      return (this.technicalIndicators[indicator].enabled) ? 'chart__buttonTxt--activeBox' : '';
     },
-    colorClass (indicator) {
-      return (this.technicalIndicators[indicator].enabled) ? ('chart__buttonTxt--' + indicator) : ''
+    colorClass(indicator) {
+      return (this.technicalIndicators[indicator].enabled) ? ('chart__buttonTxt--' + indicator) : '';
     },
-    toggleIndicator (indicator) {
-      this.technicalIndicators[indicator].enabled = !this.technicalIndicators[indicator].enabled
-      this.createChart()
+    toggleIndicator(indicator) {
+      this.technicalIndicators[indicator].enabled = !this.technicalIndicators[indicator].enabled;
+      this.createChart();
     },
-    onSendSignal ({payload, metadata}) {
+    onSendSignal({payload, metadata}) {
       // {x
       //   baseCurrency: 'BTC',
       //   candleOpen:'2018-04-03T11:38:03.4288665';
@@ -424,43 +424,43 @@ export default {
           payload.quoteCurrency === this.quoteCurrency &&
           payload.period === this.candlePeriod
       ) {
-        this.addNewCandle(payload)
+        this.addNewCandle(payload);
         // this.setEmptyCandleHandler();
       }
     },
-    addEmptyCandle () {
-      const emptyCandle = this.getEmptyCandle()
-      this.addNewCandle(emptyCandle)
+    addEmptyCandle() {
+      const emptyCandle = this.getEmptyCandle();
+      this.addNewCandle(emptyCandle);
     },
-    setEmptyCandleHandler () {
-      if (!this.rawCandles.length) return
-      clearTimeout(this._emptyCandleTimeoutId)
-      const pastTime = new Date().getTime() - this.lastCandleOpenTime
-      const timeout = this.candlePeriodInMs - pastTime
+    setEmptyCandleHandler() {
+      if (!this.rawCandles.length) return;
+      clearTimeout(this._emptyCandleTimeoutId);
+      const pastTime = new Date().getTime() - this.lastCandleOpenTime;
+      const timeout = this.candlePeriodInMs - pastTime;
       if (timeout >= 0) {
-        this._emptyCandleTimeoutId = setTimeout(this.addEmptyCandle, timeout)
+        this._emptyCandleTimeoutId = setTimeout(this.addEmptyCandle, timeout);
       }
-    }
+    },
   },
   watch: {
-    rawCandles () {
-      this.calculateMA(10)
-      this.calculateEMA(10)
-      this.createChart()
-      this.setEmptyCandleHandler()
-    }
+    rawCandles() {
+      this.calculateMA(10);
+      this.calculateEMA(10);
+      this.createChart();
+      this.setEmptyCandleHandler();
+    },
   },
-  created () {
+  created() {
     this.loadChart().then(() => {
-      this.createChart()
-    })
-    this.$hub.on('Send', this.onSendSignal)
+      this.createChart();
+    });
+    this.$hub.on('Send', this.onSendSignal);
   },
   components: {
     Icon,
-    IEcharts
-  }
-}
+    IEcharts,
+  },
+};
 
 </script>
 

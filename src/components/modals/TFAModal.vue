@@ -6,36 +6,36 @@ Modal.tfaModal
 </template>
 
 <script>
-import {mapState} from 'vuex'
-import TFA from '@/components/modals/TFA'
-import Modal from '@/components/modals/Modal'
-import Status from '@/components/modals/Status.vue'
+import {mapState} from 'vuex';
+import TFA from '@/components/modals/TFA';
+import Modal from '@/components/modals/Modal';
+import Status from '@/components/modals/Status.vue';
 
 export default {
-  data () {
+  data() {
     return {
-      success: false
-    }
+      success: false,
+    };
   },
   computed: {
     ...mapState('modal', {
-      data: 'data'
-    })
+      data: 'data',
+    }),
   },
   methods: {
-    confirm () {
-      this.data.function()
-      this.success = true
-    }
+    confirm() {
+      this.data.function();
+      this.success = true;
+    },
   },
-  created () {
+  created() {
   },
   components: {
     Modal,
     TFA,
-    Status
-  }
-}
+    Status,
+  },
+};
 </script>
 
 <style lang="scss">

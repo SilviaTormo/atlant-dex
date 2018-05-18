@@ -37,7 +37,7 @@ export default {
 
 <style lang="scss">
   @import "~@/sass/bootstrap/media";
-  @import "~sass/variables";
+  @import "~variables";
   .verificationFormGroup {
     align-items: center;
     display: flex;

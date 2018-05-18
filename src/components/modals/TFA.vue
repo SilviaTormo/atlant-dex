@@ -22,93 +22,93 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations} from 'vuex'
-import i18n from 'i18n'
-import Icon from '@/components/Icon'
-import BButton from '@/components/BButton'
-import IInput from '@/components/IInput'
-import Status from '@/components/modals/Status.vue'
-import QR from '@/components/QR'
+import {mapState, mapGetters, mapMutations} from 'vuex';
+import i18n from 'i18n';
+import Icon from '@/components/Icon';
+import BButton from '@/components/BButton';
+import IInput from '@/components/IInput';
+import Status from '@/components/modals/Status.vue';
+import QR from '@/components/QR';
 
 export default {
-  data () {
+  data() {
     return {
       secureCode: '',
       timer: 5,
       isLinkAviable: false,
-      isSuccess: false
-    }
+      isSuccess: false,
+    };
   },
   computed: {
     ...mapState('user', {
-      security: 'security'
+      security: 'security',
     }),
     ...mapGetters('misc', {
-      isMobile: 'isMobile'
+      isMobile: 'isMobile',
     }),
-    setTextMessage () {
-      let confirmMethod = (this.confirmType) ? this.confirmType : this.security.tfa.method
-      return (this.text === false) ? i18n.t(`sent2FA.${confirmMethod}`) : this.text
-    }
+    setTextMessage() {
+      let confirmMethod = (this.confirmType) ? this.confirmType : this.security.tfa.method;
+      return (this.text === false) ? i18n.t(`sent2FA.${confirmMethod}`) : this.text;
+    },
   },
   methods: {
     ...mapMutations('modal', {
-      openModal: 'open'
+      openModal: 'open',
     }),
-    getCountDown () {
-      this.isLinkAviable = false
+    getCountDown() {
+      this.isLinkAviable = false;
       if (this.timer) {
         setTimeout(() => {
-          this.timer--
-          this.getCountDown()
-        }, 1000)
+          this.timer--;
+          this.getCountDown();
+        }, 1000);
       };
       if (this.timer <= 0) {
-        this.isLinkAviable = true
-        this.timer = 5
+        this.isLinkAviable = true;
+        this.timer = 5;
       };
-    }
+    },
   },
-  created () {
-    this.getCountDown()
+  created() {
+    this.getCountDown();
   },
   props: {
     text: {
       type: [String, Boolean],
       default: false,
-      required: false
+      required: false,
     },
     confirmType: {
       type: [String, Boolean],
       default: false,
-      required: false
+      required: false,
     },
     onConfirm: {
       type: Function,
-      required: true
+      required: true,
     },
     onCancel: {
       type: Function,
-      required: true
+      required: true,
     },
     onResend: {
       type: Function,
-      required: false
+      required: false,
     },
     isModal: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
   components: {
     Icon,
     BButton,
     IInput,
     Status,
-    QR
-  }
-}
+    QR,
+  },
+};
 </script>
 
 <style lang="scss">

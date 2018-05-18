@@ -39,6 +39,7 @@ export function debounce(f, ms) {
   let timer = null;
   return function(...args) {
     const onComplete = () => {
+      // eslint-disable-next-line
       f.apply(this, args);
       timer = null;
     };

@@ -6,25 +6,25 @@
 </template>
 
 <script>
-import Icon from '@/components/Icon'
+import Icon from '@/components/Icon';
 
 export default {
   props: {
     title: {
       type: String,
       default: '',
-      required: false
+      required: false,
     },
     center: {
       type: Boolean,
       default: false,
-      required: false
-    }
+      required: false,
+    },
   },
   components: {
-    Icon
-  }
-}
+    Icon,
+  },
+};
 </script>
 
 <style lang="scss" scoped>

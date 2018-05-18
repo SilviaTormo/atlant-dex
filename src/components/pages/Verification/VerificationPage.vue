@@ -115,7 +115,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@/sass/bootstrap/media";
-@import "~sass/variables";
+@import "~variables";
 .verification {
   color: $color_white;
   font-size: 14px;

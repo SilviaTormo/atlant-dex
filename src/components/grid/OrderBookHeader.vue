@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
-import Icon from '@/components/Icon'
+import {mapState} from 'vuex';
+import Icon from '@/components/Icon';
 
 export default {
   computed: {
@@ -15,25 +15,25 @@ export default {
       last: (state) => state.pairInfo.last,
       high: (state) => state.pairInfo.high,
       low: (state) => state.pairInfo.low,
-      change: (state) => state.pairInfo.change
-    })
+      change: (state) => state.pairInfo.change,
+    }),
   },
   props: {
     ask: {
       type: Boolean,
       default: false,
-      required: false
+      required: false,
     },
     price: {
       type: Number,
       default: 0,
-      required: false
-    }
+      required: false,
+    },
   },
   components: {
-    Icon
-  }
-}
+    Icon,
+  },
+};
 </script>
 
 <style lang="scss">
