@@ -46,7 +46,7 @@ export default {
     },
     orderFilter: '',
     orders: [],
-    chartsInfo: [],
+    quotesInfo: [],
   },
   getters: {
     baseCurrency(state) {
@@ -148,8 +148,8 @@ export default {
     },
   },
   mutations: {
-    setChartsInfo(state, data) {
-      state.chartsInfo = data;
+    setQuotesInfo(state, data) {
+      state.quotesInfo = data;
     },
     setChartData(state, data) {
       const modifier = data.candles ? {} : {candles: []};
@@ -291,12 +291,12 @@ export default {
       });
     },
 
-    getChartsInfo({commit}, {period, currencies}) {
+    getQuotesInfo({commit}, {period, currencies}) {
       return Trade.coinsInfo({
         period,
         currencies,
       }).then((res) => {
-        commit('setChartsInfo', res.data);
+        commit('setQuotesInfo', res.data);
       }).catch((res) => {
         serverNotification(res);
       });

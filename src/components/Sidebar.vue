@@ -4,9 +4,9 @@
   .sidebar__item.sidebar__item--logo(@click="getOpenPage('generalsettings')")
     // Icon.sidebar__logo(id="logo")
     h1.sidebar__title ATLANT EXCHANGE
-  Portfolio(v-if="section == 'wallet'")
-  Charts(v-if="section == 'charts'")
-  Alerts(v-if="section == 'alert'")
+  SidebarPortfolio(v-if="section == 'wallet'")
+  SidebarQuotes(v-if="section == 'charts'")
+  SidebarAlerts(v-if="section == 'alert'")
   //- .sidebar__item(v-for="(account, index) in accounts")
   //-   CryptoAddress(
   //-     :isActive="account.isActive",
@@ -27,9 +27,9 @@
 <script>
 import {mapMutations, mapState, mapGetters} from 'vuex';
 import Icon from './Icon';
-import Portfolio from './Portfolio';
-import Alerts from './Alerts';
-import Charts from './Charts';
+import SidebarPortfolio from './SidebarPortfolio';
+import SidebarAlerts from './SidebarAlerts';
+import SidebarQuotes from './SidebarQuotes';
 
 export default {
   data() {
@@ -95,9 +95,9 @@ export default {
   },
   components: {
     Icon,
-    Portfolio,
-    Alerts,
-    Charts,
+    SidebarPortfolio,
+    SidebarAlerts,
+    SidebarQuotes,
   },
 };
 

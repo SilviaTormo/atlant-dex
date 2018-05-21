@@ -11,9 +11,9 @@
         preselect-first,
       )
   .alerts__item
-    AlertItem(currency='btc', level="12%", dropped)
+    SidebarAlertsItem(currency='btc', level="12%", dropped)
   .alerts__item
-    AlertItem(currency='zec', level="$364.75")
+    SidebarAlertsItem(currency='zec', level="$364.75")
   .alerts__addAllerts(:class="(showSidebar) ? '' : 'alerts__addAllerts--hidden'")
     Icon(id="alert").alerts__addAllertsIcon
     | ADD NEW ALERT
@@ -23,7 +23,7 @@
 import {mapState} from 'vuex';
 import Icon from './Icon';
 import CommonSelect from './CommonSelect';
-import AlertItem from './AlertItem';
+import SidebarAlertsItem from './SidebarAlertsItem';
 
 export default {
   data() {
@@ -50,7 +50,7 @@ export default {
   components: {
     Icon,
     CommonSelect,
-    AlertItem,
+    SidebarAlertsItem,
   },
 };
 

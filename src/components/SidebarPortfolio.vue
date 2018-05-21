@@ -14,7 +14,7 @@
     .portfolio__headerLine
       .portfolio__header Coins:
       Icon.portfolio__icon(id="refresh" @click="getBalances")
-    BalanceItem.portfolio__balanceItem(v-for="bal in getUserBalancesInCrypto", :key="bal.currency", :data="bal",
+    SidebarPortfolioBalance.portfolio__balanceItem(v-for="bal in getUserBalancesInCrypto", :key="bal.currency", :data="bal",
      :isActive="bal.currency === selectedCur", @click.native="openCur(bal.currency)")
     //- BalanceItem(v-for="bal in balances", v-if="bal.isCrypto && bal.availableFunds == 0 && showAll", :key="bal.currency",
       :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="bal.isCrypto", @click.native="openCur(bal.currency)")
@@ -31,7 +31,7 @@
 import {mapGetters, mapActions} from 'vuex';
 import Icon from './Icon';
 import Dropdown from './Dropdown';
-import BalanceItem from './BalanceItem';
+import SidebarPortfolioBalance from './SidebarPortfolioBalance';
 
 export default {
   data() {
@@ -69,7 +69,7 @@ export default {
   components: {
     Icon,
     Dropdown,
-    BalanceItem,
+    SidebarPortfolioBalance,
   },
 };
 

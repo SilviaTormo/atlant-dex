@@ -17,7 +17,6 @@ import BButton from './BButton';
 import Pair from './Pair';
 import Logout from './Logout';
 import Price from './Price';
-import Balance from './Balance';
 
 export default {
   data() {
@@ -47,7 +46,6 @@ export default {
     PairInfo,
     Price,
     Logout,
-    Balance,
   },
 };
 </script>

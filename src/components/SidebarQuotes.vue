@@ -1,25 +1,25 @@
 <template lang='pug'>
-.charts
-  .charts__item.charts__item--header
-    .charts__headerLine
-      .charts__header QUOTES:
-      .charts__headerText 24 hr change
-      CommonSelect.charts__headerDropdown(
+.quotes
+  .quotes__item.quotes__item--header
+    .quotes__headerLine
+      .quotes__header QUOTES:
+      .quotes__headerText 24 hr change
+      CommonSelect.quotes__headerDropdown(
         :options="currencies",
         v-model="selected",
         no-border,
         no-padding,
         preselect-first,
       )
-  .charts__item.charts__item--search
-    .charts__headerLine
-      input.charts__search(type="text", placeholder="Search" v-model="search")
-      Icon.charts__searchIcon(id="search")
-  .charts__item(v-show="charts")
-    .charts__headerLine
-      .charts__header Coins:
-      Icon.charts__icon(id="refresh")
-    ChartsItem(v-for="chart in filteredCharts", :key="chart.currency",
+  .quotes__item.quotes__item--search
+    .quotes__headerLine
+      input.quotes__search(type="text", placeholder="Search" v-model="search")
+      Icon.quotes__searchIcon(id="search")
+  .quotes__item(v-show="quotes")
+    .quotes__headerLine
+      .quotes__header Coins:
+      Icon.quotes__icon(id="refresh")
+    SidebarQuotesItem(v-for="chart in filteredQuotes", :key="chart.currency",
     :currency="chart.currency.toLowerCase()", :price="chart.price", :priceChng="chart.change", :cap="chart.cap", :volume="chart.volume",
     :isActive="activeCur == chart.currency", @click.native="openChart(chart.currency)")
 </template>
@@ -29,7 +29,7 @@ import {mapState, mapActions} from 'vuex';
 import {getCryptoName} from '@/services/misc';
 import Icon from './Icon';
 import CommonSelect from './CommonSelect';
-import ChartsItem from './ChartsItem';
+import SidebarQuotesItem from './SidebarQuotesItem';
 
 export default {
   data() {
@@ -37,7 +37,7 @@ export default {
       selected: '',
       search: '',
       activeCur: 'btc',
-      // charts: [
+      // quotes: [
       //   {
       //     currency: 'btc',
       //     price: '$11 388,60',
@@ -61,16 +61,16 @@ export default {
       //   },
       // ],
       currencies: ['USD'],
-      aviableCharts: ['BTC', 'ETH', 'LTC', 'ATL'],
+      aviableQuotes: ['BTC', 'ETH', 'LTC', 'ATL'],
     };
   },
   computed: {
     ...mapState('trade', {
-      charts: 'chartsInfo',
+      quotes: 'quotesInfo',
     }),
-    filteredCharts() {
-      if (!this.search) return this.charts;
-      return this.charts.filter(({currency}) => {
+    filteredQuotes() {
+      if (!this.search) return this.quotes;
+      return this.quotes.filter(({currency}) => {
         const fullName = getCryptoName(currency.toUpperCase()) || '';
         const searchLowerCased = this.search.toLowerCase();
         return (
@@ -79,17 +79,17 @@ export default {
         );
       });
     },
-    aviableChartsToQueryString() {
+    aviableQuotesToQueryString() {
       let queryString = '';
-      for (let i=0; i < this.aviableCharts.length; i++) {
-        queryString += '&currencies=' + this.aviableCharts[i];
+      for (let i=0; i < this.aviableQuotes.length; i++) {
+        queryString += '&currencies=' + this.aviableQuotes[i];
       };
       return queryString;
     },
   },
   methods: {
     ...mapActions('trade', [
-      'getChartsInfo',
+      'getQuotesInfo',
     ]),
     openChart(cur) {
       this.activeCur = cur;
@@ -98,9 +98,9 @@ export default {
 //      return cur.includes(this.search);
 //    },
     getApiRequest() {
-      this.getChartsInfo({
+      this.getQuotesInfo({
         period: '24h',
-        currencies: this.aviableChartsToQueryString,
+        currencies: this.aviableQuotesToQueryString,
       });
     },
   },
@@ -109,7 +109,7 @@ export default {
   },
   components: {
     Icon,
-    ChartsItem,
+    SidebarQuotesItem,
     CommonSelect,
   },
 };
@@ -119,7 +119,7 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 
-.charts {
+.quotes {
   position: relative;
   &:after {
     display: block;

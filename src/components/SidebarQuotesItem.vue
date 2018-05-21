@@ -1,27 +1,27 @@
 <template lang='pug'>
-.chartItem
-  Icon.chartItem__currencyIcon(:id="'cur_'+ currency")
-  .chartItem__currencyContainer
-    .chartItem__main
-      .chartItem__row
-        .chartItem__currencyName(:class="activeClass") {{currency}}
-        .chartItem__price {{price}}
-      .chartItem__row
-        .chartItem__currencyFull {{fullCurrencyName()}}
-        .chartItem__change
-          Icon.chartItem__chngIcon(id="arrow", :class="{'chartItem__chngIcon--neg': priceChng < 0}")
-          .chartItem__changeAmt(:class="{'chartItem__changeAmt--neg': priceChng < 0}") {{absPriceChng}}%
-    .chartItem__additional(v-if="isActive")
-      .chartItem__separator —
-        .chartItem__details #[.chartItem__detail Market Cap] #[span.chartItem__number ${{toCurrencyFormat(cap)}}]
-        .chartItem__details #[.chartItem__detail Volume] #[span.chartItem__number ${{toCurrencyFormat(volume)}}]
-      .chartItem__separator —
-      .chartItem__deposit
-        Icon.chartItem__depositIcon(id="deposit")
-        .chartItem__actionText(@click="makeDeposit()") Make deposit
-      .chartItem__separator —
-  Icon.chartItem__icon.chartItem__icon--alert(id="alert-inactive")
-  Icon.chartItem__icon.chartItem__icon--triagle(id="triangle2" v-show="isActive")
+.quoteItem
+  Icon.quoteItem__currencyIcon(:id="'cur_'+ currency")
+  .quoteItem__currencyContainer
+    .quoteItem__main
+      .quoteItem__row
+        .quoteItem__currencyName(:class="activeClass") {{currency}}
+        .quoteItem__price {{price}}
+      .quoteItem__row
+        .quoteItem__currencyFull {{fullCurrencyName()}}
+        .quoteItem__change
+          Icon.quoteItem__chngIcon(id="arrow", :class="{'.quoteItem__chngIcon--neg': priceChng < 0}")
+          .quoteItem__changeAmt(:class="{'.quoteItem__changeAmt--neg': priceChng < 0}") {{absPriceChng}}%
+    .quoteItem__additional(v-if="isActive")
+      .quoteItem__separator —
+        .quoteItem__details #[.quoteItem__detail Market Cap] #[span.quoteItem__number ${{toCurrencyFormat(cap)}}]
+        .quoteItem__details #[.quoteItem__detail Volume] #[span.quoteItem__number ${{toCurrencyFormat(volume)}}]
+      .quoteItem__separator —
+      .quoteItem__deposit
+        Icon.quoteItem__depositIcon(id="deposit")
+        .quoteItem__actionText(@click="makeDeposit()") Make deposit
+      .quoteItem__separator —
+  Icon.quoteItem__icon.quoteItem__icon--alert(id="alert-inactive")
+  Icon.quoteItem__icon.quoteItem__icon--triagle(id="triangle2" v-show="isActive")
 </template>
 
 <script>
@@ -39,7 +39,7 @@ export default {
       'isLoggedIn',
     ]),
     activeClass() {
-      return (this.isActive) ? 'chartItem__currencyName--active' : '';
+      return (this.isActive) ? '.quoteItem__currencyName--active' : '';
     },
     absPriceChng() {
       return Math.abs(this.priceChng);
@@ -110,7 +110,7 @@ export default {
 <style lang="scss">
 @import "~variables";
 
-.chartItem {
+.quoteItem {
   display: flex;
   align-items: flex-start;
   margin-top: 25px;
