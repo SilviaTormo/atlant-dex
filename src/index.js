@@ -36,7 +36,7 @@ new Vue({
   i18n,
   router,
   created() {
-    const sprite = require.context('./assets/icons/', true, /\.(svg)$/);
-    icons.keys().forEach(sprite);
+    const icons = require.context('./assets/icons/', true, /\.(svg)$/);
+    icons.keys().forEach(icons);
   },
 });

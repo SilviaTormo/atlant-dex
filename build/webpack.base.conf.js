@@ -59,7 +59,7 @@ module.exports = {
         use: 'pug-loader',
       },
       {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        test: /\.(png|jpe?g|gif)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
@@ -84,8 +84,11 @@ module.exports = {
       },
       {
         test: /\.svg$/,
+        include: [
+          resolve('./src/assets/icons/'),
+        ],
         exclude: [
-          resolve('src/assets/icons/colored/'),
+          resolve('./src/assets/icons/colored/'),
         ],
         use: [
           'svg-sprite-loader',
@@ -93,13 +96,13 @@ module.exports = {
             loader: 'svgo-loader',
             options: {
               plugins: [
-                {removeTitle: true},
-                {cleanupEnableBackground: true},
-                {cleanupAttrs: true},
-                {removeEmptyAttrs: true},
-                {removeDimensions: true},
-                {removeStyleElement: true},
-                {removeAttrs: {attrs: ['fill', 'stroke']}},
+                { removeTitle: true },
+                { cleanupEnableBackground: true },
+                { cleanupAttrs: true },
+                { removeEmptyAttrs: true },
+                { removeDimensions: true },
+                { removeStyleElement: true },
+                { removeAttrs: { attrs: ['fill', 'stroke'] } },
               ],
             },
           },
@@ -108,7 +111,7 @@ module.exports = {
       {
         test: /\.svg$/,
         include: [
-          resolve('src/assets/icons/colored/'),
+          resolve('./src/assets/icons/colored/'),
         ],
         use: 'svg-sprite-loader',
       },
