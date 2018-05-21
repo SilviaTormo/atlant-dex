@@ -1,22 +1,21 @@
 <template lang="pug">
 header.header
   .header__main
-    Pair
+    TheHeaderPair
     .header__stats
-      PairInfo
+      TheHeaderPairInfo
     .header__userbar
-      Logout
+      TheHeaderLogout
 </template>
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {profileSections} from '@/config';
 import Icon from './Icon';
-import PairInfo from './PairInfo';
 import BButton from './BButton';
-import Pair from './Pair';
-import Logout from './Logout';
-import Price from './Price';
+import TheHeaderPair from './TheHeaderPair';
+import TheHeaderPairInfo from './TheHeaderPairInfo';
+import TheHeaderLogout from './TheHeaderLogout';
 
 export default {
   data() {
@@ -42,10 +41,9 @@ export default {
   components: {
     Icon,
     BButton,
-    Pair,
-    PairInfo,
-    Price,
-    Logout,
+    TheHeaderPair,
+    TheHeaderPairInfo,
+    TheHeaderLogout,
   },
 };
 </script>
