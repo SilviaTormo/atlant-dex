@@ -22,7 +22,6 @@ export default {
 
 
 <style lang="scss" scoped>
-@import '~@/sass/bootstrap/media';
 .empty {
   width: 100%;
   display: flex;

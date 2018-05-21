@@ -42,7 +42,6 @@ export default {
 
 
 <style lang="scss" scoped>
-@import '~@/sass/bootstrap/media';
 .panel {
   $panelHeight: 58px;
   z-index: 1.6;

@@ -67,9 +67,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '~variables';
-@import '~@/sass/bootstrap/media';
-
 .cryptoDeposit {
   display: flex;
   flex-direction: column;
@@ -109,8 +106,5 @@ export default {
     text-align: center;
     margin-top: 45px;
   }
-}
-
-@include media-breakpoint-down(md) {
 }
 </style>

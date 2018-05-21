@@ -6,7 +6,7 @@
       :class="{'pageSidebar__item--selected': isPageOpened(name)}",
       @click="openPage({name})"
     )
-      Icon.pageSidebar__icon(id="triangle2" v-if="isPageOpened(name) && !isMobile")
+      Icon.pageSidebar__icon(id="triangle2" v-if="isPageOpened(name)")
       span.pageSidebar__label {{label}}
   ul.pageSidebar__mobileList(
     :class="{'pageSidebar__mobileList--selected': showNav}",
@@ -51,9 +51,6 @@ export default {
     ...mapGetters('page', {
       isPageOpened: 'isOpened',
     }),
-    ...mapGetters('misc', {
-      isMobile: 'isMobile',
-    }),
     selectedCat() {
       return this.items.find((item) => item.name == this.pageName).category;
     },
@@ -90,7 +87,6 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import "~@/sass/bootstrap/media";
 
 .pageSidebar {
   padding: 36px;
@@ -122,51 +118,6 @@ export default {
   }
   &__mobileList {
     display: none;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .pageSidebar {
-    padding: 0;
-    &__list {
-      display: none;
-    }
-    &__mobileList {
-      display: block;
-      padding: 14px;
-      text-align: center;
-      font-size: 16px;
-      font-weight: 700;
-      text-transform: uppercase;
-      border: 1px solid #032537;
-      fill:#fff;
-    }
-    &__navHeader {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    &__navIcon {
-      margin-left: 10px;
-      &--show {
-        transform: rotate(180deg);
-      }
-    }
-    &__mobileItem {
-    }
-    &__mobileSubItem {
-      color: #fff;
-      font-size: 12px;
-      font-weight: 700;
-      line-height: 35px;
-      text-transform: none;
-      &:first-child {
-        margin-top: 8px;
-      }
-      &--selected {
-        color: $color_turquoise;
-      }
-    }
   }
 }
 </style>

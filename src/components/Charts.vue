@@ -118,7 +118,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "~variables";
-@import '~@/sass/bootstrap/media';
 
 .charts {
   position: relative;

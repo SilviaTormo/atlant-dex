@@ -1,9 +1,8 @@
 <template lang="pug">
 header.header
-  .header__profileTitle(v-if="isMobile && isProfileOpened") {{openProfilePage}}
-  .header__main(v-else)
+  .header__main
     Pair
-    .header__stats(v-if="!isMobile")
+    .header__stats
       PairInfo
     .header__userbar
       Logout
@@ -28,9 +27,6 @@ export default {
   computed: {
     ...mapState('page', {
       pageName: 'name',
-    }),
-    ...mapGetters('misc', {
-      isMobile: 'isMobile',
     }),
     ...mapGetters('page', {
       isProfileOpened: 'isProfileOpened',
@@ -58,7 +54,6 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import '~@/sass/bootstrap/media';
 
 .header {
   padding: 12px 28px;
@@ -80,18 +75,6 @@ export default {
     font-size: 16px;
     font-weight: 900;
     text-transform: uppercase;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .header {
-    position: fixed;
-    background: $color_blue;
-    left: 35px;
-    top: 0;
-    padding-right: 40px;
-    border-bottom: 1px solid $color_tangaroa;
-    z-index: 2;
   }
 }
 </style>

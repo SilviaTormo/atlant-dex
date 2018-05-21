@@ -54,7 +54,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@/sass/bootstrap/media";
 .pagination {
   display: flex;
   justify-content: center;
@@ -101,28 +100,5 @@ export default {
     margin: 0 3px;
     cursor: default;
   }
-}
-
-@include media-breakpoint-down(md) {
-  .pagination {
-  &__number {
-    display: none;
-    &-active {
-      display: inline-block;
-    }
-  }
-
-  &__arrow {
-    margin: 0 12px;
-    display: none;
-    &-active {
-      display: block;
-    }
-  }
-
-  &__space {
-    display: none;
-  }
-}
 }
 </style>

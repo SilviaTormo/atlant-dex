@@ -3,7 +3,6 @@ export const baseURLOld = 'https://apiex.atlant.io';
 export const timeout = 30000;
 export const hubURL = `${baseURL}main`;
 export const hubName = 'notificationHub';
-export const mobileBreakpoint = 992;
 export const showWelcome = false;
 export const periods = {
   '1h': '1m',

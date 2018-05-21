@@ -55,7 +55,6 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import '~@/sass/bootstrap/media';
 
 .alert {
   &__main {

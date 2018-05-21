@@ -66,7 +66,6 @@ export default {
       'notificationsCounter',
     ]),
     ...mapGetters('misc', [
-      'isMobile',
       'section',
     ]),
     ...mapGetters('membership', [
@@ -82,7 +81,6 @@ export default {
   methods: {
     ...mapMutations('misc', [
       'toggleSidebar',
-      'setSidebar',
       'setSection',
     ]),
     ...mapMutations('page', {
@@ -103,7 +101,6 @@ export default {
     },
     getOpenPage(name) {
       this.openPage({name});
-      if (this.isMobile) this.setSidebar(false);
     },
   },
   components: {
@@ -116,7 +113,6 @@ export default {
 
 <style lang='scss'>
 @import "~variables";
-@import "~@/sass/bootstrap/media";
 
 .toolbar {
   display: flex;

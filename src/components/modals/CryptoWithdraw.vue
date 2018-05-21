@@ -88,7 +88,6 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import "~@/sass/bootstrap/media";
 
 .cryptoWithdraw {
   display: flex;
@@ -139,8 +138,5 @@ export default {
   &__currency {
     text-transform: uppercase;
   }
-}
-
-@include media-breakpoint-down(md) {
 }
 </style>

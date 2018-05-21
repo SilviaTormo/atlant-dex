@@ -5,7 +5,7 @@ Modal
     form.singUp__content(v-if="step == 0" @submit.prevent="signUpUser")
       .singUp__headerContent
         .singUp__title Sign up
-        .singUp__other(v-if="!isMobile", @click="openSignIn") Sign in
+        .singUp__other( @click="openSignIn") Sign in
       .singUp__blocks
         .singUp__block
           IInput.singUp__input(label="Email address", v-model="email")
@@ -16,14 +16,14 @@ Modal
           Checkbox.singUp__checkbox(name="acknowledged", :value="true", v-model="iAgree")
             span.singUp__iAgree I certify that I am 18 years of age or older, and I agree to the #[a.link(href="#") User Agreement] and #[a.link(href="#") Privacy Policy].
           BButton.singUp__button(color="malachite" rounded type="submit") Create account
-      .singUp__other(v-if="isMobile", @click="openSignIn") Sign in
+      .singUp__other(@click="openSignIn") Sign in
     Status.singUp__status(v-if="step == 1")
       .singUp__statusMsg Completed
 </template>
 
 <script>
 import {required, sameAs, minLength} from 'vuelidate/lib/validators';
-import {mapGetters, mapMutations} from 'vuex';
+import {mapMutations} from 'vuex';
 import {serverNotification} from '@/services/notification';
 import * as Membership from '@/services/api/membership';
 import Icon from '@/components/Icon';
@@ -44,9 +44,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('misc', {
-      isMobile: 'isMobile',
-    }),
     parsePassword() {
       if (this.$v.$error) {
         if (this.$v.password.$error) {
@@ -105,7 +102,6 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import "~@/sass/bootstrap/media";
 
 .singUp {
   display: flex;
@@ -202,59 +198,6 @@ export default {
     text-transform: uppercase;
     font-size: 18px;
     font-weight: 900;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .singUp {
-    &__icon {
-      display: none;
-    }
-
-    &__content {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      flex: 1;
-    }
-
-    &__headerContent {
-      justify-content: center;
-    }
-
-    &__icon {
-      flex: 0;
-      justify-content: center;
-    }
-
-    &__blocks {
-      flex-direction: column;
-    }
-    &__block {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    &__checkbox {
-      margin-top: 30px;
-      flex-direction: column;
-      align-items: center !important;
-    }
-
-    &__iAgree {
-      margin-top: 20px;
-      margin-left: 0;
-      text-align: center;
-    }
-
-    &__button {
-      margin: 40px auto;
-    }
-
-    &__other {
-      margin: auto;
-    }
   }
 }
 </style>

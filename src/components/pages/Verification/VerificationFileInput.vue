@@ -82,7 +82,6 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  @import "~@/sass/bootstrap/media";
   @import "~variables";
   .verificationUploadInput {
     position: relative;
@@ -159,24 +158,6 @@ export default {
     &--error & {
       &__inputWrap {
         border-color: $input-error-color;
-      }
-    }
-  }
-  @include media-breakpoint-down(md) {
-    .verificationUploadInput {
-      &__image {
-        display: none;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        margin: 0;
-        z-index: 1;
-      }
-      &--help &{
-        &__image {
-          display: flex;
-        }
       }
     }
   }

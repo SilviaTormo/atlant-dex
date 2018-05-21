@@ -165,7 +165,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/sass/bootstrap/media";
   .verificationForm {
     &__input {
       display: block;
@@ -179,20 +178,6 @@ export default {
     }
     &__dataContainer {
       display: flex;
-    }
-  }
-  @include media-breakpoint-down(md) {
-    .verificationForm {
-      &__input {
-        &--small {
-          &:not(:last-of-type) {
-            margin-bottom: 20px;
-          }
-        }
-      }
-      &__dataContainer {
-        flex-direction: column;
-      }
     }
   }
 </style>

@@ -110,7 +110,6 @@ export default {
 
 
 <style lang="scss">
-@import "~@/sass/bootstrap/media";
 
 .changePassword {
   &__desktopRow {
@@ -141,31 +140,6 @@ export default {
     line-height: 19px;
     margin-left: 10px;
     padding-top: 5px;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .changePassword {
-    &__desktopRow {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    &__action {
-      margin-left: 0;
-      margin-top: 17px;
-    }
-     &__hiddenError {
-      color: #f33a3a;
-      width: 181px;
-
-      &--mobile {
-        display: block;
-        margin-top: 10px;
-      }
-      &--desktop {
-        display: none;
-      }
-    }
   }
 }
 </style>

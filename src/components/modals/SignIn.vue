@@ -5,7 +5,7 @@ Modal
     form.singIn__content(v-if="step == 0" @submit.prevent="signIn()")
       .singIn__headerContent
         .singIn__title Sign in
-        .singIn__other(v-if="!isMobile", @click="openSignUp") Sign up
+        .singIn__other( @click="openSignUp") Sign up
       .singIn__inputs
         IInput.singIn__input(label="Email", v-model="email", type="email")
         IInput.singIn__input(label="Password", v-model="password", type="password")
@@ -14,13 +14,13 @@ Modal
           .singIn__checkboxLabel Remember me
       BButton.singIn__button(color="malachite" rounded type="submit") Let me in
       .singIn__forgot #[a.link(href="#" @click="openModal({name: 'reset'})") Forgot password?]
-    .singIn__other(v-if="isMobile", @click="openSignUp") Sign up
+    .singIn__other(@click="openSignUp") Sign up
     Status.singIn__status(v-if="step == 1", :isSuccess="isSuccess")
       .singIn__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
 
 <script>
-import {mapGetters, mapMutations, mapActions} from 'vuex';
+import {mapMutations, mapActions} from 'vuex';
 import Icon from '@/components/Icon';
 import Checkbox from '@/components/Checkbox';
 import BButton from '@/components/BButton';
@@ -37,11 +37,6 @@ export default {
       step: 0,
       isSuccess: false,
     };
-  },
-  computed: {
-    ...mapGetters('misc', {
-      isMobile: 'isMobile',
-    }),
   },
   methods: {
     ...mapMutations('modal', {
@@ -81,7 +76,6 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import "~@/sass/bootstrap/media";
 
 .singIn {
   display: flex;
@@ -181,26 +175,6 @@ export default {
     text-transform: uppercase;
     font-size: 18px;
     font-weight: 900;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .singIn {
-    min-width: 100%;
-    &__icon {
-      display: none;
-    }
-    &__headerContent {
-      justify-content: center;
-    }
-    &__inputs {
-      flex-direction: column;
-      width: 100%;
-      justify-content: center;
-    }
-    &__other {
-      margin-top: 40px;
-    }
   }
 }
 </style>

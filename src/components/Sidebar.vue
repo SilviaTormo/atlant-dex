@@ -64,7 +64,6 @@ export default {
     ]),
     ...mapGetters('misc', [
       'toggleSidebar',
-      'isMobile',
       'sidebarTitle',
       'section',
     ]),
@@ -106,7 +105,6 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import '~@/sass/bootstrap/media';
 
 .sidebar {
   display: flex;
@@ -241,16 +239,6 @@ export default {
   &__contact {
     position: absolute;
     bottom: 25px;
-  }
-}
-@include media-breakpoint-down(md) {
-  .sidebar {
-    &__shadowBottom {
-      width: 100%;
-      &--hidden {
-        left: -100%;
-      }
-    }
   }
 }
 </style>

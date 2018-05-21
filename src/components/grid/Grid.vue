@@ -1,10 +1,10 @@
 <template lang="pug">
 .grid
   UserVisibility(hide-on-logout)
-    .grid__edit(@click="setIsEdit", v-show="!isMobile") Edit
-  GridPanel(:data="getHiddenLayout", :isEdit="isEdit", v-show="!isMobile")
+    .grid__edit(@click="setIsEdit") Edit
+  GridPanel(:data="getHiddenLayout", :isEdit="isEdit")
   GridLayout(
-      :layout="(isMobile ? mobileGridData : gridData)",
+      :layout="(gridData)",
       :col-num="12",
       :row-height="60",
       :is-draggable="isEdit",
@@ -15,7 +15,7 @@
       @layout-updated="layoutUpdatedEvent",
     )
     GridItem(
-        v-for="(item, index) in (isMobile ? mobileGridData : gridData)",
+        v-for="(item, index) in (gridData)",
         :key="index",
         :x="item.x",
         :y="item.y",
@@ -47,11 +47,7 @@ export default {
     ...mapState('grid', {
       allGridLayout: 'allGridLayout',
       gridData: 'gridData',
-      mobileGridData: 'mobileGridData',
       isEdit: 'isEdit',
-    }),
-    ...mapGetters('misc', {
-      isMobile: 'isMobile',
     }),
     ...mapGetters('grid', {
       getHiddenLayout: 'getHiddenLayout',

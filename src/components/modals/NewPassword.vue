@@ -17,7 +17,7 @@ Modal
 </template>
 
 <script>
-import {mapState, mapGetters} from 'vuex';
+import {mapState} from 'vuex';
 import * as Membership from '@/services/api/membership';
 import {serverNotification} from '@/services/notification';
 import Icon from '@/components/Icon';
@@ -39,9 +39,6 @@ export default {
   computed: {
     ...mapState('modal', {
       data: 'data',
-    }),
-    ...mapGetters('misc', {
-      isMobile: 'isMobile',
     }),
   },
   methods: {
@@ -70,7 +67,6 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import "~@/sass/bootstrap/media";
 
 .newPassword{
   display: flex;
@@ -117,29 +113,6 @@ export default {
     font-size: 16px;
     font-weight: 900px;
     text-transform: uppercase;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .newPassword{
-    margin: auto;
-    &__icon {
-      display: none;
-    }
-
-    &__headerContent{
-      justify-content: center;
-    }
-
-    &__checkbox {
-      flex-direction: column;
-      align-items: center !important;
-    }
-
-    &__checkboxText {
-      margin-top: 20px;
-      text-align: center;
-    }
   }
 }
 </style>

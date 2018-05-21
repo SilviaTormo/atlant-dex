@@ -10,11 +10,10 @@ Modal
         span.fiat__step
           span.fiat__stepNumber STEP 1
           span Choose {{transactionType}} method:
-        .fiat__options(v-if="!isMobile")
+        .fiat__options
           Radio.fiat__option(v-for="(method, index) in paymentMethods", :key="index", name="paymentSys" value="method.paymentName" v-model="CheckedPaymentSystem")
             Icon.fiat__systemLogo(:id="method.iconName")
-        Dropdown.fiat__options.dropdown(:options="getPaymentMethods(paymentMethods)", :border="true", v-if="isMobile", v-model="CheckedPaymentSystem")
-        .fiat__bottom(v-if="!isMobile")
+        .fiat__bottom
           div ***
           .fiat__note
             p(v-if="data.isDeposit") The funds will be blocked for 24 hours
@@ -32,18 +31,12 @@ Modal
         IInput.fiat__input(placeholder="Contact information" v-model="contact")
         IInput.fiat__input(placeholder="Comment" v-model="comment")
         BButton.fiat__button(color="malachite" rounded @click="makeDeposit()") Make {{transactionType}}
-      .fiat__bottom(v-if="isMobile")
-        div ***
-        .fiat__note
-          p(v-if="data.isDeposit") The funds will be blocked for 24 hours
-          p(v-else) Withdrawals to payment systems may take up to 24 hours.
-          p Operations are carried out with a commission, with which you can in a #[a.fiat__link special section]
     Status.fiat__status(v-if="step == 1" isSuccess)
       .fiat__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
 
 <script>
-import {mapState, mapActions, mapGetters, mapMutations} from 'vuex';
+import {mapState, mapActions, mapMutations} from 'vuex';
 import BButton from '@/components/BButton';
 import IInput from '@/components/IInput';
 import Icon from '@/components/Icon';
@@ -80,9 +73,6 @@ export default {
     }),
     ...mapState('user', {
       balance: 'balance',
-    }),
-    ...mapGetters('misc', {
-      isMobile: 'isMobile',
     }),
     title() {
       return (this.data.isDeposit) ? 'deposit' : 'withdraw';
@@ -126,7 +116,6 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import "~@/sass/bootstrap/media";
 
 .fiat {
   width: 100%;
@@ -234,49 +223,6 @@ export default {
     text-transform: uppercase;
     font-size: 18px;
     font-weight: 900;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .fiat {
-    &__header {
-      flex-direction: column;
-      margin-bottom: 0;
-    }
-    &__title {
-      margin: auto;
-      margin-bottom: 60px;
-    }
-
-    &__balance {
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    &__content {
-      flex-direction: column;
-    }
-
-    &__block {
-      &--left {
-        margin: 60px 0;
-        padding: 60px 0;
-        border-top: 1px dashed #ffffff;
-        border-bottom: 1px dashed #ffffff;
-        border-right: none;
-      }
-      &--right {
-        padding: 0;
-      }
-    }
-    &__button {
-      margin: 37px auto;
-    }
-    &__bottom {
-      text-align: center;
-    }
   }
 }
 </style>

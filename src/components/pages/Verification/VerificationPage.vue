@@ -114,7 +114,6 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "~@/sass/bootstrap/media";
 @import "~variables";
 .verification {
   color: $color_white;
@@ -135,20 +134,6 @@ export default {
   }
   &__button {
     margin-top: 50px;
-  }
-}
-@include media-breakpoint-down(md) {
-  .verification {
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    &__main {
-      & * {
-        width: 100%;
-      }
-      max-width: 560px;
-    }
   }
 }
 </style>

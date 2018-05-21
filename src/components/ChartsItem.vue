@@ -109,7 +109,6 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import '~@/sass/bootstrap/media';
 
 .chartItem {
   display: flex;

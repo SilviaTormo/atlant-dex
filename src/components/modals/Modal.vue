@@ -48,7 +48,6 @@ export default {
 <style lang="scss" scoped>
 @import '~perfect-scrollbar/dist/css/perfect-scrollbar';
 @import "~variables";
-@import '~@/sass/bootstrap/media';
 $padding: 40px;
 
 .modal {
@@ -117,43 +116,5 @@ opacity: 0;
 &__anim-leave-active {
 transition: opacity .4s ease;
 }
-}
-
-@include media-breakpoint-down(md) {
-  .modal {
-    min-height: 100%;
-    &__main {
-      padding: 0;
-    }
-    &__body {
-      width: 100%;
-      min-height: 100%;
-      min-width: 100%;
-      box-shadow: 0;
-      position: static;
-      transform: none;
-    }
-    &__cross {
-      $size: 24px;
-      width: $size;
-      height: $size;
-      fill: $color_white;
-      display: block;
-      cursor: pointer;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    &__overlay {
-      display: none;
-    }
-
-    &__closeIcon {
-      z-index: 801;
-      top: 19px;
-      right: 24px;
-      width: 20px;
-      height: 20px;
-    }
-  }
 }
 </style>

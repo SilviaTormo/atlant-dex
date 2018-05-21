@@ -63,8 +63,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@/sass/bootstrap/media";
-
 .securitySettings {
   max-width: 600px;
   &__title {
@@ -121,25 +119,6 @@ export default {
     font-weight: 900;
     text-transform: uppercase;
     margin-top: 20px;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .securitySettings {
-    &__desktopRow {
-      display: block;
-    }
-    &__item {
-      &--column {
-        width: 100%;
-      }
-    }
-    &__action {
-      &--mobileLeft {
-        margin-left: 0;
-        margin-top: 17px;
-      }
-    }
   }
 }
 </style>

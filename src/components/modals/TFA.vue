@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations} from 'vuex';
+import {mapState, mapMutations} from 'vuex';
 import i18n from 'i18n';
 import Icon from '@/components/Icon';
 import BButton from '@/components/BButton';
@@ -42,9 +42,6 @@ export default {
   computed: {
     ...mapState('user', {
       security: 'security',
-    }),
-    ...mapGetters('misc', {
-      isMobile: 'isMobile',
     }),
     setTextMessage() {
       let confirmMethod = (this.confirmType) ? this.confirmType : this.security.tfa.method;
@@ -113,7 +110,6 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import "~@/sass/bootstrap/media";
 
 .tfa {
   &__content {
@@ -192,27 +188,4 @@ export default {
   }
 }
 
-@include media-breakpoint-down(md) {
-  .tfa {
-    min-width: 100%;
-    margin: auto;
-    &__icon {
-      display: none;
-    }
-    &__row {
-      &--desktop {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      &--mobileMargin {
-        margin-top: 18px;
-      }
-    }
-    &__link {
-      &:first-child {
-        margin-left: 0;
-      }
-    }
-  }
-}
 </style>

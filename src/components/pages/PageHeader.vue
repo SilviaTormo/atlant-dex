@@ -1,19 +1,13 @@
 <template lang="pug">
 .pageHeader
   // BackToDashboard
-  .pageHeader__title(v-if="!isMobile") {{title}} :
+  .pageHeader__title {{title}} :
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
 import BackToDashboard from './BackToDashboard';
 
 export default {
-  computed: {
-    ...mapGetters('misc', {
-      isMobile: 'isMobile',
-    }),
-  },
   props: {
     title: {
       type: String,
@@ -29,7 +23,6 @@ export default {
 
 <style lang="scss">
 @import '~variables';
-@import "~@/sass/bootstrap/media";
 
 .pageHeader {
   display: flex;
@@ -40,30 +33,6 @@ export default {
     font-weight: 700;
     text-transform: uppercase;
     margin-left: 148px;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .pageHeader {
-    // position: fixed;
-    // display: flex;
-    // justify-content: center;
-    // align-content: center;
-    // height: 52px;
-    // bottom: 0;
-    // left: 0;
-    // right: 0;
-    // padding: 0;
-    // padding-left: 30px;
-    // background: repeating-linear-gradient(
-    //   135deg,
-    //   #103c55,
-    //   #103c55 25px,
-    //   #03324c 0,
-    //   #03324c 60px
-    // );
-    // z-index: 1.5;
-    display: none;
   }
 }
 </style>

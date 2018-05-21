@@ -36,7 +36,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @import "~@/sass/bootstrap/media";
   @import "~variables";
   .verificationFormGroup {
     align-items: center;
@@ -71,17 +70,4 @@ export default {
       }
     }
   }
-
-@include media-breakpoint-down(xs) {
-  .verificationFormGroup {
-    &__label {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    &__labelText {
-      text-align: left;
-      padding-bottom: 10px;
-    }
-  }
-}
 </style>

@@ -1,17 +1,16 @@
 <template lang='pug'>
-.main(:class="{'main--withSidebar': (showSidebar && isMobile)}")
+.main(:class="{'main--withSidebar': showSidebar}")
   .main__body(v-show="modalOpenedDesktop || !isModalOpened()", :class="{'main__body--modalOpened': modalOpenedDesktop}")
     .main__leftSide(:class="`main__leftSide--${(showSidebar) ? 'shown' : 'hidden'}`")
       Sidebar.main__sidebar(v-scrollbar="")
       Toolbar.main__toolbar
-    .main__content(:class="{'main__content--withSidebar': (showSidebar && !isMobile)}")
+    .main__content(:class="{'main__content--withSidebar': showSidebar}")
       .main__shadows(v-show="isPageOpened()")
         .main__shadow--top
         .main__shadow--bottom
       TheHeader
       .main__tiles(v-if="!isPageOpened()")
         Grid
-        PairInfo(v-if="isMobile")
       //- Pages
       TransactionHistory(v-if="isPageOpened('transactionHistory')")
       MyOrders(v-if="isPageOpened('myOrders')")
@@ -46,7 +45,6 @@ import {notification, getSignalRNotification} from '@/services/notification';
 import {showWelcome} from '@/config';
 import {scrollbar} from '@/directives';
 import TheHeader from './TheHeader';
-import PairInfo from './PairInfo';
 import TheFooter from './TheFooter';
 import Sidebar from './Sidebar';
 import Toolbar from './Toolbar';
@@ -94,9 +92,6 @@ export default {
     ...mapGetters('user', [
       'isTFAEnabled',
     ]),
-    ...mapGetters('misc', {
-      isMobile: 'isMobile',
-    }),
     ...mapGetters('membership', {
       isLoggedIn: 'isLoggedIn',
     }),
@@ -107,12 +102,11 @@ export default {
       isPageOpened: 'isOpened',
     }),
     modalOpenedDesktop() {
-      return this.isModalOpened() && !this.isMobile;
+      return this.isModalOpened();
     },
   },
   methods: {
     ...mapMutations('misc', {
-      updateScreenType: 'updateScreenType',
       setSidebar: 'setSidebar',
     }),
     ...mapMutations('modal', {
@@ -149,7 +143,7 @@ export default {
       getTraderWallet: 'getTraderWallet',
     }),
     updateOverflow() {
-      document.querySelector('#app').style.overflow = (this.showSidebar && this.isMobile) ? 'hidden' : null;
+      document.querySelector('#app').style.overflow = this.showSidebar ? 'hidden' : null;
     },
     hubSubscribe() {
       // add signalR events here
@@ -193,10 +187,6 @@ export default {
     showSidebar() {
       this.updateOverflow();
     },
-    isMobile() {
-      this.setSidebar(false);
-      this.updateOverflow();
-    },
     modalOpenedDesktop() {
       this.modalChangeStyleforBody();
     },
@@ -218,7 +208,6 @@ export default {
   },
   created() {
     this.setLang();
-    this.updateScreenType();
     this.hubSubscribe();
 
     if (this.isLoggedIn) {
@@ -231,11 +220,6 @@ export default {
       // if (this.isLoggedIn) {
       //   this.$hub.setToken(this.token);
       // }
-    });
-    window.addEventListener('resize', () => {
-      setTimeout(() => {
-        this.updateScreenType();
-      }, 66);
     });
   },
   mounted() {
@@ -251,7 +235,6 @@ export default {
     TheFooter,
     Sidebar,
     TheHeader,
-    PairInfo,
     Toolbar,
     Grid,
     PropertyMap,
@@ -289,10 +272,7 @@ export default {
 @import '~@/sass/global';
 @import '~@/sass/overrides';
 @import '~variables';
-@import '~@/sass/bootstrap/flex';
-@import '~@/sass/bootstrap/media';
 @import '~perfect-scrollbar/dist/css/perfect-scrollbar';
-@import '~bootstrap/scss/utilities/sizing';
 
 .main {
   min-height: 100%;
@@ -351,47 +331,6 @@ export default {
       bottom: 0;
       height: 300px;
       background: $background__shadow__gradient__to__top;
-    }
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .main {
-    &__body {
-      min-width: 100%;
-      flex-direction: column;
-    }
-    &__content {
-      padding-top: 48px;
-      padding-bottom: 50px;
-      &:before {
-        height: 150px;
-      }
-    }
-    &__leftSide {
-      &--shown {
-        width: 100%;
-      }
-    }
-    &__sidebar {
-      width: 100%;
-      overflow-y: scroll;
-    }
-    &__shadow {
-      &--top {
-        position: fixed;
-        width: 100%;
-        top: 50px;
-        height: 50px;
-        background: $background__shadow__gradient__to__bottom;
-      }
-      &--bottom {
-        position: fixed;
-        width: 100%;
-        bottom: 0px;
-        height: 50px;
-        background: $background__shadow__gradient__to__top;
-      }
     }
   }
 }

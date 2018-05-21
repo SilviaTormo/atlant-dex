@@ -117,7 +117,6 @@ export default {
 
 
 <style lang='scss'>
-@import '~@/sass/bootstrap/media';
 .verification {
   &__section {
   }
@@ -167,10 +166,6 @@ export default {
     margin-top: 30px;
     width: 100%;
     resize: none;
-  }
-}
-@include media-breakpoint-down(md) {
-  .verification {
   }
 }
 </style>

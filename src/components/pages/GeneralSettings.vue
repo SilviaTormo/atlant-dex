@@ -50,7 +50,6 @@ export default {
 
 
 <style lang="scss">
-@import "~@/sass/bootstrap/media";
 .generalSettings {
   &__block {
     margin-bottom: 67px;
@@ -70,19 +69,6 @@ export default {
     line-height: 25px;
     text-transform: uppercase;
     margin-bottom: 41px;
-  }
-}
-@include media-breakpoint-down(md) {
-  .generalSettings {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    &__block {
-      & * {
-        width: 100%;
-      }
-      max-width: 560px;
-    }
   }
 }
 </style>

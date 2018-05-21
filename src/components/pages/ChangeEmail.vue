@@ -60,8 +60,6 @@ export default {
 
 
 <style lang="scss">
-@import "~@/sass/bootstrap/media";
-
 .changeEmail {
   &__row {
     margin-top: 10px;
@@ -88,20 +86,6 @@ export default {
     height: $size;
     width: $size;
     margin-left: 14px;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .changeEmail {
-    &__row {
-      height: auto;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    &__action {
-      margin-left: 0;
-      margin-top: 17px;
-    }
   }
 }
 </style>

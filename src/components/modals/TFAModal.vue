@@ -40,7 +40,6 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import "~@/sass/bootstrap/media";
 .tfaModal {
   &__statusMsg {
     text-align: center;

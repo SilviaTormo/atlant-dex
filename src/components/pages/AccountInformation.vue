@@ -103,7 +103,6 @@ export default {
 
 
 <style lang="scss">
-@import "~@/sass/bootstrap/media";
 
 .accountInfo {
   max-width: 600px;
@@ -197,34 +196,6 @@ export default {
   &__dropdown {
     width: 40px;
     margin-left: 10px;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .accountInfo {
-    &__content {
-      display: block;
-    }
-    &__iconMain {
-      // display: none;
-    }
-    &__value {
-      &--fullWidth {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-    &__registration {
-      margin-top: 42px;
-    }
-    &__item {
-      &--other {
-        width: 100%;
-      }
-    }
-    &__other {
-      flex-direction: column;
-    }
   }
 }
 </style>

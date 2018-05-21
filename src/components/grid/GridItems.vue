@@ -89,7 +89,6 @@ export default {
 @import '~perfect-scrollbar/dist/css/perfect-scrollbar';
 @import '~variables';
 @import '~@/sass/overrides';
-@import '~@/sass/bootstrap/media';
 
 .gridItem {
   height: 100%;
@@ -170,47 +169,6 @@ export default {
     fill: red;
     cursor: pointer;
     z-index: 1;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .gridItem {
-    &__tiles {
-      flex-direction: column;
-    }
-    &__tile {
-      position: relative;
-      &:before {
-        content: "";
-        display: block;
-        height: 20px;
-        margin-bottom: -20px;
-        background: $background__shadow__gradient__to__bottom;
-      }
-    }
-    &__tileContent {
-      overflow: hidden;
-      &--buysell {
-        width: 100%;
-      }
-      &--chart {
-        height: 320px;
-        width: 100%;
-      }
-      &--map {
-        height: 320px;
-        width: 100%;
-      }
-      &--history {
-        width: 100%;
-      }
-      &--books {
-        width: 100%;
-      }
-      &--orders {
-        width: 100%;
-      }
-    }
   }
 }
 </style>

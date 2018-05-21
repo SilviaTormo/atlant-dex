@@ -125,7 +125,6 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import "~@/sass/bootstrap/media";
 
 $panelHeight: 58px;
 .tablePage {
@@ -171,28 +170,6 @@ $panelHeight: 58px;
   &__panelScrollbarOpened {
     transition: left .15s;
     left: 335px;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .tablePage {
-    padding-bottom: 60px;
-    &__body {
-      flex-direction: column;
-    }
-    &__content {
-      padding: 10px;
-    }
-    &__panel {
-      bottom: -$panelHeight;
-      &--active {
-        transition: bottom .5s;
-        bottom: 0px;
-      }
-    }
-    &__panelActions {
-      margin-right: 16px;
-    }
   }
 }
 </style>

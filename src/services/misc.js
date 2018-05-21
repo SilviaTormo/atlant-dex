@@ -1,5 +1,3 @@
-import {mobileBreakpoint} from '@/config';
-
 export const getSeparatedNumber = (str, symbol) =>
   str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, symbol);
 
@@ -17,10 +15,6 @@ export const getCryptoName = (short) => {
 export const isFiat = (short) => {
   return ['USD', 'EUR'].includes(short);
 };
-
-export const getScreenType = () =>
-  window.matchMedia(`(max-width: ${mobileBreakpoint}px)`)
-  .matches ? 'mobile' : 'desktop';
 
 export const getRandomInt = (min, max) => {
   const random = min - 0.5 + Math.random() * (max - min + 1);

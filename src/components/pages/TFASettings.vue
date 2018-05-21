@@ -164,8 +164,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@/sass/bootstrap/media";
-
 .tfaSettings {
   &__desktopRow {
     display: flex;
@@ -249,36 +247,6 @@ export default {
   }
   &__qr {
     margin-top: 36px;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .tfaSettings {
-    &__desktopRow {
-      display: block;
-    }
-    &__value {
-      &--os {
-        &:not(:first-of-type) {
-          margin-left: 0;
-        }
-      }
-    }
-    &__tfaOption {
-      &:not(:first-of-type){
-        margin-left: 0;
-        margin-top: 20px;
-      }
-    }
-    &__action {
-      &--mobileLeft {
-        margin-left: 0;
-        margin-top: 17px;
-      }
-    }
-    &__code {
-      margin-left: 0;
-    }
   }
 }
 </style>

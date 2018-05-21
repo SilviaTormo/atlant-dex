@@ -34,7 +34,6 @@ export default {
 
 <style lang="scss">
 @import "~variables";
-@import "~@/sass/bootstrap/media";
 .page {
   min-height: 100%;
   position: relative;
@@ -46,23 +45,6 @@ export default {
     width: 100%;
     padding: 36px;
     border-top: 1px solid $color_tangaroa;
-  }
-}
-
-@include media-breakpoint-down(md) {
-  .page {
-    padding: 0;
-    &__body {
-      flex-direction: column;
-    }
-    &__content {
-      // display: flex;
-      // flex-direction: column;
-      // align-items: center;
-    }
-    &__title {
-      display: none;
-    }
   }
 }
 </style>

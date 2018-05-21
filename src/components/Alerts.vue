@@ -58,7 +58,6 @@ export default {
 
 <style lang='scss' scoped>
 @import '~variables';
-@import '~@/sass/bootstrap/media';
 
 .alerts {
   position: relative;
@@ -114,20 +113,6 @@ export default {
   &__addAllertsIcon {
     fill: #E9BD24;
     margin-right: 13px;
-  }
-}
-@include media-breakpoint-down(md) {
-  .alerts {
-    &__addAllerts {
-      width: calc(100% - 55px);
-      left: 0;
-      transition: left .1s linear;
-      &--hidden {
-        transition: left .1s linear;
-        left: -100%;
-
-      }
-    }
   }
 }
 </style>
