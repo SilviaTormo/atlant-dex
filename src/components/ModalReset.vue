@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal
+ModalLayout
   .reset
     Icon.reset__icon(id="pass")
     .reset__content(v-if="step == 0")
@@ -20,13 +20,13 @@ Modal
 <script>
 import {mapMutations} from 'vuex';
 import * as Membership from '@/services/api/membership';
+import ModalLayout from '@/layout/ModalLayout';
 import Icon from '@/components/Icon';
 import Checkbox from '@/components/Checkbox';
 import BButton from '@/components/BButton';
-import Modal from '@/components/modals/Modal';
 import IInput from '@/components/IInput';
-import TFA from '@/components/modals/TFA';
-import Status from '@/components/modals/Status.vue';
+import TFA from '@/components/TFA';
+import Status from '@/components/Status.vue';
 import {serverNotification} from '@/services/notification';
 
 export default {
@@ -65,9 +65,9 @@ export default {
     },
   },
   components: {
+    ModalLayout,
     Icon,
     Checkbox,
-    Modal,
     BButton,
     IInput,
     TFA,

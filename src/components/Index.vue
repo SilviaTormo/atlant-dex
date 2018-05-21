@@ -22,17 +22,17 @@
       FAQ(v-if="isPageOpened('faq')")
       NotificationHistory(v-if="isPageOpened('notificationHistory')")
   //- Modals
-  InDemo(v-if="isModalOpened('inDemo')")
-  Reset(v-else-if="isModalOpened('reset')")
-  NewPassword(v-else-if="isModalOpened('newPassword')")
-  SignUp(v-else-if="isModalOpened('signUp')")
-  SignIn(v-else-if="isModalOpened('signIn')")
-  CryptoDeposit(v-else-if="isModalOpened('cryptoDeposit')")
-  CryptoWithdraw(v-else-if="isModalOpened('cryptoWithdraw')")
-  Status(v-else-if="isModalOpened('status')")
-  Fiat(v-else-if="isModalOpened('fiat')")
-  TFAModal(v-else-if="isModalOpened('tfaModal')")
-  TFAWarningModal(v-else-if="isModalOpened('tfaWarningModal')")
+  ModalInDemo(v-if="isModalOpened('inDemo')")
+  ModalReset(v-else-if="isModalOpened('reset')")
+  ModalNewPassword(v-else-if="isModalOpened('newPassword')")
+  ModalSignUp(v-else-if="isModalOpened('signUp')")
+  ModalSignIn(v-else-if="isModalOpened('signIn')")
+  ModalCryptoDeposit(v-else-if="isModalOpened('cryptoDeposit')")
+  ModalCryptoWithdraw(v-else-if="isModalOpened('cryptoWithdraw')")
+  ModalStatus(v-else-if="isModalOpened('status')")
+  ModalFiat(v-else-if="isModalOpened('fiat')")
+  ModalTFA(v-else-if="isModalOpened('tfaModal')")
+  ModalTFAWarning(v-else-if="isModalOpened('tfaWarningModal')")
   ModalEventStatusCompleted(v-else-if="isModalOpened('eventStatusCompleted')")
   ModalEventStatusFailed(v-else-if="isModalOpened('eventStatusFailed')")
 </template>
@@ -59,19 +59,19 @@ import AccountInformation from './pages/AccountInformation';
 import SecuritySettings from './pages/SecuritySettings';
 import SecurityLog from './pages/SecurityLog';
 import FAQ from './pages/FAQ';
-import InDemo from './modals/InDemo';
-import Reset from './modals/Reset';
-import NewPassword from './modals/NewPassword';
-import SignUp from './modals/SignUp';
-import SignIn from './modals/SignIn';
-import CryptoDeposit from './modals/CryptoDeposit';
-import CryptoWithdraw from './modals/CryptoWithdraw';
-import Status from './modals/Status';
-import Fiat from './modals/Fiat';
-import TFAModal from './modals/TFAModal';
-import TFAWarningModal from './modals/TFAWarningModal';
-import ModalEventStatusCompleted from './modals/ModalEventStatusCompleted';
-import ModalEventStatusFailed from './modals/ModalEventStatusFailed';
+import ModalInDemo from './ModalInDemo';
+import ModalReset from './ModalReset';
+import ModalNewPassword from './ModalNewPassword';
+import ModalSignUp from './ModalSignUp';
+import ModalSignIn from './ModalSignIn';
+import ModalCryptoDeposit from './ModalCryptoDeposit';
+import ModalCryptoWithdraw from './ModalCryptoWithdraw';
+import ModalFiat from './ModalFiat';
+import ModalTFA from './ModalTFA';
+import ModalTFAWarning from './ModalTFAWarning';
+import ModalEventStatusCompleted from './ModalEventStatusCompleted';
+import ModalEventStatusFailed from './ModalEventStatusFailed';
+import Status from './Status';
 
 export default {
   computed: {
@@ -238,13 +238,6 @@ export default {
     Toolbar,
     Grid,
     PropertyMap,
-    InDemo,
-    Reset,
-    NewPassword,
-    SignUp,
-    SignIn,
-    CryptoDeposit,
-    CryptoWithdraw,
     TransactionHistory,
     MyOrders,
     NotificationHistory,
@@ -255,9 +248,16 @@ export default {
     SecurityLog,
     FAQ,
     Status,
-    Fiat,
-    TFAModal,
-    TFAWarningModal,
+    ModalInDemo,
+    ModalReset,
+    ModalNewPassword,
+    ModalSignUp,
+    ModalSignIn,
+    ModalCryptoDeposit,
+    ModalCryptoWithdraw,
+    ModalFiat,
+    ModalTFA,
+    ModalTFAWarning,
     ModalEventStatusCompleted,
     ModalEventStatusFailed,
   },

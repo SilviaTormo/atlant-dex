@@ -48,7 +48,7 @@ import {operatingSystems, tfaMethods} from '@/config';
 import Icon from '@/components/Icon';
 import Radio from '@/components/Radio';
 import FlagSwitch from '@/components/FlagSwitch';
-import TFA from '@/components/modals/TFA';
+import TFA from '@/components/TFA';
 import QR from '@/components/QR';
 
 export default {

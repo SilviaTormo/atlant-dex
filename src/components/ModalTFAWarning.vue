@@ -1,5 +1,5 @@
 <template lang="pug">
-  Modal
+  ModalLayout
     .tfaWarning
       .tfaWarning__title {{$t('tfaSecureWarning.title')}}
       Icon.tfaWarning__icon(id="statusFailed")
@@ -17,7 +17,7 @@
 
 <script>
 import {mapMutations} from 'vuex';
-import Modal from '@/components/modals/Modal';
+import ModalLayout from '@/layout/ModalLayout';
 import BButton from '@/components/BButton';
 import Icon from '@/components/Icon';
 
@@ -39,7 +39,7 @@ export default {
     },
   },
   components: {
-    Modal,
+    ModalLayout,
     BButton,
     Icon,
   },

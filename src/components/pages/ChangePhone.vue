@@ -21,7 +21,7 @@ import {getCountryCode} from '@/services/countries';
 // import {serverNotification} from '@/services/notification';
 import Icon from '@/components/Icon';
 import FlagSwitch from '@/components/FlagSwitch';
-import TFA from '@/components/modals/TFA';
+import TFA from '@/components/TFA';
 
 export default {
   data() {

@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal
+ModalLayout
   .singIn
     Icon.singIn__icon(id="signin")
     form.singIn__content(v-if="step == 0" @submit.prevent="signIn()")
@@ -24,9 +24,9 @@ import {mapMutations, mapActions} from 'vuex';
 import Icon from '@/components/Icon';
 import Checkbox from '@/components/Checkbox';
 import BButton from '@/components/BButton';
-import Modal from '@/components/modals/Modal';
+import ModalLayout from '@/layout/ModalLayout';
 import IInput from '@/components/IInput';
-import Status from '@/components/modals/Status.vue';
+import Status from '@/components/Status.vue';
 
 export default {
   data() {
@@ -66,7 +66,7 @@ export default {
   components: {
     Icon,
     Checkbox,
-    Modal,
+    ModalLayout,
     BButton,
     IInput,
     Status,

@@ -1,5 +1,5 @@
 <template lang='pug'>
-Modal
+ModalLayout
   .cryptoDeposit
     .cryptoDeposit__title Deposit {{data.currency}}
     QR.cryptoDeposit__qr(:text='address' size='148')
@@ -13,9 +13,9 @@ Modal
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import * as User from '@/services/api/user';
 import clipboard from '@/directives/clipboard';
+import ModalLayout from '@/layout/ModalLayout';
 import BButton from '@/components/BButton';
 import QR from '@/components/QR';
-import Modal from '@/components/modals/Modal';
 
 export default {
   data() {
@@ -59,7 +59,7 @@ export default {
     clipboard,
   },
   components: {
-    Modal,
+    ModalLayout,
     BButton,
     QR,
   },

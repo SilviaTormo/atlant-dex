@@ -1,18 +1,18 @@
 <template lang="pug">
-Modal
+ModalLayout
   .inDemo
     Icon.inDemo__icon(id="info")
     .inDemo__text ATLANT exchange is currently in demo, live trading to be enabled once released
 </template>
 
 <script>
+import ModalLayout from '@/layout/ModalLayout';
 import Icon from '@/components/Icon';
-import Modal from '@/components/modals/Modal';
 
 export default {
   components: {
     Icon,
-    Modal,
+    ModalLayout,
   },
 };
 </script>

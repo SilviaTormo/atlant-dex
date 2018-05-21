@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal.tfaModal
+Modal.ModalLayout
   TFA(v-if="!success", :onConfirm="confirm")
   Status(v-if="success")
     .tfaModal__statusMsg Completed
@@ -7,9 +7,9 @@ Modal.tfaModal
 
 <script>
 import {mapState} from 'vuex';
-import TFA from '@/components/modals/TFA';
-import Modal from '@/components/modals/Modal';
-import Status from '@/components/modals/Status.vue';
+import ModalLayout from '@/layout/ModalLayout';
+import TFA from '@/components/TFA';
+import Status from '@/components/Status.vue';
 
 export default {
   data() {
@@ -31,7 +31,7 @@ export default {
   created() {
   },
   components: {
-    Modal,
+    ModalLayout,
     TFA,
     Status,
   },

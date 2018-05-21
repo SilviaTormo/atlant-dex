@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal
+ModalLayout
   .fiat
     .fiat__header
       .fiat__title {{title}} {{data.currency}}
@@ -37,13 +37,13 @@ Modal
 
 <script>
 import {mapState, mapActions, mapMutations} from 'vuex';
+import ModalLayout from '@/layout/ModalLayout';
 import BButton from '@/components/BButton';
 import IInput from '@/components/IInput';
 import Icon from '@/components/Icon';
 import Dropdown from '@/components/Dropdown';
 import Radio from '@/components/Radio';
-import Modal from '@/components/modals/Modal';
-import Status from '@/components/modals/Status.vue';
+import Status from '@/components/Status.vue';
 
 export default {
   data() {
@@ -103,7 +103,7 @@ export default {
     },
   },
   components: {
-    Modal,
+    ModalLayout,
     BButton,
     Icon,
     IInput,

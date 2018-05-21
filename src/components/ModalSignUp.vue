@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal
+ModalLayout
   .singUp
     Icon.singUp__icon(id="signup")
     form.singUp__content(v-if="step == 0" @submit.prevent="signUpUser")
@@ -29,9 +29,9 @@ import * as Membership from '@/services/api/membership';
 import Icon from '@/components/Icon';
 import Checkbox from '@/components/Checkbox';
 import BButton from '@/components/BButton';
-import Modal from '@/components/modals/Modal';
+import ModalLayout from '@/layout/ModalLayout';
 import IInput from '@/components/IInput';
-import Status from '@/components/modals/Status.vue';
+import Status from '@/components/Status.vue';
 
 export default {
   data() {
@@ -83,7 +83,7 @@ export default {
   components: {
     Icon,
     Checkbox,
-    Modal,
+    ModalLayout,
     BButton,
     IInput,
     Status,

@@ -1,15 +1,15 @@
 <template lang="pug">
-Modal
+ModalLayout
   Status(:isSuccess="true")
 </template>
 
 <script>
-import Modal from '@/components/modals/Modal';
-import Status from '@/components/modals/Status.vue';
+import ModalLayout from '@/layout/ModalLayout';
+import Status from '@/components/Status.vue';
 
 export default {
   components: {
-    Modal,
+    ModalLayout,
     Status,
   },
 };

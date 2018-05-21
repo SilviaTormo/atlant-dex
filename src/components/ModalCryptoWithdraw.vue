@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal
+ModalLayout
   .cryptoWithdraw
     .cryptoWithdraw__header
       .cryptoWithdraw__title Withdraw {{data.currency}}
@@ -20,9 +20,9 @@ import {mapState, mapMutations} from 'vuex';
 import * as User from '@/services/api/user';
 import BButton from '@/components/BButton';
 import IInput from '@/components/IInput';
-import Modal from '@/components/modals/Modal';
-import TFA from '@/components/modals/TFA';
-import Status from '@/components/modals/Status.vue';
+import ModalLayout from '@/layout/ModalLayout';
+import TFA from '@/components/TFA';
+import Status from '@/components/Status.vue';
 
 export default {
   data() {
@@ -77,7 +77,7 @@ export default {
     },
   },
   components: {
-    Modal,
+    ModalLayout,
     BButton,
     IInput,
     Status,
