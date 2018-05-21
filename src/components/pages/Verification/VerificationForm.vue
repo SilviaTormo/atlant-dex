@@ -15,7 +15,7 @@ form.verificationForm
     :validation="getFieldValidationStatus('country')",
     label-for="null",
   )
-    CommonSelect.verificationForm__input(
+    Dropdown.verificationForm__input(
       :options="countries",
       label="name",
       track-by="code",
@@ -28,7 +28,7 @@ form.verificationForm
     :validation="getFieldValidationStatus('city')"
     label-for="null",
   )
-    CommonSelect.verificationForm__input(
+    Dropdown.verificationForm__input(
       :options="countryCities",
       v-model="verification.city",
       :loading="citiesLoading",
@@ -58,19 +58,19 @@ form.verificationForm
     label-for="null",
   )
     .verificationForm__dataContainer
-      CommonSelect.verificationForm__input.verificationForm__input--small(
+      Dropdown.verificationForm__input.verificationForm__input--small(
         placeholder="Day",
         :options="birthdayDays",
         v-model="verification.day",
         searchable,
       )
-      CommonSelect.verificationForm__input.verificationForm__input--small(
+      Dropdown.verificationForm__input.verificationForm__input--small(
         placeholder="Month",
         :options="birthdayMonths",
         v-model="verification.month",
         searchable,
       )
-      CommonSelect.verificationForm__input.verificationForm__input--small(
+      Dropdown.verificationForm__input.verificationForm__input--small(
         placeholder="Year",
         :options="birthdayYears",
         v-model="verification.year",
@@ -86,7 +86,7 @@ form.verificationForm
 <script>
 import {mapState, mapActions} from 'vuex';
 import {birthdayDays, birthdayYears, birthdayMonths} from '@/services/birthday';
-import CommonSelect from '@/components/CommonSelect';
+import Dropdown from '@/components/Dropdown';
 import VerificationFormGroup from './VerificationFormGroup';
 import VerificationInput from './VerificationInput';
 
@@ -157,7 +157,7 @@ export default {
     validations: Object,
   },
   components: {
-    CommonSelect,
+    Dropdown,
     VerificationFormGroup,
     VerificationInput,
   },

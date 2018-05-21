@@ -5,7 +5,7 @@
   .tableHeader__container(v-show="isTradeTables")
     .tableHeader__title(@click="getOpenPage('transactionHistory')", :class="(isThisPage('transactionHistory')) ? 'tableHeader__title--active' : ''") Transaction History
     .tableHeader__title(@click="getOpenPage('myOrders')", :class="(isThisPage('myOrders')) ? 'tableHeader__title--active' : ''") My Orders
-      CommonSelect.tableHeader__dropdown(
+      Dropdown.tableHeader__dropdown(
         v-if="isThisPage('myOrders')",
         :options="sortTypes",
         v-model="sortTypeForMyOrders",
@@ -19,7 +19,7 @@
 
 <script>
 import {mapState, mapMutations} from 'vuex';
-import CommonSelect from '../../CommonSelect';
+import Dropdown from '../../Dropdown';
 import BackToDashboard from '../BackToDashboard';
 import BackToPreviousPage from './BackToPreviousPage';
 
@@ -87,7 +87,7 @@ export default {
   components: {
     BackToDashboard,
     BackToPreviousPage,
-    CommonSelect,
+    Dropdown,
   },
 };
 </script>

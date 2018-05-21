@@ -1,5 +1,5 @@
 <template lang="pug">
-CommonSelect.flagSwitch(
+Dropdown.flagSwitch(
   :class="{'flagSwitch--phone': isPhone}",
   :options="flags",
   no-border,
@@ -26,7 +26,7 @@ CommonSelect.flagSwitch(
 
 <script>
 import Icon from '@/components/Icon';
-import CommonSelect from '@/components/CommonSelect';
+import Dropdown from '@/components/Dropdown';
 import {
   countryData,
   countryCurrencies,
@@ -80,7 +80,7 @@ export default {
   },
   components: {
     Icon,
-    CommonSelect,
+    Dropdown,
   },
 };
 </script>

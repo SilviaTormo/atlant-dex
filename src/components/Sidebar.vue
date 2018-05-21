@@ -7,21 +7,6 @@
   SidebarPortfolio(v-if="section == 'wallet'")
   SidebarQuotes(v-if="section == 'charts'")
   SidebarAlerts(v-if="section == 'alert'")
-  //- .sidebar__item(v-for="(account, index) in accounts")
-  //-   CryptoAddress(
-  //-     :isActive="account.isActive",
-  //-     :address="account.address", :id="index",
-  //-     :key="account.address",
-  //-     @click.native='setActive(account)'
-  //-   )
-  //- .sidebar__item
-  //-   .sidebar__buttons
-  //-     BButton(color="yellow" rounded @click="openSignUp") Create new
-  //-     b or
-  //-     BButton(color="malachite" rounded outline @click="openSignIn") Import
-  //- .sidebar__item.sidebar__item--copyright Copyright &#169; Atlant, 2017
-  //- .sidebar__item.sidebar__item--bottom
-  //-   .sidebar__contact Contact Us: #[a.link(href="mailto:info@atlant.io") info@atlant.io]
 </template>
 
 <script>

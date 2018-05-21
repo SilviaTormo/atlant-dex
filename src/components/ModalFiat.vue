@@ -41,7 +41,6 @@ import ModalLayout from '@/layout/ModalLayout';
 import BButton from '@/components/BButton';
 import IInput from '@/components/IInput';
 import Icon from '@/components/Icon';
-import Dropdown from '@/components/Dropdown';
 import Radio from '@/components/Radio';
 import Status from '@/components/Status.vue';
 
@@ -109,7 +108,6 @@ export default {
     IInput,
     Radio,
     Status,
-    Dropdown,
   },
 };
 </script>

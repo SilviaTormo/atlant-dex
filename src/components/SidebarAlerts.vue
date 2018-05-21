@@ -3,7 +3,7 @@
   .alerts__item.alerts__item--header
     .alerts__headerLine
       .alerts__header Alerts:
-      CommonSelect.alerts__headerDropdown(
+      Dropdown.alerts__headerDropdown(
         :options="criteria",
         v-model="selected",
         no-border,
@@ -22,7 +22,7 @@
 <script>
 import {mapState} from 'vuex';
 import Icon from './Icon';
-import CommonSelect from './CommonSelect';
+import Dropdown from './Dropdown';
 import SidebarAlertsItem from './SidebarAlertsItem';
 
 export default {
@@ -49,7 +49,7 @@ export default {
   },
   components: {
     Icon,
-    CommonSelect,
+    Dropdown,
     SidebarAlertsItem,
   },
 };

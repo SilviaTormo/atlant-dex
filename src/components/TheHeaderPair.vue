@@ -1,6 +1,6 @@
 <template lang="pug">
 .pair
-  CommonSelect.pair__select(
+  Dropdown.pair__select(
     :options="baseCurrencyOptions",
     :value="baseCurrency",
     @input="changeBaseCurrency",
@@ -16,7 +16,7 @@
         Icon.pair__icon(:id="getCurrencyIconId(props.option)")
         span {{props.option}}
   Icon.pair__exchange(id="exchange")
-  CommonSelect.pair__select(
+  Dropdown.pair__select(
     :options="quoteCurrencyOptions",
     :value="quoteCurrency",
     @input="changeQuoteCurrency",
@@ -37,7 +37,6 @@
 import {mapState, mapGetters, mapActions} from 'vuex';
 import Icon from './Icon';
 import Dropdown from './Dropdown';
-import CommonSelect from './CommonSelect';
 
 export default {
   computed: {
@@ -89,7 +88,6 @@ export default {
   components: {
     Icon,
     Dropdown,
-    CommonSelect,
   },
 };
 </script>

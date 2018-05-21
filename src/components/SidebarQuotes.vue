@@ -4,7 +4,7 @@
     .quotes__headerLine
       .quotes__header QUOTES:
       .quotes__headerText 24 hr change
-      CommonSelect.quotes__headerDropdown(
+      Dropdown.quotes__headerDropdown(
         :options="currencies",
         v-model="selected",
         no-border,
@@ -28,7 +28,7 @@
 import {mapState, mapActions} from 'vuex';
 import {getCryptoName} from '@/services/misc';
 import Icon from './Icon';
-import CommonSelect from './CommonSelect';
+import Dropdown from './Dropdown';
 import SidebarQuotesItem from './SidebarQuotesItem';
 
 export default {
@@ -110,7 +110,7 @@ export default {
   components: {
     Icon,
     SidebarQuotesItem,
-    CommonSelect,
+    Dropdown,
   },
 };
 
