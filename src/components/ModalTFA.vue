@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~variables";
+@import 'variables';
 .tfaModal {
   &__statusMsg {
     text-align: center;

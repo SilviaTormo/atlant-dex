@@ -86,7 +86,7 @@ export default {
 
 
 <style lang="scss">
-@import "~variables";
+@import 'variables';
 
 .pageSidebar {
   padding: 36px;

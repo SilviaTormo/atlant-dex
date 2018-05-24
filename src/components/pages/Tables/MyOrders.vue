@@ -212,7 +212,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import '~variables';
+@import 'variables';
 .myOrders {
   &__action {
     text-transform: capitalize;

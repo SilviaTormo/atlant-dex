@@ -37,7 +37,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~variables";
+@import 'variables';
 .bookHeader {
   display: flex;
   justify-content: center;

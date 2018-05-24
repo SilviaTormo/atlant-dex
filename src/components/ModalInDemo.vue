@@ -18,7 +18,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~variables";
+@import 'variables';
 .inDemo {
   display: flex;
   flex-direction: column;

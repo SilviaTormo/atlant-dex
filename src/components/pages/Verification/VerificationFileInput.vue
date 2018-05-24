@@ -82,7 +82,7 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  @import "~variables";
+  @import 'variables';
   .verificationUploadInput {
     position: relative;
     display: flex;

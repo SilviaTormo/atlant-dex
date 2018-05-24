@@ -465,7 +465,7 @@ export default {
 </script>
 
 <style lang='scss'>
-@import "~variables";
+@import 'variables';
 .chart {
   $buttonColor: desaturate(lighten($color_summersky, 6), 68);
   position: relative;

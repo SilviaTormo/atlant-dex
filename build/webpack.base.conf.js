@@ -38,6 +38,7 @@ module.exports = {
       '@': resolve('src'),
       'mixins': `@/sass/mixins.scss`,
       'variables': `@/sass/variables.scss`,
+      'styles': `@/sass/`,
       'assets': `@/assets/`,
     }
   },
@@ -57,6 +58,16 @@ module.exports = {
       {
         test: /\.pug$/,
         use: 'pug-loader',
+      },
+      {
+        test: /\.(css|scss)$/,
+        use: [{
+          loader: "style-loader"
+        }, {
+          loader: "css-loader"
+        }, {
+          loader: "sass-loader"
+        }]
       },
       {
         test: /\.(png|jpe?g|gif)(\?.*)?$/,

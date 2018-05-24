@@ -54,7 +54,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~variables";
+@import 'variables';
 
 .alert {
   &__main {

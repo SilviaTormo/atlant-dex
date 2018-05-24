@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style lang="scss">
-  @import "~variables";
+  @import 'variables';
   .verificationFormGroup {
     align-items: center;
     display: flex;

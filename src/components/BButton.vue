@@ -53,7 +53,7 @@ export default {
 </script>
 
 <style lang='scss'>
-@import '~variables';
+@import 'variables';
 $ROOT: "button";
 .#{$ROOT} {
   min-height: 28px;

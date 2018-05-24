@@ -117,7 +117,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~variables";
+@import 'variables';
 
 .quotes {
   position: relative;

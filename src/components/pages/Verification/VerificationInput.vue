@@ -38,7 +38,7 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  @import "~variables";
+  @import 'variables';
   .verificationInput {
     background-color: transparent;
     border: $input-border;

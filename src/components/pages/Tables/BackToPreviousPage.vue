@@ -46,7 +46,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~variables';
+@import 'variables';
 
 .backTo {
   cursor: pointer;

@@ -114,7 +114,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "~variables";
+@import 'variables';
 .tHistory {
   &__header {
     &--description {

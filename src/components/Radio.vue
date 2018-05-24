@@ -59,7 +59,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import "~variables";
+@import 'variables';
 $ROOT: "radio";
 .#{$ROOT} {
   display: flex;

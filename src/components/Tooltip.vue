@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style lang="scss">
-  @import "~variables";
+  @import 'variables';
   .tooltip {
     $arrow_left: 18px;
     $arrow_width: 11px;

@@ -93,7 +93,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~variables';
+@import 'variables';
 
 .tableHeader {
   display: flex;

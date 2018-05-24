@@ -33,7 +33,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~variables";
+@import 'variables';
 .page {
   min-height: 100%;
   position: relative;

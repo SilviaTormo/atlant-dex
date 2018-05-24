@@ -77,7 +77,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~variables";
+@import 'variables';
 
 .reset {
   display: flex;

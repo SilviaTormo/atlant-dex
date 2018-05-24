@@ -49,7 +49,6 @@ import TheFooter from './TheFooter';
 import Sidebar from './Sidebar';
 import Toolbar from './Toolbar';
 import Grid from './grid/Grid';
-import PropertyMap from './PropertyMap';
 import TransactionHistory from './pages/Tables/TransactionHistory';
 import MyOrders from './pages/Tables/MyOrders';
 import NotificationHistory from './pages/Tables/NotificationHistory';
@@ -237,7 +236,6 @@ export default {
     TheHeader,
     Toolbar,
     Grid,
-    PropertyMap,
     TransactionHistory,
     MyOrders,
     NotificationHistory,
@@ -264,15 +262,14 @@ export default {
 };
 </script>
 
+<style src="noty/lib/noty.css"></style>
 <style lang='scss'>
-@import '~noty/lib/noty';
-@import '~normalize.css/normalize';
-@import '~@/sass/defaults';
-@import '~@/sass/fonts';
-@import '~@/sass/global';
-@import '~@/sass/overrides';
-@import '~variables';
-@import '~perfect-scrollbar/dist/css/perfect-scrollbar';
+@import 'perfect-scrollbar/dist/css/perfect-scrollbar';
+@import 'styles/fonts';
+@import 'styles/defaults';
+@import 'styles/global';
+@import 'styles/overrides';
+@import 'variables';
 
 .main {
   min-height: 100%;

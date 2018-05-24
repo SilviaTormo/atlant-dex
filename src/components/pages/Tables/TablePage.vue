@@ -124,7 +124,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~variables";
+@import 'variables';
 
 $panelHeight: 58px;
 .tablePage {

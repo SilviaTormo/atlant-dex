@@ -63,7 +63,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~variables";
+@import 'variables';
 .pairInfo {
   &__content {
     z-index: 2;

@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~variables";
+@import 'variables';
 
 .header {
   padding: 12px 28px;

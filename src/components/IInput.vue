@@ -60,7 +60,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import "~variables";
+@import 'variables';
 .inputField {
   position: relative;
   &__label {

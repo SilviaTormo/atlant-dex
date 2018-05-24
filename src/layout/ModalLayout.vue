@@ -47,7 +47,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '~perfect-scrollbar/dist/css/perfect-scrollbar';
-@import "~variables";
+@import 'variables';
 $padding: 40px;
 
 .modal {

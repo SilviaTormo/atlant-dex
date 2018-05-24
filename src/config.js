@@ -1,4 +1,4 @@
-export const baseURL = 'http://40.113.134.231:8080/';
+export const baseURL = 'https://api.coin.gi/';
 export const baseURLOld = 'https://apiex.atlant.io';
 export const timeout = 30000;
 export const hubURL = `${baseURL}main`;

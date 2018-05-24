@@ -87,7 +87,7 @@ export default {
 
 <style lang="scss">
 @import '~perfect-scrollbar/dist/css/perfect-scrollbar';
-@import '~variables';
+@import 'variables';
 @import '~@/sass/overrides';
 
 .gridItem {

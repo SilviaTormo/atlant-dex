@@ -114,7 +114,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "~variables";
+@import 'variables';
 .verification {
   color: $color_white;
   font-size: 14px;
