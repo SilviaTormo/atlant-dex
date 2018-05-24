@@ -18,7 +18,6 @@
 <script>
 import {mapState} from 'vuex';
 import Checkbox from '@/components/Checkbox';
-import Icon from '@/components/Icon';
 import Pagination from '../Pagination';
 import TableHeader from './TableHeader';
 import EmptyPlaceholder from './EmptyPlaceholder';
@@ -117,7 +116,6 @@ export default {
     TableHeader,
     EmptyPlaceholder,
     Checkbox,
-    Icon,
     Pagination,
   },
 };

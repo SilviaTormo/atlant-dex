@@ -21,7 +21,6 @@
 
 <script>
 import {mapMutations} from 'vuex';
-import Icon from './Icon';
 
 export default {
   data() {
@@ -87,9 +86,6 @@ export default {
       default: false,
       required: false,
     },
-  },
-  components: {
-    Icon,
   },
 };
 

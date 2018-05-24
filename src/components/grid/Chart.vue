@@ -49,7 +49,6 @@ import 'echarts/lib/component/dataZoom';
 // import 'zrender/lib/vml/vml';
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {periods} from '@/config';
-import Icon from '@/components/Icon';
 
 export default {
   data() {
@@ -457,7 +456,6 @@ export default {
     this.$hub.on('Send', this.onSendSignal);
   },
   components: {
-    Icon,
     IEcharts,
   },
 };

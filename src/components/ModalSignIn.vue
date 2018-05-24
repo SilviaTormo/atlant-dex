@@ -21,7 +21,6 @@ ModalLayout
 
 <script>
 import {mapMutations, mapActions} from 'vuex';
-import Icon from '@/components/Icon';
 import Checkbox from '@/components/Checkbox';
 import BButton from '@/components/BButton';
 import ModalLayout from '@/layout/ModalLayout';
@@ -64,7 +63,6 @@ export default {
     },
   },
   components: {
-    Icon,
     Checkbox,
     ModalLayout,
     BButton,

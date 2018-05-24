@@ -7,7 +7,6 @@ label.checkbox
 </template>
 
 <script>
-import Icon from './Icon';
 
 export default {
   model: {
@@ -33,9 +32,6 @@ export default {
       type: [String],
       default: 'green',
     },
-  },
-  components: {
-    Icon,
   },
 };
 

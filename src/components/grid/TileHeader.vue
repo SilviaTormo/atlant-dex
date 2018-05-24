@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import Icon from '@/components/Icon';
 
 export default {
   props: {
@@ -20,9 +19,6 @@ export default {
       default: false,
       required: false,
     },
-  },
-  components: {
-    Icon,
   },
 };
 </script>

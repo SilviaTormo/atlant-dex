@@ -29,7 +29,6 @@
 
 <script>
 import {mapGetters, mapActions} from 'vuex';
-import Icon from './Icon';
 import Dropdown from './Dropdown';
 import SidebarPortfolioBalance from './SidebarPortfolioBalance';
 
@@ -67,7 +66,6 @@ export default {
     this.getBalances();
   },
   components: {
-    Icon,
     Dropdown,
     SidebarPortfolioBalance,
   },

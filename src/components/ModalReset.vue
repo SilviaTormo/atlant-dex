@@ -21,7 +21,6 @@ ModalLayout
 import {mapMutations} from 'vuex';
 import * as Membership from '@/services/api/membership';
 import ModalLayout from '@/layout/ModalLayout';
-import Icon from '@/components/Icon';
 import Checkbox from '@/components/Checkbox';
 import BButton from '@/components/BButton';
 import IInput from '@/components/IInput';
@@ -66,7 +65,6 @@ export default {
   },
   components: {
     ModalLayout,
-    Icon,
     Checkbox,
     BButton,
     IInput,

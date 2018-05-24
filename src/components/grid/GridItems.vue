@@ -39,7 +39,6 @@
 <script>
 import {mapState, mapMutations} from 'vuex';
 import {scrollbar} from '@/directives';
-import Icon from '@/components/Icon';
 import TileHeader from './TileHeader';
 import BuySell from './BuySell';
 import Chart from './Chart';
@@ -73,7 +72,6 @@ export default {
     scrollbar,
   },
   components: {
-    Icon,
     TileHeader,
     BuySell,
     Chart,

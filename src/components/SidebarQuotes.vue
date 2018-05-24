@@ -27,7 +27,6 @@
 <script>
 import {mapState, mapActions} from 'vuex';
 import {getCryptoName} from '@/services/misc';
-import Icon from './Icon';
 import Dropdown from './Dropdown';
 import SidebarQuotesItem from './SidebarQuotesItem';
 
@@ -108,7 +107,6 @@ export default {
     this.getApiRequest();
   },
   components: {
-    Icon,
     SidebarQuotesItem,
     Dropdown,
   },

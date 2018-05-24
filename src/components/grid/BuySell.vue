@@ -25,7 +25,6 @@
 <script>
 import {mapState, mapActions, mapGetters, mapMutations} from 'vuex';
 import {notification} from '@/services/notification';
-import Icon from '@/components/Icon';
 import Radio from '@/components/Radio';
 import BButton from '@/components/BButton';
 
@@ -117,7 +116,6 @@ export default {
     this.price = this.getPrice;
   },
   components: {
-    Icon,
     Radio,
     BButton,
   },

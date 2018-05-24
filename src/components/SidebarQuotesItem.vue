@@ -27,7 +27,6 @@
 <script>
 import {mapGetters, mapMutations} from 'vuex';
 import {getCryptoName} from '@/services/misc';
-import Icon from './Icon';
 
 export default {
   data() {
@@ -99,9 +98,6 @@ export default {
       default: false,
       required: false,
     },
-  },
-  components: {
-    Icon,
   },
 };
 

@@ -6,7 +6,6 @@
 
 <script>
 import {mapState, mapMutations} from 'vuex';
-import Icon from '@/components/Icon';
 
 export default {
   computed: {
@@ -38,9 +37,6 @@ export default {
         name: this.previusPageForTables,
       });
     },
-  },
-  components: {
-    Icon,
   },
 };
 </script>

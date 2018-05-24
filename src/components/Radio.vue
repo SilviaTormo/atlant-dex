@@ -7,7 +7,6 @@ label.radio
 </template>
 
 <script>
-import Icon from './Icon';
 
 export default {
   model: {
@@ -50,9 +49,6 @@ export default {
       required: false,
       default: false,
     },
-  },
-  components: {
-    Icon,
   },
 };
 

@@ -31,7 +31,6 @@
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
 import {scrollbar} from '@/directives';
-import Icon from '@/components/Icon';
 
 export default {
   data() {
@@ -95,9 +94,6 @@ export default {
   },
   directives: {
     scrollbar,
-  },
-  components: {
-    Icon,
   },
 };
 

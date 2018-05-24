@@ -11,7 +11,6 @@
 
 <script>
 import {mapMutations, mapState, mapGetters} from 'vuex';
-import Icon from './Icon';
 import SidebarPortfolio from './SidebarPortfolio';
 import SidebarAlerts from './SidebarAlerts';
 import SidebarQuotes from './SidebarQuotes';
@@ -79,7 +78,6 @@ export default {
 //    this.getTraderWallet();
   },
   components: {
-    Icon,
     SidebarPortfolio,
     SidebarAlerts,
     SidebarQuotes,

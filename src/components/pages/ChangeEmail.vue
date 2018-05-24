@@ -13,7 +13,6 @@
 <script>
 import {mapState, mapActions} from 'vuex';
 import {notification} from '@/services/notification';
-import Icon from '@/components/Icon';
 
 export default {
   data() {
@@ -51,9 +50,6 @@ export default {
         this.setStep(0);
       });
     },
-  },
-  components: {
-    Icon,
   },
 };
 </script>

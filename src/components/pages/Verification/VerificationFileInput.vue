@@ -29,7 +29,6 @@
 
 <script>
 import {notification} from '@/services/notification';
-import Icon from '@/components/Icon';
 
 const acceptTypes = ['application/pdf', 'image/*'];
 
@@ -74,9 +73,6 @@ export default {
     imageSrc: String,
     validation: [String, Boolean],
     value: [File, String],
-  },
-  components: {
-    Icon,
   },
 };
 </script>

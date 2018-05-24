@@ -19,7 +19,6 @@
 import {mapMutations} from 'vuex';
 import ModalLayout from '@/layout/ModalLayout';
 import BButton from '@/components/BButton';
-import Icon from '@/components/Icon';
 
 export default {
   name: 'TFAWarningModal',
@@ -41,7 +40,6 @@ export default {
   components: {
     ModalLayout,
     BButton,
-    Icon,
   },
 };
 </script>

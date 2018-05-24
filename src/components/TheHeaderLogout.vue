@@ -6,7 +6,6 @@
 
 <script>
 import {mapGetters, mapMutations, mapActions} from 'vuex';
-import Icon from './Icon';
 
 export default {
   computed: {
@@ -24,9 +23,6 @@ export default {
     membershipAction() {
       this.isLoggedIn ? this.logout() : this.openModal({name: 'signIn'});
     },
-  },
-  components: {
-    Icon,
   },
 };
 </script>

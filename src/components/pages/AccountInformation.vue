@@ -50,7 +50,6 @@ Page(title="Account information", title2="", :sidebar="true")
 import {mapState, mapMutations, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
 import {getCountryByCurrency, getCountryCurrency} from '@/services/countries';
-import Icon from '@/components/Icon';
 import Checkbox from '@/components/Checkbox';
 import BButton from '@/components/BButton';
 import FlagSwitch from '@/components/FlagSwitch';
@@ -92,7 +91,6 @@ export default {
   },
   components: {
     Page,
-    Icon,
     Checkbox,
     BButton,
     FlagSwitch,

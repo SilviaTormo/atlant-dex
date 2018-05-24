@@ -11,7 +11,6 @@ header.header
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {profileSections} from '@/config';
-import Icon from './Icon';
 import BButton from './BButton';
 import TheHeaderPair from './TheHeaderPair';
 import TheHeaderPairInfo from './TheHeaderPairInfo';
@@ -39,7 +38,6 @@ export default {
     }),
   },
   components: {
-    Icon,
     BButton,
     TheHeaderPair,
     TheHeaderPairInfo,

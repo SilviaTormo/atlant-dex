@@ -50,7 +50,6 @@
 import {mapState, mapGetters, mapMutations} from 'vuex';
 import {sidebarSections} from '@/config';
 import UserVisibility from './UserVisibility';
-import Icon from './Icon';
 
 export default {
   data() {
@@ -104,7 +103,6 @@ export default {
     },
   },
   components: {
-    Icon,
     UserVisibility,
   },
 };

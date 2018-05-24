@@ -8,7 +8,6 @@
 
 <script>
 import {mapMutations} from 'vuex';
-import Icon from '@/components/Icon';
 
 export default {
   methods: {
@@ -25,9 +24,6 @@ export default {
       type: Boolean,
       required: true,
     },
-  },
-  components: {
-    Icon,
   },
 };
 </script>

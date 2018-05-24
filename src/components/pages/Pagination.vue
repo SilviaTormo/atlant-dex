@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import Icon from '../Icon';
 
 export default {
   props: {
@@ -46,9 +45,6 @@ export default {
     pageAction: {
       type: Function,
     },
-  },
-  components: {
-    Icon,
   },
 };
 </script>

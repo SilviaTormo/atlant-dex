@@ -6,16 +6,12 @@
 
 <script>
 import {mapMutations} from 'vuex';
-import Icon from '../Icon';
 
 export default {
   methods: {
     ...mapMutations('page', {
       close: 'close',
     }),
-  },
-  components: {
-    Icon,
   },
 };
 </script>

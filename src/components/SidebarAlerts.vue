@@ -21,7 +21,6 @@
 
 <script>
 import {mapState} from 'vuex';
-import Icon from './Icon';
 import Dropdown from './Dropdown';
 import SidebarAlertsItem from './SidebarAlertsItem';
 
@@ -48,7 +47,6 @@ export default {
     },
   },
   components: {
-    Icon,
     Dropdown,
     SidebarAlertsItem,
   },

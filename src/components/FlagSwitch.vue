@@ -25,7 +25,6 @@ Dropdown.flagSwitch(
 </template>
 
 <script>
-import Icon from '@/components/Icon';
 import Dropdown from '@/components/Dropdown';
 import {
   countryData,
@@ -79,7 +78,6 @@ export default {
     },
   },
   components: {
-    Icon,
     Dropdown,
   },
 };

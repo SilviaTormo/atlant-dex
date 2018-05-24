@@ -29,7 +29,6 @@
 <script>
 import {mapState, mapGetters, mapMutations} from 'vuex';
 import {profileSections} from '@/config';
-import Icon from '../Icon';
 
 export default {
   data() {
@@ -77,9 +76,6 @@ export default {
   created() {
     this.items = profileSections;
     this.openCat = this.selectedCat;
-  },
-  components: {
-    Icon,
   },
 };
 </script>

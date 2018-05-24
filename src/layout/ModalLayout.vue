@@ -12,7 +12,6 @@ transition(name="modal__anim")
 <script>
 import {mapState, mapMutations} from 'vuex';
 import {scrollbar} from '@/directives';
-import Icon from '@/components/Icon';
 
 export default {
   computed: {
@@ -38,9 +37,6 @@ export default {
   },
   directives: {
     scrollbar,
-  },
-  components: {
-    Icon,
   },
 };
 </script>

@@ -7,11 +7,9 @@ ModalLayout
 
 <script>
 import ModalLayout from '@/layout/ModalLayout';
-import Icon from '@/components/Icon';
 
 export default {
   components: {
-    Icon,
     ModalLayout,
   },
 };

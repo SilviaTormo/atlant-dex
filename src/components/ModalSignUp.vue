@@ -26,7 +26,6 @@ import {required, sameAs, minLength} from 'vuelidate/lib/validators';
 import {mapMutations} from 'vuex';
 import {serverNotification} from '@/services/notification';
 import * as Membership from '@/services/api/membership';
-import Icon from '@/components/Icon';
 import Checkbox from '@/components/Checkbox';
 import BButton from '@/components/BButton';
 import ModalLayout from '@/layout/ModalLayout';
@@ -81,7 +80,6 @@ export default {
     },
   },
   components: {
-    Icon,
     Checkbox,
     ModalLayout,
     BButton,

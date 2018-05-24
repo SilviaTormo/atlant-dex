@@ -7,7 +7,6 @@
 
 <script>
 import {mapState, mapMutations} from 'vuex';
-import Icon from './Icon';
 
 export default {
   model: {
@@ -52,9 +51,6 @@ export default {
       default: false,
       required: false,
     },
-  },
-  components: {
-    Icon,
   },
 };
 </script>

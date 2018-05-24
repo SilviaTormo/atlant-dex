@@ -13,7 +13,7 @@
 
 <script>
 import {getCryptoName} from '@/services/misc';
-import Icon from './Icon';
+
 
 export default {
   data() {
@@ -45,9 +45,6 @@ export default {
       type: [String, Number],
       required: true,
     },
-  },
-  components: {
-    Icon,
   },
 };
 

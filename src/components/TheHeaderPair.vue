@@ -35,7 +35,6 @@
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex';
-import Icon from './Icon';
 import Dropdown from './Dropdown';
 
 export default {
@@ -86,7 +85,6 @@ export default {
     this.getPairInfo();
   },
   components: {
-    Icon,
     Dropdown,
   },
 };

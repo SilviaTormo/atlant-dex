@@ -27,7 +27,6 @@
 
 <script>
 import {mapState} from 'vuex';
-import Icon from './Icon';
 
 export default {
   data() {
@@ -55,9 +54,6 @@ export default {
     addSpacesForNumbers(number) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     },
-  },
-  components: {
-    Icon,
   },
 };
 </script>

@@ -5,7 +5,9 @@ import router from './router';
 import hub from './services/hub';
 import Vuelidate from 'vuelidate';
 import {hubURL} from './config.js';
+import Icon from './components/Icon';
 
+Vue.component('Icon', Icon);
 Vue.use(Vuelidate);
 Vue.use(hub, hubURL, store.state.membership.token, store.state.trade.pair);
 

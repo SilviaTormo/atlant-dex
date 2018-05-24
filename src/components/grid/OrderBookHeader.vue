@@ -7,7 +7,6 @@
 
 <script>
 import {mapState} from 'vuex';
-import Icon from '@/components/Icon';
 
 export default {
   computed: {
@@ -29,9 +28,6 @@ export default {
       default: 0,
       required: false,
     },
-  },
-  components: {
-    Icon,
   },
 };
 </script>

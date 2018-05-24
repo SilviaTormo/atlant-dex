@@ -19,7 +19,6 @@ import {mapState, mapMutations, mapActions} from 'vuex';
 import * as User from '@/services/api/user';
 import {getCountryCode} from '@/services/countries';
 // import {serverNotification} from '@/services/notification';
-import Icon from '@/components/Icon';
 import FlagSwitch from '@/components/FlagSwitch';
 import TFA from '@/components/TFA';
 
@@ -87,7 +86,6 @@ export default {
   components: {
     FlagSwitch,
     TFA,
-    Icon,
   },
 };
 </script>

@@ -19,7 +19,6 @@
 
 <script>
 import VSelect from 'vue-multiselect';
-import Icon from '@/components/Icon';
 
 export default {
   name: 'CommonSelect',
@@ -84,7 +83,6 @@ export default {
     noPadding: Boolean,
   },
   components: {
-    Icon,
     VSelect,
   },
 };

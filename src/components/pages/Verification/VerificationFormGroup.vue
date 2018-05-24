@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import Icon from '@/components/Icon';
 
 export default {
   name: 'VerificationFormGroup',
@@ -28,9 +27,6 @@ export default {
     label: String,
     validation: [Boolean, String],
     labelFor: String,
-  },
-  components: {
-    Icon,
   },
 };
 </script>
