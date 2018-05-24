@@ -16,11 +16,11 @@
 
 <script>
 import {mapState, mapMutations, mapActions} from 'vuex';
-import * as User from '@/services/api/user';
-import {getCountryCode} from '@/services/countries';
-// import {serverNotification} from '@/services/notification';
-import FlagSwitch from '@/components/FlagSwitch';
-import TFA from '@/components/TFA';
+import * as User from 'services/api/user';
+import {getCountryCode} from 'services/countries';
+// import {serverNotification} from 'services/notification';
+import FlagSwitch from 'components/FlagSwitch';
+import TFA from 'components/TFA';
 
 export default {
   data() {

@@ -41,14 +41,14 @@
 <script>
 import i18n from '@/i18n';
 import {mapState, mapMutations} from 'vuex';
-import * as User from '@/services/api/user';
-import {getCountryCode} from '@/services/countries';
-// import {serverNotification} from '@/services/notification';
+import * as User from 'services/api/user';
+import {getCountryCode} from 'services/countries';
+// import {serverNotification} from 'services/notification';
 import {operatingSystems, tfaMethods} from '@/config';
-import Radio from '@/components/Radio';
-import FlagSwitch from '@/components/FlagSwitch';
-import TFA from '@/components/TFA';
-import QR from '@/components/QR';
+import Radio from 'components/Radio';
+import FlagSwitch from 'components/FlagSwitch';
+import TFA from 'components/TFA';
+import QR from 'components/QR';
 
 export default {
   data() {

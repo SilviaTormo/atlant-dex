@@ -6,7 +6,7 @@ ModalLayout
 </template>
 
 <script>
-import ModalLayout from '@/layout/ModalLayout';
+import ModalLayout from '@/layouts/ModalLayout';
 
 export default {
   components: {

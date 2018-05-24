@@ -11,11 +11,11 @@ ModalLayout
 
 <script>
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
-import * as User from '@/services/api/user';
+import * as User from 'services/api/user';
 import clipboard from '@/directives/clipboard';
-import ModalLayout from '@/layout/ModalLayout';
-import BButton from '@/components/BButton';
-import QR from '@/components/QR';
+import ModalLayout from '@/layouts/ModalLayout';
+import BButton from 'components/BButton';
+import QR from 'components/QR';
 
 export default {
   data() {

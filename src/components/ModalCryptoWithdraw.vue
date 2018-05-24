@@ -17,12 +17,12 @@ ModalLayout
 
 <script>
 import {mapState, mapMutations} from 'vuex';
-import * as User from '@/services/api/user';
-import BButton from '@/components/BButton';
-import IInput from '@/components/IInput';
-import ModalLayout from '@/layout/ModalLayout';
-import TFA from '@/components/TFA';
-import Status from '@/components/Status.vue';
+import * as User from 'services/api/user';
+import BButton from 'components/BButton';
+import IInput from 'components/IInput';
+import ModalLayout from '@/layouts/ModalLayout';
+import TFA from 'components/TFA';
+import Status from 'components/Status.vue';
 
 export default {
   data() {

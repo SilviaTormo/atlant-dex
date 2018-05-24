@@ -1,10 +1,10 @@
 <template lang="pug">
 .tablePage
-  TableHeader
+  TablePageLayoutHeader
   .tablePage__body
     .tablePage__content
       slot
-      EmptyPlaceholder(v-if="data.length == 0", :content="getTableContent")
+      TablePageLayoutEmptyPlaceholder(v-if="data.length == 0", :content="getTableContent")
       Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
       .tablePage__panel(:class="{'tablePage__panel--active': isShowPanelInMobileVersion, 'tablePage__panelScrollbarOpened' : showSidebar}")
         .tablePage__panelActions.panel__checkbox
@@ -17,10 +17,10 @@
 
 <script>
 import {mapState} from 'vuex';
-import Checkbox from '@/components/Checkbox';
-import Pagination from '../Pagination';
-import TableHeader from './TableHeader';
-import EmptyPlaceholder from './EmptyPlaceholder';
+import Checkbox from 'components/Checkbox';
+import Pagination from 'components/Pagination';
+import TablePageLayoutHeader from 'components/TablePageLayoutHeader';
+import TablePageLayoutEmptyPlaceholder from 'components/TablePageLayoutEmptyPlaceholder';
 
 export default {
   data() {
@@ -113,8 +113,8 @@ export default {
     },
   },
   components: {
-    TableHeader,
-    EmptyPlaceholder,
+    TablePageLayoutHeader,
+    TablePageLayoutEmptyPlaceholder,
     Checkbox,
     Pagination,
   },

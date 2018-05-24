@@ -23,9 +23,9 @@
 
 <script>
 import {required, sameAs, minLength} from 'vuelidate/lib/validators';
-import * as Membership from '@/services/api/membership';
-import TFA from '@/components/TFA';
-import Checkbox from '@/components/Checkbox';
+import * as Membership from 'services/api/membership';
+import TFA from 'components/TFA';
+import Checkbox from 'components/Checkbox';
 
 export default {
   data() {

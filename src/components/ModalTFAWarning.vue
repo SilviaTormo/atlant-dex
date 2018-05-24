@@ -17,8 +17,8 @@
 
 <script>
 import {mapMutations} from 'vuex';
-import ModalLayout from '@/layout/ModalLayout';
-import BButton from '@/components/BButton';
+import ModalLayout from '@/layouts/ModalLayout';
+import BButton from 'components/BButton';
 
 export default {
   name: 'TFAWarningModal',

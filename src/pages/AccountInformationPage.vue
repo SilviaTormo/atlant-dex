@@ -1,5 +1,5 @@
 <template lang="pug">
-Page(title="Account information", title2="", :sidebar="true")
+PageLayout(title="Account information", title2="", :sidebar="true")
   .accountInfo
     .accountInfo__title General information
     .accountInfo__content
@@ -23,7 +23,7 @@ Page(title="Account information", title2="", :sidebar="true")
           .accountInfo__param Email:
           .accountInfo__value.accountInfo__value--inline {{account.email.value}} #[Icon.accountInfo__icon(v-if="account.email.verified" id="verified")]
         .accountInfo__item
-          ChangePhone
+          AccountInformationPageChangePhone
           //- .accountInfo__value.accountInfo__value--inline {{phone}} #[Icon.accountInfo__icon(v-if="account.phone.verified" id="verified")]
         .accountInfo__title Other
         .accountInfo__other
@@ -49,12 +49,12 @@ Page(title="Account information", title2="", :sidebar="true")
 <script>
 import {mapState, mapMutations, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
-import {getCountryByCurrency, getCountryCurrency} from '@/services/countries';
-import Checkbox from '@/components/Checkbox';
-import BButton from '@/components/BButton';
-import FlagSwitch from '@/components/FlagSwitch';
-import ChangePhone from './ChangePhone';
-import Page from './Page';
+import {getCountryByCurrency, getCountryCurrency} from 'services/countries';
+import Checkbox from 'components/Checkbox';
+import BButton from 'components/BButton';
+import FlagSwitch from 'components/FlagSwitch';
+import AccountInformationPageChangePhone from 'components/AccountInformationPageChangePhone';
+import PageLayout from 'layouts/PageLayout';
 
 export default {
   computed: {
@@ -90,11 +90,11 @@ export default {
     this.getProfileData();
   },
   components: {
-    Page,
+    PageLayout,
     Checkbox,
     BButton,
     FlagSwitch,
-    ChangePhone,
+    AccountInformationPageChangePhone,
   },
 };
 </script>

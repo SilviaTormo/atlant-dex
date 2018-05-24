@@ -1,5 +1,5 @@
 <template lang="pug">
-Page(title="Security log", title2="Authorization sheet", :sidebar="true")
+PageLayout(title="Security log", title2="Authorization sheet", :sidebar="true")
   .securityLog
     .table
       table.table__body
@@ -17,10 +17,10 @@ Page(title="Security log", title2="Authorization sheet", :sidebar="true")
 </template>
 
 <script>
-import * as User from '@/services/api/user';
+import * as User from 'services/api/user';
 import {DateTime} from 'luxon';
-import Page from './Page';
-import Pagination from './Pagination';
+import PageLayout from 'layouts/PageLayout';
+import Pagination from 'components/Pagination';
 
 export default {
   data() {
@@ -59,7 +59,7 @@ export default {
     this.getSecurityLog();
   },
   components: {
-    Page,
+    PageLayout,
     Pagination,
   },
 };

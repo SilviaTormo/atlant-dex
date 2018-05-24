@@ -1,5 +1,5 @@
 <template lang="pug">
-TablePage(
+TablePageLayout(
   title="My orders",
   :data="orders",
   :pageCount='setPagesCount',
@@ -75,8 +75,8 @@ TablePage(
 <script>
 import {mapGetters, mapActions, mapMutations} from 'vuex';
 import {DateTime} from 'luxon';
-import Checkbox from '@/components/Checkbox';
-import TablePage from './TablePage';
+import Checkbox from 'components/Checkbox';
+import TablePageLayout from 'layouts/TablePageLayout';
 
 export default {
   data() {
@@ -202,7 +202,7 @@ export default {
     this.getMyOrders();
   },
   components: {
-    TablePage,
+    TablePageLayout,
     Checkbox,
   },
 };

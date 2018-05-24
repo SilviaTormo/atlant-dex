@@ -24,9 +24,9 @@
 
 <script>
 import {mapState, mapActions, mapGetters, mapMutations} from 'vuex';
-import {notification} from '@/services/notification';
-import Radio from '@/components/Radio';
-import BButton from '@/components/BButton';
+import {notification} from 'services/notification';
+import Radio from 'components/Radio';
+import BButton from 'components/BButton';
 
 export default {
   data() {

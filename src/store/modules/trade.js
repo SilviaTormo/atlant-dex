@@ -1,7 +1,7 @@
-import * as Trade from '@/services/api/trade';
-import {serverNotification} from '@/services/notification';
+import * as Trade from 'services/api/trade';
+import {serverNotification} from 'services/notification';
 import {defPeriod} from '@/config';
-import {debounce} from '@/services/misc';
+import {debounce} from 'services/misc';
 // import pairsMock from '@/mocks/pairs';
 
 export default {

@@ -3,14 +3,14 @@
   PageHeader(:title="title")
   .page__body
     .page__sidebar(v-if="sidebar")
-      PageSidebar
+      PageNavigation
     .page__content
       slot
 </template>
 
 <script>
-import PageHeader from './PageHeader';
-import PageSidebar from './PageSidebar';
+import PageHeader from 'components/PageLayoutHeader';
+import PageNavigation from 'components/PageLayoutNavigation';
 
 export default {
   props: {
@@ -27,7 +27,7 @@ export default {
   },
   components: {
     PageHeader,
-    PageSidebar,
+    PageNavigation,
   },
 };
 </script>

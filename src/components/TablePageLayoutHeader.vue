@@ -1,7 +1,7 @@
 <template lang="pug">
 .tableHeader
   BackToPreviousPage.tableHeader__backTo
-  // BackToDashboard.tableHeader__backTo
+  // PageLayoutBackToDashboard.tableHeader__backTo
   .tableHeader__container(v-show="isTradeTables")
     .tableHeader__title(@click="getOpenPage('transactionHistory')", :class="(isThisPage('transactionHistory')) ? 'tableHeader__title--active' : ''") Transaction History
     .tableHeader__title(@click="getOpenPage('myOrders')", :class="(isThisPage('myOrders')) ? 'tableHeader__title--active' : ''") My Orders
@@ -19,9 +19,9 @@
 
 <script>
 import {mapState, mapMutations} from 'vuex';
-import Dropdown from '../../Dropdown';
-import BackToDashboard from '../BackToDashboard';
-import BackToPreviousPage from './BackToPreviousPage';
+import Dropdown from 'components/Dropdown';
+import PageLayoutBackToDashboard from 'components/PageLayoutBackToDashboard';
+import BackToPreviousPage from 'components/TablePageLayoutHeaderBackToPreviousPage';
 
 export default {
   data() {
@@ -85,7 +85,7 @@ export default {
     },
   },
   components: {
-    BackToDashboard,
+    PageLayoutBackToDashboard,
     BackToPreviousPage,
     Dropdown,
   },

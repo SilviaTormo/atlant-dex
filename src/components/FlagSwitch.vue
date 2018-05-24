@@ -25,14 +25,14 @@ Dropdown.flagSwitch(
 </template>
 
 <script>
-import Dropdown from '@/components/Dropdown';
+import Dropdown from 'components/Dropdown';
 import {
   countryData,
   countryCurrencies,
   getCountryName,
   getCountryCurrency,
   getCountryCode,
-} from '@/services/countries';
+} from 'services/countries';
 
 export default {
   computed: {

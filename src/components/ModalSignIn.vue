@@ -21,11 +21,11 @@ ModalLayout
 
 <script>
 import {mapMutations, mapActions} from 'vuex';
-import Checkbox from '@/components/Checkbox';
-import BButton from '@/components/BButton';
-import ModalLayout from '@/layout/ModalLayout';
-import IInput from '@/components/IInput';
-import Status from '@/components/Status.vue';
+import Checkbox from 'components/Checkbox';
+import BButton from 'components/BButton';
+import ModalLayout from '@/layouts/ModalLayout';
+import IInput from 'components/IInput';
+import Status from 'components/Status.vue';
 
 export default {
   data() {

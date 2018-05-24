@@ -1,6 +1,6 @@
 import store from '@/store';
-import Index from '@/components/Index';
-import * as Membership from '@/services/api/membership';
+import Index from '@/Index.vue';
+import * as Membership from 'services/api/membership';
 
 export default [
   {

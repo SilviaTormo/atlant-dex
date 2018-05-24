@@ -12,7 +12,7 @@
 
 <script>
 import {mapState, mapActions} from 'vuex';
-import {notification} from '@/services/notification';
+import {notification} from 'services/notification';
 
 export default {
   data() {

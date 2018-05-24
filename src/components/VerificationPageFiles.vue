@@ -1,31 +1,31 @@
 <template lang="pug">
 .verificationFiles
   .verificationFiles__item
-    VerificationFormGroup(
+    VerificationPageFormGroup(
       label="ID scan:",
       label-for="null",
     )
-      VerificationFileInput(
+      VerificationPageFilesInput(
         :image-src="idImage",
         v-model="verification.passportScan",
         :validation="getFieldValidationStatus('passportScan')"
       )
   .verificationFiles__item
-    VerificationFormGroup(
+    VerificationPageFormGroup(
     label="Proof of address:",
     label-for="null",
     )
-      VerificationFileInput(
+      VerificationPageFilesInput(
       :image-src="passportImage",
       v-model="verification.proofOfResidenceScan",
       :validation="getFieldValidationStatus('proofOfResidenceScan')",
       )
   .verificationFiles__item
-    VerificationFormGroup(
+    VerificationPageFormGroup(
       label="Selfie holding ID card & signed «ATLANT» paper:",
       label-for="null",
     )
-      VerificationFileInput(
+      VerificationPageFilesInput(
         :image-src="selfieImage",
         v-model="verification.selfie",
         :validation="getFieldValidationStatus('selfie')",
@@ -34,11 +34,11 @@
 
 <script>
 import {mapState} from 'vuex';
-import idImage from '@/assets/images/example-id.png';
-import passportImage from '@/assets/images/example-passport.png';
-import selfieImage from '@/assets/images/example-selfie.png';
-import VerificationFormGroup from './VerificationFormGroup';
-import VerificationFileInput from './VerificationFileInput';
+import idImage from 'assets/images/example-id.png';
+import passportImage from 'assets/images/example-passport.png';
+import selfieImage from 'assets/images/example-selfie.png';
+import VerificationPageFormGroup from 'components/VerificationPageFormGroup';
+import VerificationPageFilesInput from 'components/VerificationPageFilesInput';
 
 export default {
   name: 'VerificationFiles',
@@ -65,8 +65,8 @@ export default {
     validations: Object,
   },
   components: {
-    VerificationFormGroup,
-    VerificationFileInput,
+    VerificationPageFormGroup,
+    VerificationPageFilesInput,
   },
 };
 </script>
@@ -80,7 +80,7 @@ export default {
     padding-top: 15px;
   }
 
-  /deep/ .verificationFormGroup__labelText {
+  /deep/ .VerificationPageFormGroup__labelText {
     width: 150px;
   }
 }

@@ -24,13 +24,13 @@ ModalLayout
 <script>
 import {required, sameAs, minLength} from 'vuelidate/lib/validators';
 import {mapMutations} from 'vuex';
-import {serverNotification} from '@/services/notification';
-import * as Membership from '@/services/api/membership';
-import Checkbox from '@/components/Checkbox';
-import BButton from '@/components/BButton';
-import ModalLayout from '@/layout/ModalLayout';
-import IInput from '@/components/IInput';
-import Status from '@/components/Status.vue';
+import {serverNotification} from 'services/notification';
+import * as Membership from 'services/api/membership';
+import Checkbox from 'components/Checkbox';
+import BButton from 'components/BButton';
+import ModalLayout from '@/layouts/ModalLayout';
+import IInput from 'components/IInput';
+import Status from 'components/Status.vue';
 
 export default {
   data() {

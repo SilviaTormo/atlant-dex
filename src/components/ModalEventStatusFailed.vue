@@ -4,8 +4,8 @@ ModalLayout
 </template>
 
 <script>
- import ModalLayout from '@/layout/ModalLayout';
-import Status from '@/components/Status.vue';
+ import ModalLayout from '@/layouts/ModalLayout';
+import Status from 'components/Status.vue';
 
 export default {
   components: {

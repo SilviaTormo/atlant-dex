@@ -37,11 +37,11 @@ ModalLayout
 
 <script>
 import {mapState, mapActions, mapMutations} from 'vuex';
-import ModalLayout from '@/layout/ModalLayout';
-import BButton from '@/components/BButton';
-import IInput from '@/components/IInput';
-import Radio from '@/components/Radio';
-import Status from '@/components/Status.vue';
+import ModalLayout from '@/layouts/ModalLayout';
+import BButton from 'components/BButton';
+import IInput from 'components/IInput';
+import Radio from 'components/Radio';
+import Status from 'components/Status.vue';
 
 export default {
   data() {

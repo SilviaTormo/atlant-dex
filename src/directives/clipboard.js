@@ -1,6 +1,6 @@
 import store from '@/store';
 import Clipboard from 'clipboard';
-import {notification} from '@/services/notification';
+import {notification} from 'services/notification';
 
 function createClipboard(el, value) {
   const clipboard = new Clipboard(el, {

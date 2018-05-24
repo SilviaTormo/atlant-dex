@@ -12,15 +12,15 @@
       .main__tiles(v-if="!isPageOpened()")
         Grid
       //- Pages
-      TransactionHistory(v-if="isPageOpened('transactionHistory')")
-      MyOrders(v-if="isPageOpened('myOrders')")
+      TransactionHistoryPage(v-if="isPageOpened('transactionHistory')")
+      MyOrdersPage(v-if="isPageOpened('myOrders')")
       VerificationPage(v-if="isPageOpened('verification')")
-      VerificationAdmin(v-if="isPageOpened('verificationAdmin')")
+      VerificationAdminPage(v-if="isPageOpened('verificationAdmin')")
       AccountInformation(v-if="isPageOpened('accountInformation')")
-      SecuritySettings(v-if="isPageOpened('securitySettings')")
-      SecurityLog(v-if="isPageOpened('securityLog')")
+      SecuritySettingsPage(v-if="isPageOpened('securitySettings')")
+      SecurityLogPage(v-if="isPageOpened('securityLog')")
       FAQ(v-if="isPageOpened('faq')")
-      NotificationHistory(v-if="isPageOpened('notificationHistory')")
+      NotificationHistoryPage(v-if="isPageOpened('notificationHistory')")
   //- Modals
   ModalInDemo(v-if="isModalOpened('inDemo')")
   ModalReset(v-else-if="isModalOpened('reset')")
@@ -40,37 +40,36 @@
 <script>
 import i18n from '@/i18n';
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
-import {notification, getSignalRNotification} from '@/services/notification';
-// import * as Trade from '@/services/api/trade';
+import {notification, getSignalRNotification} from 'services/notification';
+// import * as Trade from 'services/api/trade';
 import {showWelcome} from '@/config';
 import {scrollbar} from '@/directives';
-import TheHeader from './TheHeader';
-import TheFooter from './TheFooter';
-import Sidebar from './Sidebar';
-import Toolbar from './Toolbar';
-import Grid from './grid/Grid';
-import TransactionHistory from './pages/Tables/TransactionHistory';
-import MyOrders from './pages/Tables/MyOrders';
-import NotificationHistory from './pages/Tables/NotificationHistory';
-import VerificationPage from './pages/Verification/VerificationPage';
-import VerificationAdmin from './pages/VerificationAdmin';
-import AccountInformation from './pages/AccountInformation';
-import SecuritySettings from './pages/SecuritySettings';
-import SecurityLog from './pages/SecurityLog';
-import FAQ from './pages/FAQ';
-import ModalInDemo from './ModalInDemo';
-import ModalReset from './ModalReset';
-import ModalNewPassword from './ModalNewPassword';
-import ModalSignUp from './ModalSignUp';
-import ModalSignIn from './ModalSignIn';
-import ModalCryptoDeposit from './ModalCryptoDeposit';
-import ModalCryptoWithdraw from './ModalCryptoWithdraw';
-import ModalFiat from './ModalFiat';
-import ModalTFA from './ModalTFA';
-import ModalTFAWarning from './ModalTFAWarning';
-import ModalEventStatusCompleted from './ModalEventStatusCompleted';
-import ModalEventStatusFailed from './ModalEventStatusFailed';
-import Status from './Status';
+import TheHeader from 'components/TheHeader';
+import TheFooter from 'components/TheFooter';
+import Sidebar from 'components/Sidebar';
+import Toolbar from 'components/Toolbar';
+import Grid from 'components/grid/Grid';
+import TransactionHistoryPage from 'pages/TransactionHistoryPage';
+import MyOrdersPage from 'pages/MyOrdersPage';
+import NotificationHistoryPage from 'pages/NotificationHistoryPage';
+import VerificationPage from 'pages/VerificationPage';
+import VerificationAdminPage from 'pages/VerificationAdminPage';
+import AccountInformation from 'pages/AccountInformationPage';
+import SecuritySettingsPage from 'pages/SecuritySettingsPage';
+import SecurityLogPage from 'pages/SecurityLogPage';
+import ModalInDemo from 'components/ModalInDemo';
+import ModalReset from 'components/ModalReset';
+import ModalNewPassword from 'components/ModalNewPassword';
+import ModalSignUp from 'components/ModalSignUp';
+import ModalSignIn from 'components/ModalSignIn';
+import ModalCryptoDeposit from 'components/ModalCryptoDeposit';
+import ModalCryptoWithdraw from 'components/ModalCryptoWithdraw';
+import ModalFiat from 'components/ModalFiat';
+import ModalTFA from 'components/ModalTFA';
+import ModalTFAWarning from 'components/ModalTFAWarning';
+import ModalEventStatusCompleted from 'components/ModalEventStatusCompleted';
+import ModalEventStatusFailed from 'components/ModalEventStatusFailed';
+import Status from 'components/Status';
 
 export default {
   computed: {
@@ -240,15 +239,14 @@ export default {
     TheHeader,
     Toolbar,
     Grid,
-    TransactionHistory,
-    MyOrders,
-    NotificationHistory,
+    TransactionHistoryPage,
+    MyOrdersPage,
+    NotificationHistoryPage,
     VerificationPage,
-    VerificationAdmin,
+    VerificationAdminPage,
     AccountInformation,
-    SecuritySettings,
-    SecurityLog,
-    FAQ,
+    SecuritySettingsPage,
+    SecurityLogPage,
     Status,
     ModalInDemo,
     ModalReset,

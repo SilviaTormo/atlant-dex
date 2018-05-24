@@ -1,5 +1,5 @@
 <template lang="pug">
-Page(
+PageLayout(
   title="Verification",
   title2="Please upload the following files in order to verify your account:",
   :sidebar="true"
@@ -23,10 +23,10 @@ Page(
 <script>
 import {mapState, mapActions} from 'vuex';
 import {required, minLength} from 'vuelidate/lib/validators';
-import BButton from '@/components/BButton';
-import Page from '../Page';
-import VerificationForm from './VerificationForm';
-import VerificationFiles from './VerificationFiles';
+import BButton from 'components/BButton';
+import PageLayout from 'layouts/PageLayout';
+import VerificationForm from 'components/VerificationPageForm';
+import VerificationFiles from 'components/VerificationPageFiles';
 
 export default {
   name: 'VerificationPage',
@@ -52,7 +52,7 @@ export default {
     this.getLastVerification();
   },
   components: {
-    Page,
+    PageLayout,
     BButton,
     VerificationForm,
     VerificationFiles,

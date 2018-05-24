@@ -1,5 +1,5 @@
 <template lang="pug">
-TablePage(
+TablePageLayout(
   title="NOTIFICATION_HISTORY",
   :data="data",
   :pageCount='setPagesCount',
@@ -28,9 +28,9 @@ TablePage(
 <script>
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
-import {notificationType, getSignalRNotification} from '@/services/notification';
-import Checkbox from '@/components/Checkbox';
-import TablePage from './TablePage';
+import {notificationType, getSignalRNotification} from 'services/notification';
+import Checkbox from 'components/Checkbox';
+import TablePageLayout from 'layouts/TablePageLayout';
 
 export default {
   data() {
@@ -110,7 +110,7 @@ export default {
     this.getNotifications();
   },
   components: {
-    TablePage,
+    TablePageLayout,
     Checkbox,
   },
 };

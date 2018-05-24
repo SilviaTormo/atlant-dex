@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import BackToDashboard from './BackToDashboard';
+import BackToDashboard from 'components/PageLayoutBackToDashboard';
 
 export default {
   props: {

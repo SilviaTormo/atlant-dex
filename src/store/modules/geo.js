@@ -1,4 +1,4 @@
-import * as GeoApi from '@/services/api/geo';
+import * as GeoApi from 'services/api/geo';
 
 export default {
   state: {

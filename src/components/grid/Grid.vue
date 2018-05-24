@@ -35,7 +35,7 @@
 <script>
 import VueGridLayout from 'vue-grid-layout';
 import {mapState, mapMutations, mapGetters} from 'vuex';
-import UserVisibility from '@/components/UserVisibility';
+import UserVisibility from 'components/UserVisibility';
 import GridItems from './GridItems';
 import GridPanel from './GridPanel';
 

@@ -19,14 +19,14 @@ ModalLayout
 
 <script>
 import {mapMutations} from 'vuex';
-import * as Membership from '@/services/api/membership';
-import ModalLayout from '@/layout/ModalLayout';
-import Checkbox from '@/components/Checkbox';
-import BButton from '@/components/BButton';
-import IInput from '@/components/IInput';
-import TFA from '@/components/TFA';
-import Status from '@/components/Status.vue';
-import {serverNotification} from '@/services/notification';
+import * as Membership from 'services/api/membership';
+import ModalLayout from '@/layouts/ModalLayout';
+import Checkbox from 'components/Checkbox';
+import BButton from 'components/BButton';
+import IInput from 'components/IInput';
+import TFA from 'components/TFA';
+import Status from 'components/Status.vue';
+import {serverNotification} from 'services/notification';
 
 export default {
   data() {

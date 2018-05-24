@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import {notification} from '@/services/notification';
+import {notification} from 'services/notification';
 
 const acceptTypes = ['application/pdf', 'image/*'];
 

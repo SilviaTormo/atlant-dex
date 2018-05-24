@@ -1,16 +1,16 @@
 <template lang="pug">
 form.verificationForm
-  VerificationFormGroup(
+  VerificationPageFormGroup(
     label="First Name:",
     :validation="getFieldValidationStatus('firstName')"
   )
-    VerificationInput.verificationForm__input(v-model="verification.firstName")
-  VerificationFormGroup(
+    VerificationPageFormInput.verificationForm__input(v-model="verification.firstName")
+  VerificationPageFormGroup(
     label="Last Name:",
     :validation="getFieldValidationStatus('lastName')"
   )
-    VerificationInput.verificationForm__input(v-model="verification.lastName")
-  VerificationFormGroup(
+    VerificationPageFormInput.verificationForm__input(v-model="verification.lastName")
+  VerificationPageFormGroup(
     label="Country:",
     :validation="getFieldValidationStatus('country')",
     label-for="null",
@@ -23,7 +23,7 @@ form.verificationForm
       :loading="countriesLoading",
       searchable
     )
-  VerificationFormGroup(
+  VerificationPageFormGroup(
     label="City:",
     :validation="getFieldValidationStatus('city')"
     label-for="null",
@@ -34,25 +34,25 @@ form.verificationForm
       :loading="citiesLoading",
       searchable
     )
-  VerificationFormGroup(
+  VerificationPageFormGroup(
     label="Street Address:",
     :validation="getFieldValidationStatus('address')"
   )
-    VerificationInput.verificationForm__input(v-model="verification.address")
-  VerificationFormGroup(
+    VerificationPageFormInput.verificationForm__input(v-model="verification.address")
+  VerificationPageFormGroup(
     label="Postcode:",
     :validation="getFieldValidationStatus('postCode')"
   )
-    VerificationInput.verificationForm__input(v-model="verification.postCode")
-  VerificationFormGroup(
+    VerificationPageFormInput.verificationForm__input(v-model="verification.postCode")
+  VerificationPageFormGroup(
     label="Phone Number:",
     :validation="getFieldValidationStatus('phoneNumber')"
   )
-    VerificationInput.verificationForm__input(
+    VerificationPageFormInput.verificationForm__input(
       v-model="verification.phoneNumber",
       :helper="phoneCode"
     )
-  VerificationFormGroup(
+  VerificationPageFormGroup(
     label="Date of Birth:",
     :validation="getFieldValidationStatus('birthday')"
     label-for="null",
@@ -76,19 +76,19 @@ form.verificationForm
         v-model="verification.year",
         searchable,
       )
-  VerificationFormGroup(
+  VerificationPageFormGroup(
     label="ID or Passport #:",
     :validation="getFieldValidationStatus('passportId')"
   )
-    VerificationInput.verificationForm__input(v-model="verification.passportId")
+    VerificationPageFormInput.verificationForm__input(v-model="verification.passportId")
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex';
-import {birthdayDays, birthdayYears, birthdayMonths} from '@/services/birthday';
-import Dropdown from '@/components/Dropdown';
-import VerificationFormGroup from './VerificationFormGroup';
-import VerificationInput from './VerificationInput';
+import {birthdayDays, birthdayYears, birthdayMonths} from 'services/birthday';
+import Dropdown from 'components/Dropdown';
+import VerificationPageFormGroup from './VerificationPageFormGroup';
+import VerificationPageFormInput from './VerificationPageFormInput';
 
 export default {
   name: 'VerificationForm',
@@ -158,8 +158,8 @@ export default {
   },
   components: {
     Dropdown,
-    VerificationFormGroup,
-    VerificationInput,
+    VerificationPageFormGroup,
+    VerificationPageFormInput,
   },
 };
 </script>

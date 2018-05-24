@@ -1,5 +1,5 @@
 <template lang="pug">
-TablePage(
+TablePageLayout(
   title="Transaction history",
   :data="data",
   :pageCount='setPagesCount',
@@ -34,8 +34,8 @@ TablePage(
 <script>
 import {mapGetters, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
-import Checkbox from '@/components/Checkbox';
-import TablePage from './TablePage';
+import Checkbox from 'components/Checkbox';
+import TablePageLayout from 'layouts/TablePageLayout';
 
 export default {
   data() {
@@ -104,7 +104,7 @@ export default {
     this.getUserTransactions();
   },
   components: {
-    TablePage,
+    TablePageLayout,
     Checkbox,
   },
 };

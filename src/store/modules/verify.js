@@ -1,6 +1,6 @@
-import * as Verification from '@/services/api/verify';
+import * as Verification from 'services/api/verify';
 import VerificationData from '@/models/VerificationData';
-import {notification} from '@/services/notification';
+import {notification} from 'services/notification';
 
 export default {
   state: {

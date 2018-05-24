@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import {getCryptoName} from '@/services/misc';
+import {getCryptoName} from 'services/misc';
 
 
 export default {

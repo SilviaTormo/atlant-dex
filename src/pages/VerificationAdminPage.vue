@@ -1,5 +1,5 @@
 <template lang='pug'>
-Page(title='Verification management', :sidebar='true')
+PageLayout(title='Verification management', :sidebar='true')
   .verification
     div(v-if='!isAdminLoggedIn')
       .verification__label Email:
@@ -34,9 +34,9 @@ Page(title='Verification management', :sidebar='true')
 <script>
 import {mapGetters, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
-import BButton from '@/components/BButton';
-import Page from './Page';
-import Pagination from './Pagination';
+import BButton from 'components/BButton';
+import PageLayout from 'layouts/PageLayout';
+import Pagination from 'components/Pagination';
 
 export default {
   data() {
@@ -108,7 +108,7 @@ export default {
   mounted() {
   },
   components: {
-    Page,
+    PageLayout,
     BButton,
     Pagination,
   },
@@ -118,8 +118,6 @@ export default {
 
 <style lang='scss'>
 .verification {
-  &__section {
-  }
   &__block{
     display: flex;
     flex-direction: column;

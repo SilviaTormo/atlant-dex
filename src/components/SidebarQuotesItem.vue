@@ -26,7 +26,7 @@
 
 <script>
 import {mapGetters, mapMutations} from 'vuex';
-import {getCryptoName} from '@/services/misc';
+import {getCryptoName} from 'services/misc';
 
 export default {
   data() {

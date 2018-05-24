@@ -26,7 +26,7 @@
 
 <script>
 import {mapState, mapActions} from 'vuex';
-import {getCryptoName} from '@/services/misc';
+import {getCryptoName} from 'services/misc';
 import Dropdown from './Dropdown';
 import SidebarQuotesItem from './SidebarQuotesItem';
 

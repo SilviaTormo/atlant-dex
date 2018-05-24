@@ -24,10 +24,10 @@
 <script>
 import {mapState, mapMutations} from 'vuex';
 import i18n from '@/i18n';
-import BButton from '@/components/BButton';
-import IInput from '@/components/IInput';
-import Status from '@/components/Status.vue';
-import QR from '@/components/QR';
+import BButton from 'components/BButton';
+import IInput from 'components/IInput';
+import Status from 'components/Status.vue';
+import QR from 'components/QR';
 
 export default {
   data() {

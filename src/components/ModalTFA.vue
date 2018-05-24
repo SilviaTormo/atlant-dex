@@ -7,9 +7,9 @@ Modal.ModalLayout
 
 <script>
 import {mapState} from 'vuex';
-import ModalLayout from '@/layout/ModalLayout';
-import TFA from '@/components/TFA';
-import Status from '@/components/Status.vue';
+import ModalLayout from '@/layouts/ModalLayout';
+import TFA from 'components/TFA';
+import Status from 'components/Status.vue';
 
 export default {
   data() {

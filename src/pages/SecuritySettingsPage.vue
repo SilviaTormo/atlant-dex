@@ -1,12 +1,12 @@
 <template lang="pug">
-Page(title="Security settings", title2="Security settings" :sidebar="true")
+PageLayout(title="Security settings", title2="Security settings" :sidebar="true")
   .securitySettings
     .securitySettings__title Main
     .securitySettings__item
-      ChangePassword
+      SecuritySettingsPageChangePassword
     // .securitySettings__desktopRow
     .securitySettings__item
-      ChangeEmail
+      SecuritySettingsPageChangeEmail
       //-   .securitySettings__param Current Email:
       //-   .securitySettings__value.securitySettings__value--row {{email.value}} #[Icon.securitySettings__icon(v-if="email.verified" id="verified")]
       //-     .link.securitySettings__action Change
@@ -15,7 +15,7 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
       //-   .securitySettings__value.securitySettings__value--row {{additionalEmail.value}} #[Icon.securitySettings__icon(v-if="security.additionalEmail.verified" id="verified")]
       //-     .link.securitySettings__action Change
     .securitySettings__title 2 factor authentication
-    TFASettings
+    SecuritySettingsPageTFASettings
     .securitySettings__title Other
     .securitySettings__item.securitySettings__desktopRow
       .securitySettings__row Terminate active sessions #[Icon.securitySettings__terminateIcon(id="terminate")]
@@ -25,12 +25,12 @@ Page(title="Security settings", title2="Security settings" :sidebar="true")
 
 <script>
 import {mapState, mapActions} from 'vuex';
-import BButton from '@/components/BButton';
-import ChangePassword from '@/components/pages/ChangePassword';
-import ChangeEmail from '@/components/pages/ChangeEmail';
-import TFASettings from '@/components/pages/TFASettings';
-// import {serverNotification} from '@/services/notification';
-import Page from './Page';
+import BButton from 'components/BButton';
+import SecuritySettingsPageChangePassword from 'components/SecuritySettingsPageChangePassword';
+import SecuritySettingsPageChangeEmail from 'components/SecuritySettingsPageChangeEmail';
+import SecuritySettingsPageTFASettings from 'components/SecuritySettingsPageTFASettings';
+// import {serverNotification} from 'services/notification';
+import PageLayout from 'layouts/PageLayout';
 
 export default {
   data() {
@@ -51,11 +51,11 @@ export default {
     this.getProfileData();
   },
   components: {
-    Page,
+    PageLayout,
     BButton,
-    ChangePassword,
-    ChangeEmail,
-    TFASettings,
+    SecuritySettingsPageChangePassword,
+    SecuritySettingsPageChangeEmail,
+    SecuritySettingsPageTFASettings,
   },
 };
 </script>
