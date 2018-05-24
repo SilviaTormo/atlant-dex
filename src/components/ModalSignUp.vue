@@ -47,9 +47,9 @@ export default {
     parsePassword() {
       if (this.$v.$error) {
         if (this.$v.password.$error) {
-          return this.$t('passwordValidation.tooShort', {minLength: this.$v.password.$params.minLength.min});
+          return this.$.t('passwordValidation.tooShort', {minLength: this.$v.password.$params.minLength.min});
         } else if (this.$v.passwordRepeat.$error) {
-          return this.$t('passwordValidation.notMatch');
+          return this.$.t('passwordValidation.notMatch');
         }
       }
       return '';

@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import i18n from 'i18n';
+import i18n from '@/i18n';
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import {notification, getSignalRNotification} from '@/services/notification';
 // import * as Trade from '@/services/api/trade';
@@ -168,6 +168,10 @@ export default {
       });
       this.$hub.on('newBalance', (data) => {
         this.changePortfolio(data);
+      });
+      this.$hub.on('newTradeStatistic', (data) => {
+      });
+      this.$hub.on('orderBookChanged', (data) => {
       });
     },
     modalChangeStyleforBody() {

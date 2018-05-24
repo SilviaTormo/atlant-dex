@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import i18n from 'i18n';
+import i18n from '@/i18n';
 import {mapState, mapMutations} from 'vuex';
 import * as User from '@/services/api/user';
 import {getCountryCode} from '@/services/countries';

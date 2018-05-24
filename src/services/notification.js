@@ -1,5 +1,5 @@
 import Noty from 'noty';
-import i18n from 'i18n';
+import i18n from '@/i18n';
 import {serverCodes} from './serverCodes';
 
 window.i18n = i18n;

@@ -73,7 +73,7 @@ export default {
     width: $size;
     fill: #fff;
     &:hover{
-      pointer: cursor;
+      cursor: pointer;
     }
   }
   &__item {

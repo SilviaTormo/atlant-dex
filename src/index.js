@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import i18n from 'i18n';
+import i18n from './i18n';
 import store from './store';
 import router from './router';
 import hub from './services/hub';
@@ -32,8 +32,8 @@ Vue.mixin({
 
 new Vue({
   el: '#app',
-  store,
   i18n,
+  store,
   router,
   created() {
     const icons = require.context('./assets/icons/', true, /\.(svg)$/);

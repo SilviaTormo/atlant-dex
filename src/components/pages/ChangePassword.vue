@@ -43,9 +43,9 @@ export default {
     validationErrorText() {
       if (this.$v.$error) {
         if (this.$v.password.new.$error) {
-          return this.$t('passwordValidation.tooShort', {minLength: this.$v.password.new.$params.minLength.min});
+          return this.$.t('passwordValidation.tooShort', {minLength: this.$v.password.new.$params.minLength.min});
         } else if (this.$v.password.repeat.$error) {
-          return this.$t('passwordValidation.notMatch');
+          return this.$.t('passwordValidation.notMatch');
         }
       }
       return '';
