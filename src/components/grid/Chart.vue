@@ -81,21 +81,20 @@ export default {
     };
   },
   computed: {
-    ...mapState('trade', {
-      // startTicks: (state) => state.chart.data.startTicks,
-      // candleTicks: (state) => state.chart.data.candleTicks,
-      // candleSize: (state) => state.chart.data.candleSize,
-      rawCandles: (state) => state.chart.data.candles,
+    ...mapState('chart', {
+      rawCandles: (state) => state.data.candles,
     }),
-    ...mapGetters('trade', [
+    ...mapGetters('chart', [
       'isCurrentPeriod',
-      'baseCurrency',
-      'quoteCurrency',
       'candlePeriodInMs',
       'candlePeriod',
       'lastCandleOpenTime',
       'lastCandle',
       'getEmptyCandle',
+    ]),
+    ...mapGetters('trade', [
+      'baseCurrency',
+      'quoteCurrency',
     ]),
     priceSeries() {
       if (this.rawCandles) {
@@ -103,10 +102,6 @@ export default {
           return this.rawCandles.map(
             ({open, close, low, high}) => [open, close, low, high]
           );
-          // item[0], // open
-          // item[3], // close
-          // item[2], // low
-          // item[1], // high
         } else {
           return this.rawCandles.map((item) => item.close);
         }
@@ -136,11 +131,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions('trade', {
+    ...mapActions('chart', {
       loadChart: 'loadChart',
       changeChartPeriod: 'changeChartPeriod',
     }),
-    ...mapActions('trade', [
+    ...mapActions('chart', [
       'addNewCandle',
     ]),
     setChartPeriod(period) {

@@ -4,6 +4,7 @@ import createPersistedState from 'vuex-persistedstate';
 import misc from './modules/misc';
 import localization from './modules/localization';
 import trade from './modules/trade';
+import chart from './modules/chart';
 import loader from './modules/loader';
 import modal from './modules/modal';
 import page from './modules/page';
@@ -21,6 +22,7 @@ const store = new Vuex.Store({
     misc,
     localization,
     trade,
+    chart,
     loader,
     modal,
     page,
