@@ -117,10 +117,12 @@ export default {
       setPair: 'setPair',
       setDesktopData: 'setDesktopData',
       setOHLC: 'setOHLC',
-      addActiveOrder: 'addActiveOrder',
-      changeOrderStatus: 'changeOrderStatus',
       addNewPrices: 'addNewPrices',
       addNewTrade: 'addNewTrade',
+    }),
+    ...mapMutations('orders', {
+      addActiveOrder: 'addActiveOrder',
+      changeOrderStatus: 'changeOrderStatus',
     }),
     ...mapMutations('user', {
       setNotificationsCounter: 'setNotificationsCounter',

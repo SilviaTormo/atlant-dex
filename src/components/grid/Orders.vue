@@ -48,19 +48,19 @@ export default {
     };
   },
   computed: {
-    ...mapState('trade', {
+    ...mapState('orders', {
       orders: (state) => state.orders,
     }),
     ...mapGetters('membership', {
       isLoggedIn: 'isLoggedIn',
     }),
-    ...mapGetters('trade', {
+    ...mapGetters('orders', {
       getActiveOrders: 'getActiveOrders',
       getClosedOrders: 'getClosedOrders',
     }),
   },
   methods: {
-    ...mapActions('trade', {
+    ...mapActions('orders', {
       getOrders: 'getOrders',
       cancelOrder: 'cancelOrder',
     }),

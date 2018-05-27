@@ -91,7 +91,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('trade', {
+    ...mapGetters('orders', {
       orders: 'getAccountOrders',
       orderFilter: 'getAccountOrderFilter',
       totalItems: 'getAccountOrdersItems',
@@ -101,10 +101,10 @@ export default {
     },
   },
   methods: {
-    ...mapMutations('trade', {
+    ...mapMutations('orders', {
       setOffsetForTradeHistory: 'setOffsetForTradeHistory',
     }),
-    ...mapActions('trade', [
+    ...mapActions('orders', [
       'getAccountOrders',
       'getTradesForOrder',
     ]),
@@ -157,7 +157,7 @@ export default {
       });
     },
     getTrades(orderId) {
-      console.log('orderId');
+      // console.log('orderId');
       if (this.currentOrderId !== orderId) {
         this.orderIdTradesLoading = orderId;
         this.getTradesForOrder(orderId).then((response) => {

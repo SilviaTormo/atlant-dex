@@ -60,7 +60,7 @@ export default {
     ...mapMutations('page', {
       openPage: 'open',
     }),
-    ...mapMutations('trade', {
+    ...mapMutations('orders', {
       setOrderFilter: 'setOrderFilter',
     }),
     getOpenPage(pageName) {

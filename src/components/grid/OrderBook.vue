@@ -14,6 +14,8 @@ export default {
   computed: {
     ...mapState('trade', {
       pair: 'pair',
+    }),
+    ...mapState('orders', {
       book: (state) => state.book,
       status: (state) => state.book.status,
     }),
@@ -23,7 +25,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('trade', [
+    ...mapActions('orders', [
       'getOrderBook',
     ]),
     getApiRequest() {

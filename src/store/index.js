@@ -5,6 +5,7 @@ import misc from './modules/misc';
 import localization from './modules/localization';
 import trade from './modules/trade';
 import chart from './modules/chart';
+import orders from './modules/orders';
 import loader from './modules/loader';
 import modal from './modules/modal';
 import page from './modules/page';
@@ -23,6 +24,7 @@ const store = new Vuex.Store({
     localization,
     trade,
     chart,
+    orders,
     loader,
     modal,
     page,
