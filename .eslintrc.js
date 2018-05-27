@@ -22,7 +22,7 @@ module.exports = {
   // add your custom rules here
   rules: {
     'max-len': 0,
-    'linebreak-style': ["error", "windows"],
+    'linebreak-style': 0,
     // allow async-await
     'generator-star-spacing': 'off',
     'require-jsdoc': 'off',
