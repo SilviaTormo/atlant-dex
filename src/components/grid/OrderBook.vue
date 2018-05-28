@@ -12,7 +12,7 @@ import {mapState, mapActions} from 'vuex';
 
 export default {
   computed: {
-    ...mapState('trade', {
+    ...mapState('tradeInfo', {
       pair: 'pair',
     }),
     ...mapState('orders', {

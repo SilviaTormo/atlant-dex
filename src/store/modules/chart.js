@@ -1,4 +1,4 @@
-import * as Trade from 'services/api/trade';
+import * as Chart from 'services/api/charts';
 // import {serverNotification} from 'services/notification';
 import {defPeriod} from '@/config';
 import {debounce} from 'services/misc';
@@ -104,9 +104,9 @@ export default {
   },
   actions: {
     loadChart: debounce(function({commit, state, dispatch, getters, rootState}) {
-      return Trade.getCandlesCollection({
+      return Chart.getCandlesCollection({
         period: state.period,
-        pair: rootState.trade.pair,
+        pair: rootState.tradeInfo.pair,
       }).then((res) => {
         const candles = getters.getActualizedCandlesCollection(res.data.candles);
         commit('setChartData', Object.assign(res.data, {candles}));
@@ -131,12 +131,12 @@ export default {
       const {candles, lastCandleOpenTime} = getters;
       const lastCandleIndex = candles.length - 1;
       let newCandles = candles;
-      console.log('newCandle: ', newCandle);
+      // console.log('newCandle: ', newCandle);
       if (candles.length && (new Date(newCandle.candleOpen).getTime() - lastCandleOpenTime) < 1000) {
-        console.log('Update last candle');
+        // console.log('Update last candle');
         newCandles = [...candles.slice(0, lastCandleIndex), newCandle];
       } else {
-        console.log('Add new candle');
+        // console.log('Add new candle');
         newCandles = candles.concat(newCandle);
       }
       commit('setCandles', newCandles);

@@ -39,7 +39,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('trade', {
+    ...mapState('tradeInfo', {
       bid: (state) => state.pairInfo.bid,
       ask: (state) => state.pairInfo.ask,
       fee: (state) => state.pairInfo.makerFee,
@@ -47,7 +47,7 @@ export default {
     ...mapGetters('membership', {
       isLoggedIn: 'isLoggedIn',
     }),
-    ...mapGetters('trade', {
+    ...mapGetters('tradeInfo', {
       baseCurrency: 'baseCurrency',
       quoteCurrency: 'quoteCurrency',
     }),
@@ -65,7 +65,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('trade', {
+    ...mapActions('orders', {
       placeOrder: 'placeOrder',
     }),
     ...mapMutations('modal', {

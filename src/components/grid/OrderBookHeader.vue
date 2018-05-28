@@ -10,7 +10,7 @@ import {mapState} from 'vuex';
 
 export default {
   computed: {
-    ...mapState('trade', {
+    ...mapState('tradeInfo', {
       last: (state) => state.pairInfo.last,
       high: (state) => state.pairInfo.high,
       low: (state) => state.pairInfo.low,

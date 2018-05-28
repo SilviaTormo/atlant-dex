@@ -1,5 +1,4 @@
-// import apiOld from './apiOld';
-import api from './apiNew';
+import api from './api';
 
 export const getProfile = () => api.get('profile/my');
 

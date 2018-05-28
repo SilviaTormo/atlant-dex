@@ -1,4 +1,4 @@
-import * as Trade from 'services/api/trade';
+import * as Orders from 'services/api/orders';
 
 export default {
   state: {
@@ -13,6 +13,7 @@ export default {
     },
     orders: [],
     limit: 23,
+    trades: [],
   },
   getters: {
     getActiveOrders(state) {
@@ -33,6 +34,9 @@ export default {
     },
     getAccountOrdersItems(state) {
       return state.accountOrders.totalItems;
+    },
+    getLastTrades(state) {
+      return state.trades;
     },
   },
   mutations: {
@@ -85,10 +89,16 @@ export default {
       arr.find((item) => item.id === data.orderId).trades = data.trades.trades;
       state.accountOrders.orders = arr;
     },
+    setTradeHistory(state, trades) {
+      state.trades = trades.data;
+    },
+    addNewTrade(state, obj) {
+      state.trades.unshift(obj);
+    },
   },
   actions: {
     getAccountOrders({state, commit}, {page, limit, sortBy, ascending}) {
-      return Trade.getOrders({
+      return Orders.getOrders({
         page,
         limit,
         sortBy,
@@ -99,8 +109,8 @@ export default {
       });
     },
     getOrders({state, commit, rootState}) {
-      return Trade.getOrders({
-        pair: rootState.trade.pair,
+      return Orders.getOrders({
+        pair: rootState.tradeInfo.pair,
         sortby: 'datetime',
         ascending: false,
         limit: 20,
@@ -109,9 +119,9 @@ export default {
       });
     },
     getOrderBook({rootGetters, commit}, {limit}) {
-      return Trade.getOrderBook({
-        baseCurrency: rootGetters['trade/baseCurrency'],
-        quoteCurrency: rootGetters['trade/quoteCurrency'],
+      return Orders.getOrderBook({
+        baseCurrency: rootGetters['tradeInfo/baseCurrency'],
+        quoteCurrency: rootGetters['tradeInfo/quoteCurrency'],
         limit,
       }).then((response) => {
         commit('setBook', response.data);
@@ -119,7 +129,7 @@ export default {
     },
     placeOrder({commit, dispatch}, {isMarketOrder, isSellOrder, baseCurrency, quoteCurrency, price, quantity, isQuantityInBaseCurrency}) {
       return new Promise((resolve, reject) => {
-        Trade.placeOrder({
+        Orders.placeOrder({
           isMarketOrder,
           isSellOrder,
           baseCurrency,
@@ -133,17 +143,29 @@ export default {
       });
     },
     cancelOrder({commit}, orderId) {
-      return Trade.cancelOrder({orderId}).then((res) => {
+      return Orders.cancelOrder({orderId}).then((res) => {
         commit('setCancelledOrder', orderId);
       });
     },
     getTradesForOrder({state, commit}, orderId) {
-      return Trade.getTradesForOrder(orderId).then((response) => {
+      return Orders.getTradesForOrder(orderId).then((response) => {
         let data = {
           trades: response.data,
           orderId,
         };
         commit('setTradesForOrder', data);
+      });
+    },
+    getTradeHistory({rootState, commit}) {
+      return Orders.getTradeHistory(
+        {
+          Pair: rootState.tradeInfo.pair,
+          CurrencyPairValid: true,
+          Page: 1,
+          Limit: 20,
+        },
+      ).then((response) => {
+        commit('setTradeHistory', response.data);
       });
     },
   },

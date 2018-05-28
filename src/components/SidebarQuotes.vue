@@ -64,7 +64,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('trade', {
+    ...mapState('quotes', {
       quotes: 'quotesInfo',
     }),
     filteredQuotes() {
@@ -87,7 +87,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('trade', [
+    ...mapActions('quotes', [
       'getQuotesInfo',
     ]),
     openChart(cur) {

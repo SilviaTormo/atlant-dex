@@ -9,7 +9,7 @@ import Icon from './components/Icon';
 
 Vue.component('Icon', Icon);
 Vue.use(Vuelidate);
-Vue.use(hub, hubURL, store.state.membership.token, store.state.trade.pair);
+Vue.use(hub, hubURL, store.state.membership.token, store.state.tradeInfo.pair);
 
 Vue.mixin({
   methods: {

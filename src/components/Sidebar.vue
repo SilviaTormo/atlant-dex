@@ -56,9 +56,6 @@ export default {
     ...mapMutations('page', {
       openPage: 'open',
     }),
-//    ...mapActions('trade', {
-//      getTraderWallet: 'getTraderWallet',
-//    }),
     getOpenPage() {
       this.openPage({
         name: '',
@@ -73,9 +70,6 @@ export default {
     openCur(cur) {
       this.selectedCur = cur;
     },
-  },
-  created() {
-//    this.getTraderWallet();
   },
   components: {
     SidebarPortfolio,

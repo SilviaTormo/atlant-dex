@@ -12,15 +12,15 @@ import {mapState, mapGetters, mapActions} from 'vuex';
 
 export default {
   computed: {
-    ...mapState('trade', {
+    ...mapState('tradeInfo', {
       pair: 'pair',
     }),
-    ...mapGetters('trade', {
+    ...mapGetters('orders', {
       lastTrades: 'getLastTrades',
     }),
   },
   methods: {
-    ...mapActions('trade', {
+    ...mapActions('orders', {
       getTradeHistory: 'getTradeHistory',
     }),
     getApiRequest() {

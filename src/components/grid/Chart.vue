@@ -92,7 +92,7 @@ export default {
       'lastCandle',
       'getEmptyCandle',
     ]),
-    ...mapGetters('trade', [
+    ...mapGetters('tradeInfo', [
       'baseCurrency',
       'quoteCurrency',
     ]),

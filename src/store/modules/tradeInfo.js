@@ -1,4 +1,4 @@
-import * as Trade from 'services/api/trade';
+import * as TradeInfo from 'services/api/tradeInfo';
 import {serverNotification} from 'services/notification';
 
 export default {
@@ -19,14 +19,12 @@ export default {
       takerFee: 0,
       volume: 0,
     },
-    trades: [],
     ohlc: {
       close: 0,
       high: 0,
       low: 0,
       change: 0,
     },
-    quotesInfo: [],
   },
   getters: {
     baseCurrency(state) {
@@ -38,14 +36,8 @@ export default {
     getPairName: (state, getters) => ({base = getters.baseCurrency, quote = getters.quoteCurrency}) => {
       return `${base}_${quote}`;
     },
-    getLastTrades(state) {
-      return state.trades;
-    },
   },
   mutations: {
-    setQuotesInfo(state, data) {
-      state.quotesInfo = data;
-    },
     setPairs(state, data) {
       state.pairs = data;
     },
@@ -55,17 +47,11 @@ export default {
     setPair(state, pair) {
       state.pair = pair;
     },
-    setTradeHistory(state, trades) {
-      state.trades = trades.data;
-    },
     setOHLC(state, data) {
       state.ohlc.high = data.high;
       state.ohlc.low = data.low;
       state.ohlc.close = data.last;
       state.ohlc.change = data.change;
-    },
-    addNewTrade(state, obj) {
-      state.trades.unshift(obj);
     },
     addNewPrices(state, prices) {
       state.volume = prices[0];
@@ -76,24 +62,14 @@ export default {
   },
   actions: {
     getPairs({commit}) {
-      return Trade.exchangePairs().then((res) => {
+      return TradeInfo.exchangePairs().then((res) => {
         commit('setPairs', res.data);
       }).catch((res) => {
         serverNotification(res);
       });
     },
-    getQuotesInfo({commit}, {period, currencies}) {
-      return Trade.coinsInfo({
-        period,
-        currencies,
-      }).then((res) => {
-        commit('setQuotesInfo', res.data);
-      }).catch((res) => {
-        serverNotification(res);
-      });
-    },
     getPairInfo({getters, commit}) {
-      return Trade.exchangePairInfo({
+      return TradeInfo.exchangePairInfo({
         baseCurrency: getters.baseCurrency,
         quoteCurrency: getters.quoteCurrency,
       }).then((res) => {
@@ -115,18 +91,6 @@ export default {
       });
       commit('setPair', pair);
       dispatch('chart/loadChart', null, {root: true});
-    },
-    getTradeHistory({state, commit}) {
-      return Trade.getTradeHistory(
-        {
-          Pair: state.pair,
-          CurrencyPairValid: true,
-          Page: 1,
-          Limit: 20,
-        },
-      ).then((response) => {
-        commit('setTradeHistory', response.data);
-      });
     },
   },
   namespaced: true,

@@ -2,21 +2,15 @@
 button.button(
   v-bind="$attrs" v-on="$listeners",
   :class="[`button--${color}`, {'button--full': full}, {'button--outline': outline}, {'button--rounded': rounded}, {'button--caps': caps}]",
-  :disabled="isLoading(loader)"
+  :disabled="isLoading"
 )
   span.button__content
     slot
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
 
 export default {
-  computed: {
-    ...mapGetters('loader', {
-      isLoading: 'isLoading',
-    }),
-  },
   props: {
     color: {
       type: String,
@@ -44,6 +38,11 @@ export default {
       default: false,
     },
     loader: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    isLoading: {
       type: String,
       required: false,
       default: '',

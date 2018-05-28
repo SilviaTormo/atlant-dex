@@ -1,5 +1,4 @@
-// import apiOld from './apiOld';
-import api from './apiNew';
+import api from './api';
 
 export const login = ({email, password}) => api.post('auth/signin', {email, password});
 export const refreshToken = ({grantType, email, refreshToken}) => api.post('auth/signin', {grantType, email, refreshToken});

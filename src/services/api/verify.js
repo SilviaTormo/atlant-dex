@@ -1,4 +1,4 @@
-import api from './apiNew';
+import api from './api';
 
 export const tierOneVerify = (data) => api.post('/profile/verification/tier1', data);
 export const getLastVerification = () => api.get('/profile/verification/last');

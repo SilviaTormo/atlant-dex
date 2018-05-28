@@ -77,7 +77,7 @@ export default {
       showSidebar: 'showSidebar',
       currentPage: 'currentPage',
     }),
-    ...mapState('trade', {
+    ...mapState('tradeInfo', {
       pair: 'pair',
     }),
     ...mapState('membership', {
@@ -110,19 +110,16 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
-    ...mapMutations('stats', {
-      setStats: 'setStats',
-    }),
-    ...mapMutations('trade', {
+    ...mapMutations('tradeInfo', {
       setPair: 'setPair',
       setDesktopData: 'setDesktopData',
       setOHLC: 'setOHLC',
       addNewPrices: 'addNewPrices',
-      addNewTrade: 'addNewTrade',
     }),
     ...mapMutations('orders', {
       addActiveOrder: 'addActiveOrder',
       changeOrderStatus: 'changeOrderStatus',
+      addNewTrade: 'addNewTrade',
     }),
     ...mapMutations('user', {
       setNotificationsCounter: 'setNotificationsCounter',
@@ -139,9 +136,6 @@ export default {
       'getProfileData',
       'getCurrencies',
     ]),
-    ...mapActions('trade', {
-      getTraderWallet: 'getTraderWallet',
-    }),
     updateOverflow() {
       document.querySelector('#app').style.overflow = this.showSidebar ? 'hidden' : null;
     },

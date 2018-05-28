@@ -3,15 +3,14 @@ import Vuex from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 import misc from './modules/misc';
 import localization from './modules/localization';
-import trade from './modules/trade';
+import tradeInfo from './modules/tradeInfo';
 import chart from './modules/chart';
+import quotes from './modules/quotes';
 import orders from './modules/orders';
-import loader from './modules/loader';
 import modal from './modules/modal';
 import page from './modules/page';
 import user from './modules/user';
 import verify from './modules/verify';
-import stats from './modules/stats';
 import membership from './modules/membership';
 import grid from './modules/grid';
 import geo from './modules/geo';
@@ -22,15 +21,14 @@ const store = new Vuex.Store({
   modules: {
     misc,
     localization,
-    trade,
+    tradeInfo,
     chart,
     orders,
-    loader,
+    quotes,
     modal,
     page,
     user,
     verify,
-    stats,
     membership,
     grid,
     geo,
@@ -43,8 +41,8 @@ const store = new Vuex.Store({
       'membership.refreshToken',
       'membership.email',
       'membership.lastAction',
-      'trade.pair',
-      'trade.pairs',
+      'tradeInfo.pair',
+      'tradeInfo.pairs',
       'user.account.currency',
     ],
   })],

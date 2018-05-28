@@ -49,7 +49,7 @@ export default {
     },
     tryReconnect({getters, dispatch}) {
       return new Promise((resolve, reject) => {
-        console.log('called tryReconnect');
+        // console.log('called tryReconnect');
         if (getters.hasRefreshToken) {
           dispatch('refreshToken').then(() => {
             return resolve('success');
@@ -65,7 +65,7 @@ export default {
     },
     dropUser({commit}) {
       commit('flushUser');
-      commit('trade/cleanOrders', null, {root: true});
+      commit('orders/cleanOrders', null, {root: true});
       commit('user/cleanAfterLogout', null, {root: true});
       commit('modal/open', {name: 'signIn'}, {root: true});
     },
@@ -85,8 +85,8 @@ export default {
       return new Promise((resolve, reject) => {
         let timeSinceLastAction = Date.now() - state.lastAction;
         if (timeSinceLastAction > 86400000) {
-          console.log('inactive user');
-          console.log('time since last action', timeSinceLastAction);
+          // console.log('inactive user');
+          // console.log('time since last action', timeSinceLastAction);
           return reject();
         } else {
           Membership.refreshToken({
@@ -95,12 +95,12 @@ export default {
             email: state.email,
           }).then((response) => {
             commit('createUser', response.data);
-            console.log('successful reconnect');
-            console.log('time since last action', timeSinceLastAction);
+            // console.log('successful reconnect');
+            // console.log('time since last action', timeSinceLastAction);
             return resolve(response);
           }).catch((response) => {
-            console.log(response);
-            console.log('time since last action', timeSinceLastAction);
+            // console.log(response);
+            // console.log('time since last action', timeSinceLastAction);
             return reject(response);
           });
         };

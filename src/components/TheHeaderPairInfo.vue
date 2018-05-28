@@ -35,7 +35,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('trade', {
+    ...mapState('tradeInfo', {
       last: (state) => state.pairInfo.last,
       high: (state) => state.pairInfo.high,
       highChange: (state) => state.pairInfo.highChange,
