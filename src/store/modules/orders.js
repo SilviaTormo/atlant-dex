@@ -110,8 +110,8 @@ export default {
     },
     getOrderBook({rootGetters, commit}, {limit}) {
       return Trade.getOrderBook({
-        baseCurrency: rootGetters.trade.baseCurrency,
-        quoteCurrency: rootGetters.trade.quoteCurrency,
+        baseCurrency: rootGetters['trade/baseCurrency'],
+        quoteCurrency: rootGetters['trade/quoteCurrency'],
         limit,
       }).then((response) => {
         commit('setBook', response.data);
