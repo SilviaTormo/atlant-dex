@@ -9,9 +9,7 @@
         .main__shadow--top
         .main__shadow--bottom
       TheHeader
-      .main__tiles(v-if="!isPageOpened()")
-        Grid
-      //- Pages
+      MainPage(v-if="!isPageOpened()")
       TransactionHistoryPage(v-if="isPageOpened('transactionHistory')")
       MyOrdersPage(v-if="isPageOpened('myOrders')")
       VerificationPage(v-if="isPageOpened('verification')")
@@ -48,7 +46,6 @@ import TheHeader from 'components/TheHeader';
 import TheFooter from 'components/TheFooter';
 import Sidebar from 'components/Sidebar';
 import Toolbar from 'components/Toolbar';
-import Grid from 'components/grid/Grid';
 import TransactionHistoryPage from 'pages/TransactionHistoryPage';
 import MyOrdersPage from 'pages/MyOrdersPage';
 import NotificationHistoryPage from 'pages/NotificationHistoryPage';
@@ -57,6 +54,7 @@ import VerificationAdminPage from 'pages/VerificationAdminPage';
 import AccountInformation from 'pages/AccountInformationPage';
 import SecuritySettingsPage from 'pages/SecuritySettingsPage';
 import SecurityLogPage from 'pages/SecurityLogPage';
+import MainPage from 'pages/MainPage';
 import ModalInDemo from 'components/ModalInDemo';
 import ModalReset from 'components/ModalReset';
 import ModalNewPassword from 'components/ModalNewPassword';
@@ -137,7 +135,7 @@ export default {
       'getCurrencies',
     ]),
     updateOverflow() {
-      document.querySelector('#app').style.overflow = this.showSidebar ? 'hidden' : null;
+      // document.querySelector('#app').style.overflow = this.showSidebar ? 'hidden' : null;
     },
     hubSubscribe() {
       // add signalR events here
@@ -234,7 +232,7 @@ export default {
     Sidebar,
     TheHeader,
     Toolbar,
-    Grid,
+    MainPage,
     TransactionHistoryPage,
     MyOrdersPage,
     NotificationHistoryPage,
@@ -270,7 +268,7 @@ export default {
 @import 'variables';
 
 .main {
-  min-height: 100%;
+  max-height: 100vh;
   overflow: hidden;
   overflow-x: hidden;
   overflow-y: hidden;

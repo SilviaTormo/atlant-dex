@@ -84,6 +84,7 @@ export default {
 @import 'variables';
 
 .sidebar {
+  width: 270px;
   display: flex;
   flex-direction: column;
   min-height: 100%;
@@ -93,20 +94,20 @@ export default {
   &:not(:first-child) {
     position: relative;
   }
-  &__shadowBottom {
-    position: fixed;
-    z-index: 0;
-    bottom: 0;
-    width: 328px;
-    height: 307px;
-    background: $background__shadow__gradient__to__top;left: 0;
-    left: 0;
-    transition: left .1s linear;
-    &--hidden {
-      left: -328px;
-      transition: left .1s linear;
-    }
-  }
+  // &__shadowBottom {
+  //   position: fixed;
+  //   z-index: 0;
+  //   bottom: 0;
+  //   width: 328px;
+  //   height: 307px;
+  //   background: $background__shadow__gradient__to__top;left: 0;
+  //   left: 0;
+  //   transition: left .1s linear;
+  //   &--hidden {
+  //     left: -328px;
+  //     transition: left .1s linear;
+  //   }
+  // }
   &__icon {
     $size: 14px;
     height: $size;

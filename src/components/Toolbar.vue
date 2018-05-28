@@ -113,6 +113,7 @@ export default {
 @import 'variables';
 
 .toolbar {
+  width: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
